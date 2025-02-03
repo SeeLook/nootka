@@ -5,15 +5,15 @@
     <name>AboutPage</name>
     <message>
         <source>Welcome on the board.&lt;br&gt;Nootka is an open source application to help you in learning (and in teaching) classical score notation.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ласкаво просимо на дошку.&lt;br&gt;Nootka — це програма з відкритим кодом, яка допоможе вам вивчити (і викладати) класичну партитуру.</translation>
     </message>
     <message>
         <source>See a &lt;a href=&quot;%1&quot;&gt;program site&lt;/a&gt; for more details and further releases.&lt;br&gt;Any bugs, suggestions, translations and so on, please report to: %2.&lt;br&gt;&lt;br&gt;with respects&lt;br&gt;Author</source>
-        <translation type="unfinished"></translation>
+        <translation>Перегляньте &lt;a href=&quot;%1&quot;&gt;сайт програми&lt;/a&gt;, щоб отримати докладніші відомості та додаткові випуски.&lt;br&gt;Про будь-які помилки, пропозиції, переклади тощо, будь ласка, повідомляйте на: %2.&lt;br&gt;&lt;br&gt; з повагою&lt;br&gt;Автор</translation>
     </message>
     <message>
         <source>This is a beta version and may contain bugs or behave in unexpected ways. Also, it has unfinished features.&lt;br&gt;In spite of that, you are welcome to try it!</source>
-        <translation type="unfinished"></translation>
+        <translation>Це бета-версія, яка може містити помилки або працювати неочікувано. Крім того, він має незавершені функції.&lt;br&gt;Не дивлячись на це, можете спробувати!</translation>
     </message>
 </context>
 <context>
@@ -32,59 +32,59 @@
     </message>
     <message>
         <source>x, bb - double accidentals</source>
-        <translation type="unfinished"></translation>
+        <translation>x, bb - подвійні випадковості</translation>
     </message>
     <message>
         <source>force using appropriate accidental</source>
-        <translation type="unfinished"></translation>
+        <translation>сила з використанням відповідних випадково</translation>
     </message>
     <message>
         <source>single key</source>
-        <translation type="unfinished"></translation>
+        <translation>єдиний ключ</translation>
     </message>
     <message>
         <source>range of keys</source>
-        <translation type="unfinished"></translation>
+        <translation>діапазон ключів</translation>
     </message>
     <message>
         <source>Select a key signature. Appropriate accidentals used in this level will be selected automatically.</source>
-        <translation type="unfinished"></translation>
+        <translation>Виберіть підпис ключа. Відповідні випадковості, які використовуються на цьому рівні, будуть вибрані автоматично.</translation>
     </message>
     <message>
         <source>select a key signature manually</source>
-        <translation type="unfinished"></translation>
+        <translation>вибрати підпис ключа вручну</translation>
     </message>
     <message>
         <source>if checked, in exam user have to select a key signature, otherwise it is shown by application.</source>
-        <translation type="unfinished"></translation>
+        <translation>якщо позначено, під час іспиту користувач повинен вибрати підпис ключа, інакше він буде показаний програмою.</translation>
     </message>
     <message>
         <source>Only notes from current key signature are taken. If key signature is disabled accidentals are not used.</source>
-        <translation type="unfinished"></translation>
+        <translation>Беруться лише нотатки з поточного підпису ключа. Якщо підпис ключа вимкнено, випадкові не використовуються.</translation>
     </message>
     <message>
         <source>notes in current key signature only</source>
-        <translation type="unfinished"></translation>
+        <translation>примітки лише в поточному ключовому підписі</translation>
     </message>
     <message>
         <source>Sharps will be used in questions and answers. It has to be checked, if keys with sharps are used.</source>
-        <translation type="unfinished"></translation>
+        <translation>Дієзи будуть використовуватися в питаннях і відповідях. Необхідно перевірити, чи використовуються ключі з гострими предметами.</translation>
     </message>
     <message>
         <source>Flats will be used in questions and answers. It has to be checked, if keys with flats are used.</source>
-        <translation type="unfinished"></translation>
+        <translation>У питаннях і відповідях будуть використовуватися квартири. Необхідно перевірити, чи використовуються ключі з плоскими пластинами.</translation>
     </message>
     <message>
         <source>if checked, it is possible to select a note with given accidental only.</source>
-        <translation type="unfinished"></translation>
+        <translation>якщо позначено, можна вибрати лише нотатку з даними випадковими.</translation>
     </message>
     <message>
         <source>Only one, selected key signature for whole exam.</source>
-        <translation type="unfinished"></translation>
+        <translation>Лише один обраний ключовий підпис для всього іспиту.</translation>
     </message>
     <message>
         <source>Random key signature from selected range.</source>
-        <translation type="unfinished"></translation>
+        <translation>Випадковий ключ із вибраного діапазону.</translation>
     </message>
 </context>
 <context>
@@ -104,7 +104,7 @@
     <message>
         <source>ordered by:</source>
         <comment>Keep a proper form - whole sentence will be: ordered by: question number, key signature, etc...</comment>
-        <translation type="unfinished"></translation>
+        <translation>замовлено:</translation>
     </message>
     <message>
         <source>student name:</source>
@@ -152,15 +152,15 @@
     </message>
     <message>
         <source>Played number</source>
-        <translation type="unfinished"></translation>
+        <translation>Зіграний номер</translation>
     </message>
     <message>
         <source>Recent exercise on level</source>
-        <translation type="unfinished"></translation>
+        <translation>Остання вправа на рівні</translation>
     </message>
     <message>
         <source>include time of wrong answers to average</source>
-        <translation type="unfinished"></translation>
+        <translation>включити час неправильних відповідей до середнього</translation>
     </message>
     <message>
         <source>show wrong answers separately</source>
@@ -185,7 +185,7 @@
     </message>
     <message>
         <source>key signature</source>
-        <translation type="unfinished"></translation>
+        <translation>підпис ключа</translation>
     </message>
     <message>
         <source>mistake</source>
@@ -218,7 +218,7 @@
     <message>
         <source>Not bad, but:</source>
         <comment>&apos;Not so bad, but:&apos; is perfectly clear, but a little less common in US English. To be a bit shorter, it might just as well be, &apos;Not bad, but:&apos;</comment>
-        <translation type="unfinished"></translation>
+        <translation>Не погано, але:</translation>
     </message>
     <message>
         <source>wrong string</source>
@@ -227,7 +227,7 @@
     <message>
         <source>little valid notes</source>
         <comment>the amount of correct notes in an answer is little</comment>
-        <translation type="unfinished"></translation>
+        <translation>мало дійсні нотатки</translation>
     </message>
     <message>
         <source>poor effectiveness</source>
@@ -235,11 +235,11 @@
     </message>
     <message>
         <source>wrong accidental</source>
-        <translation type="unfinished"></translation>
+        <translation>неправильний випадковий</translation>
     </message>
     <message>
         <source>wrong key signature</source>
-        <translation type="unfinished"></translation>
+        <translation>неправильний підпис ключа</translation>
     </message>
     <message>
         <source>wrong octave</source>
@@ -247,7 +247,7 @@
     </message>
     <message>
         <source>out of tune</source>
-        <translation type="unfinished"></translation>
+        <translation>не в тонусі</translation>
     </message>
     <message>
         <source>correct notes</source>
@@ -259,7 +259,7 @@
     </message>
     <message>
         <source>wrong accidentals</source>
-        <translation type="unfinished"></translation>
+        <translation>неправильні випадковості</translation>
     </message>
     <message>
         <source>wrong octaves</source>
@@ -267,11 +267,11 @@
     </message>
     <message>
         <source>correct key signatures</source>
-        <translation type="unfinished"></translation>
+        <translation>правильні підписи ключів</translation>
     </message>
     <message>
         <source>wrong key signatures</source>
-        <translation type="unfinished"></translation>
+        <translation>неправильні ключові підписи</translation>
     </message>
     <message>
         <source>correct positions</source>
@@ -295,12 +295,12 @@
     <message>
         <source>Bellows is opening.</source>
         <comment>Check please what bandoneon/accordion bellows does in your language. It may be more sophisticated word than &apos;opening&apos;</comment>
-        <translation type="unfinished"></translation>
+        <translation>Міх відкривається.</translation>
     </message>
     <message>
         <source>Bellows is closing.</source>
         <comment>Check please what bandoneon/accordion bellows does in your language. It may be more sophisticated word than &apos;closing&apos;</comment>
-        <translation type="unfinished"></translation>
+        <translation>Сильфон закривається.</translation>
     </message>
 </context>
 <context>
@@ -327,7 +327,7 @@
     <message>
         <source>played</source>
         <comment>a melody was played (and number follows)</comment>
-        <translation type="unfinished"></translation>
+        <translation>грав</translation>
     </message>
     <message>
         <source>time</source>
@@ -338,29 +338,29 @@
     <name>DivideMelody</name>
     <message>
         <source>Divide by selected bars number</source>
-        <translation type="unfinished"></translation>
+        <translation>Розділіть на кількість вибраних смужок</translation>
     </message>
 </context>
 <context>
     <name>EndOnTonicTile</name>
     <message>
         <source>Determines the last note of a melody.&lt;br&gt;When set, melody will be finished on tonic note in actual key signature.</source>
-        <translation type="unfinished"></translation>
+        <translation>Визначає останню ноту мелодії.&lt;br&gt;Якщо встановлено, мелодія завершуватиметься на тональній ноті у фактичній тональності.</translation>
     </message>
     <message>
         <source>Melody ends on tonic note</source>
-        <translation type="unfinished"></translation>
+        <translation>Мелодія закінчується тонічною нотою</translation>
     </message>
 </context>
 <context>
     <name>ExamPage</name>
     <message>
         <source>Default name for every new exam or exercise.</source>
-        <translation type="unfinished"></translation>
+        <translation>Назва за умовчанням для кожного нового іспиту чи вправи.</translation>
     </message>
     <message>
         <source>When you will make mistake, the program will show you automatically how a correct answer should be.</source>
-        <translation type="unfinished"></translation>
+        <translation>Коли ви зробите помилку, програма автоматично покаже, якою має бути правильна відповідь.</translation>
     </message>
     <message>
         <source>color of questions</source>
@@ -376,27 +376,27 @@
     </message>
     <message>
         <source>suggest an exam</source>
-        <translation type="unfinished"></translation>
+        <translation>запропонувати іспит</translation>
     </message>
     <message>
         <source>Watch exercising progress and when it is going well, suggest to start an exam on the exercise level.</source>
-        <translation type="unfinished"></translation>
+        <translation>Слідкуйте за прогресом виконання вправ і, коли вони підуть добре, запропонуйте почати іспит на рівні вправ.</translation>
     </message>
     <message>
         <source>wait for correct note</source>
-        <translation type="unfinished"></translation>
+        <translation>чекайте правильної ноти</translation>
     </message>
     <message>
         <source>When melody is played from score, every note is checked immediately and next note can be played only when the previous one was correct. When unset, notes are checked only after playing the last one (or check button was clicked).</source>
-        <translation type="unfinished"></translation>
+        <translation>Коли мелодія відтворюється з партитури, кожна нота перевіряється негайно, а наступну можна відтворити лише тоді, коли попередня була правильною. Коли не встановлено, ноти перевіряються лише після відтворення останньої (або після натискання кнопки перевірки).</translation>
     </message>
     <message>
         <source>show wrong played</source>
-        <translation type="unfinished"></translation>
+        <translation>показати неправильно зіграний</translation>
     </message>
     <message>
         <source>When answer was played (or sung) and it was wrong also the detected wrong note is shown.</source>
-        <translation type="unfinished"></translation>
+        <translation>Коли відповідь була відтворена (або заспівана), і вона була неправильною, також відображається виявлена неправильна нота.</translation>
     </message>
     <message>
         <source>extra names</source>
@@ -404,11 +404,11 @@
     </message>
     <message>
         <source>To improve association of note in the score or position on the instrument to note name, Nootka will display names even if neither question nor answer is related to it.</source>
-        <translation type="unfinished"></translation>
+        <translation>Щоб покращити зв’язок ноти в партитурі чи позиції на інструменті з назвою ноти, Nootka відображатиме назви, навіть якщо ні питання, ні відповідь не пов’язані з ними.</translation>
     </message>
     <message>
         <source>repeat a question</source>
-        <translation type="unfinished"></translation>
+        <translation>повторити запитання</translation>
     </message>
     <message>
         <source>A question with an incorrect answer will be asked once again.</source>
@@ -420,7 +420,7 @@
     </message>
     <message>
         <source>If checked, an application will not ask to answer pending question just mark it as wrong, save an exam to file (in directory: %1) and close itself without any confirmation needed.</source>
-        <translation type="unfinished"></translation>
+        <translation>Якщо позначено, програма не запитуватиме відповідь на запитання, яке очікує на розгляд, просто позначте його як неправильне, збережіть іспит у файлі (у каталозі: %1) і закрийте себе без підтвердження.</translation>
     </message>
     <message>
         <source>Experts mode</source>
@@ -428,23 +428,23 @@
     </message>
     <message>
         <source>You are about to enter expert mode.&lt;br&gt; In this mode you don&apos;t need to confirm every answer,&lt;br&gt;&lt;b&gt;but remember the following:</source>
-        <translation type="unfinished"></translation>
+        <translation>Ви збираєтесь увійти в експертний режим.&lt;br&gt; У цьому режимі вам не потрібно підтверджувати кожну відповідь,&lt;br&gt;&lt;b&gt;але пам’ятайте наступне:&lt;/b&gt;</translation>
     </message>
     <message>
         <source>Selecting a note on the score or a position on the fingerboard invokes automatic checking of your answer, so select a key signature first, if required.</source>
-        <translation type="unfinished"></translation>
+        <translation>Вибір ноти на партитурі або позиції на грифі викликає автоматичну перевірку вашої відповіді, тому спершу виберіть підпис клавіші, якщо потрібно.</translation>
     </message>
     <message>
         <source>When an answer is the name of a note &lt;b&gt;first select a proper accidental and an octave&lt;/b&gt; and then click a note button - this automatically invokes checking.</source>
-        <translation type="unfinished"></translation>
+        <translation>Якщо відповіддю є назва ноти, &lt;b&gt;спочатку виберіть відповідний акциденцій і октаву&lt;/b&gt;, а потім натисніть кнопку ноти - це автоматично викликає перевірку.</translation>
     </message>
     <message>
         <source>When you have to play a note as an answer - the first detected sound will be taken, so be sure that your input device captures exactly what you want.</source>
-        <translation type="unfinished"></translation>
+        <translation>Коли вам потрібно відтворити ноту як відповідь, буде вжито перший виявлений звук, тому переконайтеся, що ваш пристрій введення вловлює саме те, що ви хочете.</translation>
     </message>
     <message>
         <source>When the last note of question that is a melody was played - checking starts.</source>
-        <translation type="unfinished"></translation>
+        <translation>Коли прозвучала остання нота питання, тобто мелодія, починається перевірка.</translation>
     </message>
 </context>
 <context>
@@ -455,38 +455,38 @@
     </message>
     <message>
         <source>Pass an exam</source>
-        <translation type="unfinished"></translation>
+        <translation>Скласти іспит</translation>
     </message>
 </context>
 <context>
     <name>File association entries</name>
     <message>
         <source>to play scores</source>
-        <translation type="unfinished"></translation>
+        <translation>відтворювати очки</translation>
     </message>
     <message>
         <source>Application for learning musical score notation</source>
-        <translation type="unfinished"></translation>
+        <translation>Додаток для вивчення нотного запису</translation>
     </message>
     <message>
         <source>Nootka level file</source>
         <comment>for file browsers</comment>
-        <translation type="unfinished"></translation>
+        <translation>Файл рівня Nootka</translation>
     </message>
     <message>
         <source>Open with Nootka</source>
-        <translation type="unfinished"></translation>
+        <translation>Відкрийте за допомогою Nootka</translation>
     </message>
     <message>
         <source>Nootka exam file</source>
-        <translation type="unfinished"></translation>
+        <translation>Файл іспиту Nootka</translation>
     </message>
 </context>
 <context>
     <name>GlobalPage</name>
     <message>
         <source>default</source>
-        <translation type="unfinished"></translation>
+        <translation>за замовчуванням</translation>
     </message>
     <message>
         <source>enable animations</source>
@@ -498,15 +498,15 @@
     </message>
     <message>
         <source>Scaling factor of visible texts and others GUI elements.&lt;br&gt;Requires application restart.</source>
-        <translation type="unfinished"></translation>
+        <translation>Коефіцієнт масштабування видимого тексту та інших елементів GUI.&lt;br&gt;Потрібно перезапустити програму.</translation>
     </message>
     <message>
         <source>scale</source>
-        <translation type="unfinished"></translation>
+        <translation>масштаб</translation>
     </message>
     <message>
         <source>Select a language.&lt;br&gt;&lt;span style=&quot;color: red;&quot;&gt;To take effect, this requires restarting the application!&lt;/span&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Виберіть мову.&lt;br&gt;&lt;span style=&quot;color: red;&quot;&gt;Щоб це почало діяти, потрібно перезапустити програму!&lt;/span&gt;</translation>
     </message>
     <message>
         <source>Check for updates</source>
@@ -514,11 +514,11 @@
     </message>
     <message>
         <source>Restore all default settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Відновити всі налаштування за замовчуванням</translation>
     </message>
     <message>
         <source>All settings will be reset to their default values!&lt;br&gt;Nootka will start up with the first-run wizard.</source>
-        <translation type="unfinished"></translation>
+        <translation>Усі налаштування буде скинуто до значень за замовчуванням!&lt;br&gt;Nootka запуститься з майстром першого запуску.</translation>
     </message>
 </context>
 <context>
@@ -529,7 +529,7 @@
     </message>
     <message>
         <source>remind me next time</source>
-        <translation type="unfinished"></translation>
+        <translation>нагадай мені наступного разу</translation>
     </message>
 </context>
 <context>
@@ -540,27 +540,27 @@
     </message>
     <message>
         <source>Touch and hold area of a note you want to edit.</source>
-        <translation type="unfinished"></translation>
+        <translation>Натисніть і утримуйте область нотатки, яку потрібно редагувати.</translation>
     </message>
     <message>
         <source>Move finger left or right to see edited note.</source>
-        <translation type="unfinished"></translation>
+        <translation>Проведіть пальцем вліво або вправо, щоб побачити відредаговану нотатку.</translation>
     </message>
     <message>
         <source>Then move finger up or down to find desired note pitch.</source>
-        <translation type="unfinished"></translation>
+        <translation>Потім проведіть пальцем вгору або вниз, щоб знайти потрібну висоту ноти.</translation>
     </message>
     <message>
         <source>Rise the finger.</source>
-        <translation type="unfinished"></translation>
+        <translation>Підніміть палець.</translation>
     </message>
     <message>
         <source>If necessary, select accidental or rhythmic value.</source>
-        <translation type="unfinished"></translation>
+        <translation>Якщо необхідно, виберіть випадкове або ритмічне значення.</translation>
     </message>
     <message>
         <source>Finally, tap selected note shortly.</source>
-        <translation type="unfinished"></translation>
+        <translation>Нарешті, коротко торкніться вибраної нотатки.</translation>
     </message>
 </context>
 <context>
@@ -574,23 +574,23 @@
     <name>ImportInfo</name>
     <message>
         <source>Unfortunately Nootka cannot display all notes of this score at once.</source>
-        <translation type="unfinished"></translation>
+        <translation>На жаль, Nootka не може відобразити всі ноти цієї партитури одночасно.</translation>
     </message>
     <message>
         <source>But you can select here some voice or a part and import it to the application.</source>
-        <translation type="unfinished"></translation>
+        <translation>Але ви можете вибрати тут якийсь голос або частину та імпортувати це в програму.</translation>
     </message>
     <message>
         <source>Before that, you can transform (split, transpose and etc.) score parts and also select which note of a chord will be imported.</source>
-        <translation type="unfinished"></translation>
+        <translation>Перед цим ви можете перетворити (розділити, транспонувати тощо) партитурні партитури, а також вибрати, яку ноту акорду імпортувати.</translation>
     </message>
     <message>
         <source>Voices are divided automatically when meter, clef or key changes.</source>
-        <translation type="unfinished"></translation>
+        <translation>Голоси розділяються автоматично при зміні метра, ключа або тональності.</translation>
     </message>
     <message>
         <source>When you are preparing an exam or an exercise from the score parts, more fragments can be imported at once.</source>
-        <translation type="unfinished"></translation>
+        <translation>Коли ви готуєте іспит або вправу з балів, можна імпортувати більше фрагментів одночасно.</translation>
     </message>
 </context>
 <context>
@@ -601,31 +601,31 @@
     </message>
     <message>
         <source>number of frets:</source>
-        <translation type="unfinished"></translation>
+        <translation>кількість ладів:</translation>
     </message>
     <message>
         <source>number of strings:</source>
-        <translation type="unfinished"></translation>
+        <translation>кількість струн:</translation>
     </message>
     <message>
         <source>scale of an instrument</source>
-        <translation type="unfinished"></translation>
+        <translation>шкала інструменту</translation>
     </message>
     <message>
         <source>Select appropriate tuning from the list or prepare your own.</source>
-        <translation type="unfinished"></translation>
+        <translation>Виберіть відповідну настройку зі списку або підготуйте власну.</translation>
     </message>
     <message>
         <source>Remember to select the appropriate clef in Score settings.</source>
-        <translation type="unfinished"></translation>
+        <translation>Не забудьте вибрати відповідний ключ у налаштуваннях оцінки.</translation>
     </message>
     <message>
         <source>Difference between score notation and real sound pitch.</source>
-        <translation type="unfinished"></translation>
+        <translation>Різниця між нотним записом і реальною висотою звуку.</translation>
     </message>
     <message>
         <source>preferred accidentals:</source>
-        <translation type="unfinished"></translation>
+        <translation>бажані випадкові:</translation>
     </message>
     <message>
         <source># - sharps</source>
@@ -637,11 +637,11 @@
     </message>
     <message>
         <source>Choose which accidentals will be shown on the staff.</source>
-        <translation type="unfinished"></translation>
+        <translation>Виберіть, які випадковості будуть показані на персоналі.</translation>
     </message>
     <message>
         <source>show all possibilities of a note</source>
-        <translation type="unfinished"></translation>
+        <translation>показати всі можливості ноти</translation>
     </message>
     <message>
         <source>As you know, the same note can be played in several places on the fingerboard.&lt;br&gt;If checked, all of them will be shown.</source>
@@ -654,7 +654,7 @@
     </message>
     <message>
         <source>Put numbers of frets marked with dot. Separate the numbers with comma. Add ! (exclamation mark) after a number to paint a dot twice.</source>
-        <translation type="unfinished"></translation>
+        <translation>Поставте номери ладів, позначені крапкою. Розділіть числа комами. Додайте! (знак оклику) після числа двічі зафарбувати крапку.</translation>
     </message>
     <message>
         <source>color of a pointer on an instrument</source>
@@ -666,19 +666,19 @@
     </message>
     <message>
         <source>Custom tuning</source>
-        <translation type="unfinished"></translation>
+        <translation>Індивідуальний тюнінг</translation>
     </message>
     <message>
         <source>tuning</source>
         <comment>like a tuning of a guitar or an ukulele</comment>
-        <translation type="unfinished"></translation>
+        <translation>тюнінг</translation>
     </message>
 </context>
 <context>
     <name>KeySignature</name>
     <message>
         <source>Key signature - to change it, click above or below the staff or use mouse wheel.</source>
-        <translation type="unfinished"></translation>
+        <translation>Підпис ключа - щоб змінити його, клацніть над або під посохом або скористайтеся колесом миші.</translation>
     </message>
 </context>
 <context>
@@ -705,7 +705,7 @@
     </message>
     <message>
         <source>Range</source>
-        <translation type="unfinished"></translation>
+        <translation>Діапазон</translation>
     </message>
     <message>
         <source>Check</source>
@@ -731,22 +731,22 @@
     </message>
     <message>
         <source>Play popular, simple melodies on your instrument.</source>
-        <translation type="unfinished"></translation>
+        <translation>Грайте популярні прості мелодії на своєму інструменті.</translation>
     </message>
     <message>
         <source>J. S. Bach - Minuet</source>
-        <translation type="unfinished"></translation>
+        <translation>Й. С. Бах - Менует</translation>
     </message>
     <message>
         <source>Play melody of J. S. Bach Minuet from Notebook for Anna Magdalena Bach divided into smaller parts.</source>
-        <translation type="unfinished"></translation>
+        <translation>Зіграйте мелодію менуету І. С. Баха із зошита для Анни Магдалини Бах, поділену на менші частини.</translation>
     </message>
 </context>
 <context>
     <name>LevelsPage</name>
     <message>
         <source>Start exam</source>
-        <translation type="unfinished">Почати іспит</translation>
+        <translation>Розпочати іспит</translation>
     </message>
     <message>
         <source>Start exercise</source>
@@ -754,7 +754,7 @@
     </message>
     <message>
         <source>Get more levels &lt;a href=&quot;%1&quot;&gt;from Nootka home page&lt;/a&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Отримайте більше рівнів &lt;a href=&quot;%1&quot;&gt;на домашній сторінці Nootka&lt;/a&gt;</translation>
     </message>
     <message>
         <source>new level</source>
@@ -773,7 +773,7 @@
     <name>LevelsSelector</name>
     <message>
         <source>Load</source>
-        <translation type="unfinished"></translation>
+        <translation>навантаження</translation>
     </message>
 </context>
 <context>
@@ -781,14 +781,14 @@
     <message>
         <source>Pitch recognition</source>
         <comment>Android menu entry, could be &apos;Note recognition&apos; or &apos;detection&apos; as well</comment>
-        <translation type="unfinished"></translation>
+        <translation>Розпізнавання висоти</translation>
     </message>
 </context>
 <context>
     <name>MaxIntervalTile</name>
     <message>
         <source>Maximal interval between notes used in a melody (in semitones).</source>
-        <translation type="unfinished"></translation>
+        <translation>Максимальний інтервал між нотами, що використовуються в мелодії (у півтонах).</translation>
     </message>
     <message>
         <source>Max interval</source>
@@ -806,7 +806,7 @@
     <name>MelodyImport</name>
     <message>
         <source>Import of musical score</source>
-        <translation type="unfinished"></translation>
+        <translation>Імпорт музичної партитури</translation>
     </message>
     <message>
         <source>Import</source>
@@ -814,11 +814,11 @@
     </message>
     <message>
         <source>Transform all parts of the score</source>
-        <translation type="unfinished"></translation>
+        <translation>Трансформуйте всі частини партитури</translation>
     </message>
     <message>
         <source>in every chord</source>
-        <translation type="unfinished"></translation>
+        <translation>в кожному акорді</translation>
     </message>
     <message>
         <source>select</source>
@@ -832,27 +832,27 @@
     </message>
     <message>
         <source>from the top</source>
-        <translation type="unfinished"></translation>
+        <translation>зверху</translation>
     </message>
     <message>
         <source>from the bottom</source>
-        <translation type="unfinished"></translation>
+        <translation>знизу</translation>
     </message>
     <message>
         <source>arpeggiate chords and insert all notes</source>
-        <translation type="unfinished"></translation>
+        <translation>арпеджіо акордів і вставте всі ноти</translation>
     </message>
     <message>
         <source>Select one of the notes</source>
-        <translation type="unfinished"></translation>
+        <translation>Виберіть одну з нотаток</translation>
     </message>
     <message>
         <source>Arpeggiate chord</source>
-        <translation type="unfinished"></translation>
+        <translation>Арпеджіатний акорд</translation>
     </message>
     <message>
         <source>This fragment contains elements of musical score which are not supported by Nootka!</source>
-        <translation type="unfinished"></translation>
+        <translation>Цей фрагмент містить елементи партитури, які не підтримуються Nootka!</translation>
     </message>
 </context>
 <context>
@@ -860,18 +860,19 @@
     <message>
         <source>Add here melodies from Music XML files.
 But better keep them short, so divide them first in some external software.</source>
-        <translation type="unfinished"></translation>
+        <translation>Додайте сюди мелодії з музичних XML-файлів.
+Але краще тримати їх короткими, тому спочатку розділіть їх у зовнішньому програмному забезпеченні.</translation>
     </message>
 </context>
 <context>
     <name>MelodyNameDialog</name>
     <message>
         <source>Title</source>
-        <translation type="unfinished"></translation>
+        <translation>Назва</translation>
     </message>
     <message>
         <source>Nootka melody</source>
-        <translation type="unfinished"></translation>
+        <translation>Нуткова мелодія</translation>
     </message>
     <message>
         <source>Composer</source>
@@ -882,15 +883,15 @@ But better keep them short, so divide them first in some external software.</sou
     <name>MelodyPage</name>
     <message>
         <source>They will be transposed if key signatures are set to be used and any of them differs from the key(s) defined below.</source>
-        <translation type="unfinished"></translation>
+        <translation>Їх буде транспоновано, якщо налаштовано використання ключових підписів і будь-який із них відрізняється від ключа(ів), визначеного нижче.</translation>
     </message>
     <message>
         <source>Melodies are composed from notes selected on the score below.</source>
-        <translation type="unfinished"></translation>
+        <translation>Мелодії складаються з нот, вибраних на партитурі нижче.</translation>
     </message>
     <message>
         <source>Maximum number of notes in a melody. Melody length is random value between 70% and 100% of that number.</source>
-        <translation type="unfinished"></translation>
+        <translation>Максимальна кількість нот у мелодії. Тривалість мелодії є випадковим значенням від 70% до 100% цього числа.</translation>
     </message>
     <message>
         <source>Melody length</source>
@@ -898,7 +899,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Play in tempo</source>
-        <translation type="unfinished"></translation>
+        <translation>Грати в темпі</translation>
     </message>
     <message>
         <source>random order</source>
@@ -906,31 +907,31 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>When checked, melodies from the list will be asked in random order.</source>
-        <translation type="unfinished"></translation>
+        <translation>Якщо позначено, мелодії зі списку будуть запитуватися в довільному порядку.</translation>
     </message>
     <message>
         <source>How many times during an exam a melody from the list has to be played or written correctly. Warning! It multiplies question number.</source>
-        <translation type="unfinished"></translation>
+        <translation>Скільки разів під час іспиту потрібно зіграти або правильно написати мелодію зі списку. УВАГА! Це множить число запитання.</translation>
     </message>
     <message>
         <source>number of repeats</source>
-        <translation type="unfinished"></translation>
+        <translation>кількість повторень</translation>
     </message>
     <message>
         <source>Melodies are composed from notes in range defined on the &apos;Range&apos; page.</source>
-        <translation type="unfinished"></translation>
+        <translation>Мелодії складаються з нот у діапазоні, визначеному на сторінці «Діапазон».</translation>
     </message>
     <message>
         <source>Melodies are selected from the list below.</source>
-        <translation type="unfinished"></translation>
+        <translation>Мелодії вибираються зі списку нижче.</translation>
     </message>
     <message>
         <source>from notes in range</source>
-        <translation type="unfinished"></translation>
+        <translation>з нот в діапазоні</translation>
     </message>
     <message>
         <source>from selected notes</source>
-        <translation type="unfinished"></translation>
+        <translation>з вибраних нот</translation>
     </message>
     <message>
         <source>from set of melodies</source>
@@ -945,35 +946,35 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Scandinavian</source>
-        <translation type="unfinished"></translation>
+        <translation>скандинавський</translation>
     </message>
     <message>
         <source>German</source>
-        <translation type="unfinished"></translation>
+        <translation>Німецький</translation>
     </message>
     <message>
         <source>Italian</source>
-        <translation type="unfinished"></translation>
+        <translation>італійська</translation>
     </message>
     <message>
         <source>English</source>
-        <translation type="unfinished"></translation>
+        <translation>англійська</translation>
     </message>
     <message>
         <source>Dutch</source>
-        <translation type="unfinished"></translation>
+        <translation>голландська</translation>
     </message>
     <message>
         <source>Russian</source>
-        <translation type="unfinished"></translation>
+        <translation>російська</translation>
     </message>
     <message>
         <source>letter names</source>
-        <translation type="unfinished"></translation>
+        <translation>назви букв</translation>
     </message>
     <message>
         <source>solfege names</source>
-        <translation type="unfinished"></translation>
+        <translation>сольфейні назви</translation>
     </message>
 </context>
 <context>
@@ -993,21 +994,21 @@ But better keep them short, so divide them first in some external software.</sou
     <name>NoteSelected</name>
     <message>
         <source>Note selection and playing</source>
-        <translation type="unfinished"></translation>
+        <translation>Вибір і відтворення нот</translation>
     </message>
 </context>
 <context>
     <name>OutScaleTip</name>
     <message>
         <source>Out of instrument scale!</source>
-        <translation type="unfinished"></translation>
+        <translation>За межами приладового масштабу!</translation>
     </message>
 </context>
 <context>
     <name>PhonePage</name>
     <message>
         <source>screen always on</source>
-        <translation type="unfinished"></translation>
+        <translation>екран завжди ввімкнено</translation>
     </message>
     <message>
         <source>disable screen rotation</source>
@@ -1019,18 +1020,18 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Touching a screen suspends pitch detection for 1 second but some advanced users may want to disable that.</source>
-        <translation type="unfinished"></translation>
+        <translation>Торкання екрана призупиняє визначення тону на 1 секунду, але деякі досвідчені користувачі можуть вимкнути це.</translation>
     </message>
     <message>
         <source>suspend mic when screen was touched</source>
-        <translation type="unfinished"></translation>
+        <translation>призупинити мікрофон під час дотику до екрана</translation>
     </message>
 </context>
 <context>
     <name>PitchView</name>
     <message>
         <source>Start/stop pitch detection</source>
-        <translation type="unfinished"></translation>
+        <translation>Початок/зупинка визначення висоти</translation>
     </message>
 </context>
 <context>
@@ -1043,7 +1044,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>master of masters</source>
-        <translation type="unfinished"></translation>
+        <translation>майстер майстрів</translation>
     </message>
     <message>
         <source>All possible options are turned on</source>
@@ -1067,7 +1068,7 @@ But better keep them short, so divide them first in some external software.</sou
     <name>QuestionsBox</name>
     <message>
         <source>Select the type of answers for this kind of question.</source>
-        <translation type="unfinished"></translation>
+        <translation>Виберіть тип відповідей для цього типу запитання.</translation>
     </message>
     <message>
         <source>answers</source>
@@ -1098,7 +1099,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Kind of questions and answers:</source>
-        <translation type="unfinished"></translation>
+        <translation>Види питань і відповідей:</translation>
     </message>
     <message>
         <source>Question</source>
@@ -1106,42 +1107,42 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>require octave</source>
-        <translation type="unfinished"></translation>
+        <translation>потрібна октава</translation>
     </message>
     <message>
         <source>if checked, selecting of valid octave is required</source>
-        <translation type="unfinished"></translation>
+        <translation>якщо позначено, потрібно вибрати дійсну октаву</translation>
     </message>
     <message>
         <source>use different naming styles</source>
-        <translation type="unfinished"></translation>
+        <translation>використовувати різні стилі імен</translation>
     </message>
     <message>
         <source>if checked, note names are switched between letters and solfege.</source>
-        <translation type="unfinished"></translation>
+        <translation>якщо позначено, назви нот перемикаються між буквами та сольфеджією.</translation>
     </message>
     <message>
         <source>show string number in questions</source>
-        <translation type="unfinished"></translation>
+        <translation>показувати номер рядка в питаннях</translation>
     </message>
     <message>
         <source>notes in the lowest position only</source>
-        <translation type="unfinished"></translation>
+        <translation>ноти лише в найнижчій позиції</translation>
     </message>
     <message>
         <source>Shows on which string an answer has to be given. Be careful, sometimes it is needed and sometimes it makes no sense.</source>
-        <translation type="unfinished"></translation>
+        <translation>Показує, на який рядок потрібно дати відповідь. Будьте обережні, іноді це потрібно, а іноді немає сенсу.</translation>
     </message>
     <message>
         <source>if checked, the lowest position in selected fret range is required, otherwise all possible positions of the note are acceptable. To use this, all strings have to be available!</source>
-        <translation type="unfinished"></translation>
+        <translation>якщо позначено, необхідна найнижча позиція у вибраному діапазоні ладу, інакше всі можливі позиції ноти прийнятні. Щоб скористатися цим, усі рядки мають бути доступними!</translation>
     </message>
 </context>
 <context>
     <name>RangePage</name>
     <message>
         <source>note range:</source>
-        <translation type="unfinished"></translation>
+        <translation>нотний діапазон:</translation>
     </message>
     <message>
         <source>adjust fret range</source>
@@ -1149,11 +1150,11 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Adjust fret range in a level to currently selected note range</source>
-        <translation type="unfinished"></translation>
+        <translation>Налаштуйте діапазон ладу на рівні відповідно до поточного вибраного діапазону нот</translation>
     </message>
     <message>
         <source>fret range:</source>
-        <translation type="unfinished"></translation>
+        <translation>діапазон ладу:</translation>
     </message>
     <message>
         <source>from</source>
@@ -1169,22 +1170,22 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Adjust note range in a level to currently selected fret range</source>
-        <translation type="unfinished"></translation>
+        <translation>Налаштуйте діапазон нот на рівні до вибраного діапазону ладу</translation>
     </message>
     <message>
         <source>Uncheck strings if you want to skip them in an exam.</source>
-        <translation type="unfinished"></translation>
+        <translation>Зніміть прапорці з рядків, якщо ви хочете пропустити їх під час іспиту.</translation>
     </message>
     <message>
         <source>available strings:</source>
-        <translation type="unfinished"></translation>
+        <translation>доступні рядки:</translation>
     </message>
 </context>
 <context>
     <name>RemoveLevel</name>
     <message>
         <source>Remove level %1 from the list</source>
-        <translation type="unfinished"></translation>
+        <translation>Видалити рівень %1 зі списку</translation>
     </message>
     <message>
         <source>Also delete level file:</source>
@@ -1195,7 +1196,7 @@ But better keep them short, so divide them first in some external software.</sou
     <name>RhythmDiversityTile</name>
     <message>
         <source>Smaller values - less number of selected rhythmic note groups will be used, biggest value - melody will consist maximal possible number of selected groups.</source>
-        <translation type="unfinished"></translation>
+        <translation>Менші значення – використовуватиметься менша кількість вибраних груп ритмічних нот, найбільше значення – мелодія складатиметься з максимально можливої кількості вибраних груп.</translation>
     </message>
     <message>
         <source>Rhythmic diversity</source>
@@ -1218,18 +1219,18 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>rhythms with dots</source>
-        <translation type="unfinished"></translation>
+        <translation>ритми з крапками</translation>
     </message>
 </context>
 <context>
     <name>RhythmsPage</name>
     <message>
         <source>Select any rhythm and time signature to be used in this level, otherwise melodies will not have rhythmic values, just bare note-heads.</source>
-        <translation type="unfinished"></translation>
+        <translation>Виберіть будь-який ритм і тактовий розмір для використання на цьому рівні, інакше мелодії не матимуть ритмічних значень, лише оголені заголовки нот.</translation>
     </message>
     <message>
         <source>Number of measures in a melody. If &apos;variable&apos; is set, it will grow up to the given value as an exercise or an exam is progressing.</source>
-        <translation type="unfinished"></translation>
+        <translation>Кількість тактів у мелодії. Якщо встановлено «змінну», вона зростатиме до вказаного значення під час виконання вправи чи іспиту.</translation>
     </message>
     <message>
         <source>variable</source>
@@ -1237,7 +1238,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Time signatures to use in this level.</source>
-        <translation type="unfinished"></translation>
+        <translation>Тактові розміри для використання на цьому рівні.</translation>
     </message>
 </context>
 <context>
@@ -1248,7 +1249,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Key signatures</source>
-        <translation type="unfinished"></translation>
+        <translation>Ключові підписи</translation>
     </message>
     <message>
         <source>Clefs</source>
@@ -1256,19 +1257,19 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Notes naming</source>
-        <translation type="unfinished"></translation>
+        <translation>Називання нот</translation>
     </message>
     <message>
         <source>Use rhythms or only bare note heads.</source>
-        <translation type="unfinished"></translation>
+        <translation>Використовуйте ритми або лише голі ноти.</translation>
     </message>
     <message>
         <source>enable rhythms</source>
-        <translation type="unfinished"></translation>
+        <translation>включити ритми</translation>
     </message>
     <message>
         <source>Octave numbers</source>
-        <translation type="unfinished"></translation>
+        <translation>Октавні числа</translation>
     </message>
     <message>
         <source>scientific</source>
@@ -1280,31 +1281,31 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Scientific (international) pitch notation is widely used in technical sources and tuning devices/applications, when the other notation style is used more in music publications.</source>
-        <translation type="unfinished"></translation>
+        <translation>Наукова (міжнародна) нотація висоти звуку широко використовується в технічних джерелах і пристроях/додатках для налаштування, тоді як інший стиль нотації використовується більше в музичних виданнях.</translation>
     </message>
     <message>
         <source>Show names of all notes on the score</source>
-        <translation type="unfinished"></translation>
+        <translation>Показати назви всіх нот на партитурі</translation>
     </message>
     <message>
         <source>names highlight color</source>
-        <translation type="unfinished"></translation>
+        <translation>назви виділення кольором</translation>
     </message>
     <message>
         <source>When enabled, a score displays only a single note.</source>
-        <translation type="unfinished"></translation>
+        <translation>Якщо ввімкнено, партитура відображає лише одну ноту.</translation>
     </message>
     <message>
         <source>use single note only</source>
-        <translation type="unfinished"></translation>
+        <translation>використовувати лише одну ноту</translation>
     </message>
     <message>
         <source>Shows enharmonic variants of notes.&lt;br&gt;i.e.: the note E is also Fb (F flat) &lt;i&gt;and&lt;/i&gt; Dx (D with double sharp).</source>
-        <translation type="unfinished"></translation>
+        <translation>Показує енгармонічні варіанти нот.&lt;br&gt;Тобто: нота E також є Fb (фа-бемоль) &lt;i&gt;і&lt;/i&gt; Dx (ре з подвійним дієзом).</translation>
     </message>
     <message>
         <source>show enharmonic variants of notes</source>
-        <translation type="unfinished"></translation>
+        <translation>показати енгармонічні варіанти нот</translation>
     </message>
     <message>
         <source>color of enharmonic notes</source>
@@ -1316,7 +1317,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>use double accidentals</source>
-        <translation type="unfinished"></translation>
+        <translation>використовуйте подвійні випадковості</translation>
     </message>
     <message>
         <source>note-cursor color</source>
@@ -1324,34 +1325,34 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>show names of key signature</source>
-        <translation type="unfinished"></translation>
+        <translation>показати імена ключових підписів</translation>
     </message>
     <message>
         <source>Naming extension</source>
-        <translation type="unfinished"></translation>
+        <translation>Розширення іменування</translation>
     </message>
     <message>
         <source>Select default clef for the application.</source>
-        <translation type="unfinished"></translation>
+        <translation>Виберіть типовий ключ для програми.</translation>
     </message>
     <message>
         <source>Remember! Not all clefs are suitable for some possible tunings or instrument types!</source>
-        <translation type="unfinished"></translation>
+        <translation>Пам&apos;ятайте! Не всі ключі підходять для деяких можливих налаштувань або типів інструментів!</translation>
     </message>
     <message>
         <source>Naming style of note. The main difference is the 7th note.&lt;br&gt;Is it B and B flat, or H and B?</source>
-        <translation type="unfinished"></translation>
+        <translation>Стиль іменування нотаток. Основною відмінністю є сьома нота.&lt;br&gt;Це сі і сі бемоль чи сі і сі?</translation>
     </message>
     <message>
         <source>use key signatures</source>
-        <translation type="unfinished"></translation>
+        <translation>використовувати ключові підписи</translation>
     </message>
 </context>
 <context>
     <name>ScoreToolbox</name>
     <message>
         <source>Tie - connect or disconnect selected note with previous one if both notes have the same pitch.</source>
-        <translation type="unfinished"></translation>
+        <translation>Зв&apos;язати - з&apos;єднати або роз&apos;єднати вибрану ноту з попередньою, якщо обидві ноти мають однакову висоту.</translation>
     </message>
     <message>
         <source>tie</source>
@@ -1360,19 +1361,19 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>&lt;b&gt;double flat&lt;/b&gt; - lowers a note by two semitones (whole tone).&lt;br&gt;On the guitar it is two frets down.</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;b&gt;подвійний бемоль&lt;/b&gt; - знижує ноту на два півтони (цілий тон).&lt;br&gt;На гітарі це два лади вниз.</translation>
     </message>
     <message>
         <source>&lt;b&gt;flat&lt;/b&gt; - lowers a note by a half tone (semitone).&lt;br&gt;On the guitar it is one fret down.</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;b&gt;бемоль&lt;/b&gt; - знижує ноту на півтону (півтон).&lt;br&gt;На гітарі це один лад вниз.</translation>
     </message>
     <message>
         <source>&lt;b&gt;sharp&lt;/b&gt; - raises a note by a half tone (semitone).&lt;br&gt;On the guitar it is one fret up.</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;b&gt;дієз&lt;/b&gt; - підвищує ноту на півтону (півтон).&lt;br&gt;На гітарі це один лад вгору.</translation>
     </message>
     <message>
         <source>&lt;b&gt;double sharp&lt;/b&gt; - raises a note by two semitones (whole tone).&lt;br&gt;On the guitar it is two frets up.</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;b&gt;подвійний дієз&lt;/b&gt; - підвищує ноту на два півтони (цілий тон).&lt;br&gt;На гітарі це два ладу вгору.</translation>
     </message>
 </context>
 <context>
@@ -1386,7 +1387,7 @@ But better keep them short, so divide them first in some external software.</sou
     <name>SoundInfo</name>
     <message>
         <source>Nootka can hear You!</source>
-        <translation type="unfinished"></translation>
+        <translation>Нутка вас чує!</translation>
     </message>
     <message>
         <source>Be sure your system is able to record what are you playing.</source>
@@ -1398,23 +1399,23 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Aim to play loud and clear and avoid dirty sounds specific to your instrument.</source>
-        <translation type="unfinished"></translation>
+        <translation>Прагніть грати голосно та чітко та уникайте брудних звуків, властивих вашому інструменту.</translation>
     </message>
     <message>
         <source>Nootka recognizes played sounds and theirs duration (rhythms). But to achieve accurate results it requires some preparations and a little patience. Here are some clues:</source>
-        <translation type="unfinished"></translation>
+        <translation>Нутка розпізнає відтворені звуки та їх тривалість (ритми). Але для досягнення точних результатів потрібна певна підготовка і трохи терпіння. Ось кілька підказок:</translation>
     </message>
     <message>
         <source>Play a few sounds to figure out their maximal volume,&lt;br&gt;then set level knob about 10-20% below.</source>
-        <translation type="unfinished"></translation>
+        <translation>Відтворіть кілька звуків, щоб визначити їх максимальну гучність,&lt;br&gt;потім встановіть регулятор рівня приблизно на 10-20% нижче.</translation>
     </message>
     <message>
         <source>Later, you can adjust the volume level in Nootka tuner window.&lt;br&gt;Invoke it from main menu or use any volume key.</source>
-        <translation type="unfinished"></translation>
+        <translation>Пізніше ви можете налаштувати рівень гучності у вікні тюнера Nootka.&lt;br&gt;Викличте його з головного меню або скористайтеся будь-якою клавішею гучності.</translation>
     </message>
     <message>
         <source>If you want Nootka to write your melody with rhythm then you have to play exactly in selected tempo - preferably with a metronome. But during practice, when you are playing melody given by the application, the tempo can be at will unless some level defines it.</source>
-        <translation type="unfinished"></translation>
+        <translation>Якщо ви хочете, щоб Nootka написав вашу мелодію з ритмом, ви повинні грати точно в обраному темпі - бажано з метрономом. Але під час практики, коли ви граєте мелодію, надану програмою, темп може бути будь-яким, якщо його не визначає якийсь рівень.</translation>
     </message>
 </context>
 <context>
@@ -1429,7 +1430,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>enable pitch detection</source>
-        <translation type="unfinished"></translation>
+        <translation>увімкнути визначення висоти</translation>
     </message>
     <message>
         <source>Be sure your input device (microphone, webcam, instrument, etc.) is plugged in, properly configured, and working.</source>
@@ -1437,15 +1438,15 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>input device</source>
-        <translation type="unfinished"></translation>
+        <translation>пристрій введення</translation>
     </message>
     <message>
         <source>Only sounds longer than the selected time will be pitch-detected.&lt;br&gt;Selecting a longer minimum note duration helps avoid capturing fret noise or other unexpected sounds but decreases responsiveness.</source>
-        <translation type="unfinished"></translation>
+        <translation>Лише звуки, довші за вибраний час, будуть визначені за висотою.&lt;br&gt;Вибір довшої мінімальної тривалості ноти допомагає уникнути захоплення ладового шуму чи інших неочікуваних звуків, але зменшує чуйність.</translation>
     </message>
     <message>
         <source>minimum note duration</source>
-        <translation type="unfinished"></translation>
+        <translation>мінімальна тривалість ноти</translation>
     </message>
     <message>
         <source>[milliseconds]</source>
@@ -1453,19 +1454,19 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Minimum volume of a sound to be pitch-detected</source>
-        <translation type="unfinished"></translation>
+        <translation>Мінімальна гучність звуку, який буде виявлено за висотою</translation>
     </message>
     <message>
         <source>minimum volume</source>
-        <translation type="unfinished"></translation>
+        <translation>мінімальний обсяг</translation>
     </message>
     <message>
         <source>The base frequency of &lt;i&gt;middle a&lt;/i&gt;.&lt;br&gt;Detection of the proper pitch of notes is relative to this value. This also affects the pitch of played sounds.</source>
-        <translation type="unfinished"></translation>
+        <translation>Базова частота &lt;i&gt;середньої ля&lt;/i&gt;.&lt;br&gt;Виявлення правильної висоти нот відбувається відносно цього значення. Це також впливає на висоту відтворених звуків.</translation>
     </message>
     <message>
         <source>middle A</source>
-        <translation type="unfinished"></translation>
+        <translation>середина A</translation>
     </message>
     <message>
         <source>[Hz]</source>
@@ -1477,11 +1478,11 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>pitch detection mode</source>
-        <translation type="unfinished"></translation>
+        <translation>режим визначення висоти</translation>
     </message>
     <message>
         <source>It is rather necessary for mic input but may be switched off for an instrument plugged line-in with less noise.</source>
-        <translation type="unfinished"></translation>
+        <translation>Це досить необхідно для мікрофонного входу, але його можна вимкнути для інструменту, підключеного до лінійного входу з меншим шумом.</translation>
     </message>
     <message>
         <source>noise filter</source>
@@ -1493,23 +1494,23 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>output device</source>
-        <translation type="unfinished"></translation>
+        <translation>вихідний пристрій</translation>
     </message>
     <message>
         <source>All sounds captured by audio input will be forwarded directly to output device.</source>
-        <translation type="unfinished"></translation>
+        <translation>Усі звуки, захоплені аудіовходом, будуть направлені безпосередньо на вихідний пристрій.</translation>
     </message>
     <message>
         <source>forward input to output</source>
-        <translation type="unfinished"></translation>
+        <translation>переслати вхід на вихід</translation>
     </message>
     <message>
         <source>no devices found</source>
-        <translation type="unfinished"></translation>
+        <translation>пристроїв не знайдено</translation>
     </message>
     <message>
         <source>Frequency of detected note. You can use this for tuning.</source>
-        <translation type="unfinished"></translation>
+        <translation>Частота виявленої ноти. Ви можете використовувати це для налаштування.</translation>
     </message>
 </context>
 <context>
@@ -1524,23 +1525,23 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>To start exercising or to pass new exam put in your name and select a level. To continue the previous exam, select it from the list or load from file.</source>
-        <translation type="unfinished"></translation>
+        <translation>Щоб почати займатися або скласти новий іспит, введіть своє ім&apos;я та виберіть рівень. Щоб продовжити попередній іспит, виберіть його зі списку або завантажте з файлу.</translation>
     </message>
     <message>
         <source>Start exercise on level:</source>
-        <translation type="unfinished"></translation>
+        <translation>Почати вправу на рівні:</translation>
     </message>
     <message>
         <source>No level was selected!</source>
-        <translation type="unfinished"></translation>
+        <translation>Жоден рівень не вибрано!</translation>
     </message>
     <message>
         <source>Pass new exam on level:</source>
-        <translation type="unfinished"></translation>
+        <translation>Скласти новий іспит на рівні:</translation>
     </message>
     <message>
         <source>Select an exam to continue</source>
-        <translation type="unfinished"></translation>
+        <translation>Виберіть іспит, щоб продовжити</translation>
     </message>
     <message>
         <source>Latest exam</source>
@@ -1548,44 +1549,44 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Start exercises or an exam</source>
-        <translation type="unfinished"></translation>
+        <translation>Почніть вправи або іспит</translation>
     </message>
     <message>
         <source>Give an user name!</source>
-        <translation type="unfinished"></translation>
+        <translation>Дайте ім&apos;я користувача!</translation>
     </message>
 </context>
 <context>
     <name>SupportPage</name>
     <message>
         <source>Donate Nootka campaign</source>
-        <translation type="unfinished"></translation>
+        <translation>Кампанія Donate Nootka</translation>
     </message>
     <message>
         <source>Through PayPal or a card</source>
-        <translation type="unfinished"></translation>
+        <translation>Через PayPal або на картку</translation>
     </message>
     <message>
         <source>or send email for an account number</source>
-        <translation type="unfinished"></translation>
+        <translation>або надіслати електронною поштою номер рахунку</translation>
     </message>
     <message>
         <source>You also can help with making Nootka better.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ви також можете допомогти покращити Nootka.</translation>
     </message>
     <message>
         <source>It requires little bit English, so if you can read a text below there will be something you may get involved.</source>
-        <translation type="unfinished"></translation>
+        <translation>Для цього потрібно трохи володіти англійською, тому, якщо ви можете прочитати текст нижче, ви можете щось взяти.</translation>
     </message>
 </context>
 <context>
     <name>TXaxis</name>
     <message numerus="yes">
         <source>%n attempt(s)</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>спроба %n</numerusform>
+            <numerusform>спроби %n</numerusform>
+            <numerusform>спроби %n</numerusform>
         </translation>
     </message>
 </context>
@@ -1621,7 +1622,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>editing and/or recording of samples:</source>
-        <translation type="unfinished"></translation>
+        <translation>редагування та/або запис семплів:</translation>
     </message>
     <message>
         <source>Translators</source>
@@ -1629,11 +1630,11 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Other projects</source>
-        <translation type="unfinished"></translation>
+        <translation>Інші проекти</translation>
     </message>
     <message>
         <source>However this application could not exist without various open source projects.&lt;br&gt;Especially:</source>
-        <translation type="unfinished"></translation>
+        <translation>Однак ця програма не могла б існувати без різноманітних проектів з відкритим кодом.&lt;br&gt;Окремо:</translation>
     </message>
     <message>
         <source>Thanks</source>
@@ -1650,24 +1651,24 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>People and companies who gave material support for the Nootka project</source>
-        <translation type="unfinished"></translation>
+        <translation>Люди та компанії, які матеріально підтримали проект Nootka</translation>
     </message>
 </context>
 <context>
     <name>TanalysDialog</name>
     <message>
         <source>Questions number</source>
-        <translation type="unfinished">Номер питання</translation>
+        <translation>Кількість питань</translation>
     </message>
 </context>
 <context>
     <name>TchartTipItem</name>
     <message numerus="yes">
         <source>Melody was played &lt;b&gt;%n&lt;/b&gt; times</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>Мелодію програно &lt;b&gt;%n&lt;/b&gt; раз</numerusform>
+            <numerusform>Мелодію програно &lt;b&gt;%n&lt;/b&gt; рази</numerusform>
+            <numerusform>Мелодію програно &lt;b&gt;%n&lt;/b&gt; разів</numerusform>
         </translation>
     </message>
 </context>
@@ -1679,7 +1680,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>treble dropped</source>
-        <translation type="unfinished"></translation>
+        <translation>ВЧ впали</translation>
     </message>
     <message>
         <source>bass</source>
@@ -1687,47 +1688,47 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>alto</source>
-        <translation type="unfinished"></translation>
+        <translation>альт</translation>
     </message>
     <message>
         <source>tenor</source>
-        <translation type="unfinished"></translation>
+        <translation>тенор</translation>
     </message>
     <message>
         <source>grand staff</source>
-        <translation type="unfinished"></translation>
+        <translation>великий персонал</translation>
     </message>
     <message>
         <source>clef G</source>
-        <translation type="unfinished"></translation>
+        <translation>ключ G</translation>
     </message>
     <message>
         <source>clef G dropped octave down</source>
-        <translation type="unfinished"></translation>
+        <translation>ключ G опущений на октаву вниз</translation>
     </message>
     <message>
         <source>clef F</source>
-        <translation type="unfinished"></translation>
+        <translation>ключ F</translation>
     </message>
     <message>
         <source>clef C</source>
-        <translation type="unfinished"></translation>
+        <translation>ключ C</translation>
     </message>
     <message>
         <source>treble and bass clefs</source>
-        <translation type="unfinished"></translation>
+        <translation>скрипковий і басовий ключі</translation>
     </message>
     <message>
         <source>neutral</source>
-        <translation type="unfinished"></translation>
+        <translation>нейтральний</translation>
     </message>
     <message>
         <source>Clef for bass guitar and double bass, also used for cello and trombone.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ключ для бас-гітари та контрабаса, також використовується для віолончелі та тромбона.</translation>
     </message>
     <message>
         <source>percussion clef</source>
-        <translation type="unfinished"></translation>
+        <translation>ударний ключ</translation>
     </message>
     <message>
         <source>For rhythms only, note pitch is undefined.</source>
@@ -1739,11 +1740,11 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Clef for guitars (classical, electric and so)</source>
-        <translation type="unfinished"></translation>
+        <translation>Ключ для гітар (класичних, електричних і так далі)</translation>
     </message>
     <message>
         <source>Sometimes it is called clef for viola and mostly used for this instrument.</source>
-        <translation type="unfinished"></translation>
+        <translation>Іноді його називають ключем для альта і в основному використовують для цього інструменту.</translation>
     </message>
 </context>
 <context>
@@ -1758,7 +1759,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Countdown before playing or listening.</source>
-        <translation type="unfinished"></translation>
+        <translation>Зворотний відлік перед відтворенням або прослуховуванням.</translation>
     </message>
     <message>
         <source>beats per minute</source>
@@ -1766,7 +1767,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Mouse wheel changes tempo promptly (also with %1 key). Click for more options.</source>
-        <translation type="unfinished"></translation>
+        <translation>Колесо миші швидко змінює темп (також за допомогою клавіші %1). Натисніть, щоб переглянути додаткові параметри.</translation>
     </message>
     <message>
         <source>Audible metronome</source>
@@ -1774,11 +1775,11 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Use earphones! Otherwise ticking will disturb proper pitch detection!</source>
-        <translation type="unfinished"></translation>
+        <translation>Використовуйте навушники! Інакше позначення порушить правильне визначення висоти!</translation>
     </message>
     <message>
         <source>Tuner</source>
-        <translation type="unfinished"></translation>
+        <translation>тюнер</translation>
     </message>
 </context>
 <context>
@@ -1789,34 +1790,34 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Tap tempo</source>
-        <translation type="unfinished"></translation>
+        <translation>Темп натискання</translation>
     </message>
     <message>
         <source>Count up</source>
-        <translation type="unfinished"></translation>
+        <translation>Порахуйте</translation>
     </message>
     <message>
         <source>Detected rhythmic units are rounded (quantization). Shortest units require more rhythmical accuracy.</source>
-        <translation type="unfinished"></translation>
+        <translation>Виявлені ритмічні одиниці округлюються (квантування). Найкоротші одиниці вимагають більшої ритмічної точності.</translation>
     </message>
     <message>
         <source>round to:</source>
-        <translation type="unfinished"></translation>
+        <translation>округлити до:</translation>
     </message>
     <message>
         <source>Metronome visible</source>
-        <translation type="unfinished"></translation>
+        <translation>Видно метроном</translation>
     </message>
 </context>
 <context>
     <name>Texam</name>
     <message>
         <source>play melody</source>
-        <translation type="unfinished"></translation>
+        <translation>грати мелодію</translation>
     </message>
     <message>
         <source>write melody</source>
-        <translation type="unfinished"></translation>
+        <translation>написати мелодію</translation>
     </message>
     <message>
         <source>attempt</source>
@@ -1825,47 +1826,47 @@ But better keep them short, so divide them first in some external software.</sou
     <message numerus="yes">
         <source>%n attempt(s)</source>
         <comment>like: &apos;1 attempt&apos; or &apos;121 attempts&apos;</comment>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>%n спроба</numerusform>
+            <numerusform>%n спроби</numerusform>
+            <numerusform>%n спроби</numerusform>
         </translation>
     </message>
     <message>
         <source>Play a melody written in a score</source>
-        <translation type="unfinished"></translation>
+        <translation>Зіграйте мелодію, записану в партитурі</translation>
     </message>
     <message>
         <source>Listen to a melody and write it on a score</source>
-        <translation type="unfinished"></translation>
+        <translation>Послухайте мелодію і запишіть її на партитурі</translation>
     </message>
     <message>
         <source>Listen to a melody and repeat it on your instrument</source>
-        <translation type="unfinished"></translation>
+        <translation>Послухайте мелодію та повторіть її на своєму інструменті</translation>
     </message>
     <message>
         <source>repeat melody</source>
-        <translation type="unfinished"></translation>
+        <translation>повторити мелодію</translation>
     </message>
     <message>
         <source>as note on the staff</source>
-        <translation type="unfinished"></translation>
+        <translation>як примітка про персонал</translation>
     </message>
     <message>
         <source>as note name</source>
-        <translation type="unfinished"></translation>
+        <translation>як назва ноти</translation>
     </message>
     <message>
         <source>on instrument</source>
-        <translation type="unfinished"></translation>
+        <translation>на інструменті</translation>
     </message>
     <message>
         <source>as played sound</source>
-        <translation type="unfinished"></translation>
+        <translation>як відтворений звук</translation>
     </message>
     <message>
         <source>Let&apos;s start!</source>
-        <translation type="unfinished"></translation>
+        <translation>Починаємо!</translation>
     </message>
 </context>
 <context>
@@ -1877,19 +1878,20 @@ But better keep them short, so divide them first in some external software.</sou
     <message>
         <source>File: %1 
  is not valid exam file!</source>
-        <translation type="unfinished"></translation>
+        <translation>Файл: %1 
+ недійсний екзаменаційний файл!</translation>
     </message>
     <message>
         <source>Level &lt;b&gt;%1&lt;/b&gt;&lt;br&gt;makes no sense because there are no questions to ask.&lt;br&gt;It can be re-adjusted.&lt;br&gt;Repair it in Level Creator and try again.</source>
-        <translation type="unfinished"></translation>
+        <translation>Рівень &lt;b&gt;%1&lt;/b&gt;&lt;br&gt;не має сенсу, оскільки немає запитань.&lt;br&gt;Його можна відкоригувати.&lt;br&gt;Виправте це в Level Creator і повторіть спробу.</translation>
     </message>
     <message>
         <source>Save exam results as:</source>
-        <translation type="unfinished"></translation>
+        <translation>Зберегти результати іспиту як:</translation>
     </message>
     <message>
         <source>If you don&apos;t save to file&lt;br&gt;you lost all results!</source>
-        <translation type="unfinished"></translation>
+        <translation>Якщо ви не збережете у файл&lt;br&gt;ви втратите всі результати!</translation>
     </message>
     <message>
         <source>Exercises with Nootka</source>
@@ -1901,38 +1903,41 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Psssst... Exam is going.&lt;br&gt;&lt;br&gt;Select &lt;b&gt;%1&lt;/b&gt; to check, save and exit&lt;br&gt;or &lt;b&gt;%2&lt;/b&gt; to continue.&lt;br&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Псссс... Іспит триває.&lt;br&gt;&lt;br&gt;Виберіть &lt;b&gt;%1&lt;/b&gt;, щоб перевірити, зберегти та вийти&lt;br&gt;або &lt;b&gt;%2&lt;/b&gt;, щоб продовжити.&lt;br&gt;</translation>
     </message>
     <message>
         <source>Exercise or exam preferences</source>
-        <translation type="unfinished"></translation>
+        <translation>Уподобання щодо вправ або іспитів</translation>
     </message>
     <message>
         <source>repeat previous question (backspace)</source>
-        <translation type="unfinished"></translation>
+        <translation>повторити попереднє запитання (backspace)</translation>
     </message>
     <message>
         <source>next question
 (space %1)</source>
-        <translation type="unfinished"></translation>
+        <translation>наступне запитання
+(пробіл %1)</translation>
     </message>
     <message>
         <source>Play &lt;i&gt;middle a&lt;/i&gt; like a tuning fork.
 (Press key &apos;a&apos;)</source>
-        <translation type="unfinished"></translation>
+        <translation>Грайте &lt;i&gt;середнє a&lt;/i&gt; як камертон.
+(Натисніть клавішу «а»)</translation>
     </message>
     <message>
         <source>play sound again</source>
-        <translation type="unfinished"></translation>
+        <translation>знову відтворити звук</translation>
     </message>
     <message>
         <source>Try this melody once again. (backspace)</source>
-        <translation type="unfinished"></translation>
+        <translation>Спробуйте цю мелодію ще раз. (backspace)</translation>
     </message>
     <message>
         <source>check answer
 (enter %1)</source>
-        <translation type="unfinished"></translation>
+        <translation>перевірити відповідь
+(введіть %1)</translation>
     </message>
     <message>
         <source>correct answer
@@ -1942,34 +1947,34 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>finish exercising</source>
-        <translation type="unfinished"></translation>
+        <translation>закінчити вправу</translation>
     </message>
     <message>
         <source>stop the exam</source>
-        <translation type="unfinished"></translation>
+        <translation>припинити іспит</translation>
     </message>
     <message>
         <source>Give an answer first!&lt;br&gt;Then the exam will end.</source>
-        <translation type="unfinished"></translation>
+        <translation>Спочатку дайте відповідь!&lt;br&gt;Потім іспит закінчиться.</translation>
     </message>
     <message>
         <source>Such a pity.</source>
-        <translation type="unfinished"></translation>
+        <translation>Така шкода.</translation>
     </message>
     <message>
         <source>There is not such a note in this melody!</source>
-        <translation type="unfinished"></translation>
+        <translation>Такої ноти в цій мелодії немає!</translation>
     </message>
     <message>
         <source>This note was not played!</source>
-        <translation type="unfinished"></translation>
+        <translation>Ця нота не була зіграна!</translation>
     </message>
 </context>
 <context>
     <name>TexamHelp</name>
     <message>
         <source>When your exercising will go well Nootka will suggest you to start an exam.</source>
-        <translation type="unfinished"></translation>
+        <translation>Коли ваші тренування підуть добре, Nootka запропонує вам почати іспит.</translation>
     </message>
     <message>
         <source>Exams can be saved to files and continued later. Moreover, exam files can be opened to analyze.</source>
@@ -1977,19 +1982,19 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Exam will be completed when you give answers to all questions.&lt;br&gt;The number of questions depends on the level of the exam.</source>
-        <translation type="unfinished"></translation>
+        <translation>Іспит буде завершено, коли ви дасте відповіді на всі питання.&lt;br&gt;Кількість питань залежить від рівня іспиту.</translation>
     </message>
     <message>
         <source>If you make a mistake, the question will asked two more times and the total number of questions will be increased. These are penalty questions.</source>
-        <translation type="unfinished"></translation>
+        <translation>Якщо ви зробили помилку, питання буде задано ще два рази, а загальна кількість питань буде збільшена. Це штрафні питання.</translation>
     </message>
     <message>
         <source>When answer is &apos;not bad&apos;, you get one penalty more.</source>
-        <translation type="unfinished"></translation>
+        <translation>Якщо відповідь «непогано», ви отримуєте на один штраф більше.</translation>
     </message>
     <message>
         <source>How does an exercise or an exam work?</source>
-        <translation type="unfinished"></translation>
+        <translation>Як працює вправа чи іспит?</translation>
     </message>
     <message>
         <source> Briefly: Nootka give you a question and you give an answer...</source>
@@ -1997,15 +2002,15 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Questions are marked with this color and &quot;?&quot; mark.</source>
-        <translation type="unfinished"></translation>
+        <translation>Запитання позначені цим кольором і &quot;?&quot; знак.</translation>
     </message>
     <message>
         <source>To give an answer, select it on &lt;span style=&quot;%1&quot;&gt;Nootka&apos;s element with that color.&lt;/span&gt;&lt;br&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Щоб дати відповідь, виділіть його на &lt;span style=&quot;%1&quot;&gt;елементі Nootka цього кольору.&lt;/span&gt;&lt;br&gt;</translation>
     </message>
     <message>
         <source>To check the answer confirm it:</source>
-        <translation type="unfinished"></translation>
+        <translation>Щоб перевірити відповідь, підтвердьте її:</translation>
     </message>
     <message>
         <source>Exercises</source>
@@ -2013,11 +2018,11 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>If you made a mistake during an exercise, Nootka can show you correct answer. To see it:</source>
-        <translation type="unfinished"></translation>
+        <translation>Якщо ви зробили помилку під час виконання вправи, Nootka може показати правильну відповідь. Щоб побачити це:</translation>
     </message>
     <message>
         <source>You can every time click button %1 to pause or stop exercising and to see your results.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ви можете щоразу натискати кнопку %1, щоб призупинити або припинити тренування та переглянути результати.</translation>
     </message>
     <message>
         <source>Exams</source>
@@ -2025,7 +2030,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>If you made a mistake during an exam and you want to repeat the question:</source>
-        <translation type="unfinished"></translation>
+        <translation>Якщо ви зробили помилку під час іспиту і хочете повторити запитання:</translation>
     </message>
     <message>
         <source>Settings</source>
@@ -2033,11 +2038,11 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Just click this settings button to adjust an exercise or an exam to your current needs.</source>
-        <translation type="unfinished"></translation>
+        <translation>Просто натисніть цю кнопку налаштувань, щоб налаштувати вправу чи іспит відповідно до ваших поточних потреб.</translation>
     </message>
     <message>
         <source>GOOD LUCK!</source>
-        <translation type="unfinished"></translation>
+        <translation>УСПІХІВ!</translation>
     </message>
     <message>
         <source>check answers without requiring confirmation</source>
@@ -2053,7 +2058,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>or right mouse button</source>
-        <translation type="unfinished"></translation>
+        <translation>або правою кнопкою миші</translation>
     </message>
     <message>
         <source>click %1 button</source>
@@ -2061,23 +2066,23 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>To get question</source>
-        <translation type="unfinished"></translation>
+        <translation>Щоб отримати запитання</translation>
     </message>
     <message>
         <source>press &lt;b&gt;space&lt;/b&gt; key</source>
-        <translation type="unfinished"></translation>
+        <translation>натисніть клавішу &lt;b&gt;пробіл&lt;/b&gt;</translation>
     </message>
     <message>
         <source>press &lt;b&gt;Enter&lt;/b&gt; key</source>
-        <translation type="unfinished"></translation>
+        <translation>натисніть клавішу &lt;b&gt;Enter&lt;/b&gt;</translation>
     </message>
     <message>
         <source>or press &lt;b&gt;Enter&lt;/b&gt; key</source>
-        <translation type="unfinished"></translation>
+        <translation>або натисніть клавішу &lt;b&gt;Enter&lt;/b&gt;</translation>
     </message>
     <message>
         <source>or &lt;b&gt;Backspace&lt;/b&gt; key</source>
-        <translation type="unfinished"></translation>
+        <translation>або клавішу &lt;b&gt;Backspace&lt;/b&gt;</translation>
     </message>
     <message>
         <source>Click %1 button to stop.</source>
@@ -2086,7 +2091,7 @@ But better keep them short, so divide them first in some external software.</sou
     <message>
         <source>tap %1</source>
         <comment>tap &lt;icon image follows&gt;</comment>
-        <translation type="unfinished"></translation>
+        <translation>торкніться %1</translation>
     </message>
     <message>
         <source>Click %1 to stop.</source>
@@ -2110,7 +2115,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Kinds of mistakes</source>
-        <translation type="unfinished"></translation>
+        <translation>Види помилок</translation>
     </message>
     <message>
         <source>Wrong notes</source>
@@ -2118,11 +2123,11 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Wrong accidentals</source>
-        <translation type="unfinished"></translation>
+        <translation>Неправильні випадковості</translation>
     </message>
     <message>
         <source>Wrong key signatures</source>
-        <translation type="unfinished"></translation>
+        <translation>Неправильні ключові підписи</translation>
     </message>
     <message>
         <source>Wrong octaves</source>
@@ -2130,7 +2135,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Wrong note names</source>
-        <translation type="unfinished"></translation>
+        <translation>Неправильні назви нот</translation>
     </message>
     <message>
         <source>Wrong positions on guitar</source>
@@ -2142,27 +2147,27 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Out of tune</source>
-        <translation type="unfinished"></translation>
+        <translation>Не в тонусі</translation>
     </message>
     <message>
         <source>Progress of exercises</source>
-        <translation type="unfinished"></translation>
+        <translation>Хід виконання вправ</translation>
     </message>
     <message>
         <source>Number of questions:</source>
-        <translation type="unfinished"></translation>
+        <translation>Кількість питань:</translation>
     </message>
     <message>
         <source>Send exam file</source>
-        <translation type="unfinished"></translation>
+        <translation>Надіслати файл іспиту</translation>
     </message>
     <message>
         <source>times:</source>
-        <translation type="unfinished"></translation>
+        <translation>разів:</translation>
     </message>
     <message>
         <source>Time taken to answer</source>
-        <translation type="unfinished"></translation>
+        <translation>Час, витрачений на відповідь</translation>
     </message>
 </context>
 <context>
@@ -2177,11 +2182,11 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>[in seconds]</source>
-        <translation type="unfinished"></translation>
+        <translation>[за секунди]</translation>
     </message>
     <message>
         <source>Total time</source>
-        <translation type="unfinished"></translation>
+        <translation>Загальний час</translation>
     </message>
     <message>
         <source>Effectiveness</source>
@@ -2189,19 +2194,19 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Number of correct answers</source>
-        <translation type="unfinished"></translation>
+        <translation>Кількість правильних відповідей</translation>
     </message>
     <message>
         <source>Time for an answer</source>
-        <translation type="unfinished"></translation>
+        <translation>Час для відповіді</translation>
     </message>
     <message>
         <source>Number of mistakes</source>
-        <translation type="unfinished"></translation>
+        <translation>Кількість помилок</translation>
     </message>
     <message>
         <source>&apos;Not bad&apos; answers</source>
-        <translation type="unfinished"></translation>
+        <translation>&apos;Непогані відповіді</translation>
     </message>
     <message>
         <source>(counted as half of a mistake)</source>
@@ -2209,16 +2214,16 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Answered questions</source>
-        <translation type="unfinished"></translation>
+        <translation>Відповів на запитання</translation>
     </message>
     <message>
         <source>Unanswered questions</source>
         <comment>could be also: &apos;rest of the questions&apos; or &apos;remaining questions&apos;</comment>
-        <translation type="unfinished"></translation>
+        <translation>Питання без відповіді</translation>
     </message>
     <message>
         <source>Total questions in this exam</source>
-        <translation type="unfinished"></translation>
+        <translation>Загальна кількість питань у цьому іспиті</translation>
     </message>
     <message>
         <source>penalties</source>
@@ -2238,37 +2243,37 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Progress of the exam</source>
-        <translation type="unfinished"></translation>
+        <translation>Хід іспиту</translation>
     </message>
     <message>
         <source>Exam was finished</source>
-        <translation type="unfinished"></translation>
+        <translation>Іспит був закінчений</translation>
     </message>
 </context>
 <context>
     <name>TexecutorSupply</name>
     <message>
         <source>Instrument type was changed!</source>
-        <translation type="unfinished"></translation>
+        <translation>Змінено тип інструменту!</translation>
     </message>
     <message>
         <source>Tuning of the guitar was changed to:</source>
-        <translation type="unfinished"></translation>
+        <translation>Налаштування гітари змінено на:</translation>
     </message>
     <message>
         <source>Guitar fret number was changed!</source>
-        <translation type="unfinished"></translation>
+        <translation>Змінено номер ладу гітари!</translation>
     </message>
 </context>
 <context>
     <name>TfileDialog</name>
     <message>
         <source>Memory card</source>
-        <translation type="unfinished"></translation>
+        <translation>Карта пам&apos;яті</translation>
     </message>
     <message>
         <source>Directory named &lt;b&gt;Nootka&lt;/b&gt; will be created in&lt;br&gt;%1&lt;br&gt;Application files will be written there.</source>
-        <translation type="unfinished"></translation>
+        <translation>Каталог під назвою &lt;b&gt;Nootka&lt;/b&gt; буде створено в&lt;br&gt;%1&lt;br&gt;туди будуть записані файли програми.</translation>
     </message>
 </context>
 <context>
@@ -2276,30 +2281,30 @@ But better keep them short, so divide them first in some external software.</sou
     <message>
         <source>note cursor</source>
         <comment>it might be just &apos;cursor&apos; as well</comment>
-        <translation type="unfinished"></translation>
+        <translation>курсор приміток</translation>
     </message>
     <message>
         <source>Note becomes selected (highlighted) when it was edited or clicked with right mouse button or tapped shortly.</source>
-        <translation type="unfinished"></translation>
+        <translation>Примітка стає виділеною (виділеною), коли її редагували, клацали правою кнопкою миші або коротко торкали.</translation>
     </message>
     <message>
         <source>If any note on the score is selected, only this particular one is changed by playing or clicking on an instrument. And only pitch of that note changes - rhythmic value remains the same. </source>
-        <translation type="unfinished"></translation>
+        <translation>Якщо вибрано будь-яку ноту в партитурі, лише ця нота змінюється під час гри або клацання на інструменті. І змінюється тільки висота цієї ноти - ритмічна величина залишається незмінною. </translation>
     </message>
     <message>
         <source>When no note is chosen on the score, note cursor is highlighted and blinks. Notes are added one by one, either by playing real instrument or by selecting a sound on instrument displayed by the application.</source>
-        <translation type="unfinished"></translation>
+        <translation>Якщо в партитурі не вибрано жодної ноти, нотний курсор виділяється і блимає. Ноти додаються одна за одною, граючи на реальному інструменті або вибираючи звук на інструменті, який відображається програмою</translation>
     </message>
     <message>
         <source>To deselect the note just click or tap some free part of the score sheet or use arrow keys to navigate to the note cursor.</source>
-        <translation type="unfinished"></translation>
+        <translation>Щоб скасувати вибір нотатки, просто клацніть або торкніться якоїсь вільної частини аркуша або використовуйте клавіші зі стрілками, щоб перейти до курсору нотатки.</translation>
     </message>
 </context>
 <context>
     <name>TgraphicsLine</name>
     <message>
         <source>progress line</source>
-        <translation type="unfinished"></translation>
+        <translation>лінія прогресу</translation>
     </message>
     <message>
         <source>descending - you are progressing better</source>
@@ -2314,11 +2319,11 @@ But better keep them short, so divide them first in some external software.</sou
     <name>ThelpDialogBase</name>
     <message>
         <source>Nootka help</source>
-        <translation type="unfinished"></translation>
+        <translation>Нутка допомога</translation>
     </message>
     <message>
         <source>Open online documentation</source>
-        <translation type="unfinished"></translation>
+        <translation>Відкрийте онлайн-документацію</translation>
     </message>
 </context>
 <context>
@@ -2330,7 +2335,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>staff</source>
-        <translation type="unfinished"></translation>
+        <translation>персонал</translation>
     </message>
     <message>
         <source>voice</source>
@@ -2342,7 +2347,7 @@ But better keep them short, so divide them first in some external software.</sou
     <name>Tinstrument</name>
     <message>
         <source>other instrument</source>
-        <translation type="unfinished"></translation>
+        <translation>інший інструмент</translation>
     </message>
     <message>
         <source>Classical Guitar</source>
@@ -2370,7 +2375,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Tenor Saxophone</source>
-        <translation type="unfinished"></translation>
+        <translation>Тенор саксофон</translation>
     </message>
     <message>
         <source>Ukulele</source>
@@ -2381,28 +2386,28 @@ But better keep them short, so divide them first in some external software.</sou
     <name>TintonationCombo</name>
     <message>
         <source>intonation accuracy</source>
-        <translation type="unfinished"></translation>
+        <translation>інтонаційна точність</translation>
     </message>
     <message>
         <source>do not check</source>
-        <translation type="unfinished"></translation>
+        <translation>не перевіряти</translation>
     </message>
     <message>
         <source>gums pain</source>
         <comment>We used to say that gums or teeth are paining when music is out of tune but it isn&apos;t official term.</comment>
-        <translation type="unfinished"></translation>
+        <translation>біль ясен</translation>
     </message>
     <message>
         <source>violinist beginner</source>
-        <translation type="unfinished"></translation>
+        <translation>скрипаль-початківець</translation>
     </message>
     <message>
         <source>old strings</source>
-        <translation type="unfinished"></translation>
+        <translation>старі струни</translation>
     </message>
     <message>
         <source>well tuned instrument</source>
-        <translation type="unfinished"></translation>
+        <translation>добре налаштований інструмент</translation>
     </message>
     <message>
         <source>perfect</source>
@@ -2418,11 +2423,11 @@ But better keep them short, so divide them first in some external software.</sou
     <name>Tlevel</name>
     <message>
         <source>Grand staff</source>
-        <translation type="unfinished"></translation>
+        <translation>Грандіозний персонал</translation>
     </message>
     <message>
         <source>Guess notes from grand staff in different keys</source>
-        <translation type="unfinished"></translation>
+        <translation>Вгадайте записки великого персоналу в різних тональностях</translation>
     </message>
     <message>
         <source>Bass clef</source>
@@ -2430,35 +2435,35 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Play a short and simple melody in bass clef</source>
-        <translation type="unfinished"></translation>
+        <translation>Зіграйте коротку і просту мелодію басовим ключем</translation>
     </message>
     <message>
         <source>Play grand staff</source>
-        <translation type="unfinished"></translation>
+        <translation>Грати у великий персонал</translation>
     </message>
     <message>
         <source>Play random melodies from two staves of piano notation. Keys up to four accidentals.</source>
-        <translation type="unfinished"></translation>
+        <translation>Грайте довільні мелодії з двох нотних нотацій. Ключі до чотирьох випадкових.</translation>
     </message>
     <message>
         <source>open strings</source>
-        <translation type="unfinished"></translation>
+        <translation>відкриті рядки</translation>
     </message>
     <message>
         <source>The simplest. No key signatures, no double accidentals and no sound.&lt;br&gt;Automatically adjusted to current tune.</source>
-        <translation type="unfinished"></translation>
+        <translation>Найпростіший. Жодних цифрових підписів, подвійних випадкових ударів і звуку.&lt;br&gt;Автоматично підлаштовується під поточну мелодію.</translation>
     </message>
     <message>
         <source>C-major scale</source>
-        <translation type="unfinished"></translation>
+        <translation>C-мажорний лад</translation>
     </message>
     <message>
         <source>In first position. No accidentals, no sound.&lt;br&gt;Octave required.</source>
-        <translation type="unfinished"></translation>
+        <translation>На першій позиції. Без випадковостей, без звуку.&lt;br&gt;Потрібна октава.</translation>
     </message>
     <message>
         <source>Give note name in C-major scale or show note on the staff knowing its name.</source>
-        <translation type="unfinished"></translation>
+        <translation>Назвіть ноту в до-мажорній гамі або покажіть ноту, знаючи її назву.</translation>
     </message>
     <message>
         <source>All to V fret</source>
@@ -2466,31 +2471,31 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Ear training</source>
-        <translation type="unfinished"></translation>
+        <translation>Тренування вуха</translation>
     </message>
     <message>
         <source>Listen to a sound and show it on the staff.&lt;br&gt;Guitar, note names and key signatures are not used.&lt;br&gt;Scale a - a&lt;sup&gt;2&lt;/sup&gt;.</source>
-        <translation type="unfinished"></translation>
+        <translation>Послухайте звук і покажіть його на ноті.&lt;br&gt;Гітара, назви нот і тональні підписи не використовуються.&lt;br&gt;Гамма a - a&lt;sup&gt;2&lt;/sup&gt;.</translation>
     </message>
     <message>
         <source>Melody on trebles</source>
-        <translation type="unfinished"></translation>
+        <translation>Мелодія на дисках</translation>
     </message>
     <message>
         <source>Play short melody on treble strings with notes just on first three frets. Sharps keys only.</source>
-        <translation type="unfinished"></translation>
+        <translation>Грайте коротку мелодію на високих струнах з нотами лише на перших трьох ладах. Тільки ключі від Sharps.</translation>
     </message>
     <message>
         <source>Play scores</source>
-        <translation type="unfinished"></translation>
+        <translation>Відтворити результати</translation>
     </message>
     <message>
         <source>Sing scores</source>
-        <translation type="unfinished"></translation>
+        <translation>Співати ноти</translation>
     </message>
     <message>
         <source>Just sing a score...&lt;br&gt;No note names, no fretboard, no keys and double accids. Scale doesn&apos;t matter because octaves are ignored - you can transpose.</source>
-        <translation type="unfinished"></translation>
+        <translation>Просто заспівай партитуру...&lt;br&gt;Без назв нот, без грифа, без клавіш і подвійних звуків. Масштаб не має значення, оскільки октави ігноруються - ви можете транспонувати.</translation>
     </message>
     <message>
         <source>Pentatonic</source>
@@ -2498,34 +2503,34 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Play melody composed from pentatonic scale, every time in different key signature.</source>
-        <translation type="unfinished"></translation>
+        <translation>Грайте мелодію, складену з пентатоніки, кожного разу в різній тональності.</translation>
     </message>
     <message>
         <source>Some note of C-major scale point on the instrument, or give its name or show in the score.</source>
-        <translation type="unfinished"></translation>
+        <translation>Певна нота до-мажорної гами вказує на інструменті, дає її назву чи відображається в партитурі.</translation>
     </message>
     <message>
         <source>All chromatic notes till 5th fret, no sound.&lt;br&gt;Without double accidentals. Key signatures: C, G, D, A</source>
-        <translation type="unfinished"></translation>
+        <translation>Усі хроматичні ноти до 5-го лада, без звуку.&lt;br&gt;Без подвійних випадковостей. Ключові підписи: C, G, D, A</translation>
     </message>
     <message>
         <source>Take your instrument and just play...&lt;br&gt;Keys till 4 accidentals and double accidentals enabled!</source>
-        <translation type="unfinished"></translation>
+        <translation>Візьміть свій інструмент і просто грайте...&lt;br&gt;Клавіші до 4 випадкових і подвійних випадкових увімкнено!</translation>
     </message>
     <message>
         <source>Scale of whole guitar without positions.</source>
-        <translation type="unfinished"></translation>
+        <translation>Гамма цілої гітари без позицій.</translation>
     </message>
 </context>
 <context>
     <name>TlevelCreatorItem</name>
     <message>
         <source>Level creator</source>
-        <translation type="unfinished"></translation>
+        <translation>Творець рівня</translation>
     </message>
     <message>
         <source>Save exam level</source>
-        <translation type="unfinished"></translation>
+        <translation>Зберегти рівень іспиту</translation>
     </message>
     <message>
         <source>Cannot open file for writing</source>
@@ -2533,78 +2538,78 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Level validation</source>
-        <translation type="unfinished"></translation>
+        <translation>Перевірка рівня</translation>
     </message>
     <message>
         <source>Level seems to be correct</source>
-        <translation type="unfinished"></translation>
+        <translation>Здається, рівень правильний</translation>
     </message>
     <message>
         <source>level not saved!</source>
-        <translation type="unfinished"></translation>
+        <translation>рівень не збережено!</translation>
     </message>
     <message>
         <source>Level was changed and not saved!</source>
-        <translation type="unfinished"></translation>
+        <translation>Рівень змінено і не збережено!</translation>
     </message>
     <message>
         <source>There aren&apos;t any questions or answers selected.&lt;br&gt;Level makes no sense.</source>
-        <translation type="unfinished"></translation>
+        <translation>Не вибрано жодного запитання чи відповіді.&lt;br&gt;Рівень не має сенсу.</translation>
     </message>
     <message>
         <source>&lt;li&gt;Range of frets is beyond the scale of this level&lt;/li&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;li&gt;Діапазон ладів перевищує шкалу цього рівня&lt;/li&gt;</translation>
     </message>
     <message>
         <source>&lt;li&gt;In range of notes some accidentals are used&lt;br&gt;but not available in this level&lt;/li&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;li&gt;У діапазоні нот використовуються деякі випадковості,&lt;br&gt;але вони недоступні на цьому рівні&lt;/li&gt;</translation>
     </message>
     <message>
         <source>&lt;li&gt;Force appropriate accidental is enabled but any accidental was selected.&lt;/li&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;li&gt;Примусово відповідний випадковий увімкнено, але вибрано будь-який випадковий.&lt;/li&gt;</translation>
     </message>
     <message>
         <source>&lt;li&gt;Questions and answers as note names will be the same. To avoid that level has to use flats and sharps and/or double accidentals and/or to use different name styles.&lt;/li&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;li&gt;Питання та відповіді як назви нотаток будуть однаковими. Щоб уникнути цього рівня, потрібно використовувати бемолі та дієзи та/або подвійні випадкові випадки та/або використовувати різні стилі імен.&lt;/li&gt;</translation>
     </message>
     <message>
         <source>&lt;li&gt;&apos;Use different naming styles&apos; was checked but neither questions nor answers as note name are checked.&lt;br&gt;Check this type of answer/question or uncheck &apos;Use different naming styles&apos;.&lt;/li&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;li&gt;&apos;Використовувати різні стилі імен&quot; було позначено, але ні питання, ні відповіді як назва нотатки не відмічаються.&lt;br&gt;Позначте цей тип відповіді/запитання або зніміть прапорець &quot;Використовувати різні стилі імен&quot;.&lt;/li&gt;</translation>
     </message>
     <message>
         <source>&lt;li&gt;Questions and answers as notes on the staff will be the same. Manually selecting keys or forcing accidentals has to be selected to avoid that.&lt;/li&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;li&gt;Питання і відповіді як примітки по штату будуть такими ж. Щоб уникнути цього, потрібно вибрати ручний вибір ключів або примусове випадкове введення.&lt;/li&gt;</translation>
     </message>
     <message>
         <source>&lt;li&gt;Manual selecting of a key signature was checked but answer as note on the staff was not checked.&lt;/li&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;li&gt;Ручний вибір підпису ключа було перевірено, але відповідь як примітка на персоналі не перевірялася.&lt;/li&gt;</translation>
     </message>
     <message>
         <source>&lt;li&gt;Fret range is not enough to find any note in different positions. At least &lt;b&gt;%1&lt;/b&gt; frets range is required.&lt;/li&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;li&gt;Діапазону ладів недостатньо, щоб знайти будь-яку ноту в різних позиціях. Необхідно принаймні &lt;b&gt;%1&lt;/b&gt; діапазон ладів.&lt;/li&gt;</translation>
     </message>
     <message>
         <source>&lt;li&gt;Possible missing a tonic note for some key signatures in selected note range .&lt;/li&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;li&gt;Можлива відсутність тонічної ноти для деяких тональностей у вибраному діапазоні нот.&lt;/li&gt;</translation>
     </message>
     <message>
         <source>Seems like this level has some mistakes</source>
-        <translation type="unfinished"></translation>
+        <translation>Здається, на цьому рівні є деякі помилки</translation>
     </message>
     <message>
         <source>&lt;li&gt;There are not enough selected notes to create a melody.&lt;/li&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;li&gt;Недостатньо вибраних нот для створення мелодії.&lt;/li&gt;</translation>
     </message>
     <message>
         <source>&lt;li&gt;No melody was added to the list.&lt;/li&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;li&gt;До списку не додано жодної мелодії.&lt;/li&gt;</translation>
     </message>
 </context>
 <context>
     <name>TlevelPreviewItem</name>
     <message>
         <source>Level summary:</source>
-        <translation type="unfinished"></translation>
+        <translation>Підсумок рівня:</translation>
     </message>
     <message>
         <source>Clef</source>
@@ -2612,7 +2617,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>key signature:</source>
-        <translation type="unfinished"></translation>
+        <translation>підпис ключа:</translation>
     </message>
     <message>
         <source>none</source>
@@ -2620,15 +2625,15 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>proper octave is required</source>
-        <translation type="unfinished"></translation>
+        <translation>необхідна правильна октава</translation>
     </message>
     <message>
         <source>octave does no matter</source>
-        <translation type="unfinished"></translation>
+        <translation>октава не має значення</translation>
     </message>
     <message>
         <source>no level selected</source>
-        <translation type="unfinished"></translation>
+        <translation>рівень не вибрано</translation>
     </message>
 </context>
 <context>
@@ -2643,27 +2648,31 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>No file name specified</source>
-        <translation type="unfinished"></translation>
+        <translation>Ім&apos;я файлу не вказано</translation>
     </message>
     <message>
         <source>Level is not suitable for current instrument type</source>
-        <translation type="unfinished"></translation>
+        <translation>Рівень не підходить для поточного типу приладу</translation>
     </message>
     <message>
         <source>Level is not suitable for current tuning and/or fret number</source>
-        <translation type="unfinished"></translation>
+        <translation>Рівень не підходить для поточної настройки та/або номера ладу</translation>
     </message>
     <message>
         <source>File: %1 
  is not Nootka level file!</source>
-        <translation type="unfinished"></translation>
+        <translation>Файл: %1 
+ не є файлом рівня Nootka!</translation>
     </message>
     <message>
         <source>Level file
  %1 
  was corrupted and repaired!
  Check please, if its parameters are as expected.</source>
-        <translation type="unfinished"></translation>
+        <translation>Файл рівня
+ %1 
+ було пошкоджено та відремонтовано!
+ Перевірте, будь ласка, чи відповідають його параметри очікуваним.</translation>
     </message>
     <message>
         <source>Levels</source>
@@ -2671,97 +2680,97 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Range of notes in the level is beyond the scale of your instrument</source>
-        <translation type="unfinished"></translation>
+        <translation>Діапазон нот на рівні виходить за шкалу вашого інструменту</translation>
     </message>
     <message>
         <source>Load exam level</source>
-        <translation type="unfinished"></translation>
+        <translation>Навантажити рівень іспиту</translation>
     </message>
 </context>
 <context>
     <name>TlinearChart</name>
     <message>
         <source>Key signatures given by user</source>
-        <translation type="unfinished"></translation>
+        <translation>Ключові підписи, надані користувачем</translation>
     </message>
     <message>
         <source>for notes without accidentals</source>
-        <translation type="unfinished"></translation>
+        <translation>для нотаток без випадковостей</translation>
     </message>
     <message>
         <source>questions unrelated&lt;br&gt;with chart type</source>
-        <translation type="unfinished"></translation>
+        <translation>запитання, не пов&apos;язані&lt;br&gt;з типом діаграми</translation>
     </message>
     <message>
         <source>without accidentals</source>
-        <translation type="unfinished"></translation>
+        <translation>без випадковостей</translation>
     </message>
 </context>
 <context>
     <name>TmainHelp</name>
     <message>
         <source>Much depends on the chosen level. Press %1 button to create your own questions set (a level).</source>
-        <translation type="unfinished"></translation>
+        <translation>Багато що залежить від обраного рівня. Натисніть кнопку %1, щоб створити власний набір питань (рівень).</translation>
     </message>
     <message>
         <source>Select a level and warm up yourself exercising. Then try to pass an exam.</source>
-        <translation type="unfinished"></translation>
+        <translation>Виберіть рівень і розігрійтеся, виконуючи вправи. Потім спробуйте скласти іспит.</translation>
     </message>
     <message>
         <source>You will learn by answering questions. To answer, you can play, sing, put in the name of a note, and so on.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ви дізнаєтеся, відповідаючи на запитання. Щоб відповісти, ви можете зіграти, заспівати, вставити в назву ноту і так далі.</translation>
     </message>
     <message>
         <source>During exercising %1 the program will be your understanding and friendly teacher - it will show you corrected answers if you miss.</source>
-        <translation type="unfinished"></translation>
+        <translation>Під час вправ %1 програма буде вашим розуміючим і доброзичливим учителем - вона покаже вам виправлені відповіді, якщо ви промахнетеся.</translation>
     </message>
     <message>
         <source>During exams %1 Nootka will be your strict and &amp;quot;old school&amp;quot; master. Any mistake will be penalized with additional questions...&lt;br&gt;When you pass an exam you got a certificate!</source>
-        <translation type="unfinished"></translation>
+        <translation>Під час іспитів %1 Nootka буде вашою суворою та &quot;старою школою&quot; майстер. Будь-яка помилка буде оштрафована додатковими запитаннями...&lt;br&gt;Після складання іспиту ви отримуєте сертифікат!</translation>
     </message>
     <message>
         <source>Using Nootka may be divided into three stages:</source>
         <comment>Don&apos;t try to translate the entries in this context/section too strict, rather use some nice words into your language to describe it. The statements like &apos;%1&apos; are images(icons) inside the text</comment>
-        <translation type="unfinished"></translation>
+        <translation>Використання Nootka можна розділити на три етапи:</translation>
     </message>
     <message>
         <source>I. Discovering</source>
-        <translation type="unfinished"></translation>
+        <translation>I. Відкриття</translation>
     </message>
     <message>
         <source>Exploring the interface of Nootka and how musical scores work. Just click on elements of the interface to see and get to know Nootka. Also, you can play or sing if you have a mic or web-cam.</source>
-        <translation type="unfinished"></translation>
+        <translation>Вивчення інтерфейсу Nootka та принципів роботи музичних партитур. Просто натисніть на елементи інтерфейсу, щоб побачити та познайомитися з Nootka. Крім того, ви можете грати або співати, якщо у вас є мікрофон або веб-камера.</translation>
     </message>
     <message>
         <source>Press %1 buttons to see help and %2 button to adjust Nootka to your preference.</source>
-        <translation type="unfinished"></translation>
+        <translation>Натисніть кнопки %1, щоб переглянути довідку, і кнопку %2, щоб налаштувати Nootka відповідно до своїх уподобань.</translation>
     </message>
     <message>
         <source>II. Exercises and exams</source>
-        <translation type="unfinished"></translation>
+        <translation>II. Вправи та екзамени</translation>
     </message>
     <message>
         <source>III. Analyzing</source>
-        <translation type="unfinished"></translation>
+        <translation>III. Аналізуючи</translation>
     </message>
     <message>
         <source>Nootka will tell you about what you&apos;ve been thinking for so long... and about the progress you&apos;ve been making so far....&lt;br&gt;Press %1 button to see and to analyze the results of your exams, find your weak points, and improve.</source>
-        <translation type="unfinished"></translation>
+        <translation>Нутка розповість вам про те, про що ви так довго думали... і про прогрес, якого ви досягли досі....&lt;br&gt;Натисніть кнопку %1, щоб переглянути та проаналізувати результати своїх іспитів, знайти свої слабкі місця та покращити.</translation>
     </message>
     <message>
         <source>Have fun!</source>
-        <translation type="unfinished"></translation>
+        <translation>весело провести час!</translation>
     </message>
 </context>
 <context>
     <name>TmainScoreObject</name>
     <message>
         <source>Show note names</source>
-        <translation type="unfinished"></translation>
+        <translation>Показати назви нотаток</translation>
     </message>
     <message>
         <source>Shows names of all notes on the staff.</source>
-        <translation type="unfinished"></translation>
+        <translation>Показує назви всіх нотаток про персонал.</translation>
     </message>
     <message>
         <source>Additional accidentals</source>
@@ -2769,15 +2778,15 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Shows accidentals from the key signature also next to a note. &lt;b&gt;WARING! It never occurs in real scores - use it only for theoretical purposes.&lt;/b&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Показує випадкові випадки з підпису ключа також поруч із приміткою. &lt;b&gt;УВАГА! Він ніколи не зустрічається в реальних оцінках - використовуйте його лише для теоретичних цілей.&lt;/b&gt;</translation>
     </message>
     <message>
         <source>Zoom score out</source>
-        <translation type="unfinished"></translation>
+        <translation>Зменшити оцінку</translation>
     </message>
     <message>
         <source>Zoom score in</source>
-        <translation type="unfinished"></translation>
+        <translation>Збільшити оцінку</translation>
     </message>
     <message>
         <source>Generate a melody with random notes.</source>
@@ -2785,23 +2794,23 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Next note</source>
-        <translation type="unfinished"></translation>
+        <translation>Наступна нота</translation>
     </message>
     <message>
         <source>Previous note</source>
-        <translation type="unfinished"></translation>
+        <translation>Попередня примітка</translation>
     </message>
     <message>
         <source>Open melody file</source>
-        <translation type="unfinished"></translation>
+        <translation>Відкрити файл мелодії</translation>
     </message>
     <message>
         <source>MusicXML file</source>
-        <translation type="unfinished"></translation>
+        <translation>Файл MusicXML</translation>
     </message>
     <message>
         <source>Save melody as:</source>
-        <translation type="unfinished"></translation>
+        <translation>Зберегти мелодію як:</translation>
     </message>
     <message>
         <source>Score</source>
@@ -2810,7 +2819,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Manage and navigate the score.</source>
-        <translation type="unfinished"></translation>
+        <translation>Керуйте рахунком і орієнтуйтеся в ньому.</translation>
     </message>
     <message>
         <source>Generate melody</source>
@@ -2822,7 +2831,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Open, save, generate and play a melody.</source>
-        <translation type="unfinished"></translation>
+        <translation>Відкрийте, збережіть, згенеруйте та відтворіть мелодію.</translation>
     </message>
     <message>
         <source>notes</source>
@@ -2831,7 +2840,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Compressed MusicXML file</source>
-        <translation type="unfinished"></translation>
+        <translation>Стиснутий файл MusicXML</translation>
     </message>
 </context>
 <context>
@@ -2854,10 +2863,10 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message numerus="yes">
         <source>The octave &lt;b&gt;%n&lt;/b&gt; in International Pitch Notation</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>Октава &lt;b&gt;%n&lt;/b&gt; у міжнародній нотації висоти</numerusform>
+            <numerusform>Октава &lt;b&gt;%n&lt;/b&gt; у міжнародній нотації висотою</numerusform>
+            <numerusform>Октава &lt;b&gt;%n&lt;/b&gt; у міжнародній нотації висотою</numerusform>
         </translation>
     </message>
 </context>
@@ -2866,7 +2875,7 @@ But better keep them short, so divide them first in some external software.</sou
     <message>
         <source>&lt;h3&gt;Nootka Academy Of Music&lt;/h3&gt;</source>
         <comment>top-left corner</comment>
-        <translation type="unfinished"></translation>
+        <translation>&lt;h3&gt;Академія музики Нутка&lt;/h3&gt;</translation>
     </message>
     <message>
         <source>[DATE]&lt;br&gt;&lt;i&gt;date&lt;i&gt;</source>
@@ -2876,27 +2885,27 @@ But better keep them short, so divide them first in some external software.</sou
     <message>
         <source>Student &lt;big&gt;&lt;b&gt;[STUDENT]&lt;/b&gt;&lt;/big&gt; has been awarded the</source>
         <comment>2nd line, single indent</comment>
-        <translation type="unfinished"></translation>
+        <translation>Студент &lt;big&gt;&lt;b&gt;[STUDENT]&lt;/b&gt;&lt;/big&gt; отримав нагороду</translation>
     </message>
     <message>
         <source>&lt;h1&gt;Certificate Of Exam Completion&lt;/h1&gt;</source>
         <comment>Main header - centered</comment>
-        <translation type="unfinished"></translation>
+        <translation>&lt;h1&gt;Сертифікат про проходження іспиту&lt;/h1&gt;</translation>
     </message>
     <message>
         <source>Passing the exam on the level &lt;big&gt;&lt;b&gt;[LEVELNAME]&lt;/b&gt;&lt;/big&gt;,&lt;br&gt;having answered the required [QUESTNR] questions&lt;br&gt;in time &lt;big&gt;&lt;b&gt;[TOTALTIME]&lt;/b&gt;&lt;/big&gt;&lt;br&gt;and achieving the score &lt;big&gt;&lt;b&gt;[SCORE]&lt;/b&gt;&lt;/big&gt;</source>
         <comment>Exam results - double indented, left aligned</comment>
-        <translation type="unfinished"></translation>
+        <translation>Складання іспиту на рівні &lt;big&gt;&lt;b&gt;[LEVELNAME]&lt;/b&gt;&lt;/big&gt;,&lt;br&gt;відповівши на необхідні [QUESTNR] запитання&lt;br&gt;вчасно &lt;big&gt;&lt;b&gt;[TOTALTIME]&amp;lt; /b&amp;gt;&lt;/b&gt;&lt;/big&gt;&lt;b&gt;&lt;br&gt;і досягнення результату &lt;big&gt;&lt;b&gt;[SCORE]&lt;/b&gt;&lt;/big&gt;&lt;/b&gt;</translation>
     </message>
     <message>
         <source>As a witness to this accomplishment,&lt;br&gt;we hereby award this certificate on &lt;b&gt;[DATE]&lt;/b&gt;.</source>
         <comment>Under results - single indent</comment>
-        <translation type="unfinished"></translation>
+        <translation>На підтвердження цього досягнення &lt;br&gt;ми вручаємо цей сертифікат &lt;b&gt;[ДАТА]&lt;/b&gt;.</translation>
     </message>
     <message>
         <source>&lt;small&gt;&lt;i&gt;examining board:&lt;/i&gt;&lt;br&gt;&lt;i&gt;president:&lt;/i&gt;&lt;b&gt; Nootka itself&lt;/b&gt;&lt;br&gt;&lt;b&gt;professor Processor&lt;/b&gt; &amp;amp;&lt;br&gt;&lt;b&gt;Mrs RAM&lt;/b&gt; his assistant&lt;br&gt;&lt;i&gt;secretary:&lt;/i&gt;&lt;b&gt; Mr Disk&lt;/b&gt;&lt;/small&gt;</source>
         <comment>Right aligned and centered</comment>
-        <translation type="unfinished"></translation>
+        <translation>&lt;small&gt;&lt;i&gt;екзаменаційна комісія:&lt;/i&gt;&lt;br&gt;&lt;i&gt;президент:&lt;/i&gt;&lt;b&gt; сама Нутка&lt;/b&gt;&lt;br&gt;&lt;b&gt;професор Процесор&lt;/b&gt; &amp;amp;&lt;br&gt;&lt;b&gt;місіс RAM &lt;/b&gt; його помічник&lt;br&gt;&lt;i&gt;секретар:&lt;/i&gt;&lt;b&gt; пан Диск&lt;/b&gt;&lt;/small&gt;</translation>
     </message>
     <message>
         <source>&lt;i&gt;stamp&lt;/i&gt;</source>
@@ -2909,15 +2918,15 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Save this certificate to file in remembrance.</source>
-        <translation type="unfinished"></translation>
+        <translation>Збережіть цей сертифікат у файл на пам’ять.</translation>
     </message>
     <message>
         <source>You can still play with it and improve effectiveness.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ви все ще можете грати з ним і покращувати ефективність.</translation>
     </message>
     <message>
         <source>Save certificate</source>
-        <translation type="unfinished"></translation>
+        <translation>Зберегти сертифікат</translation>
     </message>
 </context>
 <context>
@@ -2931,7 +2940,7 @@ But better keep them short, so divide them first in some external software.</sou
     <name>TnoteName</name>
     <message>
         <source>Sub</source>
-        <translation type="unfinished"></translation>
+        <translation>суб</translation>
     </message>
     <message>
         <source>Contra</source>
@@ -2939,11 +2948,11 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Great</source>
-        <translation type="unfinished"></translation>
+        <translation>чудово</translation>
     </message>
     <message>
         <source>Small</source>
-        <translation type="unfinished"></translation>
+        <translation>Маленький</translation>
     </message>
     <message>
         <source>1-line</source>
@@ -2963,7 +2972,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Subcontra octave</source>
-        <translation type="unfinished"></translation>
+        <translation>Субконтра октава</translation>
     </message>
     <message>
         <source>Contra octave</source>
@@ -2971,11 +2980,11 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Great octave</source>
-        <translation type="unfinished"></translation>
+        <translation>Велика октава</translation>
     </message>
     <message>
         <source>Small octave</source>
-        <translation type="unfinished"></translation>
+        <translation>Мала октава</translation>
     </message>
     <message>
         <source>One-line octave</source>
@@ -3003,32 +3012,32 @@ But better keep them short, so divide them first in some external software.</sou
     <message>
         <source>to key</source>
         <comment>like: Transpose to key</comment>
-        <translation type="unfinished"></translation>
+        <translation>до ключа</translation>
     </message>
     <message>
         <source>by interval</source>
         <comment>like: Transpose by interval</comment>
-        <translation type="unfinished"></translation>
+        <translation>за інтервалом</translation>
     </message>
     <message>
         <source>Limit notes to instrument scale</source>
-        <translation type="unfinished"></translation>
+        <translation>Обмежте ноти шкалою інструменту</translation>
     </message>
     <message>
         <source>Limit notes to notation range</source>
-        <translation type="unfinished"></translation>
+        <translation>Обмежте ноти діапазоном позначень</translation>
     </message>
     <message>
         <source>Off-scale notes</source>
-        <translation type="unfinished"></translation>
+        <translation>Зашкальовані ноти</translation>
     </message>
     <message>
         <source>raise or drop about octave</source>
-        <translation type="unfinished"></translation>
+        <translation>підвищення або зниження приблизно на октаву</translation>
     </message>
     <message>
         <source>convert into rests</source>
-        <translation type="unfinished"></translation>
+        <translation>перетворити на залишки</translation>
     </message>
 </context>
 <context>
@@ -3058,11 +3067,11 @@ But better keep them short, so divide them first in some external software.</sou
     <name>TscoreObject</name>
     <message>
         <source>Delete note</source>
-        <translation type="unfinished"></translation>
+        <translation>Видалити замітку</translation>
     </message>
     <message>
         <source>Insert note</source>
-        <translation type="unfinished"></translation>
+        <translation>Вставити примітку</translation>
     </message>
     <message>
         <source>Delete all notes</source>
@@ -3103,19 +3112,19 @@ But better keep them short, so divide them first in some external software.</sou
     <message>
         <source>rise</source>
         <comment>as such as sharps rise note</comment>
-        <translation type="unfinished"></translation>
+        <translation>підніматися</translation>
     </message>
     <message>
         <source>lower</source>
         <comment>as such as flats lower note</comment>
-        <translation type="unfinished"></translation>
+        <translation>нижче</translation>
     </message>
 </context>
 <context>
     <name>TscoreSettings</name>
     <message>
         <source>in the major keys:</source>
-        <translation type="unfinished"></translation>
+        <translation>в мажорних тональностях:</translation>
     </message>
     <message>
         <source>for example</source>
@@ -3163,14 +3172,14 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Simple exam settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Прості налаштування іспиту</translation>
     </message>
 </context>
 <context>
     <name>TstartExamDlg</name>
     <message>
         <source>To exercise or to pass an exam?</source>
-        <translation type="unfinished"></translation>
+        <translation>Вправлятися чи складати іспит?</translation>
     </message>
     <message>
         <source>Exam results</source>
@@ -3178,7 +3187,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Load an exam file</source>
-        <translation type="unfinished"></translation>
+        <translation>Завантажте файл іспиту</translation>
     </message>
 </context>
 <context>
@@ -3192,54 +3201,54 @@ But better keep them short, so divide them first in some external software.</sou
     <name>TsuggestExam</name>
     <message>
         <source>Start an exam</source>
-        <translation type="unfinished"></translation>
+        <translation>Розпочати іспит</translation>
     </message>
     <message>
         <source>You are very good in this exercise!&lt;br&gt;Would you like to pass an exam on the same level and got a certificate?</source>
-        <translation type="unfinished"></translation>
+        <translation>Ви дуже добре виконуєте цю вправу!&lt;br&gt;Хочете скласти іспит на такому ж рівні та отримати сертифікат?</translation>
     </message>
     <message>
         <source>Sure! Lets start an exam!</source>
-        <translation type="unfinished"></translation>
+        <translation>звичайно! Розпочнемо іспит!</translation>
     </message>
     <message>
         <source>Not now, ask me for a moment.</source>
-        <translation type="unfinished"></translation>
+        <translation>Не зараз, попроси мене на хвилинку.</translation>
     </message>
     <message>
         <source>Not in this exercise.</source>
-        <translation type="unfinished"></translation>
+        <translation>Не в цій вправі.</translation>
     </message>
     <message>
         <source>Never more suggest me to start an exam!</source>
-        <translation type="unfinished"></translation>
+        <translation>Ніколи більше не пропонуй мені почати іспит!</translation>
     </message>
     <message>
         <source>No thanks, but check entire melody from now.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ні, дякую, але перевірте всю мелодію.</translation>
     </message>
 </context>
 <context>
     <name>TtipHandler</name>
     <message>
         <source>Try again!</source>
-        <translation type="unfinished"></translation>
+        <translation>Спробуйте знову!</translation>
     </message>
     <message>
         <source>Use %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Використовуйте %1</translation>
     </message>
     <message>
         <source> Don&apos;t use accidentals!</source>
-        <translation type="unfinished"></translation>
+        <translation> Не використовуйте випадкові!</translation>
     </message>
     <message>
         <source>on %1 string.</source>
-        <translation type="unfinished"></translation>
+        <translation>у рядку %1.</translation>
     </message>
     <message>
         <source>Play or sing</source>
-        <translation type="unfinished"></translation>
+        <translation>Грайте або співайте</translation>
     </message>
     <message>
         <source>Play</source>
@@ -3247,7 +3256,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>To check the answer confirm it:</source>
-        <translation type="unfinished"></translation>
+        <translation>Щоб перевірити відповідь, підтвердьте її:</translation>
     </message>
     <message>
         <source>Check in exam help %1 how to do it automatically</source>
@@ -3255,108 +3264,108 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>To correct an answer</source>
-        <translation type="unfinished"></translation>
+        <translation>Виправити відповідь</translation>
     </message>
     <message>
         <source>To try this melody again</source>
-        <translation type="unfinished"></translation>
+        <translation>Щоб знову спробувати цю мелодію</translation>
     </message>
     <message>
         <source>To see corrected answer</source>
-        <translation type="unfinished"></translation>
+        <translation>Щоб побачити виправлену відповідь</translation>
     </message>
     <message>
         <source>To see some hints</source>
-        <translation type="unfinished"></translation>
+        <translation>Щоб побачити деякі підказки</translation>
     </message>
     <message>
         <source>Change enharmonically and show on the staff</source>
-        <translation type="unfinished"></translation>
+        <translation>Змінюйся енгармонійно і показуй на нот</translation>
     </message>
     <message>
         <source>Given note show on the staff</source>
-        <translation type="unfinished"></translation>
+        <translation>Дану записку показати на штаті</translation>
     </message>
     <message>
         <source>&lt;br&gt;&lt;b&gt;in %1 key.&lt;/b&gt;</source>
         <comment>in key signature</comment>
-        <translation type="unfinished"></translation>
+        <translation>&lt;br&gt;&lt;b&gt;у ключі %1.&lt;/b&gt;</translation>
     </message>
     <message>
         <source>Give name of</source>
-        <translation type="unfinished"></translation>
+        <translation>Дайте назву</translation>
     </message>
     <message>
         <source>Show on the guitar</source>
-        <translation type="unfinished"></translation>
+        <translation>Шоу на гітарі</translation>
     </message>
     <message>
         <source>Point on the instrument</source>
-        <translation type="unfinished"></translation>
+        <translation>Точка на інструменті</translation>
     </message>
     <message>
         <source>Play or sing a melody.</source>
-        <translation type="unfinished"></translation>
+        <translation>Зіграйте або заспівайте мелодію.</translation>
     </message>
     <message>
         <source>Show on the staff</source>
-        <translation type="unfinished"></translation>
+        <translation>Показати на персоналі</translation>
     </message>
     <message>
         <source>Change enharmonically and give name of</source>
-        <translation type="unfinished"></translation>
+        <translation>Змініть енгармонійно і дайте назву</translation>
     </message>
     <message>
         <source>Use another style to give name of</source>
-        <translation type="unfinished"></translation>
+        <translation>Використовуйте інший стиль для назви</translation>
     </message>
     <message>
         <source>&lt;b&gt;in %1 key.&lt;/b&gt;</source>
         <comment>in key signature</comment>
-        <translation type="unfinished"></translation>
+        <translation>&lt;b&gt;у ключі %1.&lt;/b&gt;</translation>
     </message>
     <message>
         <source>Show sound from position:</source>
         <comment>... and string + fret numbers folowing</comment>
-        <translation type="unfinished"></translation>
+        <translation>Показати звук з позиції:</translation>
     </message>
     <message>
         <source>Guess a key signature</source>
-        <translation type="unfinished"></translation>
+        <translation>Вгадайте ключовий підпис</translation>
     </message>
     <message>
         <source>Listened sound show on the staff</source>
-        <translation type="unfinished"></translation>
+        <translation>Прослухав звукове шоу на кадрах</translation>
     </message>
     <message>
         <source>Give name of listened sound</source>
-        <translation type="unfinished"></translation>
+        <translation>Назвіть прослуханий звук</translation>
     </message>
     <message>
         <source>Listened sound show on the instrument</source>
-        <translation type="unfinished"></translation>
+        <translation>Прослухане звукове шоу на інструменті</translation>
     </message>
     <message>
         <source>Play or sing listened sound</source>
-        <translation type="unfinished"></translation>
+        <translation>Відтворити або заспівати прослуханий звук</translation>
     </message>
     <message>
         <source>Select any note to play it again.</source>
-        <translation type="unfinished"></translation>
+        <translation>Виберіть будь-яку ноту, щоб відтворити її знову.</translation>
     </message>
     <message>
         <source>Click incorrect notes to see&lt;br&gt;and to listen to them corrected.</source>
-        <translation type="unfinished"></translation>
+        <translation>Натисніть неправильні ноти, щоб побачити&lt;br&gt;і прослухати їх виправлені.</translation>
     </message>
     <message>
         <source>%1 was detected</source>
         <comment>note name</comment>
-        <translation>Виявлено %1</translation>
+        <translation>%1 було виявлено</translation>
     </message>
     <message>
         <source>It should be %1</source>
         <comment>note name follows</comment>
-        <translation type="unfinished"></translation>
+        <translation>Має бути %1</translation>
     </message>
 </context>
 <context>
@@ -3375,11 +3384,11 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Level creator</source>
-        <translation type="unfinished"></translation>
+        <translation>Творець рівня</translation>
     </message>
     <message>
         <source>Start exercises or an exam</source>
-        <translation type="unfinished"></translation>
+        <translation>Почніть вправи або іспит</translation>
     </message>
     <message>
         <source>Help</source>
@@ -3392,7 +3401,7 @@ But better keep them short, so divide them first in some external software.</sou
     <message>
         <source>Next</source>
         <comment>like a next question</comment>
-        <translation type="unfinished"></translation>
+        <translation>Далі</translation>
     </message>
     <message>
         <source>Repeat</source>
@@ -3415,7 +3424,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Try again</source>
-        <translation type="unfinished"></translation>
+        <translation>Спробуйте знову</translation>
     </message>
     <message>
         <source>Lessons</source>
@@ -3430,58 +3439,58 @@ But better keep them short, so divide them first in some external software.</sou
     <name>Ttune</name>
     <message>
         <source>Standard: E A D G B E </source>
-        <translation type="unfinished"></translation>
+        <translation>Стандартний: E A D G B E </translation>
     </message>
     <message>
         <source>Dropped D: D A D G B E </source>
-        <translation type="unfinished"></translation>
+        <translation>Випав D: D A D G B E </translation>
     </message>
     <message>
         <source>Dummy Lute: D A D F# B E </source>
-        <translation type="unfinished"></translation>
+        <translation>Муляж лютні: D A D F# B E </translation>
     </message>
     <message>
         <source>Open: D A D G A D </source>
-        <translation type="unfinished"></translation>
+        <translation>Відкрити: D A D G A D </translation>
     </message>
     <message>
         <source>Kouyanbaba: D A D A D F </source>
-        <translation type="unfinished"></translation>
+        <translation>Куянбаба: Д А Д А Д Ф </translation>
     </message>
     <message>
         <source>Standard bass: E A D G</source>
-        <translation type="unfinished"></translation>
+        <translation>Стандартний бас: E A D G</translation>
     </message>
     <message>
         <source>Bass in fifths: C G D A</source>
-        <translation type="unfinished"></translation>
+        <translation>Бас у квінтах: C G D A</translation>
     </message>
     <message>
         <source>5-str. bass: B E A D G</source>
-        <translation type="unfinished"></translation>
+        <translation>5-вул. бас: B E A D G</translation>
     </message>
     <message>
         <source>6-str. bass: B E A D G C</source>
-        <translation type="unfinished"></translation>
+        <translation>6-вул. бас: B E A D G C</translation>
     </message>
     <message>
         <source>Standard C: G C E A</source>
-        <translation type="unfinished"></translation>
+        <translation>Стандарт C: G C E A</translation>
     </message>
     <message>
         <source>Raised D (Canadian): A D F# B</source>
-        <translation type="unfinished"></translation>
+        <translation>Піднятий D (канадський): A D F# B</translation>
     </message>
 </context>
 <context>
     <name>TunerDialog</name>
     <message>
         <source>Nooter - Nootka tuner</source>
-        <translation type="unfinished"></translation>
+        <translation>Nooter - тюнер Nootka</translation>
     </message>
     <message>
         <source>output volume</source>
-        <translation type="unfinished"></translation>
+        <translation>вихідний обсяг</translation>
     </message>
 </context>
 <context>
@@ -3538,95 +3547,95 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>To get it, visit %1 Nootka site</source>
-        <translation type="unfinished"></translation>
+        <translation>Щоб отримати його, відвідайте сайт %1 Nootka</translation>
     </message>
 </context>
 <context>
     <name>VolumeBar</name>
     <message>
         <source>Volume level of input sound.</source>
-        <translation type="unfinished"></translation>
+        <translation>Рівень гучності вхідного звуку.</translation>
     </message>
     <message>
         <source>Drag a knob to adjust minimum input volume.</source>
-        <translation type="unfinished"></translation>
+        <translation>Перетягніть ручку, щоб налаштувати мінімальну вхідну гучність.</translation>
     </message>
 </context>
 <context>
     <name>Windows installer entries</name>
     <message>
         <source>Do you really want to remove Nootka and all its components?</source>
-        <translation type="unfinished"></translation>
+        <translation>Ви справді хочете видалити Nootka та всі його компоненти?</translation>
     </message>
 </context>
 <context>
     <name>Wizard</name>
     <message>
         <source>First run wizard</source>
-        <translation type="unfinished"></translation>
+        <translation>Майстер першого запуску</translation>
     </message>
 </context>
 <context>
     <name>WizardBando</name>
     <message>
         <source>Notes for bandoneon are written on the grand staff - two staves joined with brace.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ноти для бандонеону написані на великому штаті - двох нотках, з&apos;єднаних дужкою.</translation>
     </message>
     <message>
         <source>All notes on the upper staff with treble clef are played with right hand and the notes on the lower one with bass clef are played with the left hand.</source>
-        <translation type="unfinished"></translation>
+        <translation>Усі ноти на верхній ноті зі скрипковим ключем граються правою рукою, а ноти на нижній з басовим ключем – лівою рукою.</translation>
     </message>
     <message>
         <source>Direction of bellows movement is marked with bowing symbols:</source>
-        <translation type="unfinished"></translation>
+        <translation>Напрямок руху сильфона позначається символами згинання:</translation>
     </message>
 </context>
 <context>
     <name>WizardBass</name>
     <message>
         <source>Musical notation for bass guitar uses bass clef (clef F), but the notes sound one octave lower. It means bass guitar is transposing instrument and it transposes one octave down.</source>
-        <translation type="unfinished"></translation>
+        <translation>Нотний запис для бас-гітари використовує басовий ключ (ключ F), але ноти звучать на октаву нижче. Це означає, що бас-гітара є транспонуючим інструментом і транспонує на одну октаву вниз.</translation>
     </message>
 </context>
 <context>
     <name>WizardGuitars</name>
     <message>
         <source>Guitar notation uses the treble clef with the digit &quot;eight&quot; written below &lt;br&gt;(even if some editors are forgetting about this digit).&lt;br&gt;Try to understand this.</source>
-        <translation type="unfinished"></translation>
+        <translation>Для гітарної нотації використовується скрипковий ключ із цифрою «вісім», написаною нижче &lt;br&gt;(навіть якщо деякі редактори забувають про цю цифру).&lt;br&gt;Спробуйте це зрозуміти.</translation>
     </message>
     <message>
         <source>Both pictures above show the same note!%1(note c in one-line octave)</source>
-        <translation type="unfinished"></translation>
+        <translation>На обох малюнках вище зображена та сама нота!%1(нота c в однорядковій октаві)</translation>
     </message>
 </context>
 <context>
     <name>WizardInstrument</name>
     <message>
         <source>What instrument do you play?</source>
-        <translation type="unfinished"></translation>
+        <translation>на якому інструменті ти граєш</translation>
     </message>
 </context>
 <context>
     <name>WizardMode</name>
     <message>
         <source>In main Nootka window score can be displayed in a few different ways, depends on experience level.</source>
-        <translation type="unfinished"></translation>
+        <translation>У головному вікні Nootka оцінка може відображатися кількома різними способами, залежно від рівня досвіду.</translation>
     </message>
     <message>
         <source>For beginners, when you don&apos;t know musical notation at all.</source>
-        <translation type="unfinished"></translation>
+        <translation>Для початківців, коли ви зовсім не знаєте нотної грамоти.</translation>
     </message>
     <message>
         <source>score without rhythms</source>
-        <translation type="unfinished"></translation>
+        <translation>рахунок без ритмів</translation>
     </message>
     <message>
         <source>When you already know musical notation a little but you cannot play your instrument fluently yet.</source>
-        <translation type="unfinished"></translation>
+        <translation>Коли ви вже трохи знаєте нотну грамоту, але ще не можете вільно грати на своєму інструменті.</translation>
     </message>
     <message>
         <source>full notation</source>
-        <translation type="unfinished"></translation>
+        <translation>повна нотація</translation>
     </message>
 </context>
 <context>
@@ -3637,40 +3646,40 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>I know about double sharps (x) and double flats (bb)</source>
-        <translation type="unfinished"></translation>
+        <translation>Я знаю подвійні дієзи (x) і подвійні бемолі (bb)</translation>
     </message>
     <message>
         <source>I know that e# is the same as f</source>
-        <translation type="unfinished"></translation>
+        <translation>Я знаю, що e# те саме, що f</translation>
     </message>
     <message>
         <source>I know about key signatures</source>
-        <translation type="unfinished"></translation>
+        <translation>Я знаю про ключові підписи</translation>
     </message>
 </context>
 <context>
     <name>WizardOther</name>
     <message>
         <source>Select a clef and scale of notes appropriate for your instrument.</source>
-        <translation type="unfinished"></translation>
+        <translation>Виберіть ключ і звукоряд, що підходить для вашого інструменту.</translation>
     </message>
 </context>
 <context>
     <name>WizardPiano</name>
     <message>
         <source>Notes for piano are written on the grand staff - two staves joined with brace. Usually the upper one, with treble clef is for right hand and the lower one with bass clef is for left hand.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ноти для фортепіано написані на великому штаті - двох нотках, з&apos;єднаних дужкою. Зазвичай верхній із скрипковим ключем призначений для правої руки, а нижній із басовим ключем для лівої руки.</translation>
     </message>
     <message>
         <source>Although for exercise purposes and also due to Nootka is supporting only single voice, sometimes just one of the staves can be used as well.</source>
-        <translation type="unfinished"></translation>
+        <translation>Хоча для вправ, а також завдяки тому, що Nootka підтримує лише один голос, іноді також можна використовувати лише один зі станів.</translation>
     </message>
 </context>
 <context>
     <name>WizardSax</name>
     <message>
         <source>Saxophones are transposing instruments.&lt;br&gt;It means that note pitch in the score doesn&apos;t correspond directly to note which is played - it transposes by interval (number of semitones) according to kind of saxophone.</source>
-        <translation type="unfinished"></translation>
+        <translation>Саксофони є транспонуючими інструментами.&lt;br&gt;Це означає, що висота ноти в партитурі не відповідає безпосередньо ноті, яка грається – вона транспонується з інтервалом (кількість півтонів) відповідно до типу саксофона.</translation>
     </message>
 </context>
 <context>
@@ -3678,7 +3687,7 @@ But better keep them short, so divide them first in some external software.</sou
     <message>
         <source>Ukulele tuning is known as &apos;reentrant&apos; (non linear) - which means that descending order of string pitches is not kept. It may be confusing at very beginning during playing from musical scores.</source>
         <comment>In this context &apos;reentant&apos; and &apos;non linear&apos; can be used interchangeably so you may translate just one of them.</comment>
-        <translation type="unfinished"></translation>
+        <translation>Налаштування укулеле відоме як «повторне» (нелінійне) — це означає, що порядок убування висоти струн не зберігається. Це може заплутати на самому початку під час відтворення музичних партитур.</translation>
     </message>
 </context>
 <context>
@@ -3686,7 +3695,7 @@ But better keep them short, so divide them first in some external software.</sou
     <message>
         <source>translator</source>
         <comment>Do not translate this, just put in &apos;translator comment field&apos; your data: translator name, translator e-mail (optional) and translator site (optional)</comment>
-        <translation type="unfinished"></translation>
+        <translation>перекладач</translation>
     </message>
 </context>
 <context>
@@ -3694,7 +3703,7 @@ But better keep them short, so divide them first in some external software.</sou
     <message>
         <source>for a note:</source>
         <comment>average reaction time for...</comment>
-        <translation type="unfinished"></translation>
+        <translation>на замітку:</translation>
     </message>
     <message>
         <source>for a fret:</source>
@@ -3704,16 +3713,16 @@ But better keep them short, so divide them first in some external software.</sou
     <message>
         <source>for a key:</source>
         <comment>average reaction time for...</comment>
-        <translation type="unfinished"></translation>
+        <translation>для ключа:</translation>
     </message>
     <message>
         <source>for an accidental:</source>
         <comment>average reaction time for...</comment>
-        <translation type="unfinished"></translation>
+        <translation>за випадковий:</translation>
     </message>
     <message>
         <source>none</source>
-        <translation type="unfinished"></translation>
+        <translation>немає</translation>
     </message>
 </context>
 </TS>
