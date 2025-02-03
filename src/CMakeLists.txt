@@ -9,18 +9,8 @@ set(CMAKE_AUTOMOC ON)
 
 find_package(Qt5Widgets REQUIRED)
 if (Qt5Widgets_FOUND)
-    if (Qt5Widgets_VERSION VERSION_LESS 5.12.0)
-        message(FATAL_ERROR "Minimum supported Qt version is 5.12.0")
-    else()
-        if (Qt5Widgets_VERSION VERSION_GREATER 5.14 AND CMAKE_BUILD_TYPE MATCHES Release)
-          # TODO
-          # Nootka is not compatible with Qt 6 - needs porting,
-          # to keep less demanding of Qt 5 version (5.12 so far enough).
-          # Hide warnings then of Qt 5.15 for clean release build.
-          #
-          message("===== For RELEASE build suppress Qt 5.15 warnings about deprecated declarations ====")
-          set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-deprecated-declarations")
-        endif()
+    if (Qt5Widgets_VERSION VERSION_LESS 5.15.0)
+        message(FATAL_ERROR "Minimum supported Qt version is 5.15.0")
     endif()
 else()
     message(SEND_ERROR "The Qt5Widgets library could not be found!")
