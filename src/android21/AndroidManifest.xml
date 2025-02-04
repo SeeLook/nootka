@@ -2,7 +2,7 @@
 <manifest package="net.sf.nootka"
           xmlns:android="http://schemas.android.com/apk/res/android"
           android:versionName="2.0.3-devel"
-          android:versionCode="74"
+          android:versionCode="75"
           android:installLocation="auto">
     <application android:hardwareAccelerated="true"
                  android:requestLegacyExternalStorage="true"
@@ -130,7 +130,7 @@
           </meta-data>
         </provider>
     </application>
-    <uses-sdk android:minSdkVersion="21" android:targetSdkVersion="29"/>
+    <uses-sdk android:minSdkVersion="21" android:targetSdkVersion="31"/>
     <supports-screens android:largeScreens="true" android:normalScreens="true" android:anyDensity="true" android:smallScreens="true"/>
 
     <!-- The following comment will be replaced upon deployment with default permissions based on the dependencies of the application.
