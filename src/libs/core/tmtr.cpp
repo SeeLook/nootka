@@ -23,12 +23,12 @@ int Tmtr::m_shortScreenSide = 480;
 int Tmtr::m_longScreenSide = 600;
 QFont Tmtr::systemFont = QFont();
 
-
-void Tmtr::init(QApplication *a) {
-  systemFont = a->font();
-  if (a->screens().size()) {
-    m_shortScreenSide = qMin(a->screens().at(0)->geometry().height(), a->screens().at(0)->geometry().width());
-    m_longScreenSide = qMax(a->screens().at(0)->geometry().height(), a->screens().at(0)->geometry().width());
-    m_fingerPixels = a->screens().at(0)->geometry().width() / (a->screens().at(0)->physicalSize().width() / 7.0);
-  }
+void Tmtr::init(QApplication *a)
+{
+    systemFont = a->font();
+    if (a->screens().size()) {
+        m_shortScreenSide = qMin(a->screens().at(0)->geometry().height(), a->screens().at(0)->geometry().width());
+        m_longScreenSide = qMax(a->screens().at(0)->geometry().height(), a->screens().at(0)->geometry().width());
+        m_fingerPixels = a->screens().at(0)->geometry().width() / (a->screens().at(0)->physicalSize().width() / 7.0);
+    }
 }

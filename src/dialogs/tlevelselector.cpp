@@ -191,12 +191,12 @@ void TlevelSelector::loadFromFile(QString levelFile) {
     GLOB->E->levelsDir = Tandroid::getExternalPath();
   levelFile = TfileDialog::getOpenFileName(GLOB->E->levelsDir, QStringLiteral("nel"));
 #else
-    levelFile = TfileDialog::getOpenFileName(tr("Load exam level"), GLOB->E->levelsDir, levelFilterTxt() + QLatin1String(" (*.nel)"));
+    levelFile = TfileDialog::getOpenFileName(tr("Load exam level"), GLOB->examParams->levelsDir, levelFilterTxt() + QLatin1String(" (*.nel)"));
 #endif
   QFile file(levelFile);
   Tlevel level = getLevelFromFile(file);
   if (!level.name.isEmpty()) {
-    GLOB->E->levelsDir = QFileInfo(levelFile).absoluteDir().absolutePath();
+    GLOB->examParams->levelsDir = QFileInfo(levelFile).absoluteDir().absolutePath();
     addLevel(level, levelFile, true);
     checkLast();
     updateRecentLevels();

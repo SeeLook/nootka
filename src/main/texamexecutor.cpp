@@ -86,7 +86,7 @@ QString getExamFileName(Texam* e) {
   if (GLOB->E->examsDir.isEmpty())
     GLOB->E->examsDir = Tandroid::getExternalPath();
 #endif
-  auto fName = QDir::toNativeSeparators(GLOB->E->examsDir + QLatin1String("/") + e->userName() + QLatin1String("-") + e->level()->name);
+  auto fName = QDir::toNativeSeparators(GLOB->examParams->examsDir + QLatin1String("/") + e->userName() + QLatin1String("-") + e->level()->name);
   fName = fName.replace(QLatin1String("."), QString()); //HACK: file dialogues don't like dots in the names
   if (QFileInfo::exists(fName  + QLatin1String(".noo")))
     fName += QLatin1String("-") + QDateTime::currentDateTime().toString(QLatin1String("(dd-MMM-hhmmss)"));
@@ -126,7 +126,7 @@ void TexamExecutor::init(TexamExecutor::EexecOrigin whatToDo, const QVariant& ar
   }
 
   if (whatToDo == NewExam || whatToDo == StartExercise) {
-      m_exam = new Texam(&m_level, GLOB->E->studentName);
+      m_exam = new Texam(&m_level, GLOB->examParams->studentName);
       m_exam->setTune(*GLOB->Gtune());
       if (whatToDo == StartExercise)
         m_exercise = new Texercises(m_exam);
@@ -169,8 +169,8 @@ TexamExecutor::~TexamExecutor() {
 
 void TexamExecutor::continueInit() {
   m_summaryReason = NoReason;
-  if (GLOB->E->studentName.isEmpty())
-    GLOB->E->studentName = GLOB->systemUserName();
+  if (GLOB->examParams->studentName.isEmpty())
+    GLOB->examParams->studentName = GLOB->systemUserName();
   m_glStore = new TglobalExamStore(GLOB); /** In @p TglobalExamStore constructor We check are guitar's params suitable for an exam */
 #if !defined (Q_OS_ANDROID)
   auto mess = TexecutorSupply::checkInstrumentParamsChange(m_exam);
@@ -237,7 +237,7 @@ void TexamExecutor::initializeExecuting() {
   m_penalty = new Tpenalty(m_exam, m_supp);
   connect(m_penalty, &Tpenalty::certificate, this, &TexamExecutor::displayCertificate, Qt::UniqueConnection);
   if (m_exercise) {
-    if (GLOB->E->suggestExam)
+    if (GLOB->examParams->suggestExam)
       m_exercise->setSuggestionEnabled(m_supp->qaPossibilities(), m_exam->melodies());
   } else {
       connect(m_tipHandler, &TtipHandler::certificateMagicKeys, this, &TexamExecutor::displayCertificate, Qt::UniqueConnection);
@@ -245,11 +245,11 @@ void TexamExecutor::initializeExecuting() {
 //         SCORE->enableAccidToKeyAnim(false);
   }
   if (m_level.requireStyle) {
-      m_prevQuestStyle = m_supp->randomNameStyle(GLOB->S->nameStyleInNoteName);
+      m_prevQuestStyle = m_supp->randomNameStyle(GLOB->scoreParams->nameStyleInNoteName);
       m_prevAnswStyle = m_supp->randomNameStyle(m_prevQuestStyle);
   } else {
-      m_prevQuestStyle = GLOB->S->nameStyleInNoteName;
-      m_prevAnswStyle = GLOB->S->nameStyleInNoteName;
+      m_prevQuestStyle = GLOB->scoreParams->nameStyleInNoteName;
+      m_prevAnswStyle = GLOB->scoreParams->nameStyleInNoteName;
   }
 
   m_level.questionAs.randNext(); // Randomize question and answer type
@@ -273,7 +273,7 @@ void TexamExecutor::askQuestion(bool isAttempt) {
 //     return;
 
 //   m_lockRightButt = false; // release mouse button events
-  if (m_exercise && !GLOB->E->showCorrected && m_correctAct) // hide correct action button
+  if (m_exercise && !GLOB->examParams->showCorrected && m_correctAct) // hide correct action button
     m_correctAct->setEnabled(false);
 //   if (m_exam->count() && m_exercise && m_exam->melodies())
 //     disconnect(SCORE, &TmainScore::lockedNoteClicked, this, &TexamExecutor::correctNoteOfMelody);
@@ -300,7 +300,7 @@ void TexamExecutor::askQuestion(bool isAttempt) {
       deleteExam();
       return;
     }
-    if (!GLOB->E->autoNextQuest) {
+    if (!GLOB->examParams->autoNextQuest) {
       if (!m_exercise)
         m_stopExamAct->setEnabled(false);
       m_tipHandler->clearTips();
@@ -311,8 +311,8 @@ void TexamExecutor::askQuestion(bool isAttempt) {
     m_answRequire.key = false;
 
     if (NOTENAME) {
-      NOTENAME->setNameStyle(GLOB->S->nameStyleInNoteName);
-      NOTENAME->setButtonNameStyle(GLOB->S->nameStyleInNoteName);
+      NOTENAME->setNameStyle(GLOB->scoreParams->nameStyleInNoteName);
+      NOTENAME->setButtonNameStyle(GLOB->scoreParams->nameStyleInNoteName);
     }
 
     m_penalty->nextQuestion();
@@ -472,17 +472,17 @@ void TexamExecutor::askQuestion(bool isAttempt) {
                 curQ->setStyle(m_prevQuestStyle, m_supp->randomNameStyle(m_prevQuestStyle)); // randomize style
                 m_prevAnswStyle= curQ->styleOfAnswer(); 
             } else { // enharmonic notes in the same style
-                curQ->setStyle(GLOB->S->nameStyleInNoteName, GLOB->S->nameStyleInNoteName);
-                m_prevAnswStyle = GLOB->S->nameStyleInNoteName;
-                m_prevQuestStyle = GLOB->S->nameStyleInNoteName;
+                curQ->setStyle(GLOB->scoreParams->nameStyleInNoteName, GLOB->scoreParams->nameStyleInNoteName);
+                m_prevAnswStyle = GLOB->scoreParams->nameStyleInNoteName;
+                m_prevQuestStyle = GLOB->scoreParams->nameStyleInNoteName;
             }
         } else { // note name only in question
             if (m_level.requireStyle) { // switch previous used style
-              curQ->setStyle(m_supp->randomNameStyle(m_prevQuestStyle), GLOB->S->nameStyleInNoteName);
+              curQ->setStyle(m_supp->randomNameStyle(m_prevQuestStyle), GLOB->scoreParams->nameStyleInNoteName);
               m_prevQuestStyle = curQ->styleOfQuestion();
             } else {
-                curQ->setStyle(GLOB->S->nameStyleInNoteName, curQ->styleOfAnswer());
-                m_prevQuestStyle = GLOB->S->nameStyleInNoteName;
+                curQ->setStyle(GLOB->scoreParams->nameStyleInNoteName, curQ->styleOfAnswer());
+                m_prevQuestStyle = GLOB->scoreParams->nameStyleInNoteName;
             }
         }
       }
@@ -665,7 +665,7 @@ void TexamExecutor::checkAnswer(bool showResults) {
   if (m_exam->melodies() && SOUND->melodyIsPlaying())
     SOUND->stopPlaying();
 
-  if (!GLOB->E->autoNextQuest || m_exercise)
+  if (!GLOB->examParams->autoNextQuest || m_exercise)
     m_stopExamAct->setEnabled(true);
   m_isAnswered = true;
 // Let's check
@@ -788,8 +788,8 @@ void TexamExecutor::checkAnswer(bool showResults) {
   m_penalty->checkAnswer();
 
   disableWidgets();
-  bool autoNext = GLOB->E->autoNextQuest;
-  if (GLOB->E->afterMistake == TexamParams::e_stop && !curQ->isCorrect())
+  bool autoNext = GLOB->examParams->autoNextQuest;
+  if (GLOB->examParams->afterMistake == TexamParams::e_stop && !curQ->isCorrect())
       autoNext = false; // when mistake and e_stop - the same like autoNext = false;
 
   if (showResults) {
@@ -807,12 +807,12 @@ void TexamExecutor::checkAnswer(bool showResults) {
   }
 
   markAnswer(curQ);
-  int waitTime = GLOB->E->questionDelay;
+  int waitTime = GLOB->examParams->questionDelay;
   if (m_melody) // increase minimal delay before next question for melodies to 500ms
     waitTime = qMax(waitTime, 500);
   if (m_exercise) {
-    if ((GLOB->E->autoNextQuest && GLOB->E->afterMistake != TexamParams::e_continue) || !GLOB->E->autoNextQuest || GLOB->E->showCorrected)
-      waitTime = GLOB->E->correctPreview; // user has to have time to see his mistake and correct answer
+    if ((GLOB->examParams->autoNextQuest && GLOB->examParams->afterMistake != TexamParams::e_continue) || !GLOB->examParams->autoNextQuest || GLOB->examParams->showCorrected)
+      waitTime = GLOB->examParams->correctPreview; // user has to have time to see his mistake and correct answer
     if (!curQ->isCorrect()) { // correcting wrong answer
         if (GLOB->correctAnswers()) // TODO for dictation it should always stop and show mistakes
             correctAnswer();
@@ -834,9 +834,9 @@ void TexamExecutor::checkAnswer(bool showResults) {
           stopExamSlot();
       else {
         if (curQ->isCorrect()) {
-          m_askingTimer->start(m_melody ? qMax(GLOB->E->questionDelay, 500) : waitTime /*GLOB->E->questionDelay*/);
+          m_askingTimer->start(m_melody ? qMax(GLOB->examParams->questionDelay, 500) : waitTime /*GLOB->E->questionDelay*/);
       } else {
-            if (GLOB->E->repeatIncorrect && !m_incorrectRepeated) {
+            if (GLOB->examParams->repeatIncorrect && !m_incorrectRepeated) {
               if (curQ->melody())
                   QTimer::singleShot(waitTime, this, [=]{ newAttempt(); });
               else {
@@ -1035,9 +1035,9 @@ void TexamExecutor::markAnswer(TQAunit* curQ) {
             auto n = INSTRUMENT->note(); // Take it from user answer
             if (GLOB->preferFlats())
               n = n.showWithFlat();
-            INSTRUMENT->showNoteName(GLOB->S->nameStyleInNoteName, n, INSTRUMENT->technical(), markColor);
+            INSTRUMENT->showNoteName(GLOB->scoreParams->nameStyleInNoteName, n, INSTRUMENT->technical(), markColor);
         } else if (curQ->answerAsSound() && curQ->questionOnInstr())
-            INSTRUMENT->showNoteName(GLOB->S->nameStyleInNoteName, curQ->qa.note, curQ->qa.technical.data(), markColor);
+            INSTRUMENT->showNoteName(GLOB->scoreParams->nameStyleInNoteName, curQ->qa.note, curQ->qa.technical.data(), markColor);
     } else { // cases when name was an question
         if (curQ->questionAsName()) {
           if (curQ->answerOnScore())
@@ -1067,7 +1067,7 @@ void TexamExecutor::repeatQuestion() {
 // for melodies it never comes here - questions are newer repeated - copying of TQAunit is safe 
   TQAunit curQ(*CURR_Q); // copy last unit as a new one
 
-  if (!GLOB->E->autoNextQuest)
+  if (!GLOB->examParams->autoNextQuest)
       m_tipHandler->clearTips();
   curQ.setMistake(TQAunit::e_correct);
 
@@ -1208,13 +1208,13 @@ void TexamExecutor::afterMessage() {
 
 void TexamExecutor::restoreAfterExam() {
 #if !defined (Q_OS_ANDROID)
-  if (!GLOB->A->dumpPath.isEmpty())
+  if (!GLOB->audioParams->dumpPath.isEmpty())
     SOUND->setDumpFileName(QLatin1String("nootka_dump"));
 #endif
 
   m_glStore->restoreSettings();
   if (m_exercise) {
-    GLOB->E->suggestExam = m_exercise->suggestInFuture();
+    GLOB->examParams->suggestExam = m_exercise->suggestInFuture();
   }
 
 
@@ -1224,7 +1224,7 @@ void TexamExecutor::restoreAfterExam() {
 
   if (NOTENAME) {
     NOTENAME->setDisabled(false);
-    NOTENAME->setButtonNameStyle(GLOB->S->nameStyleInNoteName);
+    NOTENAME->setButtonNameStyle(GLOB->scoreParams->nameStyleInNoteName);
   }
   if (INSTRUMENT) {
     INSTRUMENT->restoreAfterExam();
@@ -1264,7 +1264,7 @@ void TexamExecutor::clearWidgets() {
     INSTRUMENT->setNote(Tnote());
     INSTRUMENT->markSelected(Qt::transparent);
     if (!INSTRUMENT->extraNoteName().isEmpty())
-      INSTRUMENT->showNoteName(GLOB->S->nameStyleInNoteName, Tnote(), NO_TECHNICALS, Qt::transparent);
+      INSTRUMENT->showNoteName(GLOB->scoreParams->nameStyleInNoteName, Tnote(), NO_TECHNICALS, Qt::transparent);
   }
 }
 
@@ -1394,8 +1394,8 @@ void TexamExecutor::stopExerciseSlot() {
       if (m_isAnswered && CURR_Q->melody() && CURR_Q->answerOnScore() && !CURR_Q->isCorrect()) 
         CURR_Q->melody()->setTitle(CURR_Q->melody()->title() + QLatin1String(";skip"));
       m_penalty->updateExamTimes();
-      m_exerciseTmpStyle = GLOB->S->nameStyleInNoteName;
-      GLOB->S->nameStyleInNoteName = m_glStore->nameStyleInNoteName; // restore to show charts in user defined style
+      m_exerciseTmpStyle = GLOB->scoreParams->nameStyleInNoteName;
+      GLOB->scoreParams->nameStyleInNoteName = m_glStore->nameStyleInNoteName; // restore to show charts in user defined style
 
       m_summaryReason = SumFinishExer;
       if (!m_goingClosed)
@@ -1422,7 +1422,7 @@ void TexamExecutor::restoreExerciseAfterSummary() {
       CURR_Q->melody()->setTitle(CURR_Q->melody()->title().remove(QLatin1String(";skip")));
     if (m_isAnswered)
       CURR_Q->setAnswered();
-    GLOB->S->nameStyleInNoteName = m_exerciseTmpStyle;
+    GLOB->scoreParams->nameStyleInNoteName = m_exerciseTmpStyle;
 // #if !defined (Q_OS_ANDROID)
 //     qApp->installEventFilter(m_supp);
 // #endif
@@ -1446,7 +1446,7 @@ void TexamExecutor::continueExercise() {
 
 
 void TexamExecutor::stopExamSlot() {
-  if (!m_isAnswered && !GLOB->E->closeWithoutConfirm) {
+  if (!m_isAnswered && !GLOB->examParams->closeWithoutConfirm) {
     m_shouldBeTerminated = true;
     int messageDuration = 3000;
     NOO->setMessageColor(GLOB->EquestionColor);
@@ -1465,19 +1465,19 @@ void TexamExecutor::stopExamSlot() {
       }
     }
     if (m_exam->fileName().isEmpty()) {
-      if (GLOB->E->closeWithoutConfirm) {
+      if (GLOB->examParams->closeWithoutConfirm) {
           m_exam->setFileName(getExamFileName(m_exam) + QLatin1String(".noo"));
       } else {
           m_exam->setFileName(saveExamToFile());
           if (!m_exam->fileName().isEmpty())
-            GLOB->E->examsDir = QFileInfo(m_exam->fileName()).absoluteDir().absolutePath();
+            GLOB->examParams->examsDir = QFileInfo(m_exam->fileName()).absoluteDir().absolutePath();
       }
     }
     if (!m_exam->fileName().isEmpty()) {
       if (m_exam->melodies()) // summarize answer if not summarized yet (melodies can have such cases)
         m_penalty->setMelodyPenalties();
       m_penalty->updateExamTimes();
-      GLOB->S->nameStyleInNoteName = m_glStore->nameStyleInNoteName; // restore to show in user defined style
+      GLOB->scoreParams->nameStyleInNoteName = m_glStore->nameStyleInNoteName; // restore to show in user defined style
       if (m_exam->saveToFile() == Texam::e_file_OK) {
         QStringList recentExams = GLOB->config->value(QLatin1String("recentExams")).toStringList();
         recentExams.removeAll(m_exam->fileName());
@@ -1521,12 +1521,12 @@ void TexamExecutor::prepareToSettings() {
 
 void TexamExecutor::settingsAccepted() {
   if (m_exercise) {
-      if (GLOB->E->suggestExam)
+      if (GLOB->examParams->suggestExam)
         m_exercise->setSuggestionEnabled(m_supp->qaPossibilities(), m_exam->melodies());
       else
         m_exercise->setSuggestionEnabled(0);
   } else {
-      if (GLOB->E->autoNextQuest)
+      if (GLOB->examParams->autoNextQuest)
         m_stopExamAct->setEnabled(true);
   }
   if (m_exam->count() && CURR_Q->answerAsSound() && !SOUND->isSnifferPaused())//!SOUND->pitchView()->isPaused())
@@ -1579,9 +1579,9 @@ bool TexamExecutor::closeNootka() {
                       "or <b>%2</b> to continue.<br>").arg(qTR("QShortcut", "Save"), qTR("QPlatformTheme", "Retry")));
       msg->setStandardButtons(QMessageBox::Retry | QMessageBox::Save);
       msg->setWindowTitle(QStringLiteral("Psssst..."));
-      if (!GLOB->E->closeWithoutConfirm)
+      if (!GLOB->examParams->closeWithoutConfirm)
         msg->exec();
-      if (!GLOB->E->closeWithoutConfirm && msg->clickedButton() == msg->button(QMessageBox::Retry)) {
+      if (!GLOB->examParams->closeWithoutConfirm && msg->clickedButton() == msg->button(QMessageBox::Retry)) {
           m_snifferLocked = false;
 // #if !defined (Q_OS_ANDROID)
 //         qApp->installEventFilter(m_supp);
@@ -1721,7 +1721,7 @@ void TexamExecutor::noteOfMelodyFinished(const TnoteStruct& n) {
   if ((waitForCorrect && m_melody->currentIndex() == CURR_Q->melody()->length() - 1) || m_melodySelectionIndex > CURR_Q->melody()->length()) {
     if (waitForCorrect && !m_melody->wasLatestNoteSet())
       return;
-    if (GLOB->E->expertsAnswerEnable)
+    if (GLOB->examParams->expertsAnswerEnable)
         checkAnswer();
     else {
         m_tipHandler->playMelodyAgainMessage();
@@ -1783,7 +1783,7 @@ void TexamExecutor::startSniffing() {
   if (m_soundTimer->isActive())
     m_soundTimer->stop();
 #if !defined (Q_OS_ANDROID)
-    if (CURR_Q->answerAsSound() && !GLOB->A->dumpPath.isEmpty()) {
+    if (CURR_Q->answerAsSound() && !GLOB->audioParams->dumpPath.isEmpty()) {
       QString dumpFileName = QString("Question-%1").arg(m_exam->count(), 3, 'i', 0, '0');
       if (m_melody)
         dumpFileName += QString("-attempt%1").arg(CURR_Q->attemptsCount());
@@ -1798,7 +1798,7 @@ void TexamExecutor::startSniffing() {
 
 
 void TexamExecutor::expertAnswersSlot() {
-  if (!GLOB->E->expertsAnswerEnable && !m_exam->melodies()) { // no expert and no melodies
+  if (!GLOB->examParams->expertsAnswerEnable && !m_exam->melodies()) { // no expert and no melodies
       m_tipHandler->showConfirmTip(1500);
       return;
   }
@@ -1946,18 +1946,18 @@ void TexamExecutor::correctionFinishedSlot() {
 //     }
 //   }
   m_nextQuestAct->setEnabled(true);
-  if (GLOB->E->autoNextQuest && GLOB->E->afterMistake != TexamParams::e_stop && !CURR_Q->melody()) {
-    m_askingTimer->start(GLOB->E->correctPreview); // new question will be started after preview time
+  if (GLOB->examParams->autoNextQuest && GLOB->examParams->afterMistake != TexamParams::e_stop && !CURR_Q->melody()) {
+    m_askingTimer->start(GLOB->examParams->correctPreview); // new question will be started after preview time
   }
   if (CURR_Q->melody()) { // despite of 'auto' settings when melody - auto next question will not work
       m_tipHandler->showWhatNextTip(false, false);
 //     connect(SCORE, &TmainScore::lockedNoteClicked, this, &TexamExecutor::correctNoteOfMelody); // only once per answer
-  } else if (!GLOB->E->autoNextQuest || GLOB->E->afterMistake == TexamParams::e_stop)
-        m_tipHandler->showWhatNextTip(!(!m_exercise && GLOB->E->repeatIncorrect && !m_incorrectRepeated));
+  } else if (!GLOB->examParams->autoNextQuest || GLOB->examParams->afterMistake == TexamParams::e_stop)
+        m_tipHandler->showWhatNextTip(!(!m_exercise && GLOB->examParams->repeatIncorrect && !m_incorrectRepeated));
 
   if (INSTRUMENT && m_exercise && GLOB->extraNames() && !CURR_Q->melody()) {
     bool isQa2 = CURR_Q->questionOnInstr() && CURR_Q->answerOnInstr();
-    INSTRUMENT->showNoteName(GLOB->S->nameStyleInNoteName,
+    INSTRUMENT->showNoteName(GLOB->scoreParams->nameStyleInNoteName,
                              isQa2 ? CURR_Q->qa_2.note : CURR_Q->qa.note,
                              isQa2 ? CURR_Q->qa_2.technical.data() : CURR_Q->qa.technical.data(),
                              GLOB->correctColor());

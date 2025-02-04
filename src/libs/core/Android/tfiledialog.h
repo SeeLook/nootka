@@ -19,16 +19,13 @@
 #ifndef TFILEDIALOG_H
 #define TFILEDIALOG_H
 
-
 #include <QtCore/qglobal.h>
 
+#if defined(Q_OS_ANDROID)
 
-#if defined (Q_OS_ANDROID)
-
+#include <QtWidgets/qboxlayout.h>
 #include <QtWidgets/qdialog.h>
 #include <QtWidgets/qfilesystemmodel.h>
-#include <QtWidgets/qboxlayout.h>
-
 
 class QListWidget;
 class QListWidgetItem;
@@ -36,7 +33,6 @@ class QListView;
 class QLineEdit;
 class QLabel;
 class QComboBox;
-
 
 /**
  * Implementation of file dialog for mobile devices.
@@ -51,67 +47,64 @@ class QComboBox;
  */
 class TfileDialog : public QDialog
 {
-  Q_OBJECT
+    Q_OBJECT
 
 public:
-      /**
-       * File dialog type: for opening or saving
-       */
-  enum EacceptMode { e_acceptSave, e_acceptOpen };
-  Q_ENUM(EacceptMode)
+    /**
+     * File dialog type: for opening or saving
+     */
+    enum EacceptMode { e_acceptSave, e_acceptOpen };
+    Q_ENUM(EacceptMode)
 
-  explicit TfileDialog(const QString& directory, const QString& filter, EacceptMode mode);
-  ~TfileDialog() override;
+    explicit TfileDialog(const QString &directory, const QString &filter, EacceptMode mode);
+    ~TfileDialog() override;
 
-  static QString getSaveFileName(const QString& directory = QString(), const QString& filter = QString());
-  static QString getOpenFileName(const QString& directory = QString(), const QString& filter = QString());
+    static QString getSaveFileName(const QString &directory = QString(), const QString &filter = QString());
+    static QString getOpenFileName(const QString &directory = QString(), const QString &filter = QString());
 
-  QString selectedFile() const { return m_selectedFile; }
+    QString selectedFile() const { return m_selectedFile; }
 
-      /**
-       * Left to right by default
-       */
-  void setDirection(QBoxLayout::Direction dir) { m_lay->setDirection(dir); }
-  EacceptMode acceptMode() { return m_acceptMode; }
-
+    /**
+     * Left to right by default
+     */
+    void setDirection(QBoxLayout::Direction dir) { m_lay->setDirection(dir); }
+    EacceptMode acceptMode() { return m_acceptMode; }
 
 protected:
-  void itemClickedSlot(const QModelIndex& index);
-  void menuClickedSlot(QListWidgetItem* item);
-  void dirUpSlot();
-  void newDirSlot();
-  void performAction(); /**< Open or save */
-  void createNewDir(const QString& newDir); /**< Creates new directory with name @p newDir in current model node */
+    void itemClickedSlot(const QModelIndex &index);
+    void menuClickedSlot(QListWidgetItem *item);
+    void dirUpSlot();
+    void newDirSlot();
+    void performAction(); /**< Open or save */
+    void createNewDir(const QString &newDir); /**< Creates new directory with name @p newDir in current model node */
 
     /**
      * Displays message about possibility of creating Nootka folder on external card (if exists - or internal then).
      * If user agreed - creates the directory.
      */
-  void createNootkaDir();
+    void createNootkaDir();
 
-  QListWidgetItem* addMenuItem(const QIcon& icon, const QString& text = QString());
-  void updateLocationLabel();
+    QListWidgetItem *addMenuItem(const QIcon &icon, const QString &text = QString());
+    void updateLocationLabel();
 
 private:
-  QFileSystemModel        *m_fileModel;
-  QString                  m_selectedFile;
-  EacceptMode              m_acceptMode;
+    QFileSystemModel *m_fileModel;
+    QString m_selectedFile;
+    EacceptMode m_acceptMode;
 
-  QBoxLayout              *m_lay;
-  QListView               *m_list;
-  QListWidget             *m_menu;
-  QListWidgetItem         *m_acceptItem, *m_cancelItem, *m_dirUpItem, *m_newDirItem;
-  QLineEdit               *m_editName;
-  QLabel                  *m_locationLab;
-  QComboBox               *m_extensionCombo;
-
+    QBoxLayout *m_lay;
+    QListView *m_list;
+    QListWidget *m_menu;
+    QListWidgetItem *m_acceptItem, *m_cancelItem, *m_dirUpItem, *m_newDirItem;
+    QLineEdit *m_editName;
+    QLabel *m_locationLab;
+    QComboBox *m_extensionCombo;
 };
 
 #else
 
-#include <QtWidgets/qfiledialog.h>
 #include "nootkacoreglobal.h"
-
+#include <QtWidgets/qfiledialog.h>
 
 /**
  * Provides methods to get open/save file name,
@@ -121,12 +114,18 @@ private:
  */
 class NOOTKACORE_EXPORT TfileDialog
 {
-
 public:
-  static QString getOpenFileName(const QString &caption = QString(), const QString &dir = QString(),
-                          const QString &filter = QString(), QString *selectedFilter = nullptr, QFileDialog::Options options = QFlag(0));
-  static QString getSaveFileName(const QString &caption = QString(), const QString &dir = QString(),
-                          const QString &filter = QString(), QString *selectedFilter = nullptr, QFileDialog::Options options = QFlag(0));
+    static QString getOpenFileName(const QString &caption = QString(),
+                                   const QString &dir = QString(),
+                                   const QString &filter = QString(),
+                                   QString *selectedFilter = nullptr,
+                                   QFileDialog::Options options = QFlag(0));
+
+    static QString getSaveFileName(const QString &caption = QString(),
+                                   const QString &dir = QString(),
+                                   const QString &filter = QString(),
+                                   QString *selectedFilter = nullptr,
+                                   QFileDialog::Options options = QFlag(0));
 };
 
 #endif

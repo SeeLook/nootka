@@ -36,22 +36,22 @@ TglobalExamStore::TglobalExamStore(Tglobals* globals) :
 
 
 void TglobalExamStore::storeSettings() {
-  nameStyleInNoteName = m_globals->S->nameStyleInNoteName;
-  showEnharmNotes = m_globals->S->showEnharmNotes;
-  showKeySignName = m_globals->S->showKeySignName;
+  nameStyleInNoteName = m_globals->scoreParams->nameStyleInNoteName;
+  showEnharmNotes = m_globals->scoreParams->showEnharmNotes;
+  showKeySignName = m_globals->scoreParams->showKeySignName;
   showOtherPos = m_globals->GshowOtherPos;
-  useDblAccids = m_globals->S->doubleAccidentalsEnabled;
-  useKeySign = m_globals->S->keySignatureEnabled;
-  octaveInName = m_globals->S->octaveInNoteNameFormat;
-  clef = Tclef(m_globals->S->clef);
-  intonation = m_globals->A->intonation;
-  if (m_globals->A->midiEnabled)
-    playbackInstr = m_globals->A->midiInstrNr;
+  useDblAccids = m_globals->scoreParams->doubleAccidentalsEnabled;
+  useKeySign = m_globals->scoreParams->keySignatureEnabled;
+  octaveInName = m_globals->scoreParams->octaveInNoteNameFormat;
+  clef = Tclef(m_globals->scoreParams->clef);
+  intonation = m_globals->audioParams->intonation;
+  if (m_globals->audioParams->midiEnabled)
+    playbackInstr = m_globals->audioParams->midiInstrNr;
   else
-    playbackInstr = m_globals->A->audioInstrNr;
-  namesOnScore = m_globals->S->namesOnScore;
-  OUTenabled = m_globals->A->OUTenabled;
-  INenabled = m_globals->A->INenabled;
+    playbackInstr = m_globals->audioParams->audioInstrNr;
+  namesOnScore = m_globals->scoreParams->namesOnScore;
+  OUTenabled = m_globals->audioParams->OUTenabled;
+  INenabled = m_globals->audioParams->INenabled;
   enableRhythms = m_globals->rhythmsEnabled();
   quantization = SOUND->quantization();
   showNotesDiff = m_globals->showNotesDiff();
@@ -63,19 +63,19 @@ void TglobalExamStore::restoreSettings() {
   m_globals->setShowKeyName(showKeySignName);
   m_globals->setEnableDoubleAccids(useDblAccids);
   m_globals->setKeySignatureEnabled(useKeySign);
-  m_globals->S->octaveInNoteNameFormat = octaveInName;
+  m_globals->scoreParams->octaveInNoteNameFormat = octaveInName;
   m_globals->setClefType(static_cast<int>(clef.type()));
   m_globals->setSingleNote(isSingleNoteMode);
   m_globals->setNamesOnScore(namesOnScore);
-  m_globals->A->intonation = intonation;
+  m_globals->audioParams->intonation = intonation;
   m_globals->GshowOtherPos = showOtherPos;
   m_globals->setGuitarParams(fretsNumber, tune);
-  if (m_globals->A->midiEnabled)
-    m_globals->A->midiInstrNr = playbackInstr;
+  if (m_globals->audioParams->midiEnabled)
+    m_globals->audioParams->midiInstrNr = playbackInstr;
   else
-    m_globals->A->audioInstrNr = playbackInstr;
-  m_globals->A->INenabled = INenabled;
-  m_globals->A->OUTenabled = OUTenabled;
+    m_globals->audioParams->audioInstrNr = playbackInstr;
+  m_globals->audioParams->INenabled = INenabled;
+  m_globals->audioParams->OUTenabled = OUTenabled;
   m_globals->setRhythmsEnabled(enableRhythms);
   SOUND->setQuantization(quantization);
   m_globals->setShowNotesDiff(showNotesDiff);
@@ -91,14 +91,14 @@ void TglobalExamStore::prepareGlobalsToExam(const Tlevel& level) {
   m_globals->setClefType(static_cast<int>(level.clef.type()));
   m_globals->setNamesOnScore(false);
   if (level.answerIsSound()) {
-      if (!m_globals->A->INenabled) {
-        m_globals->A->INenabled = true;
+      if (!m_globals->audioParams->INenabled) {
+        m_globals->audioParams->INenabled = true;
       }
   }
-  if (level.questionAs.isSound() && !m_globals->A->OUTenabled) {
-    m_globals->A->OUTenabled = true;
+  if (level.questionAs.isSound() && !m_globals->audioParams->OUTenabled) {
+    m_globals->audioParams->OUTenabled = true;
   }
-  m_globals->A->intonation = level.intonation;
+  m_globals->audioParams->intonation = level.intonation;
   m_globals->setShowNotesDiff(false);
 //   m_globals->setRhythmsEnabled(false); // TODO: Read it from level when will be implemented
     // change output instrument type when necessary (exam instrument differs from user) TODO

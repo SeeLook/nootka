@@ -19,18 +19,15 @@
 #ifndef TTECHNICAL_H
 #define TTECHNICAL_H
 
-
 #include "nootkacoreglobal.h"
 #include "tfingerpos.h"
 #include <QtCore/qobject.h>
-
 
 #define ON_UPPER (1) // first bit
 #define BOW_DIRECTION (6) // 2nd and 3rd bits
 #define FINGERING (56) // 4th to 6th bits
 
 #define NO_TECHNICALS (255) // 255 means that there is no any technical information
-
 
 /**
  * @p Ttechnical extends information about note in the score.
@@ -46,55 +43,58 @@
  */
 class NOOTKACORE_EXPORT Ttechnical
 {
-
-  Q_GADGET
+    Q_GADGET
 
 public:
-  Ttechnical() {}
-  Ttechnical(quint32 fromData);
+    Ttechnical() { }
+    Ttechnical(quint32 fromData);
 
-      /**
-       * Returns @p TRUE when all extra note parameters are unset
-       */
-  bool isEmpty() const { return !m_fingerPos.isValid() && m_otherData == 0; }
+    /**
+     * Returns @p TRUE when all extra note parameters are unset
+     */
+    bool isEmpty() const { return !m_fingerPos.isValid() && m_otherData == 0; }
 
-      /**
-       * Resets all extra note parameters to null
-       */
-  void reset() { m_fingerPos.setData(NO_TECHNICALS); m_otherData = 0; }
+    /**
+     * Resets all extra note parameters to null
+     */
+    void reset()
+    {
+        m_fingerPos.setData(NO_TECHNICALS);
+        m_otherData = 0;
+    }
 
-  TfingerPos& fingerPos() { return m_fingerPos; }
-  void setFingerPos(TfingerPos fp) { m_fingerPos.setData(fp.data()); }
+    TfingerPos &fingerPos() { return m_fingerPos; }
+    void setFingerPos(TfingerPos fp) { m_fingerPos.setData(fp.data()); }
 
-  bool onUpperStaff() const { return !(m_otherData & ON_UPPER); }
-  void setOnUpperStaff(bool onUpper);
+    bool onUpperStaff() const { return !(m_otherData & ON_UPPER); }
+    void setOnUpperStaff(bool onUpper);
 
-  enum EbowDirection {
-    BowUndefined = 0,
-    BowDown = 2, /**< For bandoneon it is bellow opening */
-    BowUp = 4 /**< For bandoneon it is bellow closing */
-  };
-  Q_ENUM(EbowDirection)
+    enum EbowDirection {
+        BowUndefined = 0,
+        BowDown = 2, /**< For bandoneon it is bellow opening */
+        BowUp = 4 /**< For bandoneon it is bellow closing */
+    };
+    Q_ENUM(EbowDirection)
 
-  EbowDirection bowing() const { return static_cast<EbowDirection>(m_otherData & BOW_DIRECTION); }
-  void setBowing(EbowDirection b);
+    EbowDirection bowing() const { return static_cast<EbowDirection>(m_otherData & BOW_DIRECTION); }
+    void setBowing(EbowDirection b);
 
-      /**
-       * Finger number [0 - 5].
-       * -1 is returned when undefined
-       */
-  int finger() const { return ((m_otherData & FINGERING) >> 3) - 1; }
-  void setFinger(int fingerNr);
+    /**
+     * Finger number [0 - 5].
+     * -1 is returned when undefined
+     */
+    int finger() const { return ((m_otherData & FINGERING) >> 3) - 1; }
+    void setFinger(int fingerNr);
 
-  quint32 data() const;
-  void setData(quint32 d);
+    quint32 data() const;
+    void setData(quint32 d);
 
-  void toXml (QXmlStreamWriter& xml, const QString& tag = QLatin1String("technical")) const;
-  void fromXml(QXmlStreamReader& xml);
+    void toXml(QXmlStreamWriter &xml, const QString &tag = QLatin1String("technical")) const;
+    void fromXml(QXmlStreamReader &xml);
 
 private:
-  TfingerPos              m_fingerPos;
-  quint16                 m_otherData = 0;
+    TfingerPos m_fingerPos;
+    quint16 m_otherData = 0;
 };
 
 #endif // TTECHNICAL_H

@@ -19,13 +19,10 @@
 #ifndef TCOLOR_H
 #define TCOLOR_H
 
-
-#include <nootkacoreglobal.h>
 #include <QtGui/qcolor.h>
-
+#include <nootkacoreglobal.h>
 
 class QPalette;
-
 
 /**
  * A set of static methods with some tweaks of color:
@@ -36,47 +33,42 @@ class QPalette;
  */
 class NOOTKACORE_EXPORT Tcolor
 {
-
 public:
+    /**
+     * Merge given colors.
+     */
+    static QColor merge(const QColor &C1, const QColor &C2);
 
-      /**
-       * Merge given colors.
-       */
-  static QColor merge(const QColor& C1, const QColor& C2);
+    /**
+     * Returns inverted copy of given color
+     */
+    static QColor invert(const QColor &color);
 
-      /**
-       * Returns inverted copy of given color 
-       */
-  static QColor invert(const QColor& color);
+    /**
+     * Returns css style tag with rgba values of color.
+     * @p styleTag rgba(red, green, blue, alpha);
+     */
+    static QString rgbaText(const QColor &color, const QString &styleTag = QString());
 
-      /**
-       * Returns css style tag with rgba values of color.
-       * @p styleTag rgba(red, green, blue, alpha);
-       */
-  static QString rgbaText(const QColor& color, const QString& styleTag = QString());
+    /**
+     * Returns
+     * background-color: rgba(red, green, blue, alpha)
+     */
+    static QString bgTag(const QColor &color);
 
-      /**
-       * Returns
-       * background-color: rgba(red, green, blue, alpha)
-       */
-  static QString bgTag(const QColor& color);
+    /**
+     * Converts value (0 - 255) to (0.0 - 1.0)
+     */
+    static qreal iV(int ch) { return ch / 255.0; }
 
-      /**
-       * Converts value (0 - 255) to (0.0 - 1.0)
-       */
-  static qreal iV(int ch) { return ch / 255.0; }
+    static QColor shadow;
 
-  static QColor shadow;
+    /**
+     * Sets default shadow color of tips
+     */
+    static void setShadow(const QPalette &pal);
 
-      /**
-       * Sets default shadow color of tips
-       */
-  static void setShadow(const QPalette& pal);
-
-  static QColor alpha(const QColor& c, int a) { return QColor(c.red(), c.green(), c.blue(), a); }
-
+    static QColor alpha(const QColor &c, int a) { return QColor(c.red(), c.green(), c.blue(), a); }
 };
-
-
 
 #endif // TCOLOR_H

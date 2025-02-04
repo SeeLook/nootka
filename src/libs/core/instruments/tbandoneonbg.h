@@ -19,15 +19,12 @@
 #ifndef TBANDONEONBG_H
 #define TBANDONEONBG_H
 
-
 #include "tcommoninstrument.h"
 
-#include <QtQuick/qquickitem.h>
 #include <QtGui/qcolor.h>
-
+#include <QtQuick/qquickitem.h>
 
 class QQmlComponent;
-
 
 /**
  * @class TbandoneonBg represents logic of bandoneon.
@@ -41,137 +38,136 @@ class QQmlComponent;
  */
 class NOOTKACORE_EXPORT TbandoneonBg : public TcommonInstrument
 {
-  Q_OBJECT
+    Q_OBJECT
 
-  Q_PROPERTY(int currentIndex READ currentIndex WRITE setCurrentIndex)
-  Q_PROPERTY(bool opening READ opening WRITE setOpening NOTIFY openingChanged)
-  Q_PROPERTY(bool closing READ closing WRITE setClosing NOTIFY closingChanged)
-  Q_PROPERTY(qreal rightX READ rightX WRITE setRightX NOTIFY rightXChanged)
-  Q_PROPERTY(qreal factor READ factor WRITE setFactor NOTIFY factorChanged)
-  Q_PROPERTY(EsideHighlight sideHighlight READ sideHighlight NOTIFY sideHighlightChanged)
-  Q_PROPERTY(qreal xOffset READ xOffset WRITE setXOffset NOTIFY xOffsetChanged)
+    Q_PROPERTY(int currentIndex READ currentIndex WRITE setCurrentIndex)
+    Q_PROPERTY(bool opening READ opening WRITE setOpening NOTIFY openingChanged)
+    Q_PROPERTY(bool closing READ closing WRITE setClosing NOTIFY closingChanged)
+    Q_PROPERTY(qreal rightX READ rightX WRITE setRightX NOTIFY rightXChanged)
+    Q_PROPERTY(qreal factor READ factor WRITE setFactor NOTIFY factorChanged)
+    Q_PROPERTY(EsideHighlight sideHighlight READ sideHighlight NOTIFY sideHighlightChanged)
+    Q_PROPERTY(qreal xOffset READ xOffset WRITE setXOffset NOTIFY xOffsetChanged)
 
 public:
-  TbandoneonBg(QQuickItem* parent = nullptr);
-  ~TbandoneonBg();
+    TbandoneonBg(QQuickItem *parent = nullptr);
+    ~TbandoneonBg();
 
-  Q_INVOKABLE qreal xAt(int b);
-  Q_INVOKABLE qreal yAt(int b);
-  Q_INVOKABLE int openAt(int b);
-  Q_INVOKABLE int closeAt(int b);
+    Q_INVOKABLE qreal xAt(int b);
+    Q_INVOKABLE qreal yAt(int b);
+    Q_INVOKABLE int openAt(int b);
+    Q_INVOKABLE int closeAt(int b);
 
-  int currentIndex() const { return m_currentIndex; }
-  void setCurrentIndex(int i);
+    int currentIndex() const { return m_currentIndex; }
+    void setCurrentIndex(int i);
 
-  bool opening() const { return m_opening; }
-  void setOpening(bool o);
+    bool opening() const { return m_opening; }
+    void setOpening(bool o);
 
-  bool closing() const { return m_closing; }
-  void setClosing(bool c);
+    bool closing() const { return m_closing; }
+    void setClosing(bool c);
 
-  void setNote(const Tnote& n, quint32 noteDataValue = 255) override;
+    void setNote(const Tnote &n, quint32 noteDataValue = 255) override;
 
-  void askQuestion(const Tnote& n, quint32 noteDataValue) override;
+    void askQuestion(const Tnote &n, quint32 noteDataValue) override;
 
-  void highlightAnswer(const Tnote & n, quint32 noteData) override;
+    void highlightAnswer(const Tnote &n, quint32 noteData) override;
 
-  int technical() override;
+    int technical() override;
 
-  qreal rightX() const { return m_rightX; }
-  void setRightX(qreal rx);
+    qreal rightX() const { return m_rightX; }
+    void setRightX(qreal rx);
 
-  qreal factor() const { return m_factor; }
-  void setFactor(qreal f);
+    qreal factor() const { return m_factor; }
+    void setFactor(qreal f);
 
-  qreal xOffset() const { return m_xOffset; }
-  void setXOffset(qreal off);
+    qreal xOffset() const { return m_xOffset; }
+    void setXOffset(qreal off);
 
-  void paint(QPainter*) override {}
+    void paint(QPainter *) override { }
 
-  void markSelected(const QColor & markColor) override;
+    void markSelected(const QColor &markColor) override;
 
-  void correct(const Tnote & n, quint32 noteData) override;
+    void correct(const Tnote &n, quint32 noteData) override;
 
-  Q_INVOKABLE void applyCorrect() override;
+    Q_INVOKABLE void applyCorrect() override;
 
-  void showNoteName(Tnote::EnameStyle st, const Tnote &n, quint32 techn, const QColor& textColor) override;
+    void showNoteName(Tnote::EnameStyle st, const Tnote &n, quint32 techn, const QColor &textColor) override;
 
-      /**
-       * Returns @p TRUE when given note (as chromatic number @p Tnote::chromatic())
-       * is possible to play on bandoneon at given side/bellow direction
-       */
-  bool canBeLeftOpen(short int chromNoteNr);
-  bool canBeLeftClose(short int chromNoteNr);
-  bool canBeRightOpen(short int chromNoteNr);
-  bool canBeRightClose(short int chromNoteNr);
+    /**
+     * Returns @p TRUE when given note (as chromatic number @p Tnote::chromatic())
+     * is possible to play on bandoneon at given side/bellow direction
+     */
+    bool canBeLeftOpen(short int chromNoteNr);
+    bool canBeLeftClose(short int chromNoteNr);
+    bool canBeRightOpen(short int chromNoteNr);
+    bool canBeRightClose(short int chromNoteNr);
 
-      /**
-       * Describes which side of bandoneon has to be highlighted for an answer.
-       * It depends on note layout (upper staff, lower staff)
-       */
-  enum EsideHighlight {
-    HighlightNone = 0, HighlightLeft, HighlightRight
-  };
-  Q_ENUM(EsideHighlight)
+    /**
+     * Describes which side of bandoneon has to be highlighted for an answer.
+     * It depends on note layout (upper staff, lower staff)
+     */
+    enum EsideHighlight { HighlightNone = 0, HighlightLeft, HighlightRight };
+    Q_ENUM(EsideHighlight)
 
-  EsideHighlight sideHighlight() const { return m_sideHighlight; }
+    EsideHighlight sideHighlight() const { return m_sideHighlight; }
 
 signals:
-  void closingChanged();
-  void openingChanged();
-  void rightXChanged();
-  void factorChanged();
-  void sideHighlightChanged();
-  void xOffsetChanged();
+    void closingChanged();
+    void openingChanged();
+    void rightXChanged();
+    void factorChanged();
+    void sideHighlightChanged();
+    void xOffsetChanged();
 
 private:
-
-      /**
-       * @p QQuickItem circle and button number in @p buttArray, or 0 if no button.
-       */
-  class TbandCircle {
+    /**
+     * @p QQuickItem circle and button number in @p buttArray, or 0 if no button.
+     */
+    class TbandCircle
+    {
     public:
-      int             buttonId = 0;
-      QQuickItem*     item = nullptr;
-  };
+        int buttonId = 0;
+        QQuickItem *item = nullptr;
+    };
 
-  void getNote();
-  QQuickItem* createCircle(QQmlComponent* comp);
-  void updateCircleSize(QQuickItem* it);
-  void updateCircesPos();
-  void checkCircle(int butNr, TbandCircle& c, bool visible = true);
-  void hideCircles();
+    void getNote();
+    QQuickItem *createCircle(QQmlComponent *comp);
+    void updateCircleSize(QQuickItem *it);
+    void updateCircesPos();
+    void checkCircle(int butNr, TbandCircle &c, bool visible = true);
+    void hideCircles();
 
-      /**
-       * fix closing button scale when it remains the same
-       */
-  void fixScaleOfTheSame();
+    /**
+     * fix closing button scale when it remains the same
+     */
+    void fixScaleOfTheSame();
 
 private:
-      /**
-       * Contains button number in @p buttArray for left/right keys and opening/closing states.
-       * NOTICE: number is increased by 1, so @p 0 means: no button
-       */
-  class TbandoNote {
+    /**
+     * Contains button number in @p buttArray for left/right keys and opening/closing states.
+     * NOTICE: number is increased by 1, so @p 0 means: no button
+     */
+    class TbandoNote
+    {
     public:
-      quint8 leftOpen = 0;
-      quint8 leftClose = 0;
-      quint8 rightOpen = 0;
-      quint8 rightClose = 0;
-  };
+        quint8 leftOpen = 0;
+        quint8 leftClose = 0;
+        quint8 rightOpen = 0;
+        quint8 rightClose = 0;
+    };
 
-  int               m_currentIndex;
-  bool              m_closing = false;
-  bool              m_opening = false;
-  TbandoNote        m_notesArray[60];
-  TbandCircle       m_circleLeftOpen, m_circleLeftClose, m_circleRightOpen, m_circleRightClose, m_circleCloseExtra;
-  qreal             m_factor = 1.0;
-  qreal             m_rightX = 0.0;
-  qreal             m_xOffset = 0.0;
-  EsideHighlight    m_sideHighlight = HighlightNone;
-  quint32           m_goodTechn;
-  Tnote             m_goodNote;
-  int               m_goodButton;
+    int m_currentIndex;
+    bool m_closing = false;
+    bool m_opening = false;
+    TbandoNote m_notesArray[60];
+    TbandCircle m_circleLeftOpen, m_circleLeftClose, m_circleRightOpen, m_circleRightClose, m_circleCloseExtra;
+    qreal m_factor = 1.0;
+    qreal m_rightX = 0.0;
+    qreal m_xOffset = 0.0;
+    EsideHighlight m_sideHighlight = HighlightNone;
+    quint32 m_goodTechn;
+    Tnote m_goodNote;
+    int m_goodButton;
 };
 
 #endif // TBANDONEONBG_H

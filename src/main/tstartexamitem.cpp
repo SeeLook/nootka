@@ -128,7 +128,7 @@ void TstartExamItem::examFromFileDialog() {
     GLOB->E->examsDir = Tandroid::getExternalPath();
   QString fileName = TfileDialog::getOpenFileName(GLOB->E->examsDir, QStringLiteral("noo"));
 #else
-  QString fileName = TfileDialog::getOpenFileName(TexTrans::loadExamFileTxt(), GLOB->E->examsDir, TexTrans::examFilterTxt());
+  QString fileName = TfileDialog::getOpenFileName(TexTrans::loadExamFileTxt(), GLOB->examParams->examsDir, TexTrans::examFilterTxt());
 #endif
   if (!fileName.isEmpty())
     examToContSelected(fileName);
@@ -137,7 +137,7 @@ void TstartExamItem::examFromFileDialog() {
 
 void TstartExamItem::examToContSelected(const QString& eFile) {
   if (!eFile.isEmpty()) {
-    GLOB->E->examsDir = QFileInfo(eFile).absoluteDir().absolutePath();
+    GLOB->examParams->examsDir = QFileInfo(eFile).absoluteDir().absolutePath();
     m_recentExams.prepend(eFile);
     m_selectedExamFile = eFile;
     emit continueExam(eFile);

@@ -16,18 +16,16 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
-
 #include "tpath.h"
-
 
 QString Tpath::main = QString();
 
-
-QString Tpath::img(const char* imageFileName, const char* ext) {
-  return QString("%1picts/%2%3").arg(main, imageFileName, ext);
+QString Tpath::img(const char *imageFileName, const char *ext)
+{
+    return QString("%1picts/%2%3").arg(main, imageFileName, ext);
 }
 
-
-QString Tpath::pix(const QString& imageFileName) {
-  return QString("file:%1picts/%2.png").arg(main, imageFileName);
+QString Tpath::pix(const QString &imageFileName)
+{
+    return QString("file:%1picts/%2.png").arg(main, imageFileName);
 }

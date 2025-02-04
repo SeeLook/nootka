@@ -437,12 +437,12 @@ Tnote::EnameStyle TexecutorSupply::randomNameStyle(int style) {
     if (m_isSolfege) {
         m_isSolfege = false;
         if (QRandomGenerator::global()->bounded(2)) { // full name like cis, gisis
-            if (GLOB->S->seventhIs_B)
+            if (GLOB->scoreParams->seventhIs_B)
                 return Tnote::e_nederl_Bis;
             else
                 return Tnote::e_deutsch_His;
         } else { // name and sign like c#, gx
-            if (GLOB->S->seventhIs_B)
+            if (GLOB->scoreParams->seventhIs_B)
                 return Tnote::e_english_Bb;
             else
                 return Tnote::e_norsk_Hb;

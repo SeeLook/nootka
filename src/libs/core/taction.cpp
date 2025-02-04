@@ -19,134 +19,133 @@
 #include "taction.h"
 #include "tpath.h"
 
-#include <QtQml/qqmlcomponent.h>
 #include <QtGui/qguiapplication.h>
 #include <QtGui/qpalette.h>
+#include <QtQml/qqmlcomponent.h>
 
 #include <QtCore/qdebug.h>
 
-
-Taction::Taction(QObject* parent) :
-  QObject(parent)
+Taction::Taction(QObject *parent)
+    : QObject(parent)
 {
-  m_bgColor = qApp->palette().base().color();
-  m_bgColor.setAlpha(0);
+    m_bgColor = qApp->palette().base().color();
+    m_bgColor.setAlpha(0);
 }
 
-
-Taction::Taction(const QString& txt, const QString& ico, QObject* parent, bool isEnabled) :
-  QObject(parent),
-  m_enabled(isEnabled),
-  m_iconTag(ico),
-  m_text(txt)
+Taction::Taction(const QString &txt, const QString &ico, QObject *parent, bool isEnabled)
+    : QObject(parent)
+    , m_enabled(isEnabled)
+    , m_iconTag(ico)
+    , m_text(txt)
 {
-  m_bgColor = qApp->palette().base().color();
-  m_bgColor.setAlpha(0);
+    m_bgColor = qApp->palette().base().color();
+    m_bgColor.setAlpha(0);
 }
 
-
-Taction::~Taction() {}
-
-
-QString Taction::icon() const { return m_iconTag.isEmpty() ? QString() : Tpath::pix(m_iconTag); }
-
-
-void Taction::setIconTag(const QString& ic) {
-  if (ic != m_iconTag) {
-    m_iconTag = ic;
-    emit iconChanged();
-  }
+Taction::~Taction()
+{
 }
 
-
-void Taction::setText(const QString& t) {
-  if (t != m_text) {
-    m_text = t;
-    emit textChanged();
-  }
+QString Taction::icon() const
+{
+    return m_iconTag.isEmpty() ? QString() : Tpath::pix(m_iconTag);
 }
 
-
-void Taction::setTip(const QString& t, int pos) {
-  if (t != m_tip) {
-    m_tip = t;
-    m_tipPos = static_cast<quint8>(pos);
-    emit tipChanged();
-  }
+void Taction::setIconTag(const QString &ic)
+{
+    if (ic != m_iconTag) {
+        m_iconTag = ic;
+        emit iconChanged();
+    }
 }
 
-
-void Taction::trigger() {
-  if (m_enabled)
-    emit triggered();
+void Taction::setText(const QString &t)
+{
+    if (t != m_text) {
+        m_text = t;
+        emit textChanged();
+    }
 }
 
-
-void Taction::setCheckable(bool ch) {
-  if (ch != m_checkable) {
-    m_checkable = ch;
-    emit checkableChanged();
-  }
+void Taction::setTip(const QString &t, int pos)
+{
+    if (t != m_tip) {
+        m_tip = t;
+        m_tipPos = static_cast<quint8>(pos);
+        emit tipChanged();
+    }
 }
 
-
-void Taction::setChecked(bool ch) {
-  if (ch != m_checked) {
-    m_checked = ch;
-    emit checkedChanged();
-  }
+void Taction::trigger()
+{
+    if (m_enabled)
+        emit triggered();
 }
 
-
-void Taction::setShortcut(QObject* s) {
-  m_shortcut = s;
-  if (m_shortcut) {
-    connect(m_shortcut, SIGNAL(activated()), this, SLOT(triggerSlot()));
-    m_shortcut->setProperty("enabled", m_enabled);
-  }
+void Taction::setCheckable(bool ch)
+{
+    if (ch != m_checkable) {
+        m_checkable = ch;
+        emit checkableChanged();
+    }
 }
 
-
-void Taction::setEnabled(bool e) {
-  if (e != m_enabled) {
-    m_enabled = e;
-    if (m_shortcut)
-      m_shortcut->setProperty("enabled", m_enabled);
-    emit enabledChanged();
-  }
+void Taction::setChecked(bool ch)
+{
+    if (ch != m_checked) {
+        m_checked = ch;
+        emit checkedChanged();
+    }
 }
 
-
-void Taction::setBgColor(const QColor& bgC) {
-  if (bgC != m_bgColor) {
-    m_bgColor = bgC;
-    emit bgColorChanged();
-  }
+void Taction::setShortcut(QObject *s)
+{
+    m_shortcut = s;
+    if (m_shortcut) {
+        connect(m_shortcut, SIGNAL(activated()), this, SLOT(triggerSlot()));
+        m_shortcut->setProperty("enabled", m_enabled);
+    }
 }
 
-
-
-QString Taction::key() const {
-  return m_shortcut ? m_shortcut->property("nativeText").toString() : QString();
+void Taction::setEnabled(bool e)
+{
+    if (e != m_enabled) {
+        m_enabled = e;
+        if (m_shortcut)
+            m_shortcut->setProperty("enabled", m_enabled);
+        emit enabledChanged();
+    }
 }
 
-
-void Taction::createQmlShortcut(QQmlComponent* qmlComp, const char* keySequence) {
-  if (m_shortcut) {
-    qDebug() << "[Taction] name:" << m_text << "has shortcut already! Ignored!";
-    return;
-  }
-  if (keySequence) { // for empty key sequence, QML component data will be used
-    std::string d = "import QtQuick 2.9; Shortcut { sequence: ";
-    d.append(keySequence);
-    d.append(" }");
-    qmlComp->setData(d.c_str(), QUrl());
-  }
-  auto sc = qmlComp->create(qmlContext(parent()));
-  if (sc) {
-      sc->setParent(this);
-      setShortcut(sc);
-  } else
-      qDebug() << "[Taction] Can't create shortcut for" << keySequence;
+void Taction::setBgColor(const QColor &bgC)
+{
+    if (bgC != m_bgColor) {
+        m_bgColor = bgC;
+        emit bgColorChanged();
+    }
 }
 
+QString Taction::key() const
+{
+    return m_shortcut ? m_shortcut->property("nativeText").toString() : QString();
+}
+
+void Taction::createQmlShortcut(QQmlComponent *qmlComp, const char *keySequence)
+{
+    if (m_shortcut) {
+        qDebug() << "[Taction] name:" << m_text << "has shortcut already! Ignored!";
+        return;
+    }
+    if (keySequence) { // for empty key sequence, QML component data will be used
+        std::string d = "import QtQuick 2.9; Shortcut { sequence: ";
+        d.append(keySequence);
+        d.append(" }");
+        qmlComp->setData(d.c_str(), QUrl());
+    }
+    auto sc = qmlComp->create(qmlContext(parent()));
+    if (sc) {
+        sc->setParent(this);
+        setShortcut(sc);
+    } else
+        qDebug() << "[Taction] Can't create shortcut for" << keySequence;
+}

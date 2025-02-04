@@ -19,34 +19,31 @@
 #ifndef TSTAFFLINES_H
 #define TSTAFFLINES_H
 
-
 #include "nootkacoreglobal.h"
 #include <QtQuick/qquickpainteditem.h>
-
 
 /**
  * Paints five staff lines
  */
 class NOOTKACORE_EXPORT TstaffLines : public QQuickPaintedItem
 {
+    Q_OBJECT
 
-  Q_OBJECT
-
-  Q_PROPERTY(qreal staffScale READ staffScale WRITE setStaffScale)
+    Q_PROPERTY(qreal staffScale READ staffScale WRITE setStaffScale)
 
 public:
-  explicit TstaffLines(QQuickItem* parent = nullptr);
+    explicit TstaffLines(QQuickItem *parent = nullptr);
 
-  qreal staffScale() { return m_staffScale; }
-  void setStaffScale(qreal stScale);
+    qreal staffScale() { return m_staffScale; }
+    void setStaffScale(qreal stScale);
 
-  void paint(QPainter* painter) override;
+    void paint(QPainter *painter) override;
 
 protected:
-  void geometryChanged(const QRectF& newGeometry, const QRectF& oldGeometry) override;
+    void geometryChanged(const QRectF &newGeometry, const QRectF &oldGeometry) override;
 
 private:
-  qreal                         m_staffScale = 1.0;
+    qreal m_staffScale = 1.0;
 };
 
 #endif // TSTAFFLINES_H

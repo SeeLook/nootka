@@ -73,7 +73,7 @@ Tsound::Tsound(QObject* parent) :
   qmlRegisterType<TnotesBarItem>("Nootka", 1, 0, "TnotesBarItem");
 #endif
 
-  setQuantization(GLOB->A->quantization);
+  setQuantization(GLOB->audioParams->quantization);
 }
 
 Tsound::~Tsound()
@@ -83,7 +83,7 @@ Tsound::~Tsound()
   m_instance = nullptr;
 #if !defined (Q_OS_ANDROID)
   if (!m_dumpPath.isEmpty())
-    GLOB->A->dumpPath.clear();
+    GLOB->audioParams->dumpPath.clear();
 #endif
 }
 
@@ -94,11 +94,11 @@ Tsound::~Tsound()
 void Tsound::init() {
   QTimer::singleShot(500, this, [=]{
 #if !defined (Q_OS_ANDROID) && (defined (Q_OS_LINUX) || defined (Q_OS_WIN))
-      TrtAudio::initJACKorASIO(GLOB->A->JACKorASIO);
+      TrtAudio::initJACKorASIO(GLOB->audioParams->JACKorASIO);
 #endif
-      if (GLOB->A->OUTenabled)
+      if (GLOB->audioParams->OUTenabled)
         createPlayer();
-      if (GLOB->A->INenabled)
+      if (GLOB->audioParams->INenabled)
         createSniffer();
 
       connect(NOO, &TnootkaQML::playNote, this, &Tsound::play);
@@ -206,12 +206,12 @@ qreal Tsound::pitchDeviation() {
 void Tsound::acceptSettings() {
   bool doParamsUpdated = false;
   // for output
-  if (GLOB->A->OUTenabled) {
+  if (GLOB->audioParams->OUTenabled) {
       if (!player)
           createPlayer();
       else {
         #if !defined (Q_OS_ANDROID)
-          if (GLOB->A->midiEnabled) {
+          if (GLOB->audioParams->midiEnabled) {
             deletePlayer(); // it is safe to delete midi
             createPlayer(); // and create it again
           } else
@@ -233,7 +233,7 @@ void Tsound::acceptSettings() {
         deletePlayer();
 
   // for input
-  if (GLOB->A->INenabled) {
+  if (GLOB->audioParams->INenabled) {
       if (!sniffer) {
           createSniffer();
       } else {
@@ -359,7 +359,7 @@ void Tsound::runMetronome(int preTicksNr) {
 void Tsound::setQuantization(int q) {
   if ((/*q == 4 || */q == 6 || q == 12) && q != m_quantVal) {
     m_quantVal = q;
-    GLOB->A->quantization = m_quantVal;
+    GLOB->audioParams->quantization = m_quantVal;
     emit quantizationChanged();
   }
 }
@@ -516,7 +516,7 @@ void Tsound::setTunerMode(bool isTuner) {
     m_tunerMode = isTuner;
     emit tunerModeChanged();
     if (!m_tunerMode && player) // approve changed middle A frequency (if any)
-      player->setPitchOffset(GLOB->A->a440diff - static_cast<qreal>(static_cast<int>(GLOB->A->a440diff)));
+      player->setPitchOffset(GLOB->audioParams->a440diff - static_cast<qreal>(static_cast<int>(GLOB->audioParams->a440diff)));
   }
 }
 
@@ -556,14 +556,14 @@ void Tsound::setTouchHandling(bool th) {
 void Tsound::changeDumpPath(const QString& path) {
   if (QFileInfo(path).exists()) {
       m_dumpPath = path;
-      GLOB->A->dumpPath = path;
+      GLOB->audioParams->dumpPath = path;
   } else
       qDebug() << "[Tsound] dump path" << path << "does not exist!";
 }
 
 
 void Tsound::setDumpFileName(const QString& fName) {
-  if (sniffer && !GLOB->A->dumpPath.isEmpty())
+  if (sniffer && !GLOB->audioParams->dumpPath.isEmpty())
     sniffer->setDumpFileName(fName);
 }
 #endif
@@ -574,7 +574,7 @@ void Tsound::setDumpFileName(const QString& fName) {
 //#################################################################################################
 
 void Tsound::createPlayer() {
-  player = new TaudioOUT(GLOB->A);
+  player = new TaudioOUT(GLOB->audioParams);
   connect(player, &TaudioOUT::playingStarted, this, &Tsound::playingStartedSlot);
   connect(player, &TaudioOUT::nextNoteStarted, this, &Tsound::selectNextNote);
   connect(player, &TaudioOUT::playingFinished, this, &Tsound::playingFinishedSlot);
@@ -588,7 +588,7 @@ void Tsound::createSniffer() {
     sniffer = TaudioIN::instance();
   else
 #endif
-  sniffer = new TaudioIN(GLOB->A);
+  sniffer = new TaudioIN(GLOB->audioParams);
   setDefaultAmbitus();
 //   sniffer->setAmbitus(Tnote(-31), Tnote(82)); // fixed ambitus bounded Tartini capacities
   connect(sniffer, &TaudioIN::noteStarted, this, &Tsound::noteStartedSlot);

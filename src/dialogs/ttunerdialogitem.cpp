@@ -71,16 +71,16 @@ QString TtunerDialogItem::noteName() const {
 QStringList TtunerDialogItem::tuningModel() {
   QStringList model;
   auto t = GLOB->Gtune();
-  auto pitch440Offset = GLOB->A->a440diff;
+  auto pitch440Offset = GLOB->audioParams->a440diff;
   if (GLOB->instrument().isGuitar() && t->stringNr() > 2) { // guitar
       for (int i = 1; i <= t->stringNr(); i++) {
-        float offPitch = TnoteStruct::pitchToFreq(t->str(i).toMidi() + pitch440Offset + static_cast<qreal>(GLOB->A->transposition));
+        float offPitch = TnoteStruct::pitchToFreq(t->str(i).toMidi() + pitch440Offset + static_cast<qreal>(GLOB->audioParams->transposition));
         model << QString("%1;%2 Hz").arg((t->str(i)).styledName()).arg(offPitch, 0, 'f', 1);
       }
   } else { // no guitar - C-major scale frequencies
       for (int i = 1; i < 8; i++) {
         Tnote n(i, 1, 0);
-        float offPitch = TnoteStruct::pitchToFreq(n.toMidi() + pitch440Offset + static_cast<qreal>(GLOB->A->transposition));
+        float offPitch = TnoteStruct::pitchToFreq(n.toMidi() + pitch440Offset + static_cast<qreal>(GLOB->audioParams->transposition));
         model << QString("%1;%2 Hz").arg(n.styledName()).arg(offPitch, 0, 'f', 1);
       }
   }
@@ -97,7 +97,7 @@ QStringList TtunerDialogItem::tuningModel() {
  */
 void TtunerDialogItem::setWorkFreq(int wFreq) {
   if (wFreq != m_workFreq) {
-    GLOB->A->a440diff = Tglobals::pitchOfFreq(static_cast<qreal>(wFreq)) - Tglobals::pitchOfFreq(440.0);
+    GLOB->audioParams->a440diff = Tglobals::pitchOfFreq(static_cast<qreal>(wFreq)) - Tglobals::pitchOfFreq(440.0);
     m_workFreq = wFreq;
     emit workFreqChanged();
     emit tuningModelChanged();

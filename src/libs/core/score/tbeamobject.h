@@ -19,17 +19,14 @@
 #ifndef TBEAMOBJECT_H
 #define TBEAMOBJECT_H
 
-
-#include <nootkacoreglobal.h>
 #include <QtQuick/qquickpainteditem.h>
-
+#include <nootkacoreglobal.h>
 
 class TstaffItem;
 class TmeasureObject;
 class TnoteItem;
 class TnotePair;
 class T16beam;
-
 
 /**
  * This class manages displaying beams of rhythmic group.
@@ -43,71 +40,69 @@ class T16beam;
  */
 class NOOTKACORE_EXPORT TbeamObject : public QQuickPaintedItem
 {
+    Q_OBJECT
 
-  Q_OBJECT
-
-  friend class TscoreObject;
-  friend class TstaffItem;
-  friend class TmeasureObject;
-  friend class TnoteItem;
-  friend class TnotePair;
+    friend class TscoreObject;
+    friend class TstaffItem;
+    friend class TmeasureObject;
+    friend class TnoteItem;
+    friend class TnotePair;
 
 public:
-  explicit TbeamObject(TnotePair* sn, TmeasureObject* m);
-  ~TbeamObject() override;
+    explicit TbeamObject(TnotePair *sn, TmeasureObject *m);
+    ~TbeamObject() override;
 
-      /**
-       * Adds @p TnotePair to beam group
-       * and according to adding order sets appropriate beam flag.
-       * It changes stem direction of note(s) when necessary.
-       * It does not perform painting yet
-       */
-  void addNote(TnotePair* np);
+    /**
+     * Adds @p TnotePair to beam group
+     * and according to adding order sets appropriate beam flag.
+     * It changes stem direction of note(s) when necessary.
+     * It does not perform painting yet
+     */
+    void addNote(TnotePair *np);
 
-      /**
-       * Returns note @p id in beam group
-       */
-  TnotePair* note(int id) { return m_notes[id]; }
+    /**
+     * Returns note @p id in beam group
+     */
+    TnotePair *note(int id) { return m_notes[id]; }
 
-  TnotePair* first() { return m_notes.first(); }
-  TnotePair* last() { return m_notes.last(); }
+    TnotePair *first() { return m_notes.first(); }
+    TnotePair *last() { return m_notes.last(); }
 
-      /**
-       * Number of notes in the beam group
-       */
-  int count() { return m_notes.count(); }
+    /**
+     * Number of notes in the beam group
+     */
+    int count() { return m_notes.count(); }
 
-
-  void paint(QPainter* painter) override;
+    void paint(QPainter *painter) override;
 
 protected:
-  void prepareBeam();
-  void drawBeam();
+    void prepareBeam();
+    void drawBeam();
 
-      /**
-       * Because beams are parented with staff it is important
-       * to change their staff when measure is shifted between staves
-       */
-  void changeStaff(TstaffItem* st);
+    /**
+     * Because beams are parented with staff it is important
+     * to change their staff when measure is shifted between staves
+     */
+    void changeStaff(TstaffItem *st);
 
-      /**
-       * Removes given note from the beam,
-       * if necessary it creates a new beam in case this beam was split by rest.
-       * Returns @p TRUE if this beam becomes broken (not enough notes) and has to be deleted
-       */
-  bool removeNote(TnotePair* np);
+    /**
+     * Removes given note from the beam,
+     * if necessary it creates a new beam in case this beam was split by rest.
+     * Returns @p TRUE if this beam becomes broken (not enough notes) and has to be deleted
+     */
+    bool removeNote(TnotePair *np);
 
-  void setMeasure(TmeasureObject* m);
+    void setMeasure(TmeasureObject *m);
 
-  void deleteBeam();
-
-private:
-  void resetBeam(TnotePair* noteToRemove);
+    void deleteBeam();
 
 private:
-  TmeasureObject                   *m_measure;
-  QList<TnotePair*>                 m_notes;
-  QList<T16beam>                    m_16beams; /**< list of lines of sixteenths */
+    void resetBeam(TnotePair *noteToRemove);
+
+private:
+    TmeasureObject *m_measure;
+    QList<TnotePair *> m_notes;
+    QList<T16beam> m_16beams; /**< list of lines of sixteenths */
 };
 
 #endif // TBEAMOBJECT_H

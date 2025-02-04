@@ -20,54 +20,54 @@
 
 #include <QtCore/qdebug.h>
 
-
-TtuneObject::TtuneObject(QObject* parent) :
-  QObject(parent),
-  m_tuning(nullptr)
+TtuneObject::TtuneObject(QObject *parent)
+    : QObject(parent)
+    , m_tuning(nullptr)
 {
 }
 
-
-TtuneObject::~TtuneObject() {}
-
-
-void TtuneObject::setTune(Ttune* t) {
-  m_tuning = t;
-  emit scordatureChanged();
+TtuneObject::~TtuneObject()
+{
 }
 
-
-QString TtuneObject::name() const {
-  return m_tuning->name;
+void TtuneObject::setTune(Ttune *t)
+{
+    m_tuning = t;
+    emit scordatureChanged();
 }
 
-
-QString TtuneObject::stringName(int realStrNr) const {
-  if (realStrNr > 0 && realStrNr <= m_tuning->stringNr()) {
-      auto strName = m_tuning->str(realStrNr).styledName(false);
-      return strName.replace(0, 1, strName[0].toUpper());
-  } else
-      return QString();
+QString TtuneObject::name() const
+{
+    return m_tuning->name;
 }
 
-
-bool TtuneObject::otherThanStd(int realStrNr) const {
-  return realStrNr <= m_tuning->stringNr() && !m_tuning->str(realStrNr).compareNotes(Ttune::stdTune.str(realStrNr));
+QString TtuneObject::stringName(int realStrNr) const
+{
+    if (realStrNr > 0 && realStrNr <= m_tuning->stringNr()) {
+        auto strName = m_tuning->str(realStrNr).styledName(false);
+        return strName.replace(0, 1, strName[0].toUpper());
+    } else
+        return QString();
 }
 
-
-bool TtuneObject::scordature() const {
-  if (!m_tuning)
-    return false;
-  return m_tuning->type() == Ttune::Custom || (m_tuning->type() > Ttune::Standard_EADGBE && m_tuning->type() < Ttune::Bass4_EADG);
+bool TtuneObject::otherThanStd(int realStrNr) const
+{
+    return realStrNr <= m_tuning->stringNr() && !m_tuning->str(realStrNr).compareNotes(Ttune::stdTune.str(realStrNr));
 }
 
+bool TtuneObject::scordature() const
+{
+    if (!m_tuning)
+        return false;
+    return m_tuning->type() == Ttune::Custom || (m_tuning->type() > Ttune::Standard_EADGBE && m_tuning->type() < Ttune::Bass4_EADG);
+}
 
-int TtuneObject::changedStrings() const {
-  int ch = 0;
-  for (int s = 1; s <= static_cast<int>(m_tuning->stringNr()); ++s) {
-    if (otherThanStd(s))
-      ch++;
-  }
-  return ch;
+int TtuneObject::changedStrings() const
+{
+    int ch = 0;
+    for (int s = 1; s <= static_cast<int>(m_tuning->stringNr()); ++s) {
+        if (otherThanStd(s))
+            ch++;
+    }
+    return ch;
 }

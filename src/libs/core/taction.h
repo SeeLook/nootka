@@ -19,14 +19,11 @@
 #ifndef TACTION_H
 #define TACTION_H
 
-
-#include <nootkacoreglobal.h>
 #include <QtCore/qobject.h>
 #include <QtGui/qcolor.h>
-
+#include <nootkacoreglobal.h>
 
 class QQmlComponent;
-
 
 /**
  * Describes action (icon, text, checked).
@@ -37,97 +34,96 @@ class QQmlComponent;
  */
 class NOOTKACORE_EXPORT Taction : public QObject
 {
+    Q_OBJECT
 
-  Q_OBJECT
-
-  Q_PROPERTY(QString icon READ icon WRITE setIconTag NOTIFY iconChanged)
-  Q_PROPERTY(QString text READ text WRITE setText NOTIFY textChanged)
-  Q_PROPERTY(QString tip READ tip WRITE setTip NOTIFY tipChanged)
-  Q_PROPERTY(int tipPos READ tipPos NOTIFY tipChanged)
-  Q_PROPERTY(bool checked READ checked WRITE setChecked NOTIFY checkedChanged)
-  Q_PROPERTY(bool checkable READ checkable WRITE setCheckable NOTIFY checkableChanged)
-  Q_PROPERTY(QObject* shortcut READ shortcut WRITE setShortcut)
-  Q_PROPERTY(bool enabled READ enabled WRITE setEnabled NOTIFY enabledChanged)
-  Q_PROPERTY(QColor bgColor READ bgColor WRITE setBgColor NOTIFY bgColorChanged)
+    Q_PROPERTY(QString icon READ icon WRITE setIconTag NOTIFY iconChanged)
+    Q_PROPERTY(QString text READ text WRITE setText NOTIFY textChanged)
+    Q_PROPERTY(QString tip READ tip WRITE setTip NOTIFY tipChanged)
+    Q_PROPERTY(int tipPos READ tipPos NOTIFY tipChanged)
+    Q_PROPERTY(bool checked READ checked WRITE setChecked NOTIFY checkedChanged)
+    Q_PROPERTY(bool checkable READ checkable WRITE setCheckable NOTIFY checkableChanged)
+    Q_PROPERTY(QObject *shortcut READ shortcut WRITE setShortcut)
+    Q_PROPERTY(bool enabled READ enabled WRITE setEnabled NOTIFY enabledChanged)
+    Q_PROPERTY(QColor bgColor READ bgColor WRITE setBgColor NOTIFY bgColorChanged)
 
 public:
-  explicit Taction(QObject* parent = nullptr);
-  explicit Taction(const QString& txt, const QString& ico, QObject* parent = nullptr, bool isEnabled = true);
-  ~Taction() override;
+    explicit Taction(QObject *parent = nullptr);
+    explicit Taction(const QString &txt, const QString &ico, QObject *parent = nullptr, bool isEnabled = true);
+    ~Taction() override;
 
-  QString icon() const;
-  void setIconTag(const QString& ic);
+    QString icon() const;
+    void setIconTag(const QString &ic);
 
-  QString text() const { return m_text; }
-  void setText(const QString& t);
+    QString text() const { return m_text; }
+    void setText(const QString &t);
 
-  QString tip() const { return m_tip; }
-  void setTip(const QString& t, int pos = 1);
+    QString tip() const { return m_tip; }
+    void setTip(const QString &t, int pos = 1);
 
-  int tipPos() const { return m_tipPos; }
+    int tipPos() const { return m_tipPos; }
 
-  bool checkable() const { return m_checkable; }
-  void setCheckable(bool ch);
+    bool checkable() const { return m_checkable; }
+    void setCheckable(bool ch);
 
-  bool checked() const { return m_checked; }
-  void setChecked(bool ch);
+    bool checked() const { return m_checked; }
+    void setChecked(bool ch);
 
-  QObject* shortcut() { return m_shortcut; }
-  void setShortcut(QObject* s);
+    QObject *shortcut() { return m_shortcut; }
+    void setShortcut(QObject *s);
 
-  bool enabled() const { return m_enabled; }
-  void setEnabled(bool e);
+    bool enabled() const { return m_enabled; }
+    void setEnabled(bool e);
 
-      /**
-       * Color used to highlight an item associated with this action
-       */
-  QColor bgColor() const { return m_bgColor; }
-  void setBgColor(const QColor& bgC);
+    /**
+     * Color used to highlight an item associated with this action
+     */
+    QColor bgColor() const { return m_bgColor; }
+    void setBgColor(const QColor &bgC);
 
-      /**
-       * Emits @p shakeButton() signal
-       * - to make corresponding tool button shaking to attract user attention
-       * - or to display flying button under Android
-       */
-  void shake() { emit shakeButton(); }
+    /**
+     * Emits @p shakeButton() signal
+     * - to make corresponding tool button shaking to attract user attention
+     * - or to display flying button under Android
+     */
+    void shake() { emit shakeButton(); }
 
-  Q_INVOKABLE void trigger();
-  Q_INVOKABLE QString key() const;
+    Q_INVOKABLE void trigger();
+    Q_INVOKABLE QString key() const;
 
-      /**
-       * Creates QML Shortcut object (if there is not already)
-       * with given @p keySequence. It could be either simple key text: \"M\" (wrapped with quotas)
-       * or standard key: StandardKey.Open (no quotas)
-       * or any of above followed by other parameters: \"E\"; enabled: !score.singleNote.
-       * In such a case this @p Taction parent has to belong to proper context where those params are available.
-       * But if this parameter is null, @p qmlComp data is used directly.
-       */
-  void createQmlShortcut(QQmlComponent* qmlComp, const char* keySequence);
+    /**
+     * Creates QML Shortcut object (if there is not already)
+     * with given @p keySequence. It could be either simple key text: \"M\" (wrapped with quotas)
+     * or standard key: StandardKey.Open (no quotas)
+     * or any of above followed by other parameters: \"E\"; enabled: !score.singleNote.
+     * In such a case this @p Taction parent has to belong to proper context where those params are available.
+     * But if this parameter is null, @p qmlComp data is used directly.
+     */
+    void createQmlShortcut(QQmlComponent *qmlComp, const char *keySequence);
 
 public slots:
-  void triggerSlot() { trigger(); }
+    void triggerSlot() { trigger(); }
 
 signals:
-  void iconChanged();
-  void textChanged();
-  void tipChanged();
-  void triggered();
-  void checkedChanged();
-  void checkableChanged();
-  void enabledChanged();
-  void bgColorChanged();
-  void shakeButton();
+    void iconChanged();
+    void textChanged();
+    void tipChanged();
+    void triggered();
+    void checkedChanged();
+    void checkableChanged();
+    void enabledChanged();
+    void bgColorChanged();
+    void shakeButton();
 
 private:
-  bool                    m_checkable = false;
-  bool                    m_checked = false;
-  bool                    m_enabled = true;
-  QString                 m_iconTag;
-  QString                 m_text;
-  QString                 m_tip;
-  QObject                *m_shortcut = nullptr;
-  quint8                  m_tipPos = 1; /**< It corresponds with @p QQUickItem::TransformOrigin, 1 means Top center  */
-  QColor                  m_bgColor;
+    bool m_checkable = false;
+    bool m_checked = false;
+    bool m_enabled = true;
+    QString m_iconTag;
+    QString m_text;
+    QString m_tip;
+    QObject *m_shortcut = nullptr;
+    quint8 m_tipPos = 1; /**< It corresponds with @p QQUickItem::TransformOrigin, 1 means Top center  */
+    QColor m_bgColor;
 };
 
 #endif // TACTION_H

@@ -209,14 +209,14 @@ void TtipHandler::showResultTip(TQAunit* answer, int time) {
   deleteResultTip();
   deleteConfirmTip();
 
- bool autoNext = GLOB->E->autoNextQuest;
- if (GLOB->E->afterMistake == TexamParams::e_stop && !answer->isCorrect())
+ bool autoNext = GLOB->examParams->autoNextQuest;
+ if (GLOB->examParams->afterMistake == TexamParams::e_stop && !answer->isCorrect())
      autoNext = false; // when mistake and e_stop - the same like autoNext = false;
  if (autoNext) { // determine time of displaying
-   if (answer->isCorrect() || GLOB->E->afterMistake == TexamParams::e_continue)
+   if (answer->isCorrect() || GLOB->examParams->afterMistake == TexamParams::e_continue)
      time = 2500; // hard-coded
    else
-     time = GLOB->E->mistakePreview; // user defined wait time
+     time = GLOB->examParams->mistakePreview; // user defined wait time
  }
 
   emit wantResultTip(wasAnswerOKtext(answer), TexecutorSupply::answerColor(answer->mistake()));
@@ -362,7 +362,7 @@ void TtipHandler::showQuestionTip() {
 #endif
 
   deleteWhatNextTip();
-  if (!GLOB->E->autoNextQuest)
+  if (!GLOB->examParams->autoNextQuest)
     deleteResultTip();
   deleteQuestionTip();
 

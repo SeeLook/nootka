@@ -19,9 +19,7 @@
 #ifndef TMEASURE_H
 #define TMEASURE_H
 
-
 #include "tmeter.h"
-
 
 class Tchunk;
 
@@ -30,61 +28,60 @@ class Tchunk;
  */
 class NOOTKACORE_EXPORT Tmeasure
 {
-
-  friend class Tmelody;
+    friend class Tmelody;
 
 public:
-  Tmeasure(int nr, Tmeter::Emeter m = Tmeter::NoMeter);
+    Tmeasure(int nr, Tmeter::Emeter m = Tmeter::NoMeter);
 
-  Tmeter& meter() { return m_meter; }
+    Tmeter &meter() { return m_meter; }
 
-  int number() { return m_number; }
+    int number() { return m_number; }
 
-      /**
-       * Adds a note.
-       */
-  void addNote(const Tchunk& n);
+    /**
+     * Adds a note.
+     */
+    void addNote(const Tchunk &n);
 
-      /**
-       * Returns given note in this measure
-       */
-  Tchunk& note(int index) { return m_notes[index]; }
-  Tchunk& lastNote() { return m_notes.last(); }
+    /**
+     * Returns given note in this measure
+     */
+    Tchunk &note(int index) { return m_notes[index]; }
+    Tchunk &lastNote() { return m_notes.last(); }
 
-      /**
-       * Current duration of the measure
-       */
-  int duration() const { return m_duration; }
+    /**
+     * Current duration of the measure
+     */
+    int duration() const { return m_duration; }
 
-      /**
-       * @p TRUE when measure is full - notes duration is equal meter duration
-       */
-  bool isFull();
+    /**
+     * @p TRUE when measure is full - notes duration is equal meter duration
+     */
+    bool isFull();
 
-  void removeLastNote();
+    void removeLastNote();
 
-  int count() { return m_notes.size(); }
+    int count() { return m_notes.size(); }
 
-      /**
-       * Replaces note @p noteNr with notes in the list.
-       * List of notes must have the same duration like replacing note.
-       */
-  void swapWithNotes(int noteNr, const QList<Tchunk>& notes);
+    /**
+     * Replaces note @p noteNr with notes in the list.
+     * List of notes must have the same duration like replacing note.
+     */
+    void swapWithNotes(int noteNr, const QList<Tchunk> &notes);
 
 protected:
-      /**
-       * Adds note @p n at the beginning of this bar.
-       * Increases its duration.
-       * This method is intended to fill anacrusis measures with rests
-       * and is available only by @p Tmelody (protected)
-       */
-  void prepend(const Tchunk& n);
+    /**
+     * Adds note @p n at the beginning of this bar.
+     * Increases its duration.
+     * This method is intended to fill anacrusis measures with rests
+     * and is available only by @p Tmelody (protected)
+     */
+    void prepend(const Tchunk &n);
 
 private:
-  int                 m_number;
-  Tmeter              m_meter;
-  QList<Tchunk>       m_notes;
-  int                 m_duration;
+    int m_number;
+    Tmeter m_meter;
+    QList<Tchunk> m_notes;
+    int m_duration;
 };
 
 #endif // TMEASURE_H

@@ -19,19 +19,16 @@
 #include "nootkacoreglobal.h"
 #include <Qt>
 
-
 /**
  * Layout parameters of main Nootka window.
  */
 class NOOTKACORE_EXPORT TlayoutParams
 {
-
 public:
-  bool toolBarAutoHide; /** When tool bar appears only after mouse action - @p FALSE by default */
-  Qt::ToolButtonStyle iconTextOnToolBar; /** How text and icons are displayed on tool bar - text under icons by default. */
+    bool toolBarAutoHide; /** When tool bar appears only after mouse action - @p FALSE by default */
+    Qt::ToolButtonStyle iconTextOnToolBar; /** How text and icons are displayed on tool bar - text under icons by default. */
 
-  bool hintsBarEnabled; /** Is hints bar visible - @p TRUE by default */
-  bool soundViewEnabled; /** Is sound view visible - @p TRUE by default */
-  bool guitarEnabled; /** Is guitar visible - @p TRUE by default */
-
+    bool hintsBarEnabled; /** Is hints bar visible - @p TRUE by default */
+    bool soundViewEnabled; /** Is sound view visible - @p TRUE by default */
+    bool guitarEnabled; /** Is guitar visible - @p TRUE by default */
 };

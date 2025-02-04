@@ -20,132 +20,140 @@
 
 #include <QtGui/qguiapplication.h>
 
+// #################################################################################################
+// ###################     static const definitions     ############################################
+// #################################################################################################
 
-//#################################################################################################
-//###################     static const definitions     ############################################
-//#################################################################################################
+static const char *const nameArray[INSTR_COUNT] = {QT_TRANSLATE_NOOP("Tinstrument", "other instrument"),
+                                                   QT_TRANSLATE_NOOP("Tinstrument", "Classical Guitar"),
+                                                   QT_TRANSLATE_NOOP("Tinstrument", "Electric Guitar"),
+                                                   QT_TRANSLATE_NOOP("Tinstrument", "Bass Guitar"),
+                                                   QT_TRANSLATE_NOOP("Tinstrument", "Piano"),
+                                                   QT_TRANSLATE_NOOP("Tinstrument", "Bandoneon"),
+                                                   QT_TRANSLATE_NOOP("Tinstrument", "Alt Saxophone"),
+                                                   QT_TRANSLATE_NOOP("Tinstrument", "Tenor Saxophone"),
+                                                   QT_TRANSLATE_NOOP("Tinstrument", "Ukulele")};
 
-static const char* const nameArray[INSTR_COUNT] = {
-  QT_TRANSLATE_NOOP("Tinstrument", "other instrument"), QT_TRANSLATE_NOOP("Tinstrument", "Classical Guitar"),
-  QT_TRANSLATE_NOOP("Tinstrument", "Electric Guitar"), QT_TRANSLATE_NOOP("Tinstrument", "Bass Guitar"),
-  QT_TRANSLATE_NOOP("Tinstrument", "Piano"), QT_TRANSLATE_NOOP("Tinstrument", "Bandoneon"),
-  QT_TRANSLATE_NOOP("Tinstrument", "Alt Saxophone"), QT_TRANSLATE_NOOP("Tinstrument", "Tenor Saxophone"),
-  QT_TRANSLATE_NOOP("Tinstrument", "Ukulele")
-};
-
-//#################################################################################################
-//###################              Tinstrument         ############################################
-//#################################################################################################
-Tinstrument::Tinstrument(Tinstrument::Etype type) :
-  m_type(type)
+// #################################################################################################
+// ###################              Tinstrument         ############################################
+// #################################################################################################
+Tinstrument::Tinstrument(Tinstrument::Etype type)
+    : m_type(type)
 {
 }
 
-
-QString Tinstrument::name() const {
-  return staticName(m_type);
+QString Tinstrument::name() const
+{
+    return staticName(m_type);
 }
 
-
-QString Tinstrument::staticName(Tinstrument::Etype t) {
-  int ti = static_cast<int>(t);
-  return ti < 0 || ti > INSTR_COUNT - 1 ?  QString() : QGuiApplication::translate("Tinstrument", nameArray[ti]);
+QString Tinstrument::staticName(Tinstrument::Etype t)
+{
+    int ti = static_cast<int>(t);
+    return ti < 0 || ti > INSTR_COUNT - 1 ? QString() : QGuiApplication::translate("Tinstrument", nameArray[ti]);
 }
 
-
-QString Tinstrument::glyph() const {
-  static const char* const glyphArray[INSTR_COUNT] = { "v", "h", "i", "j", "f", "e", "P", "Q", "u" };
-  return QString(glyphArray[static_cast<int>(m_type)]);
+QString Tinstrument::glyph() const
+{
+    static const char *const glyphArray[INSTR_COUNT] = {"v", "h", "i", "j", "f", "e", "P", "Q", "u"};
+    return QString(glyphArray[static_cast<int>(m_type)]);
 }
 
-
-int Tinstrument::clef() const {
-  static const quint8 clefArray[INSTR_COUNT] = { 1, 8, 8, 2, 128, 128, 1, 1, 1 };
-  return clefArray[static_cast<int>(m_type)];
+int Tinstrument::clef() const
+{
+    static const quint8 clefArray[INSTR_COUNT] = {1, 8, 8, 2, 128, 128, 1, 1, 1};
+    return clefArray[static_cast<int>(m_type)];
 }
 
-
-QString Tinstrument::qmlFile() const {
-  static const char* const qmlFileArray[INSTR_COUNT] = {
-    "", "Guitar", "Guitar", "Guitar", "Piano", "Bandoneon", "Sax", "Sax", "Ukulele"
-  };
-  return QString(qmlFileArray[static_cast<int>(m_type)]);
+QString Tinstrument::qmlFile() const
+{
+    static const char *const qmlFileArray[INSTR_COUNT] = {"", "Guitar", "Guitar", "Guitar", "Piano", "Bandoneon", "Sax", "Sax", "Ukulele"};
+    return QString(qmlFileArray[static_cast<int>(m_type)]);
 }
 
-
-int Tinstrument::transposition() const {
-  static const qint8 transArray[INSTR_COUNT] = { 0, 0, 0, -12, 0, 0, -9, -14, 0 };
-  return transArray[static_cast<int>(m_type)];
+int Tinstrument::transposition() const
+{
+    static const qint8 transArray[INSTR_COUNT] = {0, 0, 0, -12, 0, 0, -9, -14, 0};
+    return transArray[static_cast<int>(m_type)];
 }
 
-
-int Tinstrument::fretNumber() const {
-  switch (m_type) {
-    case ClassicalGuitar: return 19;
-    case ElectricGuitar: return 23;
-    case BassGuitar: return 20;
-    case Ukulele: return 17;
-    default: return 0;
-  }
+int Tinstrument::fretNumber() const
+{
+    switch (m_type) {
+    case ClassicalGuitar:
+        return 19;
+    case ElectricGuitar:
+        return 23;
+    case BassGuitar:
+        return 20;
+    case Ukulele:
+        return 17;
+    default:
+        return 0;
+    }
 }
 
-
-bool Tinstrument::isFadeOut() const {
-  switch (m_type) {
+bool Tinstrument::isFadeOut() const
+{
+    switch (m_type) {
     case ClassicalGuitar:
     case ElectricGuitar:
     case BassGuitar:
     case Piano:
     case Ukulele:
-      return true;
-    default: return false;
-  }
+        return true;
+    default:
+        return false;
+    }
 }
 
-
-QString Tinstrument::levelsDir() const {
-  switch (m_type) {
+QString Tinstrument::levelsDir() const
+{
+    switch (m_type) {
     case ClassicalGuitar:
     case ElectricGuitar:
-      return QStringLiteral("guitar");
+        return QStringLiteral("guitar");
     case BassGuitar:
-      return QStringLiteral("bass-guitar");
+        return QStringLiteral("bass-guitar");
     case Piano:
-      return QStringLiteral("piano");
+        return QStringLiteral("piano");
     case Bandoneon:
-      return QStringLiteral("bandoneon");
+        return QStringLiteral("bandoneon");
     case AltSax:
     case TenorSax:
-      return QStringLiteral("sax");
+        return QStringLiteral("sax");
     case Ukulele:
-      return QStringLiteral("ukulele");
+        return QStringLiteral("ukulele");
 
-    default: return QString();
-  }
+    default:
+        return QString();
+    }
 }
 
-int Tinstrument::getItemHeight(int mainWindowHeight) {
-  switch (m_type) {
+int Tinstrument::getItemHeight(int mainWindowHeight)
+{
+    switch (m_type) {
     case ClassicalGuitar:
     case ElectricGuitar:
     case BassGuitar:
-      return mainWindowHeight / 4;
+        return mainWindowHeight / 4;
     case Ukulele:
-      return mainWindowHeight / 5;
+        return mainWindowHeight / 5;
     case Piano:
-#if defined (Q_OS_ANDROID)
-      return qRound(static_cast<qreal>(mainWindowHeight) * 0.22);
+#if defined(Q_OS_ANDROID)
+        return qRound(static_cast<qreal>(mainWindowHeight) * 0.22);
     case Bandoneon:
-      return mainWindowHeight / 3;
+        return mainWindowHeight / 3;
 #else
-      return mainWindowHeight / 5;
+        return mainWindowHeight / 5;
     case Bandoneon:
-      return qRound(static_cast<qreal>(mainWindowHeight) / 3.5);
+        return qRound(static_cast<qreal>(mainWindowHeight) / 3.5);
 #endif
     case AltSax:
     case TenorSax:
-      return mainWindowHeight;
+        return mainWindowHeight;
 
-    default: return 0;
-  }
+    default:
+        return 0;
+    }
 }

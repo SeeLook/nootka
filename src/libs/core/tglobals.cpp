@@ -18,912 +18,1140 @@
 
 #include "tglobals.h"
 #include "nootkaconfig.h"
+#include "tcolor.h"
+#include "tinitcorelib.h"
+#include "tlayoutparams.h"
+#include "tpath.h"
 #include <music/tkeysignature.h>
+#include <music/tnamestylefilter.h>
 #include <music/ttuneobject.h>
 #include <taudioparams.h>
 #include <texamparams.h>
 #include <tscoreparams.h>
-#include <music/tnamestylefilter.h>
-#include "tpath.h"
-#include "tlayoutparams.h"
-#include "tinitcorelib.h"
-#include "tcolor.h"
-#if defined (Q_OS_ANDROID)
-  #include <Android/tandroid.h>
+#if defined(Q_OS_ANDROID)
+#include <Android/tandroid.h>
 #endif
+#include <QtCore/qdebug.h>
 #include <QtCore/qdir.h>
 #include <QtCore/qsettings.h>
 #include <QtGui/qguiapplication.h>
 #include <QtGui/qpalette.h>
 #include <QtGui/qscreen.h>
-#include <QtCore/qdebug.h>
-
 
 /*static*/
-QString& Tglobals::path = Tpath::main;
-Tglobals* Tglobals::m_instance = nullptr;
+QString &Tglobals::path = Tpath::main;
+Tglobals *Tglobals::m_instance = nullptr;
 
-QString Tglobals::getInstPath(const QString& appInstPath) {
+QString Tglobals::getInstPath(const QString &appInstPath)
+{
     QString p;
     QDir d = QDir(appInstPath);
-#if defined (Q_OS_WIN)
-    p = d.path() + QLatin1String("/");         //  Windows
-  #elif defined (Q_OS_ANDROID)
+#if defined(Q_OS_WIN)
+    p = d.path() + QLatin1String("/"); //  Windows
+#elif defined(Q_OS_ANDROID)
     p = ":/";
-  #elif defined (Q_OS_LINUX)
-      d.cdUp();
-      p = d.path() + QLatin1String("/share/nootka/");   // Linux
-  #elif defined (Q_OS_MAC)
-      d.cdUp();
-      p = d.path() + QLatin1String("/Resources/");     // MacOs
+#elif defined(Q_OS_LINUX)
+    d.cdUp();
+    p = d.path() + QLatin1String("/share/nootka/"); // Linux
+#elif defined(Q_OS_MAC)
+    d.cdUp();
+    p = d.path() + QLatin1String("/Resources/"); // MacOs
 #endif
 
-  return p;
+    return p;
 }
 
-QString Tglobals::systemUserName() {
-  #if defined (Q_OS_ANDROID)
+QString Tglobals::systemUserName()
+{
+#if defined(Q_OS_ANDROID)
     return Tandroid::accountName();
-  #elif defined(Q_OS_WIN32)
+#elif defined(Q_OS_WIN32)
     return qgetenv("USERNAME");
-  #else
+#else
     return qgetenv("USER");
-  #endif
+#endif
 }
 
-qreal Tglobals::pitchOfFreq(int freq) {
-  return -36.3763165622959152488 + 39.8631371386483481 * log10(static_cast<qreal>(freq));
+qreal Tglobals::pitchOfFreq(int freq)
+{
+    return -36.3763165622959152488 + 39.8631371386483481 * log10(static_cast<qreal>(freq));
 }
 
 /*end static*/
 
-
-Tglobals::Tglobals(QObject* parent) :
-  QObject(parent),
-  m_tune(nullptr)
+Tglobals::Tglobals(QObject *parent)
+    : QObject(parent)
+    , scoreParams(new TscoreParams)
+    , examParams(new TexamParams)
+    , audioParams(new TaudioParams)
+    , layoutParams(new TlayoutParams)
+    , m_tune(nullptr)
 {
-  version = NOOTKA_VERSION;
+    version = NOOTKA_VERSION;
 
-  qRegisterMetaTypeStreamOperators<Ttune>("Ttune");
-  qRegisterMetaType<Tnote>("Tnote");
+    qRegisterMetaTypeStreamOperators<Ttune>("Ttune");
+    qRegisterMetaType<Tnote>("Tnote");
 
-  QCoreApplication::setOrganizationName(QStringLiteral("Nootka"));
-  QCoreApplication::setOrganizationDomain(QStringLiteral("nootka.sf.net"));
-  QCoreApplication::setApplicationName(QStringLiteral("Nootka"));
+    QCoreApplication::setOrganizationName(QStringLiteral("Nootka"));
+    QCoreApplication::setOrganizationDomain(QStringLiteral("nootka.sf.net"));
+    QCoreApplication::setApplicationName(QStringLiteral("Nootka"));
 
-  E = new TexamParams();
-  A = new TaudioParams();
-  S = new TscoreParams();
-  L = new TlayoutParams();
-  m_tuneObject = new TtuneObject(this);
+    m_tuneObject = new TtuneObject(this);
 
 #if defined(Q_OS_WIN32) || defined(Q_OS_MAC)
-  config = new QSettings(QSettings::IniFormat, QSettings::UserScope, QStringLiteral("Nootka"), qApp->applicationName());
+    config = new QSettings(QSettings::IniFormat, QSettings::UserScope, QStringLiteral("Nootka"), qApp->applicationName());
 #else
-  config = new QSettings();
+    config = new QSettings();
 #endif
-  loadSettings(config);
+    loadSettings(config);
 
-  if (!m_instance) {
-      m_instance = this;
-  } else {
-      qDebug() << "Tglobals instance has already existed. Application is terminating!";
-      qApp->exit(109);
-  }
+    if (!m_instance) {
+        m_instance = this;
+    } else {
+        qDebug() << "Tglobals instance has already existed. Application is terminating!";
+        qApp->exit(109);
+    }
 }
 
-
-Tglobals::~Tglobals() {
-  storeSettings(config);
-  delete E;
-  delete A;
-  delete S;
-  delete L;
-  delete m_tune;
-  delete config;
-  m_instance = nullptr;
+Tglobals::~Tglobals()
+{
+    storeSettings(config);
+    delete examParams;
+    delete audioParams;
+    delete scoreParams;
+    delete layoutParams;
+    delete m_tune;
+    delete config;
+    m_instance = nullptr;
 }
 
+// ##########################################################################################
+// #######################         PUBLIC         ###########################################
+// ##########################################################################################
 
-//##########################################################################################
-//#######################         PUBLIC         ###########################################
-//##########################################################################################
-
-bool Tglobals::wasFirstRun() const {
-  return config->value(QStringLiteral("common/isFirstRun"), true).toBool();
+bool Tglobals::wasFirstRun() const
+{
+    return config->value(QStringLiteral("common/isFirstRun"), true).toBool();
 }
 
-
-void Tglobals::warnAboutNewerVersion(const QString& fileName) {
-  emit newerVersion(fileName); // TnootkaQML will handle that
+void Tglobals::warnAboutNewerVersion(const QString &fileName)
+{
+    emit newerVersion(fileName); // TnootkaQML will handle that
 }
 
-
-void Tglobals::setUseAnimations(bool use) {
-  if (m_useAnimations != use) {
-    m_useAnimations = use;
-    emit useAnimationsChanged();
-  }
+void Tglobals::setUseAnimations(bool use)
+{
+    if (m_useAnimations != use) {
+        m_useAnimations = use;
+        emit useAnimationsChanged();
+    }
 }
 
-void Tglobals::setShowHints(bool showH) {
-  if (showH != m_showHints) {
-    m_showHints = showH;
-    emit showHintsChanged();
-  }
+void Tglobals::setShowHints(bool showH)
+{
+    if (showH != m_showHints) {
+        m_showHints = showH;
+        emit showHintsChanged();
+    }
 }
 
-void Tglobals::setGuiScale(qreal sc) {
-  if (sc != m_guiScale) {
-    m_guiScale = sc;
-    emit guiScaleChanged();
-  }
+void Tglobals::setGuiScale(qreal sc)
+{
+    if (sc != m_guiScale) {
+        m_guiScale = sc;
+        emit guiScaleChanged();
+    }
 }
 
-
-bool Tglobals::showEnharmNotes() const { return S->showEnharmNotes; }
-void Tglobals::setShowEnharmNotes(bool showEnharm) {
-  if (showEnharm != S->showEnharmNotes) {
-    S->showEnharmNotes = showEnharm;
-    emit showEnharmNotesChanged();
-  }
+bool Tglobals::showEnharmNotes() const
+{
+    return scoreParams->showEnharmNotes;
+}
+void Tglobals::setShowEnharmNotes(bool showEnharm)
+{
+    if (showEnharm != scoreParams->showEnharmNotes) {
+        scoreParams->showEnharmNotes = showEnharm;
+        emit showEnharmNotesChanged();
+    }
 }
 
-QColor Tglobals::getEnharmNoteColor() const { return S->enharmNotesColor; }
-void Tglobals::setEnharmNoteColor(const QColor& c) { S->enharmNotesColor = c; }
-
-QColor Tglobals::getNoteCursorColor() const { return S->pointerColor; }
-void Tglobals::setNoteCursorColor(const QColor& c) { S->pointerColor = c; emit noteCursorColorChanged(); }
-
-bool Tglobals::isSingleNote() const { return S->isSingleNoteMode; }
-void Tglobals::setSingleNote(bool sn) {
-  if (sn != S->isSingleNoteMode) {
-    S->isSingleNoteMode = sn;
-    emit singleNoteModeChanged();
-  }
+QColor Tglobals::getEnharmNoteColor() const
+{
+    return scoreParams->enharmNotesColor;
+}
+void Tglobals::setEnharmNoteColor(const QColor &c)
+{
+    scoreParams->enharmNotesColor = c;
 }
 
-bool Tglobals::enableDoubleAccids() const { return S->doubleAccidentalsEnabled; }
-void Tglobals::setEnableDoubleAccids(bool dblAcc) {
-  if (dblAcc != S->doubleAccidentalsEnabled) {
-    S->doubleAccidentalsEnabled = dblAcc;
-    emit enableDoubleAccidsChanged();
-  }
+QColor Tglobals::getNoteCursorColor() const
+{
+    return scoreParams->pointerColor;
+}
+void Tglobals::setNoteCursorColor(const QColor &c)
+{
+    scoreParams->pointerColor = c;
+    emit noteCursorColorChanged();
 }
 
-bool Tglobals::keySignatureEnabled() const { return S->keySignatureEnabled; }
-void Tglobals::setKeySignatureEnabled(bool enKey) {
-  if (enKey != S->keySignatureEnabled) {
-    S->keySignatureEnabled = enKey;
-    emit enableKeySignatureChanged();
-  }
+bool Tglobals::isSingleNote() const
+{
+    return scoreParams->isSingleNoteMode;
+}
+void Tglobals::setSingleNote(bool sn)
+{
+    if (sn != scoreParams->isSingleNoteMode) {
+        scoreParams->isSingleNoteMode = sn;
+        emit singleNoteModeChanged();
+    }
 }
 
-int Tglobals::clefType() const { return static_cast<int>(S->clef); }
-void Tglobals::setClefType(int clType) {
-  if (static_cast<Tclef::EclefType>(clType) != S->clef) {
-    S->clef = static_cast<Tclef::EclefType>(clType);
-    emit clefTypeChanged();
-  }
+bool Tglobals::enableDoubleAccids() const
+{
+    return scoreParams->doubleAccidentalsEnabled;
+}
+void Tglobals::setEnableDoubleAccids(bool dblAcc)
+{
+    if (dblAcc != scoreParams->doubleAccidentalsEnabled) {
+        scoreParams->doubleAccidentalsEnabled = dblAcc;
+        emit enableDoubleAccidsChanged();
+    }
 }
 
-QString Tglobals::majorKeyNameSufix() const { return S->majKeyNameSufix; }
-void Tglobals::setMajorKeyNameSufix(const QString& mkns) { S->majKeyNameSufix = mkns; }
-
-QString Tglobals::minorKeyNameSufix() const { return S->minKeyNameSufix; }
-void Tglobals::setMinorKeyNameSufix(const QString& mkns) { S->minKeyNameSufix = mkns; }
-
-int Tglobals::keyNameStyle() const { return static_cast<int>(S->nameStyleInKeySign); }
-void Tglobals::setKeyNameStyle(int keyStyle) { S->nameStyleInKeySign = static_cast<Tnote::EnameStyle>(keyStyle); }
-
-bool Tglobals::showKeyName() const { return S->showKeySignName; }
-void Tglobals::setShowKeyName(bool showKey) { S->showKeySignName = showKey; emit showKeyNameChanged(); }
-
-
-void Tglobals::updateKeySignatureNames() {
-  TkeySignature::setNameStyle(S->nameStyleInKeySign, S->majKeyNameSufix, S->minKeyNameSufix);
-  emit keyNameChanged();
+bool Tglobals::keySignatureEnabled() const
+{
+    return scoreParams->keySignatureEnabled;
+}
+void Tglobals::setKeySignatureEnabled(bool enKey)
+{
+    if (enKey != scoreParams->keySignatureEnabled) {
+        scoreParams->keySignatureEnabled = enKey;
+        emit enableKeySignatureChanged();
+    }
 }
 
-bool Tglobals::rhythmsEnabled() const { return S->rhythmsEnabled; }
-void Tglobals::setRhythmsEnabled(bool enR) {
-  if (S->rhythmsEnabled != enR) {
-    S->rhythmsEnabled = enR;
-    emit rhythmsEnabledChanged();
-  }
+int Tglobals::clefType() const
+{
+    return static_cast<int>(scoreParams->clef);
+}
+void Tglobals::setClefType(int clType)
+{
+    if (static_cast<Tclef::EclefType>(clType) != scoreParams->clef) {
+        scoreParams->clef = static_cast<Tclef::EclefType>(clType);
+        emit clefTypeChanged();
+    }
+}
+
+QString Tglobals::majorKeyNameSufix() const
+{
+    return scoreParams->majKeyNameSufix;
+}
+void Tglobals::setMajorKeyNameSufix(const QString &mkns)
+{
+    scoreParams->majKeyNameSufix = mkns;
+}
+
+QString Tglobals::minorKeyNameSufix() const
+{
+    return scoreParams->minKeyNameSufix;
+}
+void Tglobals::setMinorKeyNameSufix(const QString &mkns)
+{
+    scoreParams->minKeyNameSufix = mkns;
+}
+
+int Tglobals::keyNameStyle() const
+{
+    return static_cast<int>(scoreParams->nameStyleInKeySign);
+}
+void Tglobals::setKeyNameStyle(int keyStyle)
+{
+    scoreParams->nameStyleInKeySign = static_cast<Tnote::EnameStyle>(keyStyle);
+}
+
+bool Tglobals::showKeyName() const
+{
+    return scoreParams->showKeySignName;
+}
+void Tglobals::setShowKeyName(bool showKey)
+{
+    scoreParams->showKeySignName = showKey;
+    emit showKeyNameChanged();
+}
+
+void Tglobals::updateKeySignatureNames()
+{
+    TkeySignature::setNameStyle(scoreParams->nameStyleInKeySign, scoreParams->majKeyNameSufix, scoreParams->minKeyNameSufix);
+    emit keyNameChanged();
+}
+
+bool Tglobals::rhythmsEnabled() const
+{
+    return scoreParams->rhythmsEnabled;
+}
+void Tglobals::setRhythmsEnabled(bool enR)
+{
+    if (scoreParams->rhythmsEnabled != enR) {
+        scoreParams->rhythmsEnabled = enR;
+        emit rhythmsEnabledChanged();
+    }
 }
 
 /* ------------------ Note name switches ------------------ */
-bool Tglobals::seventhIsB() const { return S->seventhIs_B; }
-
-void Tglobals::setSeventhIsB(bool isB) {
-  if (isB != S->seventhIs_B) {
-    S->seventhIs_B = isB;
-    emit seventhIsBChanged();
-  }
+bool Tglobals::seventhIsB() const
+{
+    return scoreParams->seventhIs_B;
 }
 
-int Tglobals::noteNameStyle() const { return static_cast<int>(S->nameStyleInNoteName); }
-
-void Tglobals::setNoteNameStyle(int nameStyle) {
-  Tnote::EnameStyle newNameStyle = static_cast<Tnote::EnameStyle>(nameStyle);
-  if (newNameStyle != S->nameStyleInNoteName) {
-    S->nameStyleInNoteName = static_cast<Tnote::EnameStyle>(nameStyle);
-    Tnote::defaultStyle = S->nameStyleInNoteName;
-    emit noteNameStyleChanged();
-  }
+void Tglobals::setSeventhIsB(bool isB)
+{
+    if (isB != scoreParams->seventhIs_B) {
+        scoreParams->seventhIs_B = isB;
+        emit seventhIsBChanged();
+    }
 }
 
-bool Tglobals::scientificOctaves() const { return S->scientificOctaves; }
-
-void Tglobals::setScientificOctaves(bool sciO) {
-  if (sciO != S->scientificOctaves) {
-    S->scientificOctaves = sciO;
-    Tnote::scientificOctaves = sciO;
-    emit noteNameStyleChanged();
-  }
+int Tglobals::noteNameStyle() const
+{
+    return static_cast<int>(scoreParams->nameStyleInNoteName);
 }
 
-bool Tglobals::namesOnScore() const { return S->namesOnScore; }
-
-void Tglobals::setNamesOnScore(bool showNames) {
-  if (showNames != S->namesOnScore) {
-    S->namesOnScore = showNames;
-    emit namesOnScoreChanged();
-  }
+void Tglobals::setNoteNameStyle(int nameStyle)
+{
+    Tnote::EnameStyle newNameStyle = static_cast<Tnote::EnameStyle>(nameStyle);
+    if (newNameStyle != scoreParams->nameStyleInNoteName) {
+        scoreParams->nameStyleInNoteName = static_cast<Tnote::EnameStyle>(nameStyle);
+        Tnote::defaultStyle = scoreParams->nameStyleInNoteName;
+        emit noteNameStyleChanged();
+    }
 }
 
-QColor Tglobals::nameColor() const { return S->nameColor; }
+bool Tglobals::scientificOctaves() const
+{
+    return scoreParams->scientificOctaves;
+}
 
-void Tglobals::setNameColor(const QColor& nameC) {
-  if (nameC != S->nameColor) {
-    S->nameColor = nameC;
-    emit nameColorChanged();
-  }
+void Tglobals::setScientificOctaves(bool sciO)
+{
+    if (sciO != scoreParams->scientificOctaves) {
+        scoreParams->scientificOctaves = sciO;
+        Tnote::scientificOctaves = sciO;
+        emit noteNameStyleChanged();
+    }
+}
+
+bool Tglobals::namesOnScore() const
+{
+    return scoreParams->namesOnScore;
+}
+
+void Tglobals::setNamesOnScore(bool showNames)
+{
+    if (showNames != scoreParams->namesOnScore) {
+        scoreParams->namesOnScore = showNames;
+        emit namesOnScoreChanged();
+    }
+}
+
+QColor Tglobals::nameColor() const
+{
+    return scoreParams->nameColor;
+}
+
+void Tglobals::setNameColor(const QColor &nameC)
+{
+    if (nameC != scoreParams->nameColor) {
+        scoreParams->nameColor = nameC;
+        emit nameColorChanged();
+    }
 }
 
 /* ------------------ Instrument switches ------------------ */
-void Tglobals::setInstrument(Tinstrument::Etype t) {
-  if (t != m_instrument.type()) {
-    m_instrument.setType(t);
-    emit instrumentChanged();
-  }
-}
-
-
-int Tglobals::transposition() const { return A->transposition; }
-void Tglobals::setTransposition(int t) {
-  if (t != A->transposition) {
-    A->transposition = t;
-    emit transpositionChanged();
-  }
-}
-
-QString Tglobals::markedFrets() const {
-  QString fretText;
-  for (int i = 0; i < GmarkedFrets.size(); ++i) {
-    fretText.append(GmarkedFrets.at(i).toString());
-    if (i < GmarkedFrets.size() - 1)
-      fretText.append(QStringLiteral(","));
-  }
-  return fretText;
-}
-
-
-void Tglobals::setMarkedFrets(const QString& frets) {
-  GmarkedFrets.clear();
-  QString ex = QStringLiteral("!");
-  QStringList fr = frets.split(QStringLiteral(","));
-  for (int i = 0; i < fr.size(); ++i) {
-    QString exMark;
-    if (fr[i].contains(ex)) {
-      exMark = ex;
-      fr[i].replace(ex, QString());
+void Tglobals::setInstrument(Tinstrument::Etype t)
+{
+    if (t != m_instrument.type()) {
+        m_instrument.setType(t);
+        emit instrumentChanged();
     }
-    bool ok;
-    int frNr = fr[i].toInt(&ok);
-    if (ok && frNr > 0)
-      GmarkedFrets << fr[i] + exMark;
-  }
 }
 
+int Tglobals::transposition() const
+{
+    return audioParams->transposition;
+}
+void Tglobals::setTransposition(int t)
+{
+    if (t != audioParams->transposition) {
+        audioParams->transposition = t;
+        emit transpositionChanged();
+    }
+}
+
+QString Tglobals::markedFrets() const
+{
+    QString fretText;
+    for (int i = 0; i < GmarkedFrets.size(); ++i) {
+        fretText.append(GmarkedFrets.at(i).toString());
+        if (i < GmarkedFrets.size() - 1)
+            fretText.append(QStringLiteral(","));
+    }
+    return fretText;
+}
+
+void Tglobals::setMarkedFrets(const QString &frets)
+{
+    GmarkedFrets.clear();
+    QString ex = QStringLiteral("!");
+    QStringList fr = frets.split(QStringLiteral(","));
+    for (int i = 0; i < fr.size(); ++i) {
+        QString exMark;
+        if (fr[i].contains(ex)) {
+            exMark = ex;
+            fr[i].replace(ex, QString());
+        }
+        bool ok;
+        int frNr = fr[i].toInt(&ok);
+        if (ok && frNr > 0)
+            GmarkedFrets << fr[i] + exMark;
+    }
+}
 
 /* ------------------ Sound switches ------------------ */
-bool Tglobals::audioInEnabled() const { return A->INenabled; }
-void Tglobals::setAudioInEnabled(bool inEnabled) { A->INenabled = inEnabled; }
-
-QString Tglobals::inDevName() const { return A->INdevName; }
-void Tglobals::setInDevName(const QString& inName) { A->INdevName = inName; }
-
-int Tglobals::audioInstrument() const { return A->audioInstrNr; }
-void Tglobals::setAudioInstrument(int ai) { A->audioInstrNr = ai; }
-
-qreal Tglobals::minDuration() const { return A->minDuration; }
-
-void Tglobals::setMinDuration(qreal md) { A->minDuration = md; }
-
-qreal Tglobals::minVolume() const { return A->minimalVol; }
-void Tglobals::setMinVolume(qreal mv) {
-  if (mv != A->minimalVol) {
-    A->minimalVol = mv;
-    emit minVolumeChanged();
-  }
+bool Tglobals::audioInEnabled() const
+{
+    return audioParams->INenabled;
+}
+void Tglobals::setAudioInEnabled(bool inEnabled)
+{
+    audioParams->INenabled = inEnabled;
 }
 
-int Tglobals::detectionMethod() const { return A->detectMethod; }
-void Tglobals::setDetectionMethod(int m) { A->detectMethod = m; }
+QString Tglobals::inDevName() const
+{
+    return audioParams->INdevName;
+}
+void Tglobals::setInDevName(const QString &inName)
+{
+    audioParams->INdevName = inName;
+}
 
-bool Tglobals::useFilter() const { return A->equalLoudness; }
-void Tglobals::setUseFilter(bool use) { A->equalLoudness = use; }
+int Tglobals::audioInstrument() const
+{
+    return audioParams->audioInstrNr;
+}
+void Tglobals::setAudioInstrument(int ai)
+{
+    audioParams->audioInstrNr = ai;
+}
 
-bool Tglobals::audioOutEnabled() const { return A->OUTenabled; }
-void Tglobals::setAudioOutEnabled(bool outEnabled) { A->OUTenabled = outEnabled; }
+qreal Tglobals::minDuration() const
+{
+    return audioParams->minDuration;
+}
 
-QString Tglobals::outDevName() const { return A->OUTdevName; }
-void Tglobals::setOutDevName(const QString& odn) { A->OUTdevName = odn; }
+void Tglobals::setMinDuration(qreal md)
+{
+    audioParams->minDuration = md;
+}
 
-bool Tglobals::forwardInput() const { return A->forwardInput; }
-void Tglobals::setForwardInput(bool fi) { A->forwardInput = fi; }
-
-
-int Tglobals::midAfreq() const { return A->midAfreq; }
-void Tglobals::setMidAfreq(int midA) {
-  if (midA != A->midAfreq) {
-    if (midA < 391 || midA > 493) {
-      qDebug() << "[Tglobals] middle A frequency out of supported range. Revert to 440Hz" ;
-      midA = 440;
+qreal Tglobals::minVolume() const
+{
+    return audioParams->minimalVol;
+}
+void Tglobals::setMinVolume(qreal mv)
+{
+    if (mv != audioParams->minimalVol) {
+        audioParams->minimalVol = mv;
+        emit minVolumeChanged();
     }
-    A->midAfreq = midA; // in range of two semitones up and down around middle A (440Hz)
-    A->a440diff = midA == 440 ? 0.0 : pitchOfFreq(A->midAfreq) - pitchOfFreq(440);
-    emit midAfreqChanged();
-  }
 }
 
-bool Tglobals::JACKorASIO() const { return A->JACKorASIO; }
-void Tglobals::setJACKorASIO(bool JorA) { A->JACKorASIO = JorA; }
+int Tglobals::detectionMethod() const
+{
+    return audioParams->detectMethod;
+}
+void Tglobals::setDetectionMethod(int m)
+{
+    audioParams->detectMethod = m;
+}
 
-void Tglobals::setShowNotesDiff(bool notesDiff) {
-  if (m_showNotesDiff != notesDiff) {
-    m_showNotesDiff = notesDiff;
-    emit showNotesDiffChanged();
-  }
+bool Tglobals::useFilter() const
+{
+    return audioParams->equalLoudness;
+}
+void Tglobals::setUseFilter(bool use)
+{
+    audioParams->equalLoudness = use;
+}
+
+bool Tglobals::audioOutEnabled() const
+{
+    return audioParams->OUTenabled;
+}
+void Tglobals::setAudioOutEnabled(bool outEnabled)
+{
+    audioParams->OUTenabled = outEnabled;
+}
+
+QString Tglobals::outDevName() const
+{
+    return audioParams->OUTdevName;
+}
+void Tglobals::setOutDevName(const QString &odn)
+{
+    audioParams->OUTdevName = odn;
+}
+
+bool Tglobals::forwardInput() const
+{
+    return audioParams->forwardInput;
+}
+void Tglobals::setForwardInput(bool fi)
+{
+    audioParams->forwardInput = fi;
+}
+
+int Tglobals::midAfreq() const
+{
+    return audioParams->midAfreq;
+}
+void Tglobals::setMidAfreq(int midA)
+{
+    if (midA != audioParams->midAfreq) {
+        if (midA < 391 || midA > 493) {
+            qDebug() << "[Tglobals] middle A frequency out of supported range. Revert to 440Hz";
+            midA = 440;
+        }
+        audioParams->midAfreq = midA; // in range of two semitones up and down around middle A (440Hz)
+        audioParams->a440diff = midA == 440 ? 0.0 : pitchOfFreq(audioParams->midAfreq) - pitchOfFreq(440);
+        emit midAfreqChanged();
+    }
+}
+
+bool Tglobals::JACKorASIO() const
+{
+    return audioParams->JACKorASIO;
+}
+void Tglobals::setJACKorASIO(bool JorA)
+{
+    audioParams->JACKorASIO = JorA;
+}
+
+void Tglobals::setShowNotesDiff(bool notesDiff)
+{
+    if (m_showNotesDiff != notesDiff) {
+        m_showNotesDiff = notesDiff;
+        emit showNotesDiffChanged();
+    }
 }
 
 /* ------------------ Exam switches ------------------ */
-void Tglobals::setIsExam(bool is) {
-  if (is != m_isExam) {
-    m_isExam = is;
-    emit isExamChanged();
-  }
+void Tglobals::setIsExam(bool is)
+{
+    if (is != m_isExam) {
+        m_isExam = is;
+        emit isExamChanged();
+    }
 }
 
-QString Tglobals::student() const { return E->studentName; }
-void Tglobals::setStudent(const QString& st) {
-  if (st != E->studentName) {
-    E->studentName = st;
-    emit studentChanged();
-  }
+QString Tglobals::student() const
+{
+    return examParams->studentName;
+}
+void Tglobals::setStudent(const QString &st)
+{
+    if (st != examParams->studentName) {
+        examParams->studentName = st;
+        emit studentChanged();
+    }
 }
 
-void Tglobals::setCorrectColor(const QColor& c) {
-  if (c != EanswerColor) {
-    EanswerColor = c;
-    emit correctColorChanged();
-  }
+void Tglobals::setCorrectColor(const QColor &c)
+{
+    if (c != EanswerColor) {
+        EanswerColor = c;
+        emit correctColorChanged();
+    }
 }
 
-void Tglobals::setNotBadColor(const QColor& c) {
-  if (c != EnotBadColor) {
-    EnotBadColor = c;
-    emit notBadColorChanged();
-  }
+void Tglobals::setNotBadColor(const QColor &c)
+{
+    if (c != EnotBadColor) {
+        EnotBadColor = c;
+        emit notBadColorChanged();
+    }
 }
 
-void Tglobals::setWrongColor(const QColor& c) {
-  if (c != EquestionColor) {
-    EquestionColor = c;
-    emit wrongColorChanged();
-  }
+void Tglobals::setWrongColor(const QColor &c)
+{
+    if (c != EquestionColor) {
+        EquestionColor = c;
+        emit wrongColorChanged();
+    }
 }
 
-bool Tglobals::autoNextQuestion() const { return E->autoNextQuest; }
-void Tglobals::setAutoNextQuestion(bool autoNext) { E->autoNextQuest = autoNext; }
-
-bool Tglobals::expertAnswers() const { return E->expertsAnswerEnable; }
-void Tglobals::setExpertAnswers(bool expertA) { E->expertsAnswerEnable = expertA; }
-
-bool Tglobals::correctAnswers() const { return E->showCorrected; }
-void Tglobals::setCorrectAnswers(bool corrAnsw) { E->showCorrected = corrAnsw; }
-
-bool Tglobals::repeatIncorect() const { return E->repeatIncorrect; }
-void Tglobals::setRepeatIncorect(bool repInCorr) { E->repeatIncorrect = repInCorr; }
-
-bool Tglobals::closeWithoutConfirm() const { return E->closeWithoutConfirm; }
-void Tglobals::setCloseWithoutConfirm(bool closeNoConf) { E->closeWithoutConfirm = closeNoConf; }
-
-bool Tglobals::suggestExam() const { return E->suggestExam; }
-void Tglobals::setSuggestExam(bool suggest) { E->suggestExam = suggest; }
-
-bool Tglobals::extraNames() const { return E->showNameOfAnswered; }
-void Tglobals::setExtraNames(bool extraN) { E->showNameOfAnswered = extraN; }
-
-bool Tglobals::showWrongPlayed() const { return E->showWrongPlayed; }
-void Tglobals::setShowWrongPlayed(bool wrongPlayed) { E->showWrongPlayed = wrongPlayed; }
-
-bool Tglobals::waitForCorrect() const { return E->waitForCorrect; }
-void Tglobals::setWaitForCorrect(bool waitFor) { E->waitForCorrect = waitFor; }
-
-QString Tglobals::examsDir() const { return E->examsDir; }
-
-bool Tglobals::gotIt(const QString& key, bool retVal) const {
-  return config->value(QLatin1String("gotIt/") + key, retVal).toBool();
+bool Tglobals::autoNextQuestion() const
+{
+    return examParams->autoNextQuest;
+}
+void Tglobals::setAutoNextQuestion(bool autoNext)
+{
+    examParams->autoNextQuest = autoNext;
 }
 
-void Tglobals::setGotIt(const QString& key, bool val) {
-  config->setValue(QLatin1String("gotIt/") + key, val);
+bool Tglobals::expertAnswers() const
+{
+    return examParams->expertsAnswerEnable;
+}
+void Tglobals::setExpertAnswers(bool expertA)
+{
+    examParams->expertsAnswerEnable = expertA;
 }
 
-
-
-void Tglobals::setGuitarParams(int fretNr, const Ttune& tun) {
-  if (static_cast<uint>(fretNr) != GfretsNumber)
-    GfretsNumber = fretNr;
-
-  if (tun.type() == Ttune::Custom || tun.type() != tuning()->typeInt())
-    setTune(tun);
-
-  emit guitarParamsChanged();
+bool Tglobals::correctAnswers() const
+{
+    return examParams->showCorrected;
+}
+void Tglobals::setCorrectAnswers(bool corrAnsw)
+{
+    examParams->showCorrected = corrAnsw;
 }
 
+bool Tglobals::repeatIncorect() const
+{
+    return examParams->repeatIncorrect;
+}
+void Tglobals::setRepeatIncorect(bool repInCorr)
+{
+    examParams->repeatIncorrect = repInCorr;
+}
 
-int Tglobals::stringNumber() { return m_tune->stringNr(); }
+bool Tglobals::closeWithoutConfirm() const
+{
+    return examParams->closeWithoutConfirm;
+}
+void Tglobals::setCloseWithoutConfirm(bool closeNoConf)
+{
+    examParams->closeWithoutConfirm = closeNoConf;
+}
 
+bool Tglobals::suggestExam() const
+{
+    return examParams->suggestExam;
+}
+void Tglobals::setSuggestExam(bool suggest)
+{
+    examParams->suggestExam = suggest;
+}
 
-void Tglobals::setFingerColor(const QColor& fc) { GfingerColor = fc; emit fingerColorChanged(); }
-void Tglobals::setSelectedColor(const QColor& sc) { GselectedColor = sc; emit selectedColorChanged(); }
+bool Tglobals::extraNames() const
+{
+    return examParams->showNameOfAnswered;
+}
+void Tglobals::setExtraNames(bool extraN)
+{
+    examParams->showNameOfAnswered = extraN;
+}
 
+bool Tglobals::showWrongPlayed() const
+{
+    return examParams->showWrongPlayed;
+}
+void Tglobals::setShowWrongPlayed(bool wrongPlayed)
+{
+    examParams->showWrongPlayed = wrongPlayed;
+}
 
-void Tglobals::loadSettings(QSettings* cfg) {
-  // In fact, values without group are stored under 'General' key, but using it explicitly makes group '%General' - different.
-  // It is messy, so get rid of directly calling that group
-  if (cfg->contains(QLatin1String("General/geometry"))) { // old config key
-      m_geometry = cfg->value(QStringLiteral("General/geometry"), QRect()).toRect();
-      cfg->remove(QLatin1String("General/geometry")); // and remove it to grab new one next launch
-  } else
-      m_geometry = cfg->value(QStringLiteral("geometry"), QRect()).toRect();
-  if (m_geometry.width() < 720 || m_geometry.height() < 480) {
-    m_geometry.setWidth(qMax(qRound(qApp->primaryScreen()->size().width() * 0.75), 720));
-    m_geometry.setHeight(qMax(qRound(qApp->primaryScreen()->size().height() * 0.75), 480));
-    m_geometry.setX((qApp->primaryScreen()->size().width() - m_geometry.width()) / 2);
-    m_geometry.setY((qApp->primaryScreen()->size().height() - m_geometry.height()) / 2);
-  }
-  m_guiScale = qBound(0.5, cfg->value(QStringLiteral("scale"), 1.0).toReal(), 1.5);
+bool Tglobals::waitForCorrect() const
+{
+    return examParams->waitForCorrect;
+}
+void Tglobals::setWaitForCorrect(bool waitFor)
+{
+    examParams->waitForCorrect = waitFor;
+}
 
-  cfg->beginGroup(QLatin1String("common"));
-      isFirstRun = cfg->value(QStringLiteral("isFirstRun"), true).toBool();
-      m_useAnimations = cfg->value(QStringLiteral("useAnimations"), true).toBool();
-      m_showHints = cfg->value(QStringLiteral("showHints"), true).toBool();
-      lang = cfg->value(QStringLiteral("language"), QString()).toString();
-  cfg->endGroup();
+QString Tglobals::examsDir() const
+{
+    return examParams->examsDir;
+}
 
-//score widget settings
-  cfg->beginGroup(QLatin1String("score"));
-      S->keySignatureEnabled = cfg->value(QStringLiteral("keySignature"), false).toBool();
-      S->showKeySignName = cfg->value(QStringLiteral("keyName"), true).toBool(); //true;
-      S->nameStyleInKeySign = Tnote::EnameStyle(cfg->value(QStringLiteral("nameStyleInKey"),
-                                                           static_cast<int>(Tnote::e_english_Bb)).toInt());
-      S->majKeyNameSufix = cfg->value(QStringLiteral("majorKeysSufix"), QString()).toString();
-      S->minKeyNameSufix = cfg->value(QStringLiteral("minorKeysSufix"), QString()).toString();
-      if (cfg->contains("pointerColor"))
-          S->pointerColor = cfg->value(QStringLiteral("pointerColor")).value<QColor>();
-      else
-          S->pointerColor = Tcolor::invert(qApp->palette().highlight().color());
-      S->clef = Tclef::EclefType(cfg->value(QStringLiteral("clef"), static_cast<int>(Tclef::Treble_G_8down)).toInt());
-      // Rhythms has to be enabled when no clef (percussion)
-      S->rhythmsEnabled = cfg->value(QStringLiteral("rhythmsEnabled"), true).toBool() || S->clef == Tclef::NoClef;
-      S->isSingleNoteMode = cfg->value(QStringLiteral("singleNoteMode"), false).toBool();
-      S->tempo = cfg->value(QStringLiteral("tempo"), 120).toInt();
-      S->scoreScale = cfg->value(QStringLiteral("scoreScale"), 1.0).toReal();
-#if defined (Q_OS_ANDROID)
-      S->lastXmlDir = cfg->value(QStringLiteral("lastXmlDir"), QString()).toString();
-      if (!S->lastXmlDir.isEmpty() && (S->lastXmlDir == QDir::homePath() || !QFileInfo::exists(S->lastXmlDir) || !QFileInfo(S->lastXmlDir).isWritable())) {
-          S->lastXmlDir.clear();
-          /** WORKAROUND: This is workaround for 2.0.0 bug where lastXmlDir was set to QDir::homePath()
-           * which is internal application location - no way to navigate outside,
-           * so musicXML files on device storage(s) couldn't be reached. */
-          qDebug() << "[Tglobals] Fixed music XML directory path.";
-      }
+bool Tglobals::gotIt(const QString &key, bool retVal) const
+{
+    return config->value(QLatin1String("gotIt/") + key, retVal).toBool();
+}
+
+void Tglobals::setGotIt(const QString &key, bool val)
+{
+    config->setValue(QLatin1String("gotIt/") + key, val);
+}
+
+void Tglobals::setGuitarParams(int fretNr, const Ttune &tun)
+{
+    if (static_cast<uint>(fretNr) != GfretsNumber)
+        GfretsNumber = fretNr;
+
+    if (tun.type() == Ttune::Custom || tun.type() != tuning()->typeInt())
+        setTune(tun);
+
+    emit guitarParamsChanged();
+}
+
+int Tglobals::stringNumber()
+{
+    return m_tune->stringNr();
+}
+
+void Tglobals::setFingerColor(const QColor &fc)
+{
+    GfingerColor = fc;
+    emit fingerColorChanged();
+}
+void Tglobals::setSelectedColor(const QColor &sc)
+{
+    GselectedColor = sc;
+    emit selectedColorChanged();
+}
+
+void Tglobals::loadSettings(QSettings *cfg)
+{
+    // In fact, values without group are stored under 'General' key, but using it explicitly makes group '%General' - different.
+    // It is messy, so get rid of directly calling that group
+    if (cfg->contains(QLatin1String("General/geometry"))) { // old config key
+        m_geometry = cfg->value(QStringLiteral("General/geometry"), QRect()).toRect();
+        cfg->remove(QLatin1String("General/geometry")); // and remove it to grab new one next launch
+    } else
+        m_geometry = cfg->value(QStringLiteral("geometry"), QRect()).toRect();
+    if (m_geometry.width() < 720 || m_geometry.height() < 480) {
+        m_geometry.setWidth(qMax(qRound(qApp->primaryScreen()->size().width() * 0.75), 720));
+        m_geometry.setHeight(qMax(qRound(qApp->primaryScreen()->size().height() * 0.75), 480));
+        m_geometry.setX((qApp->primaryScreen()->size().width() - m_geometry.width()) / 2);
+        m_geometry.setY((qApp->primaryScreen()->size().height() - m_geometry.height()) / 2);
+    }
+    m_guiScale = qBound(0.5, cfg->value(QStringLiteral("scale"), 1.0).toReal(), 1.5);
+
+    cfg->beginGroup(QLatin1String("common"));
+    isFirstRun = cfg->value(QStringLiteral("isFirstRun"), true).toBool();
+    m_useAnimations = cfg->value(QStringLiteral("useAnimations"), true).toBool();
+    m_showHints = cfg->value(QStringLiteral("showHints"), true).toBool();
+    lang = cfg->value(QStringLiteral("language"), QString()).toString();
+    cfg->endGroup();
+
+    // score widget settings
+    cfg->beginGroup(QLatin1String("score"));
+    scoreParams->keySignatureEnabled = cfg->value(QStringLiteral("keySignature"), false).toBool();
+    scoreParams->showKeySignName = cfg->value(QStringLiteral("keyName"), true).toBool(); // true;
+    scoreParams->nameStyleInKeySign = Tnote::EnameStyle(cfg->value(QStringLiteral("nameStyleInKey"), static_cast<int>(Tnote::e_english_Bb)).toInt());
+    scoreParams->majKeyNameSufix = cfg->value(QStringLiteral("majorKeysSufix"), QString()).toString();
+    scoreParams->minKeyNameSufix = cfg->value(QStringLiteral("minorKeysSufix"), QString()).toString();
+    if (cfg->contains("pointerColor"))
+        scoreParams->pointerColor = cfg->value(QStringLiteral("pointerColor")).value<QColor>();
+    else
+        scoreParams->pointerColor = Tcolor::invert(qApp->palette().highlight().color());
+    scoreParams->clef = Tclef::EclefType(cfg->value(QStringLiteral("clef"), static_cast<int>(Tclef::Treble_G_8down)).toInt());
+    // Rhythms has to be enabled when no clef (percussion)
+    scoreParams->rhythmsEnabled = cfg->value(QStringLiteral("rhythmsEnabled"), true).toBool() || scoreParams->clef == Tclef::NoClef;
+    scoreParams->isSingleNoteMode = cfg->value(QStringLiteral("singleNoteMode"), false).toBool();
+    scoreParams->tempo = cfg->value(QStringLiteral("tempo"), 120).toInt();
+    scoreParams->scoreScale = cfg->value(QStringLiteral("scoreScale"), 1.0).toReal();
+#if defined(Q_OS_ANDROID)
+    S->lastXmlDir = cfg->value(QStringLiteral("lastXmlDir"), QString()).toString();
+    if (!S->lastXmlDir.isEmpty() && (S->lastXmlDir == QDir::homePath() || !QFileInfo::exists(S->lastXmlDir) || !QFileInfo(S->lastXmlDir).isWritable())) {
+        S->lastXmlDir.clear();
+        /** WORKAROUND: This is workaround for 2.0.0 bug where lastXmlDir was set to QDir::homePath()
+         * which is internal application location - no way to navigate outside,
+         * so musicXML files on device storage(s) couldn't be reached. */
+        qDebug() << "[Tglobals] Fixed music XML directory path.";
+    }
 #else
-      S->lastXmlDir = cfg->value(QStringLiteral("lastXmlDir"), QDir::homePath()).toString();
+    scoreParams->lastXmlDir = cfg->value(QStringLiteral("lastXmlDir"), QDir::homePath()).toString();
 #endif
-      S->scientificOctaves = cfg->value(QStringLiteral("scientificOctaves"), false).toBool();
-      Tnote::scientificOctaves = S->scientificOctaves;
-  cfg->endGroup();
+    scoreParams->scientificOctaves = cfg->value(QStringLiteral("scientificOctaves"), false).toBool();
+    Tnote::scientificOctaves = scoreParams->scientificOctaves;
+    cfg->endGroup();
 
-//common for score widget and note name
-  cfg->beginGroup(QLatin1String("common"));
-      S->doubleAccidentalsEnabled = cfg->value(QStringLiteral("doubleAccidentals"), false).toBool();
-      S->showEnharmNotes = cfg->value(QStringLiteral("showEnaharmonicNotes"), false).toBool();
-//       if (!S->isSingleNoteMode) // enharmonically equal notes can be enabled only in single note mode
-//           S->showEnharmNotes = false;
-      S->enharmNotesColor = cfg->value(QStringLiteral("enharmonicNotesColor"), QColor(0, 162, 162)).value<QColor>(); // turquoise
-      S->seventhIs_B = cfg->value(QStringLiteral("is7thNote_B"), true).toBool(); //true;
-  cfg->endGroup();
+    // common for score widget and note name
+    cfg->beginGroup(QLatin1String("common"));
+    scoreParams->doubleAccidentalsEnabled = cfg->value(QStringLiteral("doubleAccidentals"), false).toBool();
+    scoreParams->showEnharmNotes = cfg->value(QStringLiteral("showEnaharmonicNotes"), false).toBool();
+    //       if (!S->isSingleNoteMode) // enharmonically equal notes can be enabled only in single note mode
+    //           S->showEnharmNotes = false;
+    scoreParams->enharmNotesColor = cfg->value(QStringLiteral("enharmonicNotesColor"), QColor(0, 162, 162)).value<QColor>(); // turquoise
+    scoreParams->seventhIs_B = cfg->value(QStringLiteral("is7thNote_B"), true).toBool(); // true;
+    cfg->endGroup();
 
-//note name settings
-  cfg->beginGroup(QLatin1String("noteName"));
-      S->nameStyleInNoteName = Tnote::EnameStyle(cfg->value(QStringLiteral("nameStyle"),
-                                                            static_cast<int>(Tnote::e_english_Bb)).toInt());
-      S->solfegeStyle = Tnote::EnameStyle(cfg->value(QStringLiteral("solfegeStyle"),
-                                                     static_cast<int>(getSolfegeStyle())).toInt());
-      S->octaveInNoteNameFormat = cfg->value(QStringLiteral("octaveInName"), true).toBool();
-      S->namesOnScore = cfg->value(QStringLiteral("namesOnScore"), true).toBool();
-      S->nameColor = cfg->value(QStringLiteral("namesColor"), QColor(0, 225, 225)).value<QColor>();
-  cfg->endGroup();
-// Fix name style depending on 7th note is was set wrongly in configuration (naughty user)
-  if (S->seventhIs_B) {
-      if (S->nameStyleInNoteName == Tnote::e_norsk_Hb)
-        S->nameStyleInNoteName = Tnote::e_english_Bb;
-      else if (S->nameStyleInNoteName == Tnote::e_deutsch_His)
-        S->nameStyleInNoteName = Tnote::e_nederl_Bis;
-  } else {
-      if (S->nameStyleInNoteName == Tnote::e_english_Bb)
-        S->nameStyleInNoteName = Tnote::e_norsk_Hb;
-      else if (S->nameStyleInNoteName == Tnote::e_nederl_Bis)
-        S->nameStyleInNoteName = Tnote::e_deutsch_His;
-  }
-// Initialize name filter
-  TnameStyleFilter::setStyleFilter(&S->seventhIs_B, &S->solfegeStyle);
-  Tnote::defaultStyle = S->nameStyleInNoteName;
-// verify key name style - does it match with 7th note name
-  auto tmpKeyStyle = S->nameStyleInKeySign;
-  S->nameStyleInKeySign = TnameStyleFilter::get(S->nameStyleInKeySign);
-  if (tmpKeyStyle != S->nameStyleInKeySign)
-    qDebug() << "[Tglobals] Name style in key signatures" << tmpKeyStyle
-             << "didn't match with 7th note name. Fixed to" << S->nameStyleInKeySign;
+    // note name settings
+    cfg->beginGroup(QLatin1String("noteName"));
+    scoreParams->nameStyleInNoteName = Tnote::EnameStyle(cfg->value(QStringLiteral("nameStyle"), static_cast<int>(Tnote::e_english_Bb)).toInt());
+    scoreParams->solfegeStyle = Tnote::EnameStyle(cfg->value(QStringLiteral("solfegeStyle"), static_cast<int>(getSolfegeStyle())).toInt());
+    scoreParams->octaveInNoteNameFormat = cfg->value(QStringLiteral("octaveInName"), true).toBool();
+    scoreParams->namesOnScore = cfg->value(QStringLiteral("namesOnScore"), true).toBool();
+    scoreParams->nameColor = cfg->value(QStringLiteral("namesColor"), QColor(0, 225, 225)).value<QColor>();
+    cfg->endGroup();
+    // Fix name style depending on 7th note is was set wrongly in configuration (naughty user)
+    if (scoreParams->seventhIs_B) {
+        if (scoreParams->nameStyleInNoteName == Tnote::e_norsk_Hb)
+            scoreParams->nameStyleInNoteName = Tnote::e_english_Bb;
+        else if (scoreParams->nameStyleInNoteName == Tnote::e_deutsch_His)
+            scoreParams->nameStyleInNoteName = Tnote::e_nederl_Bis;
+    } else {
+        if (scoreParams->nameStyleInNoteName == Tnote::e_english_Bb)
+            scoreParams->nameStyleInNoteName = Tnote::e_norsk_Hb;
+        else if (scoreParams->nameStyleInNoteName == Tnote::e_nederl_Bis)
+            scoreParams->nameStyleInNoteName = Tnote::e_deutsch_His;
+    }
+    // Initialize name filter
+    TnameStyleFilter::setStyleFilter(&scoreParams->seventhIs_B, &scoreParams->solfegeStyle);
+    Tnote::defaultStyle = scoreParams->nameStyleInNoteName;
+    // verify key name style - does it match with 7th note name
+    auto tmpKeyStyle = scoreParams->nameStyleInKeySign;
+    scoreParams->nameStyleInKeySign = TnameStyleFilter::get(scoreParams->nameStyleInKeySign);
+    if (tmpKeyStyle != scoreParams->nameStyleInKeySign)
+        qDebug() << "[Tglobals] Name style in key signatures" << tmpKeyStyle << "didn't match with 7th note name. Fixed to" << scoreParams->nameStyleInKeySign;
 
-// guitar settings
-  Ttune::prepareDefinedTunes();
-  cfg->beginGroup(QLatin1String("guitar"));
-      int instr = cfg->value(QStringLiteral("instrument"), static_cast<int>(Tinstrument::ClassicalGuitar)).toInt();
-      if (instr < 0 || instr >= INSTR_COUNT) {
+    // guitar settings
+    Ttune::prepareDefinedTunes();
+    cfg->beginGroup(QLatin1String("guitar"));
+    int instr = cfg->value(QStringLiteral("instrument"), static_cast<int>(Tinstrument::ClassicalGuitar)).toInt();
+    if (instr < 0 || instr >= INSTR_COUNT) {
         qDebug() << "[Tglobals] Unsupported instrument in configuration file!" << instr << "\nReseted to none.";
         instr = 0;
-      }
-      m_instrument.setType(static_cast<Tinstrument::Etype>(instr));
-      GfretsNumber = cfg->value(QStringLiteral("fretNumber"), 19).toInt();
-      GisRightHanded = cfg->value(QStringLiteral("rightHanded"), true).toBool(); //true;
-      GshowOtherPos = cfg->value(QStringLiteral("showOtherPos"), false).toBool();
-      if (cfg->contains("fingerColor"))
-          GfingerColor = cfg->value(QStringLiteral("fingerColor")).value<QColor>();
-      else
-          GfingerColor = QColor(255, 0, 127, 150); // nice pink with translucency
-      if (cfg->contains("selectedColor"))
-          GselectedColor = cfg->value(QStringLiteral("selectedColor")).value<QColor>();
-      else
-          GselectedColor = QColor(51, 153, 255); // nice blue as default
-      auto tun = cfg->value(QStringLiteral("tune"));
-      if (tun.isValid()) {
-          Ttune tmpTune = tun.value<Ttune>();
-          setTune(tmpTune);
-      } else
-          setTune(Ttune::stdTune);
-      GpreferFlats = cfg->value(QStringLiteral("flatsPrefered"), false).toBool();;
-      QList<QVariant> fretsList;
-      fretsList << 5 << 7 << (m_instrument.ukulele() ? 10 : 9) << "12!";
-      if (!m_instrument.ukulele())
+    }
+    m_instrument.setType(static_cast<Tinstrument::Etype>(instr));
+    GfretsNumber = cfg->value(QStringLiteral("fretNumber"), 19).toInt();
+    GisRightHanded = cfg->value(QStringLiteral("rightHanded"), true).toBool(); // true;
+    GshowOtherPos = cfg->value(QStringLiteral("showOtherPos"), false).toBool();
+    if (cfg->contains("fingerColor"))
+        GfingerColor = cfg->value(QStringLiteral("fingerColor")).value<QColor>();
+    else
+        GfingerColor = QColor(255, 0, 127, 150); // nice pink with translucency
+    if (cfg->contains("selectedColor"))
+        GselectedColor = cfg->value(QStringLiteral("selectedColor")).value<QColor>();
+    else
+        GselectedColor = QColor(51, 153, 255); // nice blue as default
+    auto tun = cfg->value(QStringLiteral("tune"));
+    if (tun.isValid()) {
+        Ttune tmpTune = tun.value<Ttune>();
+        setTune(tmpTune);
+    } else
+        setTune(Ttune::stdTune);
+    GpreferFlats = cfg->value(QStringLiteral("flatsPrefered"), false).toBool();
+    ;
+    QList<QVariant> fretsList;
+    fretsList << 5 << 7 << (m_instrument.ukulele() ? 10 : 9) << "12!";
+    if (!m_instrument.ukulele())
         fretsList << 15 << 17;
-      GmarkedFrets = cfg->value(QStringLiteral("dotsOnFrets"), fretsList).toList();
-  cfg->endGroup();
+    GmarkedFrets = cfg->value(QStringLiteral("dotsOnFrets"), fretsList).toList();
+    cfg->endGroup();
 
-// Exam settings
-  cfg->beginGroup(QLatin1String("exam"));
-      if (cfg->contains(QLatin1String("questionColor")))
+    // Exam settings
+    cfg->beginGroup(QLatin1String("exam"));
+    if (cfg->contains(QLatin1String("questionColor")))
         EquestionColor = cfg->value(QStringLiteral("questionColor")).value<QColor>();
-      else
+    else
         EquestionColor = QColor(255, 0, 0); // red
-      if (cfg->contains(QLatin1String("answerColor")))
+    if (cfg->contains(QLatin1String("answerColor")))
         EanswerColor = cfg->value(QStringLiteral("answerColor")).value<QColor>();
-      else
+    else
         EanswerColor = QColor(0, 255, 0); // green
-      if (cfg->contains(QLatin1String("notBadColor")))
+    if (cfg->contains(QLatin1String("notBadColor")))
         EnotBadColor = cfg->value(QStringLiteral("notBadColor")).value<QColor>();
-      else
+    else
         EnotBadColor = QColor(255, 128, 0); // #FF8000
-      EquestionColor.setAlpha(255);
-      EanswerColor.setAlpha(255);
-      EnotBadColor.setAlpha(255);
-      E->autoNextQuest = cfg->value(QStringLiteral("autoNextQuest"), false).toBool();
-      E->repeatIncorrect = cfg->value(QStringLiteral("repeatIncorrect"), true).toBool();
-      E->expertsAnswerEnable = cfg->value(QStringLiteral("expertsAnswerEnable"), false).toBool();
-      E->studentName = cfg->value(QStringLiteral("studentName"), QString()).toString();
-      if (E->studentName.isEmpty())
-        E->studentName = systemUserName();
-#if defined (Q_OS_ANDROID)
-      bool hasWriteAccess = Tandroid::hasWriteAccess();
-      if (hasWriteAccess) {
+    EquestionColor.setAlpha(255);
+    EanswerColor.setAlpha(255);
+    EnotBadColor.setAlpha(255);
+    examParams->autoNextQuest = cfg->value(QStringLiteral("autoNextQuest"), false).toBool();
+    examParams->repeatIncorrect = cfg->value(QStringLiteral("repeatIncorrect"), true).toBool();
+    examParams->expertsAnswerEnable = cfg->value(QStringLiteral("expertsAnswerEnable"), false).toBool();
+    examParams->studentName = cfg->value(QStringLiteral("studentName"), QString()).toString();
+    if (examParams->studentName.isEmpty())
+        examParams->studentName = systemUserName();
+#if defined(Q_OS_ANDROID)
+    bool hasWriteAccess = Tandroid::hasWriteAccess();
+    if (hasWriteAccess) {
         E->examsDir = cfg->value(QStringLiteral("examsDir"), Tandroid::getExternalPath()).toString();
         if (!QFileInfo::exists(E->examsDir) || !QFileInfo(E->examsDir).isWritable()) // reset if doesn't exist
-          E->examsDir = Tandroid::getExternalPath();
+            E->examsDir = Tandroid::getExternalPath();
         E->levelsDir = cfg->value(QStringLiteral("levelsDir"), Tandroid::getExternalPath()).toString();
         if (!QFileInfo::exists(E->levelsDir) || !QFileInfo(E->levelsDir).isWritable())
-          E->levelsDir = Tandroid::getExternalPath();
-      }
+            E->levelsDir = Tandroid::getExternalPath();
+    }
 #else
-      E->examsDir = cfg->value(QStringLiteral("examsDir"), QDir::homePath()).toString();
-      if (!QFileInfo::exists(E->examsDir)) // reset if doesn't exist
-        E->examsDir = QDir::homePath();
-      E->levelsDir = cfg->value(QStringLiteral("levelsDir"), QDir::homePath()).toString();
-      if (!QFileInfo::exists(E->levelsDir)) // reset if doesn't exist
-        E->levelsDir = QDir::homePath();
+    examParams->examsDir = cfg->value(QStringLiteral("examsDir"), QDir::homePath()).toString();
+    if (!QFileInfo::exists(examParams->examsDir)) // reset if doesn't exist
+        examParams->examsDir = QDir::homePath();
+    examParams->levelsDir = cfg->value(QStringLiteral("levelsDir"), QDir::homePath()).toString();
+    if (!QFileInfo::exists(examParams->levelsDir)) // reset if doesn't exist
+        examParams->levelsDir = QDir::homePath();
 #endif
-      E->closeWithoutConfirm = cfg->value(QStringLiteral("closeWithoutConfirm"), false).toBool();
-      E->showCorrected = cfg->value(QStringLiteral("showCorrected"), true).toBool();
-      E->mistakePreview = cfg->value(QStringLiteral("mistakePreview"), 3000).toInt();
-      E->correctPreview = cfg->value(QStringLiteral("correctPreview"), 3000).toInt();
-      E->questionDelay = cfg->value(QStringLiteral("questionDelay"), 150).toInt();
-      E->suggestExam = cfg->value(QStringLiteral("suggestExam"), true).toBool();
-      E->afterMistake = (TexamParams::EafterMistake)cfg->value(QStringLiteral("afterMistake"),
-                                                               static_cast<int>(TexamParams::e_continue)).toInt();
-      E->showNameOfAnswered = cfg->value(QStringLiteral("showNameOfAnswered"), true).toBool();
-      E->showWrongPlayed = cfg->value(QStringLiteral("showWrongPlayed"), false).toBool();
-      E->waitForCorrect = cfg->value(QStringLiteral("waitForCorrect"), true).toBool();
-      E->showHelpOnStart = cfg->value(QStringLiteral("showHelpOnStart"), true).toBool();
-      E->askAboutExpert = cfg->value(QStringLiteral("askAboutExpert"), true).toBool();
-  cfg->endGroup();
+    examParams->closeWithoutConfirm = cfg->value(QStringLiteral("closeWithoutConfirm"), false).toBool();
+    examParams->showCorrected = cfg->value(QStringLiteral("showCorrected"), true).toBool();
+    examParams->mistakePreview = cfg->value(QStringLiteral("mistakePreview"), 3000).toInt();
+    examParams->correctPreview = cfg->value(QStringLiteral("correctPreview"), 3000).toInt();
+    examParams->questionDelay = cfg->value(QStringLiteral("questionDelay"), 150).toInt();
+    examParams->suggestExam = cfg->value(QStringLiteral("suggestExam"), true).toBool();
+    examParams->afterMistake = (TexamParams::EafterMistake)cfg->value(QStringLiteral("afterMistake"), static_cast<int>(TexamParams::e_continue)).toInt();
+    examParams->showNameOfAnswered = cfg->value(QStringLiteral("showNameOfAnswered"), true).toBool();
+    examParams->showWrongPlayed = cfg->value(QStringLiteral("showWrongPlayed"), false).toBool();
+    examParams->waitForCorrect = cfg->value(QStringLiteral("waitForCorrect"), true).toBool();
+    examParams->showHelpOnStart = cfg->value(QStringLiteral("showHelpOnStart"), true).toBool();
+    examParams->askAboutExpert = cfg->value(QStringLiteral("askAboutExpert"), true).toBool();
+    cfg->endGroup();
 
-// Sound settings
-  cfg->beginGroup(QLatin1String("sound"));
-    A->JACKorASIO = cfg->value(QStringLiteral("JACKorASIO"), false).toBool();
-    A->OUTenabled = cfg->value(QStringLiteral("outSoundEnabled"), true).toBool();
-    A->OUTdevName = cfg->value(QStringLiteral("outDeviceName"), QString()).toString();
-    A->midiEnabled = cfg->value(QStringLiteral("midiEnabled"), false).toBool();
-    A->midiPortName = cfg->value(QStringLiteral("midiPortName"), QString()).toString();
-    A->midiInstrNr = (unsigned char)cfg->value(QStringLiteral("midiInstrumentNr"), 0).toInt();
-    A->audioInstrNr = qBound(1, cfg->value(QStringLiteral("audioInstrumentNr"), 1).toInt(), INSTR_COUNT);
-    A->INenabled = cfg->value(QStringLiteral("inSoundEnabled"), true).toBool();
-    A->INdevName = cfg->value(QStringLiteral("inDeviceName"), QString()).toString();
-    A->detectMethod = qBound(0, cfg->value(QStringLiteral("detectionMethod"), 2).toInt(), 2); // MPM modified cepstrum
-#if defined (Q_OS_ANDROID) // Input sound is loud on mobile
+    // Sound settings
+    cfg->beginGroup(QLatin1String("sound"));
+    audioParams->JACKorASIO = cfg->value(QStringLiteral("JACKorASIO"), false).toBool();
+    audioParams->OUTenabled = cfg->value(QStringLiteral("outSoundEnabled"), true).toBool();
+    audioParams->OUTdevName = cfg->value(QStringLiteral("outDeviceName"), QString()).toString();
+    audioParams->midiEnabled = cfg->value(QStringLiteral("midiEnabled"), false).toBool();
+    audioParams->midiPortName = cfg->value(QStringLiteral("midiPortName"), QString()).toString();
+    audioParams->midiInstrNr = (unsigned char)cfg->value(QStringLiteral("midiInstrumentNr"), 0).toInt();
+    audioParams->audioInstrNr = qBound(1, cfg->value(QStringLiteral("audioInstrumentNr"), 1).toInt(), INSTR_COUNT);
+    audioParams->INenabled = cfg->value(QStringLiteral("inSoundEnabled"), true).toBool();
+    audioParams->INdevName = cfg->value(QStringLiteral("inDeviceName"), QString()).toString();
+    audioParams->detectMethod = qBound(0, cfg->value(QStringLiteral("detectionMethod"), 2).toInt(), 2); // MPM modified cepstrum
+#if defined(Q_OS_ANDROID) // Input sound is loud on mobile
     A->minimalVol = cfg->value(QStringLiteral("minimalVolume"), 0.6).toFloat();
 #else
-    A->minimalVol = cfg->value(QStringLiteral("minimalVolume"), 0.4).toReal();
-    A->dumpPath = cfg->value(QLatin1String("dumpPath"), QString()).toString();
+    audioParams->minimalVol = cfg->value(QStringLiteral("minimalVolume"), 0.4).toReal();
+    audioParams->dumpPath = cfg->value(QLatin1String("dumpPath"), QString()).toString();
     m_showNotesDiff = cfg->value(QStringLiteral("showNotesDiff"), false).toBool();
 #endif
-    A->minDuration = cfg->value(QStringLiteral("minimalDuration"), 0.15).toReal(); // 150 ms
+    audioParams->minDuration = cfg->value(QStringLiteral("minimalDuration"), 0.15).toReal(); // 150 ms
     setMidAfreq(cfg->value(QStringLiteral("midAfreq"), 440).toInt());
-    A->intonation = static_cast<quint8>(qBound(0, cfg->value(QStringLiteral("intonation"), 3).toInt(), 5));
-    A->forwardInput = cfg->value(QStringLiteral("forwardInput"), false).toBool();
-    A->equalLoudness = cfg->value(QStringLiteral("equalLoudness"), true).toBool();
-    A->transposition = cfg->value(QStringLiteral("transposition"), 0).toInt();
-    A->stoppedByUser = cfg->value(QStringLiteral("stoppedByUser"), false).toBool();
-    A->audibleMetro = cfg->value(QStringLiteral("audibleMetro"), false).toBool();
-    A->countBefore = cfg->value(QStringLiteral("countBefore"), false).toBool();
-    A->quantization = cfg->value(QStringLiteral("quantization"), 6).toInt();
-  cfg->endGroup();
+    audioParams->intonation = static_cast<quint8>(qBound(0, cfg->value(QStringLiteral("intonation"), 3).toInt(), 5));
+    audioParams->forwardInput = cfg->value(QStringLiteral("forwardInput"), false).toBool();
+    audioParams->equalLoudness = cfg->value(QStringLiteral("equalLoudness"), true).toBool();
+    audioParams->transposition = cfg->value(QStringLiteral("transposition"), 0).toInt();
+    audioParams->stoppedByUser = cfg->value(QStringLiteral("stoppedByUser"), false).toBool();
+    audioParams->audibleMetro = cfg->value(QStringLiteral("audibleMetro"), false).toBool();
+    audioParams->countBefore = cfg->value(QStringLiteral("countBefore"), false).toBool();
+    audioParams->quantization = cfg->value(QStringLiteral("quantization"), 6).toInt();
+    cfg->endGroup();
 
-#if defined (Q_OS_ANDROID)
-  m_keepScreenOn = cfg->value(QStringLiteral("keepScreenOn"), true).toBool();
-  m_disableRotation = cfg->value(QStringLiteral("disableRotation"), true).toBool();
-  m_fullScreen = cfg->value(QStringLiteral("fullScreen"), true).toBool();
-  m_touchStopsSniff = cfg->value(QStringLiteral("touchStopsSniff"), true).toBool();
+#if defined(Q_OS_ANDROID)
+    m_keepScreenOn = cfg->value(QStringLiteral("keepScreenOn"), true).toBool();
+    m_disableRotation = cfg->value(QStringLiteral("disableRotation"), true).toBool();
+    m_fullScreen = cfg->value(QStringLiteral("fullScreen"), true).toBool();
+    m_touchStopsSniff = cfg->value(QStringLiteral("touchStopsSniff"), true).toBool();
 #endif
 
-  bool transposeTuning = S->clef == Tclef::Bass_F_8down;
-  if (S->clef == Tclef::Bass_F_8down) {
-    // This is clear: old Nootka had dropped down bass clef, now there is just bass clef
-    // so clef is changed and transposition is added
-    qDebug() << "[Tglobals] Dropped bass clef detected. Converting to ordinary bass clef.";
-    S->clef = Tclef::Bass_F;
-    if (A->transposition == 0) {
-      qDebug() << "[Tglobals] Adding sound transposition one octave down due to bass clef conversion.";
-      A->transposition = -12;
+    bool transposeTuning = scoreParams->clef == Tclef::Bass_F_8down;
+    if (scoreParams->clef == Tclef::Bass_F_8down) {
+        // This is clear: old Nootka had dropped down bass clef, now there is just bass clef
+        // so clef is changed and transposition is added
+        qDebug() << "[Tglobals] Dropped bass clef detected. Converting to ordinary bass clef.";
+        scoreParams->clef = Tclef::Bass_F;
+        if (audioParams->transposition == 0) {
+            qDebug() << "[Tglobals] Adding sound transposition one octave down due to bass clef conversion.";
+            audioParams->transposition = -12;
+        }
     }
-  }
-  // But in-between versions (1.5 to 1.7.0) bass clef might have low notes and so tuning.
-  // -12 is note B in contra octave (-2) and it is lowest note achieve on the Nootka score
-  // So try to fix that here, with hope there are no false positives
-  if (transposeTuning || (S->clef != Tclef::Tenor_C && loNote().chromatic() < -12)) {
-    qDebug() << "[Tglobals] Tuning transposed one octave up to fit score capability.";
-    m_tune->riseOctaveUp(); // As long as we are transposing all strings the same step, string order doesn't change.
-  }
-
-}
-
-
-void Tglobals::setTune(const Ttune& t) {
-  delete m_tune;
-  m_tune = new Ttune(t.name, t.str(1), t.str(2), t.str(3), t.str(4), t.str(5), t.str(6), t.type());
-  m_tuneObject->setTune(m_tune);
-  // creating array with guitar strings ordered by their pitch height
-  char openStr[6];
-  for (int i = 0; i < 6; i++) {
-    m_order[i] = i;
-    if (m_tune->str(i + 1).note() != 0)
-      openStr[i] = m_tune->str(i + 1).chromatic();
-    else // empty note - not such string
-      openStr[i] = -120; // make it lowest
-  }
-  int i = 4;
-  while (i > -1) {
-    for (int j = i; j < 5 && openStr[m_order[j]] < openStr[m_order[j + 1]]; j++) {
-      char tmp = m_order[j];
-      m_order[j] = m_order[j + 1];
-      m_order[j + 1] = tmp;
+    // But in-between versions (1.5 to 1.7.0) bass clef might have low notes and so tuning.
+    // -12 is note B in contra octave (-2) and it is lowest note achieve on the Nootka score
+    // So try to fix that here, with hope there are no false positives
+    if (transposeTuning || (scoreParams->clef != Tclef::Tenor_C && loNote().chromatic() < -12)) {
+        qDebug() << "[Tglobals] Tuning transposed one octave up to fit score capability.";
+        m_tune->riseOctaveUp(); // As long as we are transposing all strings the same step, string order doesn't change.
     }
-    i--;
-  }
-  emit tuningChanged();
 }
 
-
-Tnote Tglobals::hiString() {
-  return m_tune->str(m_order[0] + 1);
+void Tglobals::setTune(const Ttune &t)
+{
+    delete m_tune;
+    m_tune = new Ttune(t.name, t.str(1), t.str(2), t.str(3), t.str(4), t.str(5), t.str(6), t.type());
+    m_tuneObject->setTune(m_tune);
+    // creating array with guitar strings ordered by their pitch height
+    char openStr[6];
+    for (int i = 0; i < 6; i++) {
+        m_order[i] = i;
+        if (m_tune->str(i + 1).note() != 0)
+            openStr[i] = m_tune->str(i + 1).chromatic();
+        else // empty note - not such string
+            openStr[i] = -120; // make it lowest
+    }
+    int i = 4;
+    while (i > -1) {
+        for (int j = i; j < 5 && openStr[m_order[j]] < openStr[m_order[j + 1]]; j++) {
+            char tmp = m_order[j];
+            m_order[j] = m_order[j + 1];
+            m_order[j + 1] = tmp;
+        }
+        i--;
+    }
+    emit tuningChanged();
 }
 
+Tnote Tglobals::hiString()
+{
+    return m_tune->str(m_order[0] + 1);
+}
 
-Tnote Tglobals::loString() {
+Tnote Tglobals::loString()
+{
     return m_tune->str(m_order[m_tune->stringNr() - 1] + 1);
 }
 
-
-Tnote::EnameStyle Tglobals::getSolfegeStyle() {
-  Tnote::EnameStyle solStyle = Tnote::e_italiano_Si;
-  QString ll = lang;
-  if (ll.isEmpty()) {
-    QLocale loc; // default locale (QLocale::setDefault()) grabs local LANG variable in contrary to QLocale::system() which not
-    ll = loc.name();
-  }
-  if (ll.contains(QLatin1String("ru")))
-    solStyle = Tnote::e_russian_Ci;
-  return solStyle;
+Tnote::EnameStyle Tglobals::getSolfegeStyle()
+{
+    Tnote::EnameStyle solStyle = Tnote::e_italiano_Si;
+    QString ll = lang;
+    if (ll.isEmpty()) {
+        QLocale loc; // default locale (QLocale::setDefault()) grabs local LANG variable in contrary to QLocale::system() which not
+        ll = loc.name();
+    }
+    if (ll.contains(QLatin1String("ru")))
+        solStyle = Tnote::e_russian_Ci;
+    return solStyle;
 }
 
+QString Tglobals::lastXmlDir() const
+{
+    return scoreParams->lastXmlDir;
+}
+void Tglobals::setLastXmlDir(const QString &lastXml)
+{
+    scoreParams->lastXmlDir = lastXml;
+}
 
-QString Tglobals::lastXmlDir() const { return S->lastXmlDir; }
-void Tglobals::setLastXmlDir(const QString& lastXml) { S->lastXmlDir = lastXml; }
+void Tglobals::storeSettings(QSettings *cfg)
+{
+    cfg->setValue(QStringLiteral("geometry"), m_geometry);
+    cfg->setValue(QStringLiteral("scale"), m_guiScale);
 
+    cfg->beginGroup(QLatin1String("common"));
+    cfg->setValue(QStringLiteral("isFirstRun"), isFirstRun);
+    cfg->setValue(QStringLiteral("useAnimations"), m_useAnimations);
+    cfg->setValue(QStringLiteral("showHints"), m_showHints);
+    cfg->setValue(QStringLiteral("doubleAccidentals"), scoreParams->doubleAccidentalsEnabled);
+    cfg->setValue(QStringLiteral("showEnaharmonicNotes"), scoreParams->showEnharmNotes);
+    cfg->setValue(QStringLiteral("enharmonicNotesColor"), scoreParams->enharmNotesColor);
+    cfg->setValue(QStringLiteral("is7thNote_B"), scoreParams->seventhIs_B);
+    cfg->setValue(QStringLiteral("language"), lang);
+    cfg->endGroup();
 
+    cfg->beginGroup(QLatin1String("score"));
+    cfg->setValue(QStringLiteral("keySignature"), scoreParams->keySignatureEnabled);
+    cfg->setValue(QStringLiteral("keyName"), scoreParams->showKeySignName);
+    cfg->setValue(QStringLiteral("nameStyleInKey"), static_cast<int>(scoreParams->nameStyleInKeySign));
+    QString majS, minS;
+    if (scoreParams->majKeyNameSufix != TkeySignature::majorSufixTxt())
+        majS = scoreParams->majKeyNameSufix;
+    else
+        majS.clear(); // default suffixes are reset to be translatable in next run
+    cfg->setValue(QStringLiteral("majorKeysSufix"), majS);
+    if (scoreParams->minKeyNameSufix != TkeySignature::minorSufixTxt())
+        minS = scoreParams->minKeyNameSufix;
+    else
+        minS.clear();
+    cfg->setValue(QStringLiteral("minorKeysSufix"), minS);
+    cfg->setValue(QStringLiteral("pointerColor"), scoreParams->pointerColor);
+    cfg->setValue(QStringLiteral("clef"), static_cast<int>(scoreParams->clef));
+    cfg->setValue(QStringLiteral("rhythmsEnabled"), scoreParams->rhythmsEnabled);
+    cfg->setValue(QStringLiteral("singleNoteMode"), scoreParams->isSingleNoteMode);
+    cfg->setValue(QStringLiteral("tempo"), scoreParams->tempo);
+    cfg->setValue(QStringLiteral("scoreScale"), scoreParams->scoreScale);
+    cfg->setValue(QStringLiteral("lastXmlDir"), scoreParams->lastXmlDir);
+    cfg->setValue(QStringLiteral("scientificOctaves"), scoreParams->scientificOctaves);
+    cfg->endGroup();
 
-void Tglobals::storeSettings(QSettings* cfg) {
-  cfg->setValue(QStringLiteral("geometry"), m_geometry);
-  cfg->setValue(QStringLiteral("scale"), m_guiScale);
+    cfg->beginGroup(QLatin1String("noteName"));
+    cfg->setValue(QStringLiteral("nameStyle"), static_cast<int>(scoreParams->nameStyleInNoteName));
+    cfg->setValue(QStringLiteral("octaveInName"), scoreParams->octaveInNoteNameFormat);
+    cfg->setValue(QStringLiteral("solfegeStyle"), scoreParams->solfegeStyle);
+    cfg->setValue(QStringLiteral("namesOnScore"), scoreParams->namesOnScore);
+    cfg->setValue(QStringLiteral("namesColor"), scoreParams->nameColor);
+    cfg->endGroup();
 
-  cfg->beginGroup(QLatin1String("common"));
-      cfg->setValue(QStringLiteral("isFirstRun"), isFirstRun);
-      cfg->setValue(QStringLiteral("useAnimations"), m_useAnimations);
-      cfg->setValue(QStringLiteral("showHints"), m_showHints);
-      cfg->setValue(QStringLiteral("doubleAccidentals"), S->doubleAccidentalsEnabled);
-      cfg->setValue(QStringLiteral("showEnaharmonicNotes"), S->showEnharmNotes);
-      cfg->setValue(QStringLiteral("enharmonicNotesColor"), S->enharmNotesColor);
-      cfg->setValue(QStringLiteral("is7thNote_B"), S->seventhIs_B);
-      cfg->setValue(QStringLiteral("language"), lang);
-  cfg->endGroup();
+    cfg->beginGroup(QLatin1String("guitar"));
+    cfg->setValue(QStringLiteral("instrument"), static_cast<int>(m_instrument.type()));
+    cfg->setValue(QStringLiteral("fretNumber"), static_cast<int>(GfretsNumber));
+    cfg->setValue(QStringLiteral("rightHanded"), GisRightHanded);
+    cfg->setValue(QStringLiteral("showOtherPos"), GshowOtherPos);
+    cfg->setValue(QStringLiteral("fingerColor"), GfingerColor);
+    cfg->setValue(QStringLiteral("selectedColor"), GselectedColor);
+    cfg->setValue(QStringLiteral("tune"), QVariant::fromValue(*Gtune()));
+    cfg->setValue(QStringLiteral("flatsPrefered"), GpreferFlats);
+    cfg->setValue(QStringLiteral("dotsOnFrets"), GmarkedFrets);
+    cfg->endGroup();
 
-  cfg->beginGroup(QLatin1String("score"));
-      cfg->setValue(QStringLiteral("keySignature"), S->keySignatureEnabled);
-      cfg->setValue(QStringLiteral("keyName"), S->showKeySignName);
-      cfg->setValue(QStringLiteral("nameStyleInKey"), static_cast<int>(S->nameStyleInKeySign));
-  QString majS, minS;
-  if (S->majKeyNameSufix != TkeySignature::majorSufixTxt())
-    majS = S->majKeyNameSufix;
-  else
-    majS.clear(); // default suffixes are reset to be translatable in next run
-      cfg->setValue(QStringLiteral("majorKeysSufix"), majS);
-  if (S->minKeyNameSufix != TkeySignature::minorSufixTxt())
-    minS = S->minKeyNameSufix;
-  else
-    minS.clear();
-      cfg->setValue(QStringLiteral("minorKeysSufix"), minS);
-      cfg->setValue(QStringLiteral("pointerColor"), S->pointerColor);
-      cfg->setValue(QStringLiteral("clef"), static_cast<int>(S->clef));
-      cfg->setValue(QStringLiteral("rhythmsEnabled"), S->rhythmsEnabled);
-      cfg->setValue(QStringLiteral("singleNoteMode"), S->isSingleNoteMode);
-      cfg->setValue(QStringLiteral("tempo"), S->tempo);
-      cfg->setValue(QStringLiteral("scoreScale"), S->scoreScale);
-      cfg->setValue(QStringLiteral("lastXmlDir"), S->lastXmlDir);
-      cfg->setValue(QStringLiteral("scientificOctaves"), S->scientificOctaves);
-  cfg->endGroup();
+    cfg->beginGroup(QLatin1String("exam"));
+    cfg->setValue(QStringLiteral("questionColor"), EquestionColor);
+    cfg->setValue(QStringLiteral("answerColor"), EanswerColor);
+    cfg->setValue(QStringLiteral("notBadColor"), EnotBadColor);
+    cfg->setValue(QStringLiteral("autoNextQuest"), examParams->autoNextQuest);
+    cfg->setValue(QStringLiteral("repeatIncorrect"), examParams->repeatIncorrect);
+    cfg->setValue(QStringLiteral("showCorrected"), examParams->showCorrected);
+    cfg->setValue(QStringLiteral("expertsAnswerEnable"), examParams->expertsAnswerEnable);
+    cfg->setValue(QStringLiteral("studentName"), examParams->studentName);
+    cfg->setValue(QStringLiteral("examsDir"), examParams->examsDir);
+    cfg->setValue(QStringLiteral("levelsDir"), examParams->levelsDir);
+    cfg->setValue(QStringLiteral("closeWithoutConfirm"), examParams->closeWithoutConfirm);
+    cfg->setValue(QStringLiteral("mistakePreview"), examParams->mistakePreview);
+    cfg->setValue(QStringLiteral("correctPreview"), examParams->correctPreview);
+    cfg->setValue(QStringLiteral("questionDelay"), examParams->questionDelay);
+    cfg->setValue(QStringLiteral("suggestExam"), examParams->suggestExam);
+    cfg->setValue(QStringLiteral("afterMistake"), static_cast<int>(examParams->afterMistake));
+    cfg->setValue(QStringLiteral("showNameOfAnswered"), examParams->showNameOfAnswered);
+    cfg->setValue(QStringLiteral("showWrongPlayed"), examParams->showWrongPlayed);
+    cfg->setValue(QStringLiteral("waitForCorrect"), examParams->waitForCorrect);
+    cfg->setValue(QStringLiteral("askAboutExpert"), examParams->askAboutExpert);
+    cfg->setValue(QStringLiteral("showHelpOnStart"), examParams->showHelpOnStart);
+    cfg->endGroup();
 
-  cfg->beginGroup(QLatin1String("noteName"));
-      cfg->setValue(QStringLiteral("nameStyle"), static_cast<int>(S->nameStyleInNoteName));
-      cfg->setValue(QStringLiteral("octaveInName"), S->octaveInNoteNameFormat);
-      cfg->setValue(QStringLiteral("solfegeStyle"), S->solfegeStyle);
-      cfg->setValue(QStringLiteral("namesOnScore"), S->namesOnScore );
-      cfg->setValue(QStringLiteral("namesColor"), S->nameColor);
-  cfg->endGroup();
-
-  cfg->beginGroup(QLatin1String("guitar"));
-      cfg->setValue(QStringLiteral("instrument"), static_cast<int>(m_instrument.type()));
-      cfg->setValue(QStringLiteral("fretNumber"), static_cast<int>(GfretsNumber));
-      cfg->setValue(QStringLiteral("rightHanded"), GisRightHanded);
-      cfg->setValue(QStringLiteral("showOtherPos"), GshowOtherPos);
-      cfg->setValue(QStringLiteral("fingerColor"), GfingerColor);
-      cfg->setValue(QStringLiteral("selectedColor"), GselectedColor);
-      cfg->setValue(QStringLiteral("tune"), QVariant::fromValue(*Gtune()));
-      cfg->setValue(QStringLiteral("flatsPrefered"), GpreferFlats);
-      cfg->setValue(QStringLiteral("dotsOnFrets"), GmarkedFrets);
-  cfg->endGroup();
-
-  cfg->beginGroup(QLatin1String("exam"));
-      cfg->setValue(QStringLiteral("questionColor"), EquestionColor);
-      cfg->setValue(QStringLiteral("answerColor"), EanswerColor);
-      cfg->setValue(QStringLiteral("notBadColor"), EnotBadColor);
-      cfg->setValue(QStringLiteral("autoNextQuest"), E->autoNextQuest);
-      cfg->setValue(QStringLiteral("repeatIncorrect"), E->repeatIncorrect);
-      cfg->setValue(QStringLiteral("showCorrected"), E->showCorrected);
-      cfg->setValue(QStringLiteral("expertsAnswerEnable"), E->expertsAnswerEnable);
-      cfg->setValue(QStringLiteral("studentName"), E->studentName);
-      cfg->setValue(QStringLiteral("examsDir"), E->examsDir);
-      cfg->setValue(QStringLiteral("levelsDir"), E->levelsDir);
-      cfg->setValue(QStringLiteral("closeWithoutConfirm"), E->closeWithoutConfirm);
-      cfg->setValue(QStringLiteral("mistakePreview"), E->mistakePreview);
-      cfg->setValue(QStringLiteral("correctPreview"), E->correctPreview);
-      cfg->setValue(QStringLiteral("questionDelay"), E->questionDelay);
-      cfg->setValue(QStringLiteral("suggestExam"), E->suggestExam);
-      cfg->setValue(QStringLiteral("afterMistake"), static_cast<int>(E->afterMistake));
-      cfg->setValue(QStringLiteral("showNameOfAnswered"), E->showNameOfAnswered);
-      cfg->setValue(QStringLiteral("showWrongPlayed"), E->showWrongPlayed);
-      cfg->setValue(QStringLiteral("waitForCorrect"), E->waitForCorrect);
-      cfg->setValue(QStringLiteral("askAboutExpert"), E->askAboutExpert);
-      cfg->setValue(QStringLiteral("showHelpOnStart"), E->showHelpOnStart);
-  cfg->endGroup();
-
-  cfg->beginGroup(QLatin1String("sound"));
-      cfg->setValue(QStringLiteral("JACKorASIO"), A->JACKorASIO);
-      cfg->setValue(QStringLiteral("outSoundEnabled"), A->OUTenabled);
-      cfg->setValue(QStringLiteral("outDeviceName"), A->OUTdevName);
-      cfg->setValue(QStringLiteral("midiEnabled"), A->midiEnabled);
-      cfg->setValue(QStringLiteral("midiPortName"), A->midiPortName);
-      cfg->setValue(QStringLiteral("midiInstrumentNr"), static_cast<int>(A->midiInstrNr));
-      cfg->setValue(QStringLiteral("audioInstrumentNr"), static_cast<int>(A->audioInstrNr));
-      cfg->setValue(QStringLiteral("inSoundEnabled"), A->INenabled);
-      cfg->setValue(QStringLiteral("inDeviceName"), A->INdevName);
-      cfg->setValue(QStringLiteral("detectionMethod"), A->detectMethod);
-      cfg->setValue(QStringLiteral("minimalVolume"), A->minimalVol);
-      cfg->setValue(QStringLiteral("minimalDuration"), A->minDuration);
-      cfg->setValue(QStringLiteral("midAfreq"), A->midAfreq);
-      cfg->setValue(QStringLiteral("intonation"), A->intonation);
-      cfg->setValue(QStringLiteral("forwardInput"), A->forwardInput);
-      cfg->setValue(QStringLiteral("equalLoudness"), A->equalLoudness);
-      cfg->setValue(QStringLiteral("transposition"), A->transposition);
-      cfg->setValue(QStringLiteral("stoppedByUser"), A->stoppedByUser);
-      cfg->setValue(QStringLiteral("audibleMetro"), A->audibleMetro);
-      cfg->setValue(QStringLiteral("countBefore"), A->countBefore);
-      cfg->setValue(QStringLiteral("quantization"), A->quantization);
-#if !defined (Q_OS_ANDROID)
-      cfg->setValue(QStringLiteral("showNotesDiff"), m_showNotesDiff);
-      cfg->setValue(QLatin1String("dumpPath"), A->dumpPath);
+    cfg->beginGroup(QLatin1String("sound"));
+    cfg->setValue(QStringLiteral("JACKorASIO"), audioParams->JACKorASIO);
+    cfg->setValue(QStringLiteral("outSoundEnabled"), audioParams->OUTenabled);
+    cfg->setValue(QStringLiteral("outDeviceName"), audioParams->OUTdevName);
+    cfg->setValue(QStringLiteral("midiEnabled"), audioParams->midiEnabled);
+    cfg->setValue(QStringLiteral("midiPortName"), audioParams->midiPortName);
+    cfg->setValue(QStringLiteral("midiInstrumentNr"), static_cast<int>(audioParams->midiInstrNr));
+    cfg->setValue(QStringLiteral("audioInstrumentNr"), static_cast<int>(audioParams->audioInstrNr));
+    cfg->setValue(QStringLiteral("inSoundEnabled"), audioParams->INenabled);
+    cfg->setValue(QStringLiteral("inDeviceName"), audioParams->INdevName);
+    cfg->setValue(QStringLiteral("detectionMethod"), audioParams->detectMethod);
+    cfg->setValue(QStringLiteral("minimalVolume"), audioParams->minimalVol);
+    cfg->setValue(QStringLiteral("minimalDuration"), audioParams->minDuration);
+    cfg->setValue(QStringLiteral("midAfreq"), audioParams->midAfreq);
+    cfg->setValue(QStringLiteral("intonation"), audioParams->intonation);
+    cfg->setValue(QStringLiteral("forwardInput"), audioParams->forwardInput);
+    cfg->setValue(QStringLiteral("equalLoudness"), audioParams->equalLoudness);
+    cfg->setValue(QStringLiteral("transposition"), audioParams->transposition);
+    cfg->setValue(QStringLiteral("stoppedByUser"), audioParams->stoppedByUser);
+    cfg->setValue(QStringLiteral("audibleMetro"), audioParams->audibleMetro);
+    cfg->setValue(QStringLiteral("countBefore"), audioParams->countBefore);
+    cfg->setValue(QStringLiteral("quantization"), audioParams->quantization);
+#if !defined(Q_OS_ANDROID)
+    cfg->setValue(QStringLiteral("showNotesDiff"), m_showNotesDiff);
+    cfg->setValue(QLatin1String("dumpPath"), audioParams->dumpPath);
 #endif
-  cfg->endGroup();
+    cfg->endGroup();
 
-#if defined (Q_OS_ANDROID)
-  cfg->setValue(QStringLiteral("keepScreenOn"), m_keepScreenOn);
-  cfg->setValue(QStringLiteral("disableRotation"), m_disableRotation);
-  cfg->setValue(QStringLiteral("fullScreen"), m_fullScreen);
-  cfg->setValue(QStringLiteral("touchStopsSniff"), m_touchStopsSniff);
+#if defined(Q_OS_ANDROID)
+    cfg->setValue(QStringLiteral("keepScreenOn"), m_keepScreenOn);
+    cfg->setValue(QStringLiteral("disableRotation"), m_disableRotation);
+    cfg->setValue(QStringLiteral("fullScreen"), m_fullScreen);
+    cfg->setValue(QStringLiteral("touchStopsSniff"), m_touchStopsSniff);
 #endif
-
 }
 
+#if defined(Q_OS_ANDROID)
 
-#if defined (Q_OS_ANDROID)
-
-void Tglobals::setDisableRotation(bool disRot) {
-  if (disRot != m_disableRotation) {
-    Tandroid::disableRotation(disRot);
-    m_disableRotation = disRot;
-  }
+void Tglobals::setDisableRotation(bool disRot)
+{
+    if (disRot != m_disableRotation) {
+        Tandroid::disableRotation(disRot);
+        m_disableRotation = disRot;
+    }
 }
 
-
-void Tglobals::keepScreenOn(bool on) {
-  if (on != m_keepScreenOn) {
-    Tandroid::keepScreenOn(on);
-    m_keepScreenOn = on;
-  }
+void Tglobals::keepScreenOn(bool on)
+{
+    if (on != m_keepScreenOn) {
+        Tandroid::keepScreenOn(on);
+        m_keepScreenOn = on;
+    }
 }
 
 #endif
-

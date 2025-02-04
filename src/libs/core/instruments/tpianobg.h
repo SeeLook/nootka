@@ -19,96 +19,93 @@
 #ifndef TPIANOBG_H
 #define TPIANOBG_H
 
-
 #include "tcommoninstrument.h"
-
 
 /**
  * The C++ logic of piano component and its painted background
  */
 class NOOTKACORE_EXPORT TpianoBg : public TcommonInstrument
 {
+    Q_OBJECT
 
-  Q_OBJECT
-
-  Q_PROPERTY(qreal keyWidth READ keyWidth WRITE setKeyWidth NOTIFY keyWidthChanged)
-  Q_PROPERTY(int firstOctave READ firstOctave WRITE setFirstOctave NOTIFY firstOctaveChanged)
-  Q_PROPERTY(int keysNumber READ keysNumber NOTIFY keysNumberChanged)
-  Q_PROPERTY(QQuickItem* selectedKey READ selectedKey WRITE setSelectedKey NOTIFY selectedKeyChanged)
-  Q_PROPERTY(QQuickItem* keyHighlight READ keyHighlight WRITE setKeyHighlight)
-  Q_PROPERTY(qreal margin READ margin NOTIFY keyWidthChanged)
+    Q_PROPERTY(qreal keyWidth READ keyWidth WRITE setKeyWidth NOTIFY keyWidthChanged)
+    Q_PROPERTY(int firstOctave READ firstOctave WRITE setFirstOctave NOTIFY firstOctaveChanged)
+    Q_PROPERTY(int keysNumber READ keysNumber NOTIFY keysNumberChanged)
+    Q_PROPERTY(QQuickItem *selectedKey READ selectedKey WRITE setSelectedKey NOTIFY selectedKeyChanged)
+    Q_PROPERTY(QQuickItem *keyHighlight READ keyHighlight WRITE setKeyHighlight)
+    Q_PROPERTY(qreal margin READ margin NOTIFY keyWidthChanged)
 
 public:
-  explicit TpianoBg(QQuickItem* parent = nullptr);
-  ~TpianoBg() override;
+    explicit TpianoBg(QQuickItem *parent = nullptr);
+    ~TpianoBg() override;
 
-  qreal keyWidth() const { return m_keyWidth; }
-  void setKeyWidth(qreal kw);
+    qreal keyWidth() const { return m_keyWidth; }
+    void setKeyWidth(qreal kw);
 
-  void setNote(const Tnote& n, quint32 noteDataValue = NO_TECHNICALS) override;
+    void setNote(const Tnote &n, quint32 noteDataValue = NO_TECHNICALS) override;
 
-  void askQuestion(const Tnote& n, quint32 noteDataValue) override;
+    void askQuestion(const Tnote &n, quint32 noteDataValue) override;
 
-  void highlightAnswer(const Tnote&, quint32) override {}
+    void highlightAnswer(const Tnote &, quint32) override { }
 
-  int technical() override { return NO_TECHNICALS; } // Fake - piano has no extra note data
+    int technical() override { return NO_TECHNICALS; } // Fake - piano has no extra note data
 
-  int firstOctave() const { return static_cast<int>(m_firstOctave); }
-  void setFirstOctave(int firstO);
+    int firstOctave() const { return static_cast<int>(m_firstOctave); }
+    void setFirstOctave(int firstO);
 
-  void paint(QPainter*) override {}
+    void paint(QPainter *) override { }
 
-  void markSelected(const QColor & markColor) override;
+    void markSelected(const QColor &markColor) override;
 
-  Q_INVOKABLE void applyCorrect() override;
+    Q_INVOKABLE void applyCorrect() override;
 
-  void correct(const Tnote& n, quint32 noteData) override;
+    void correct(const Tnote &n, quint32 noteData) override;
 
-  int keysNumber() const { return m_keysNumber; }
-  qreal margin() const { return m_margin; }
+    int keysNumber() const { return m_keysNumber; }
+    qreal margin() const { return m_margin; }
 
-  Q_INVOKABLE QString octaveName(int oNr) const;
+    Q_INVOKABLE QString octaveName(int oNr) const;
 
-      /**
-       * Calculates zoom view X coordinate from clicked @p xPos of piano widget.
-       * @p zoomKeyW is the width of piano key in zoomed preview
-       */
-  Q_INVOKABLE int zoomViewX(qreal xPos, qreal zoomKeyW);
+    /**
+     * Calculates zoom view X coordinate from clicked @p xPos of piano widget.
+     * @p zoomKeyW is the width of piano key in zoomed preview
+     */
+    Q_INVOKABLE int zoomViewX(qreal xPos, qreal zoomKeyW);
 
-  QQuickItem* selectedKey() { return m_selectedKey; }
-  void setSelectedKey(QQuickItem* it);
+    QQuickItem *selectedKey() { return m_selectedKey; }
+    void setSelectedKey(QQuickItem *it);
 
-  QQuickItem* keyHighlight() { return m_keyHighlight; }
-  void setKeyHighlight(QQuickItem* hi);
+    QQuickItem *keyHighlight() { return m_keyHighlight; }
+    void setKeyHighlight(QQuickItem *hi);
 
-  Q_INVOKABLE void selectKey(QQuickItem* keyItem);
+    Q_INVOKABLE void selectKey(QQuickItem *keyItem);
 
-  Q_INVOKABLE void setAmbitus(const Tnote& loNote, const Tnote& hiNote);
+    Q_INVOKABLE void setAmbitus(const Tnote &loNote, const Tnote &hiNote);
 
-  void showNoteName(Tnote::EnameStyle st, const Tnote &n, quint32 techn, const QColor& textColor) override;
+    void showNoteName(Tnote::EnameStyle st, const Tnote &n, quint32 techn, const QColor &textColor) override;
 
 signals:
-  void keyWidthChanged();
-  void keysNumberChanged();
-  void firstOctaveChanged();
-  void selectedKeyChanged();
-  void wantKeyToSelect(int k, bool isWhite);
+    void keyWidthChanged();
+    void keysNumberChanged();
+    void firstOctaveChanged();
+    void selectedKeyChanged();
+    void wantKeyToSelect(int k, bool isWhite);
 
 protected:
-  void geometryChanged(const QRectF & newGeometry, const QRectF & oldGeometry) override;
+    void geometryChanged(const QRectF &newGeometry, const QRectF &oldGeometry) override;
 
 private:
-  void calculateMetrics(qreal newWidth);
+    void calculateMetrics(qreal newWidth);
 
 private:
-  int                   m_keysNumber = 0;
-  qreal                 m_keyWidth;
-  qreal                 m_margin;
-  char                  m_firstOctave;
-  bool                  m_readOnly = false;
-  QQuickItem           *m_selectedKey = nullptr;
-  QQuickItem           *m_keyHighlight = nullptr; /**< Key highlighting item (Rectangle) */
-  Tnote                 m_loNote, m_hiNote;
+    int m_keysNumber = 0;
+    qreal m_keyWidth;
+    qreal m_margin;
+    char m_firstOctave;
+    bool m_readOnly = false;
+    QQuickItem *m_selectedKey = nullptr;
+    QQuickItem *m_keyHighlight = nullptr; /**< Key highlighting item (Rectangle) */
+    Tnote m_loNote, m_hiNote;
 };
 
 #endif // TPIANOBG_H

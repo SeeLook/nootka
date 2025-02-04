@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2014-2019 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2014-2025 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -21,28 +21,26 @@
 
 #include "nootkacoreglobal.h"
 
-
 class QTranslator;
 class QGuiApplication;
 
-
-    /**
-     * Initializes static values in library:
-     * - adds tuning definitions
-     * - adds TpushButton colors
-     */
+/**
+ * Initializes static values in library:
+ * - adds tuning definitions
+ * - adds TpushButton colors
+ */
 NOOTKACORE_EXPORT bool initCoreLibrary();
 
-    /**
-     * Loads translations files for appropriate language (system or user preferred)
-     * Translator object has to be created before.
-     */
-NOOTKACORE_EXPORT void prepareTranslations(QGuiApplication* a, QTranslator& qt, QTranslator& noo);
+/**
+ * Loads translations files for appropriate language (system or user preferred)
+ * Translator object has to be created before.
+ */
+NOOTKACORE_EXPORT void prepareTranslations(QGuiApplication *a, QTranslator &qt, QTranslator &noo);
 
-    /**
-     * Checks nootka.ttf file and loads it. Returns true if successful.
-     * libNootkaCore has to be initialized first by initCoreLibrary()
-     */
-NOOTKACORE_EXPORT bool loadNootkaFont(QGuiApplication* a);
+/**
+ * Checks nootka.ttf file and loads it. Returns true if successful.
+ * libNootkaCore has to be initialized first by initCoreLibrary()
+ */
+NOOTKACORE_EXPORT bool loadNootkaFont(QGuiApplication *a);
 
 #endif // TINITCORELIB_H

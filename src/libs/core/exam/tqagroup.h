@@ -19,11 +19,9 @@
 #ifndef TQAGROUP_H
 #define TQAGROUP_H
 
-
-#include "nootkacoreglobal.h"
-#include "music/ttechnical.h"
 #include "music/tnote.h"
-
+#include "music/ttechnical.h"
+#include "nootkacoreglobal.h"
 
 /**
  * This is simple class with
@@ -34,20 +32,17 @@
  */
 class NOOTKACORE_EXPORT TQAgroup
 {
-
 public:
+    TfingerPos &pos() { return technical.fingerPos(); }
 
-  TfingerPos& pos() { return technical.fingerPos(); }
+    Ttechnical technical;
+    Tnote note;
 
-  Ttechnical technical;
-  Tnote note;
-
-      /**
-       * Save @p TQAgroup to XML. (not valid) note and position are skipped.
-       */
-  void toXml(QXmlStreamWriter& xml, const QString& tag = QLatin1String("qa"));
-  bool fromXml(QXmlStreamReader& xml);
+    /**
+     * Save @p TQAgroup to XML. (not valid) note and position are skipped.
+     */
+    void toXml(QXmlStreamWriter &xml, const QString &tag = QLatin1String("qa"));
+    bool fromXml(QXmlStreamReader &xml);
 };
-
 
 #endif // TQAGROUP_H

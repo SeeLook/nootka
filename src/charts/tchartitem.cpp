@@ -359,7 +359,7 @@ void TchartItem::setAverLineGroup(int averGr) {
 //#################################################################################################
 
 void TchartItem::getExamFileSlot() {
-  QString fileName = TfileDialog::getOpenFileName(TexTrans::loadExamFileTxt(), GLOB->E->examsDir, TexTrans::examFilterTxt());
+  QString fileName = TfileDialog::getOpenFileName(TexTrans::loadExamFileTxt(), GLOB->examParams->examsDir, TexTrans::examFilterTxt());
   if (!fileName.isEmpty())
     loadExam(fileName);
 }

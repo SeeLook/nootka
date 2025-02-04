@@ -19,11 +19,9 @@
 #ifndef TSAXBG_H
 #define TSAXBG_H
 
-
-#include "tcommoninstrument.h"
 #include "music/tnote.h"
+#include "tcommoninstrument.h"
 #include <QtQuick/qquickitem.h>
-
 
 /**
  * @class TsaxBg defines fingering chart shapes of notes from a# (11) till c3 (49).
@@ -35,57 +33,55 @@
  */
 class NOOTKACORE_EXPORT TsaxBg : public TcommonInstrument
 {
+    Q_OBJECT
 
-  Q_OBJECT
-
-  Q_PROPERTY(int flapNumber READ flapNumber WRITE setFlapNumber NOTIFY flapNumberChanged)
-  Q_PROPERTY(int fingeringId READ fingeringId NOTIFY fingeringIdChanged)
-  Q_PROPERTY(QColor markColor READ markColor NOTIFY markColorChanged)
+    Q_PROPERTY(int flapNumber READ flapNumber WRITE setFlapNumber NOTIFY flapNumberChanged)
+    Q_PROPERTY(int fingeringId READ fingeringId NOTIFY fingeringIdChanged)
+    Q_PROPERTY(QColor markColor READ markColor NOTIFY markColorChanged)
 
 public:
-  TsaxBg(QQuickItem* parent = nullptr);
-  ~TsaxBg();
+    TsaxBg(QQuickItem *parent = nullptr);
+    ~TsaxBg();
 
-  void setNote(const Tnote& n, quint32 noteDataValue = NO_TECHNICALS) override;
+    void setNote(const Tnote &n, quint32 noteDataValue = NO_TECHNICALS) override;
 
-  void askQuestion(const Tnote& n, quint32 noteDataValue) override;
+    void askQuestion(const Tnote &n, quint32 noteDataValue) override;
 
-  void highlightAnswer(const Tnote&, quint32) override {}
+    void highlightAnswer(const Tnote &, quint32) override { }
 
-  int technical() override { return NO_TECHNICALS; } // Fake - saxophone has no extra note data
+    int technical() override { return NO_TECHNICALS; } // Fake - saxophone has no extra note data
 
-  int flapNumber() const { return m_flapNumber; }
+    int flapNumber() const { return m_flapNumber; }
 
-  QColor markColor() const { return m_markColor; }
+    QColor markColor() const { return m_markColor; }
 
-      /**
-       * Every saxophone flaps when clicked sets this value to its number
-       */
-  void setFlapNumber(int fNr);
+    /**
+     * Every saxophone flaps when clicked sets this value to its number
+     */
+    void setFlapNumber(int fNr);
 
-  quint32 fingeringId() const { return m_fingeringId; }
+    quint32 fingeringId() const { return m_fingeringId; }
 
-  void paint(QPainter*) override {}
+    void paint(QPainter *) override { }
 
-  void markSelected(const QColor & mColor) override;
+    void markSelected(const QColor &mColor) override;
 
-  void correct(const Tnote & n, quint32 noteData) override;
-  Q_INVOKABLE void applyCorrect() override;
+    void correct(const Tnote &n, quint32 noteData) override;
+    Q_INVOKABLE void applyCorrect() override;
 
-  void showNoteName(Tnote::EnameStyle st, const Tnote &n, quint32 techn, const QColor& textColor) override;
+    void showNoteName(Tnote::EnameStyle st, const Tnote &n, quint32 techn, const QColor &textColor) override;
 
 signals:
-  void flapNumberChanged();
-  void fingeringIdChanged();
-  void markColorChanged();
-
+    void flapNumberChanged();
+    void fingeringIdChanged();
+    void markColorChanged();
 
 private:
-  int                       m_flapNumber;
-  quint32                   m_fingeringId = 0;
-  quint32                  *m_notesArray;
-  QColor                    m_markColor = Qt::transparent;
-  Tnote                     m_goodNote;
+    int m_flapNumber;
+    quint32 m_fingeringId = 0;
+    quint32 *m_notesArray;
+    QColor m_markColor = Qt::transparent;
+    Tnote m_goodNote;
 };
 
 #endif // TSAXBG_H

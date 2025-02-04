@@ -19,11 +19,10 @@
 #include "tcolor.h"
 #include <QtGui/qpalette.h>
 
-
 QColor Tcolor::shadow = Qt::gray;
 
-
-void Tcolor::setShadow(const QPalette& pal) {
+void Tcolor::setShadow(const QPalette &pal)
+{
 #if defined(Q_OS_MAC)
     QColor shadowC(pal.text().color());
     shadowC.setAlpha(50);
@@ -33,35 +32,32 @@ void Tcolor::setShadow(const QPalette& pal) {
 #endif
 }
 
-
-QColor Tcolor::merge(const QColor& C1, const QColor& C2) {
-  qreal al = iV(C1.alpha()) + iV(C2.alpha() * (1 - iV(C1.alpha())));
-  return QColor(((iV(C1.red()) * iV(C1.alpha()) + iV(C2.red()) * iV(C2.alpha()) * (1 - iV(C1.alpha()))) / al) * 255,
-                ((iV(C1.green()) * iV(C1.alpha()) + iV(C2.green()) * iV(C2.alpha()) * (1 - iV(C1.alpha()))) / al) * 255,
-                ((iV(C1.blue()) * iV(C1.alpha()) + iV(C2.blue()) * iV(C2.alpha()) * (1 - iV(C1.alpha()))) / al) * 255,
-                qMin(255, (int)(255 * al)));
+QColor Tcolor::merge(const QColor &C1, const QColor &C2)
+{
+    qreal al = iV(C1.alpha()) + iV(C2.alpha() * (1 - iV(C1.alpha())));
+    return QColor(((iV(C1.red()) * iV(C1.alpha()) + iV(C2.red()) * iV(C2.alpha()) * (1 - iV(C1.alpha()))) / al) * 255,
+                  ((iV(C1.green()) * iV(C1.alpha()) + iV(C2.green()) * iV(C2.alpha()) * (1 - iV(C1.alpha()))) / al) * 255,
+                  ((iV(C1.blue()) * iV(C1.alpha()) + iV(C2.blue()) * iV(C2.alpha()) * (1 - iV(C1.alpha()))) / al) * 255,
+                  qMin(255, (int)(255 * al)));
 }
 
-
-QColor Tcolor::invert(const QColor& color) {
-  QColor C = color;
-  if (C.isValid())
-      C.setRgb(qRgb(255 - C.red(), 255 - C.green(), 255 - C.blue()));
-  return C;
+QColor Tcolor::invert(const QColor &color)
+{
+    QColor C = color;
+    if (C.isValid())
+        C.setRgb(qRgb(255 - C.red(), 255 - C.green(), 255 - C.blue()));
+    return C;
 }
 
-
-QString Tcolor::rgbaText(const QColor& color, const QString& styleTag) {
-  return QString(styleTag + "rgba(%1, %2, %3, %4);").arg(color.red()).arg(color.green()).arg(color.blue()).arg(color.alpha());
+QString Tcolor::rgbaText(const QColor &color, const QString &styleTag)
+{
+    return QString(styleTag + "rgba(%1, %2, %3, %4);").arg(color.red()).arg(color.green()).arg(color.blue()).arg(color.alpha());
 }
 
-
-QString Tcolor::bgTag(const QColor& color) {
-  if (color != -1 && color.alpha() > 0)
-      return rgbaText(color, "background-color:");
-  else
-      return QString("background-color: transparent; ");
+QString Tcolor::bgTag(const QColor &color)
+{
+    if (color != -1 && color.alpha() > 0)
+        return rgbaText(color, "background-color:");
+    else
+        return QString("background-color: transparent; ");
 }
-
-
-

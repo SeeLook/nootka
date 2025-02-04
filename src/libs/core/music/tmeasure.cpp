@@ -19,47 +19,47 @@
 #include "tmeasure.h"
 #include "tchunk.h"
 
-
-Tmeasure::Tmeasure(int nr, Tmeter::Emeter m) :
-  m_number(nr),
-  m_meter(m),
-  m_duration(0)
+Tmeasure::Tmeasure(int nr, Tmeter::Emeter m)
+    : m_number(nr)
+    , m_meter(m)
+    , m_duration(0)
 {
 }
 
-
-void Tmeasure::addNote(const Tchunk& n) {
-  m_notes << n;
-  if (m_meter.meter() != Tmeter::NoMeter)
-    m_duration += n.duration();
+void Tmeasure::addNote(const Tchunk &n)
+{
+    m_notes << n;
+    if (m_meter.meter() != Tmeter::NoMeter)
+        m_duration += n.duration();
 }
 
-
-void Tmeasure::removeLastNote() {
-  m_duration -= lastNote().duration();
-  if (m_meter.meter() != Tmeter::NoMeter)
-    m_notes.removeLast();
+void Tmeasure::removeLastNote()
+{
+    m_duration -= lastNote().duration();
+    if (m_meter.meter() != Tmeter::NoMeter)
+        m_notes.removeLast();
 }
 
-
-bool Tmeasure::isFull() {
-  return m_duration == m_meter.duration();
+bool Tmeasure::isFull()
+{
+    return m_duration == m_meter.duration();
 }
 
-
-void Tmeasure::swapWithNotes(int noteNr, const QList<Tchunk> &notes) {
-  m_notes.replace(noteNr, notes.first());
-  for (int n = 1; n < notes.count(); ++n)
-    m_notes.insert(noteNr + n, notes[n]);
+void Tmeasure::swapWithNotes(int noteNr, const QList<Tchunk> &notes)
+{
+    m_notes.replace(noteNr, notes.first());
+    for (int n = 1; n < notes.count(); ++n)
+        m_notes.insert(noteNr + n, notes[n]);
 }
 
-//#################################################################################################
-//###################                PROTECTED         ############################################
-//#################################################################################################
+// #################################################################################################
+// ###################                PROTECTED         ############################################
+// #################################################################################################
 
-void Tmeasure::prepend(const Tchunk &n) {
-  m_notes.prepend(n);
-  if (m_meter.meter() != Tmeter::NoMeter)
-    m_duration += n.duration();
-  // In fact, anacrusis measures have no sense in when no meter, but... let's have this check
+void Tmeasure::prepend(const Tchunk &n)
+{
+    m_notes.prepend(n);
+    if (m_meter.meter() != Tmeter::NoMeter)
+        m_duration += n.duration();
+    // In fact, anacrusis measures have no sense in when no meter, but... let's have this check
 }

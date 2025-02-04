@@ -19,11 +19,9 @@
 #ifndef TNOTESTRUCT_H
 #define TNOTESTRUCT_H
 
-
-#include <nootkacoreglobal.h>
-#include <cmath>
 #include "tnote.h"
-
+#include <cmath>
+#include <nootkacoreglobal.h>
 
 /**
  * Structure that stores pitch and its parameters as such as frequency and duration in [s].
@@ -36,122 +34,136 @@
  */
 class NOOTKACORE_EXPORT TnoteStruct
 {
-
 public:
-  TnoteStruct(const Tnote& p, qreal pF, qreal f = 0.0, qreal dur = 0.0) : pitch(p), pitchF(pF), freq(f), duration(dur) {}
+    TnoteStruct(const Tnote &p, qreal pF, qreal f = 0.0, qreal dur = 0.0)
+        : pitch(p)
+        , pitchF(pF)
+        , freq(f)
+        , duration(dur)
+    {
+    }
 
-      /**
-       * Default constructor
-       */
-  TnoteStruct() {}
+    /**
+     * Default constructor
+     */
+    TnoteStruct() { }
 
+    /**
+     * Initializes and cleans @p TnoteStruct values
+     */
+    void init(int _index, int chunkNr, qreal floatPitch);
 
-      /**
-       * Initializes and cleans @p TnoteStruct values
-       */
-  void init(int _index, int chunkNr, qreal floatPitch);
+    /**
+     * Updates values. Calculates minimal and maximal volume already occurred
+     */
+    void update(int chunkNr, qreal floatPitch, float vol);
 
-      /**
-       * Updates values. Calculates minimal and maximal volume already occurred
-       */
-  void update(int chunkNr, qreal floatPitch, float vol);
+    /**
+     * Summarizes a note. Sets duration in seconds [s].
+     * Given parameter @p chunkTime is duration of single chunk in seconds.
+     * It sets frequency of a note from @p bestPitch value.
+     */
+    void sumarize(qreal chunkTime);
 
-      /**
-       * Summarizes a note. Sets duration in seconds [s].
-       * Given parameter @p chunkTime is duration of single chunk in seconds.
-       * It sets frequency of a note from @p bestPitch value.
-       */
-  void sumarize(qreal chunkTime);
+    /**
+     * Checks is float value of a note pitch different than its root pitch in range of given threshold.
+     * Returns @p TRUE if @p pitchF value is into threshold range or @p FALSE when not
+     * This way intonation accuracy is checked.
+     */
+    bool inTune(float threshold)
+    {
+        if (qAbs(pitchF - (float)qRound(pitchF)) >= threshold)
+            return false;
+        else
+            return true;
+    }
 
-      /**
-       * Checks is float value of a note pitch different than its root pitch in range of given threshold.
-       * Returns @p TRUE if @p pitchF value is into threshold range or @p FALSE when not
-       * This way intonation accuracy is checked.
-       */
-  bool inTune(float threshold) {
-    if (qAbs(pitchF - (float)qRound(pitchF)) >= threshold)
-      return false;
-    else
-      return true;
-  }
+    /**
+     * Sets values of note structure, or sets them to NULL if no values defined.
+     */
+    void set(qreal midiPitch = 0.0, qreal f = 0.0, qreal dur = 0.0)
+    {
+        midiPitch ? pitch = Tnote(qRound(midiPitch) - 47) : pitch = Tnote();
+        pitchF = midiPitch;
+        freq = f;
+        duration = dur;
+    }
 
-      /**
-       * Sets values of note structure, or sets them to NULL if no values defined.
-       */
-  void set(qreal midiPitch = 0.0, qreal f = 0.0, qreal dur = 0.0) {
-    midiPitch ? pitch = Tnote(qRound(midiPitch) - 47) : pitch = Tnote(); pitchF = midiPitch; freq = f; duration = dur;
-  }
+    int index; /**< Note index in entire channel */
+    Tnote pitch; /**< Note pitch like C, D, E or C3, D#  */
+    qreal pitchF = 0.0; /**< Chromatic note number in MIDI scale, C1 = 60 */
+    qreal bestPitch; /**< Closest value to rounded (perfect) pitch among all occurred pitches. */
+    int basePitch; /**< Midi value (rounded to integer) of a pitch */
+    qreal freq = 0.0; /**< Frequency of a note */
+    qreal duration = 0.0; /**< Duration of a note */
+    int startChunk; /**< Chunk in which note was noticed */
+    int endChunk; /**< Last chunk with this note */
+    float maxVol; /**< Loudest volume occurred */
+    float minVol; /**< Quietest volume occurred */
+    float maxPCMvol; /**< Maximal Raw PCM volume during whole note */
+    QVector<int> idChangedAt; /**< List of positions in @p pitches() when note index changed */
 
-  int     index;            /**< Note index in entire channel */
-  Tnote   pitch;            /**< Note pitch like C, D, E or C3, D#  */
-  qreal   pitchF = 0.0;     /**< Chromatic note number in MIDI scale, C1 = 60 */
-  qreal   bestPitch;        /**< Closest value to rounded (perfect) pitch among all occurred pitches. */
-  int     basePitch;        /**< Midi value (rounded to integer) of a pitch */
-  qreal   freq = 0.0;       /**< Frequency of a note */
-  qreal   duration = 0.0;   /**< Duration of a note */
-  int     startChunk;       /**< Chunk in which note was noticed */
-  int     endChunk;         /**< Last chunk with this note */
-  float   maxVol;           /**< Loudest volume occurred */
-  float   minVol;           /**< Quietest volume occurred */
-  float   maxPCMvol;        /**< Maximal Raw PCM volume during whole note */
-  QVector<int> idChangedAt; /**< List of positions in @p pitches() when note index changed */
+    void indexChanged() { idChangedAt << m_pList.size() - 1; }
 
-  void indexChanged() { idChangedAt << m_pList.size() - 1; }
+    /**
+     * Note duration in chunks
+     */
+    int numChunks() { return endChunk - startChunk + 1; }
 
-      /**
-       * Note duration in chunks
-       */
-  int     numChunks() { return endChunk - startChunk + 1; }
+    /**
+     * Average pitch of all chunk pitches
+     */
+    qreal totalAverage()
+    {
+        if (m_totalAver == 0.0)
+            getTotalAverage();
+        return m_totalAver;
+    }
 
-      /**
-       * Average pitch of all chunk pitches
-       */
-  qreal   totalAverage() { if (m_totalAver == 0.0) getTotalAverage(); return m_totalAver; }
+    /**
+     * Average pitch of 3 to 6 chunks
+     */
+    qreal shortAverage()
+    {
+        if (m_shortAver == 0.0)
+            getShortAverage();
+        return m_shortAver;
+    }
 
-      /**
-       * Average pitch of 3 to 6 chunks
-       */
-  qreal   shortAverage() { if (m_shortAver == 0.0) getShortAverage(); return m_shortAver; }
+    /**
+     * Average frequency of total average pitch
+     */
+    qreal averageFreq() { return pitchToFreq(totalAverage()); }
 
-      /**
-       * Average frequency of total average pitch
-       */
-  qreal   averageFreq() { return pitchToFreq(totalAverage()); }
+    /**
+     * Average frequency of short average pitch
+     */
+    qreal averageShortFreq() { return pitchToFreq(shortAverage()); }
 
-      /**
-       * Average frequency of short average pitch
-       */
-  qreal   averageShortFreq() { return pitchToFreq(shortAverage()); }
+    /**
+     * Pointer to list @p QVector of pitches
+     */
+    QVector<qreal> *pitches() { return &m_pList; }
 
-      /**
-       * Pointer to list @p QVector of pitches
-       */
-  QVector<qreal>* pitches() { return &m_pList; }
+    /**
+     * Static method that converts given pitch to a frequency (in Hz)
+     */
+    static qreal pitchToFreq(qreal midiPitch) { return std::pow(10.0, (midiPitch + 36.3763165622959152488) / 39.8631371386483481); }
 
-      /**
-       * Static method that converts given pitch to a frequency (in Hz)
-       */
-  static qreal pitchToFreq(qreal midiPitch) { return std::pow(10.0, (midiPitch + 36.3763165622959152488) / 39.8631371386483481); }
+    /**
+     * Returns average pitch in given chunks range. First chunk is 1.
+     */
+    qreal getAverage(unsigned int start, unsigned int stop);
 
-      /**
-       * Returns average pitch in given chunks range. First chunk is 1.
-       */
-  qreal getAverage(unsigned int start, unsigned int stop);
-
-  QString debug();
+    QString debug();
 
 private:
-  QVector<qreal>          m_pList;
-  qreal                   m_totalAver, m_shortAver;
+    QVector<qreal> m_pList;
+    qreal m_totalAver, m_shortAver;
 
-  void  getTotalAverage() {
-    m_totalAver = getAverage(1, m_pList.size());
-  }
+    void getTotalAverage() { m_totalAver = getAverage(1, m_pList.size()); }
 
-  void getShortAverage() {
-    m_shortAver = getAverage(3, 6);
-  }
-
+    void getShortAverage() { m_shortAver = getAverage(3, 6); }
 };
 
 #endif // TNOTESTRUCT_H

@@ -17,66 +17,66 @@
  ***************************************************************************/
 
 #include "tmelodypreview.h"
-#include "tscoreobject.h"
 #include "music/tmelody.h"
+#include "tscoreobject.h"
 
-
-TmelodyPreview::TmelodyPreview(QQuickItem *parent) :
-  QQuickItem(parent)
-{}
-
-
-QString TmelodyPreview::composer() const {
-  return m_melody ? m_melody->composer() : QString();
+TmelodyPreview::TmelodyPreview(QQuickItem *parent)
+    : QQuickItem(parent)
+{
 }
 
-
-QString TmelodyPreview::title() const {
-  return m_melody ? m_melody->title() : QString();
+QString TmelodyPreview::composer() const
+{
+    return m_melody ? m_melody->composer() : QString();
 }
 
-
-void TmelodyPreview::setScore(TscoreObject* sc) {
-  m_score = sc;
-  setSelectReadOnly(m_selectReadOnly);
+QString TmelodyPreview::title() const
+{
+    return m_melody ? m_melody->title() : QString();
 }
 
-
-QVariant TmelodyPreview::melody() {
-  return QVariant::fromValue(m_melody);
+void TmelodyPreview::setScore(TscoreObject *sc)
+{
+    m_score = sc;
+    setSelectReadOnly(m_selectReadOnly);
 }
 
-
-void TmelodyPreview::setMelody(QVariant v) {
-  auto m = qvariant_cast<Tmelody*>(v);
-  if (m != m_melody) {
-    m_melody = m;
-    if (m_melody && m_score)
-      m_score->setMelody(m_melody);
-    emit melodyChanged();
-  }
+QVariant TmelodyPreview::melody()
+{
+    return QVariant::fromValue(m_melody);
 }
 
-
-bool TmelodyPreview::selectReadOnly() const {
-  return m_score ? m_score->selectInReadOnly() : false;
-}
-
-
-void TmelodyPreview::setSelectReadOnly(bool selRO) {
-  if (selRO != m_selectReadOnly || (m_score && m_score->selectInReadOnly() != selRO)) {
-    m_selectReadOnly = selRO;
-    if (m_score) {
-      m_score->setSelectInReadOnly(selRO);
-      if (selRO)
-        connect(m_score, &TscoreObject::readOnlyNoteClicked, this, &TmelodyPreview::readOnlyNoteClicked, Qt::UniqueConnection);
-      emit selectReadOnlyChanged();
+void TmelodyPreview::setMelody(QVariant v)
+{
+    auto m = qvariant_cast<Tmelody *>(v);
+    if (m != m_melody) {
+        m_melody = m;
+        if (m_melody && m_score)
+            m_score->setMelody(m_melody);
+        emit melodyChanged();
     }
-  }
 }
 
+bool TmelodyPreview::selectReadOnly() const
+{
+    return m_score ? m_score->selectInReadOnly() : false;
+}
 
-void TmelodyPreview::reload() {
-  if (m_melody && m_score)
-    m_score->setMelody(m_melody);
+void TmelodyPreview::setSelectReadOnly(bool selRO)
+{
+    if (selRO != m_selectReadOnly || (m_score && m_score->selectInReadOnly() != selRO)) {
+        m_selectReadOnly = selRO;
+        if (m_score) {
+            m_score->setSelectInReadOnly(selRO);
+            if (selRO)
+                connect(m_score, &TscoreObject::readOnlyNoteClicked, this, &TmelodyPreview::readOnlyNoteClicked, Qt::UniqueConnection);
+            emit selectReadOnlyChanged();
+        }
+    }
+}
+
+void TmelodyPreview::reload()
+{
+    if (m_melody && m_score)
+        m_score->setMelody(m_melody);
 }

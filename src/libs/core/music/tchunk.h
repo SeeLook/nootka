@@ -19,15 +19,12 @@
 #ifndef TCHUNK_H
 #define TCHUNK_H
 
-
-#include <nootkacoreglobal.h>
 #include "tnote.h"
 #include "ttechnical.h"
-
+#include <nootkacoreglobal.h>
 
 class QXmlStreamReader;
 class QXmlStreamWriter;
-
 
 /**
  * This class represent a note:
@@ -38,101 +35,100 @@ class QXmlStreamWriter;
  */
 class NOOTKACORE_EXPORT Tchunk
 {
-
 public:
-  Tchunk(const Tnote& pitch, const TfingerPos& fretPos = TfingerPos());
+    Tchunk(const Tnote &pitch, const TfingerPos &fretPos = TfingerPos());
 
-  Tchunk(const Tnote& pitch, const Ttechnical& technical);
+    Tchunk(const Tnote &pitch, const Ttechnical &technical);
 
-      /**
-       * Default constructor - creates 'empty' note and position.
-       */
-  Tchunk() {}
-  ~Tchunk() {}
+    /**
+     * Default constructor - creates 'empty' note and position.
+     */
+    Tchunk() { }
+    ~Tchunk() { }
 
-      /**
-       * The note
-       */
-  Tnote& p() { return m_pitch; }
+    /**
+     * The note
+     */
+    Tnote &p() { return m_pitch; }
 
-  int duration() const { return m_pitch.duration(); }
+    int duration() const { return m_pitch.duration(); }
 
-      /**
-       * Position a note on a guitar (if any) - by default it is null - invalid
-       */
-  TfingerPos& g() { return m_technical.fingerPos(); }
+    /**
+     * Position a note on a guitar (if any) - by default it is null - invalid
+     */
+    TfingerPos &g() { return m_technical.fingerPos(); }
 
-      /**
-       * Extra note data like guitar position, bow direction, staff position (upper/lower) and fingering
-       */
-  Ttechnical& t() { return m_technical; }
+    /**
+     * Extra note data like guitar position, bow direction, staff position (upper/lower) and fingering
+     */
+    Ttechnical &t() { return m_technical; }
 
-  bool onUpperStaff() const { return m_technical.onUpperStaff(); }
-  void setOnUpperStaff(bool onUpper) { m_technical.setOnUpperStaff(onUpper); }
+    bool onUpperStaff() const { return m_technical.onUpperStaff(); }
+    void setOnUpperStaff(bool onUpper) { m_technical.setOnUpperStaff(onUpper); }
 
-  Ttechnical::EbowDirection bowing() const { return m_technical.bowing(); }
-  void setBowing(Ttechnical::EbowDirection b) { m_technical.setBowing(b); }
+    Ttechnical::EbowDirection bowing() const { return m_technical.bowing(); }
+    void setBowing(Ttechnical::EbowDirection b) { m_technical.setBowing(b); }
 
-      /**
-        * Finger number [0 - 5].
-        * -1 is returned when undefined
-        */
-  int finger() const { return m_technical.finger(); }
-  void setFinger(int fi) { m_technical.setFinger(fi); }
+    /**
+     * Finger number [0 - 5].
+     * -1 is returned when undefined
+     */
+    int finger() const { return m_technical.finger(); }
+    void setFinger(int fi) { m_technical.setFinger(fi); }
 
-      /**
-       * Numeric value representing all extra note parameters
-       */
-  quint32 technical() const { return m_technical.data(); }
-  void setTechnical(quint32 nd) { m_technical.setData(nd); }
+    /**
+     * Numeric value representing all extra note parameters
+     */
+    quint32 technical() const { return m_technical.data(); }
+    void setTechnical(quint32 nd) { m_technical.setData(nd); }
 
-      /**
-       * Returns @p TRUE when position on the guitar is valid.
-       */
-  bool validPos() { return g().str() != 7; }
+    /**
+     * Returns @p TRUE when position on the guitar is valid.
+     */
+    bool validPos() { return g().str() != 7; }
 
-      /**
-       * If @p staffNr is set appropriate <staff>staffNr</staff> is added
-       */
-  void toXml(QXmlStreamWriter& xml, int* staffNr = nullptr);
+    /**
+     * If @p staffNr is set appropriate <staff>staffNr</staff> is added
+     */
+    void toXml(QXmlStreamWriter &xml, int *staffNr = nullptr);
 
-  enum EimportResult {
-    e_xmlOK = 0,
-    e_xmlUnsupported = 1,
-    e_xmlHasTwoDots = 2,
-    e_xmlIsChord = 4,
-    e_xmlIsGrace = 8,
-    e_xmlIsStrangeRtm = 16,
-    e_xmlIsTupletStart = 32,
-    e_xmlIsTupletStop = 64
-  };
+    enum EimportResult {
+        e_xmlOK = 0,
+        e_xmlUnsupported = 1,
+        e_xmlHasTwoDots = 2,
+        e_xmlIsChord = 4,
+        e_xmlIsGrace = 8,
+        e_xmlIsStrangeRtm = 16,
+        e_xmlIsTupletStart = 32,
+        e_xmlIsTupletStop = 64
+    };
 
-      /**
-       * Trough @p staffNr (if set) is returned staff number the note belongs to.
-       */
-  quint16 fromXml(QXmlStreamReader& xml, int* staffNr = nullptr, int* voiceNr = nullptr);
+    /**
+     * Trough @p staffNr (if set) is returned staff number the note belongs to.
+     */
+    quint16 fromXml(QXmlStreamReader &xml, int *staffNr = nullptr, int *voiceNr = nullptr);
 
-      /**
-       * Converts beam type into music XML compatible string
-       */
-  static QString beamToString(Trhythm::Ebeam b);
+    /**
+     * Converts beam type into music XML compatible string
+     */
+    static QString beamToString(Trhythm::Ebeam b);
 
-      /**
-       * In music XML structure ties are written in two places:
-       * below 'pitch' with <tie type />
-       * and inside <notations/> with <tied type />
-       * but we have single method to generate them both and this enumerator is to distinguish them
-       */
-  enum EtieTag { e_tie, e_tied };
+    /**
+     * In music XML structure ties are written in two places:
+     * below 'pitch' with <tie type />
+     * and inside <notations/> with <tied type />
+     * but we have single method to generate them both and this enumerator is to distinguish them
+     */
+    enum EtieTag { e_tie, e_tied };
 
-      /**
-       * @p t has to be kind of tie but not empty
-       */
-  void tieToXml(QXmlStreamWriter& xml, Trhythm::Etie t, EtieTag tag);
+    /**
+     * @p t has to be kind of tie but not empty
+     */
+    void tieToXml(QXmlStreamWriter &xml, Trhythm::Etie t, EtieTag tag);
 
 private:
-  Tnote               m_pitch;
-  Ttechnical          m_technical;
+    Tnote m_pitch;
+    Ttechnical m_technical;
 };
 
 #endif // TCHUNK_H

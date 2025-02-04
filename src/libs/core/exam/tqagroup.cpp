@@ -16,34 +16,32 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
-
 #include "tqagroup.h"
 
-
-void TQAgroup::toXml(QXmlStreamWriter& xml, const QString& tag) {
-  xml.writeStartElement(tag);
+void TQAgroup::toXml(QXmlStreamWriter &xml, const QString &tag)
+{
+    xml.writeStartElement(tag);
     if (note.isValid())
-      note.toXml(xml, QLatin1String("n")); // n like note
+        note.toXml(xml, QLatin1String("n")); // n like note
     if (!technical.isEmpty())
-      technical.toXml(xml, QLatin1String("t")); // t like technical (string, finger, bowing, etc.)
-//     if (gr.pos().str() > 0) // DEPRECATED: Nootka 1.X used only TfingerPos
-//       gr.pos().toXml(xml, QLatin1String("p")); // p like position
-  xml.writeEndElement();
+        technical.toXml(xml, QLatin1String("t")); // t like technical (string, finger, bowing, etc.)
+    //     if (gr.pos().str() > 0) // DEPRECATED: Nootka 1.X used only TfingerPos
+    //       gr.pos().toXml(xml, QLatin1String("p")); // p like position
+    xml.writeEndElement();
 }
 
-
-bool TQAgroup::fromXml(QXmlStreamReader& xml) {
-  bool ok = true;
-  while (xml.readNextStartElement()) {
-    if (xml.name() == QLatin1String("n"))
-      note.fromXml(xml);
-    else if (xml.name() == QLatin1String("p")) // to properly read older *.noo versions from Nootka 1.X
-      pos().fromXml(xml);
-    else if (xml.name() == QLatin1String("t"))
-      technical.fromXml(xml);
-    else
-      xml.skipCurrentElement();
-  }
-  return ok;
+bool TQAgroup::fromXml(QXmlStreamReader &xml)
+{
+    bool ok = true;
+    while (xml.readNextStartElement()) {
+        if (xml.name() == QLatin1String("n"))
+            note.fromXml(xml);
+        else if (xml.name() == QLatin1String("p")) // to properly read older *.noo versions from Nootka 1.X
+            pos().fromXml(xml);
+        else if (xml.name() == QLatin1String("t"))
+            technical.fromXml(xml);
+        else
+            xml.skipCurrentElement();
+    }
+    return ok;
 }
-

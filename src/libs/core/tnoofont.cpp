@@ -53,48 +53,41 @@
  * digits [0-9] starts from 0x0180
  */
 
-
 #include "tnoofont.h"
 #include <QtCore/qmath.h>
 
-
-TnooFont::TnooFont(int pointSize) :
-  QFont(QStringLiteral("nootka"), pointSize)
+TnooFont::TnooFont(int pointSize)
+    : QFont(QStringLiteral("nootka"), pointSize)
 {
-  setPixelSize(pointSize);
-  setBold(false);
-  setWeight(50); // Normal
+    setPixelSize(pointSize);
+    setBold(false);
+    setWeight(50); // Normal
 }
 
-//#################################################################################################
-//###################              STATIC              ############################################
-//#################################################################################################
-QString TnooFont::tag(const QString& tag, const QString& text, int fontSize, const QString& extraStyle) {
-  QString fSize;
-  if (fontSize)
-      fSize = QString("font-size: %1px;").arg(fontSize);
-  QString ex = extraStyle;
-  if (!extraStyle.isEmpty() && !extraStyle.endsWith(QLatin1String(";")))
-      ex = extraStyle + QLatin1String(";");
-  return QLatin1String("<") + tag + QLatin1String(" style=\"font-family: nootka;") + fSize + ex + QLatin1String("\">")
-          + text + QLatin1String("</") + tag + QLatin1String(">");
+// #################################################################################################
+// ###################              STATIC              ############################################
+// #################################################################################################
+QString TnooFont::tag(const QString &tag, const QString &text, int fontSize, const QString &extraStyle)
+{
+    QString fSize;
+    if (fontSize)
+        fSize = QString("font-size: %1px;").arg(fontSize);
+    QString ex = extraStyle;
+    if (!extraStyle.isEmpty() && !extraStyle.endsWith(QLatin1String(";")))
+        ex = extraStyle + QLatin1String(";");
+    return QLatin1String("<") + tag + QLatin1String(" style=\"font-family: nootka;") + fSize + ex + QLatin1String("\">") + text + QLatin1String("</") + tag
+        + QLatin1String(">");
 }
 
-
-quint16 TnooFont::getCharFromRhythm(quint16 rhythm, bool stemUp, bool rest) {
-  int baseChar = 67, stemGap = 0;
-  if (rest)
-      baseChar = 0xe107;
-  else if (!stemUp && rhythm > 1) // stem down only if no rest and half note at least
-      stemGap = 6;
-  if (rhythm)
-    return baseChar + qRound(qLn(static_cast<qreal>(rhythm) / qLn(2.0))) + stemGap;
-  else
-    return 0xe193;
+quint16 TnooFont::getCharFromRhythm(quint16 rhythm, bool stemUp, bool rest)
+{
+    int baseChar = 67, stemGap = 0;
+    if (rest)
+        baseChar = 0xe107;
+    else if (!stemUp && rhythm > 1) // stem down only if no rest and half note at least
+        stemGap = 6;
+    if (rhythm)
+        return baseChar + qRound(qLn(static_cast<qreal>(rhythm) / qLn(2.0))) + stemGap;
+    else
+        return 0xe193;
 }
-
-
-
-
-
-

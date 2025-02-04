@@ -20,96 +20,87 @@
 #include "tqaunit.h"
 #include <QtCore/qvariant.h>
 
-
-Tattempt::Tattempt() :
-  m_playedCounter(0),
-  m_sum(0),
-  m_totalTime(0),
-  m_prepTime(0)
+Tattempt::Tattempt()
+    : m_playedCounter(0)
+    , m_sum(0)
+    , m_totalTime(0)
+    , m_prepTime(0)
 {
 }
 
-
-void Tattempt::add(quint32 mistake) {
-  mistakes << mistake;
-  m_sum |= mistake;
+void Tattempt::add(quint32 mistake)
+{
+    mistakes << mistake;
+    m_sum |= mistake;
 }
-
 
 Tattempt::~Tattempt()
-{}
-
-
-void Tattempt::updateEffectiveness() {
-  if (mistakes.size()) {
-      qreal effSum = 0.0;
-      m_sum = 0;
-      for (int i = 0; i < mistakes.size(); ++i) {
-        quint32 m = mistakes[i];
-        m_sum |= m;
-        if (m == TQAunit::e_correct)
-          effSum += CORRECT_EFF;
-        else if (!(m & TQAunit::e_wrongNote) && !(m & TQAunit::e_wrongPos))
-          effSum += NOTBAD_EFF;
-      }
-      m_effectiveness = effSum / (qreal)mistakes.size();
-  } else
-      m_effectiveness = 0.0;
-
-  if (effectiveness() >= 50.0) {
-    if (m_sum & TQAunit::e_wrongNote) { // subtract e_wrongNote if summary has sufficient effectiveness
-      m_sum = m_sum - TQAunit::e_wrongNote; // attempt was successful
-      m_sum |= TQAunit::e_littleNotes; // but has little valid notes
-    }
-  }
+{
 }
 
-
-void Tattempt::toXml(QXmlStreamWriter& xml) const {
-  xml.writeStartElement(QLatin1String("a")); // a like attempt
+void Tattempt::updateEffectiveness()
+{
     if (mistakes.size()) {
-      xml.writeStartElement(QLatin1String("mistakes"));
-      for (int i = 0; i < mistakes.size(); ++i)
-        xml.writeTextElement(QLatin1String("m"), QVariant(mistakes[i]).toString());
-      xml.writeEndElement(); // mistakes
+        qreal effSum = 0.0;
+        m_sum = 0;
+        for (int i = 0; i < mistakes.size(); ++i) {
+            quint32 m = mistakes[i];
+            m_sum |= m;
+            if (m == TQAunit::e_correct)
+                effSum += CORRECT_EFF;
+            else if (!(m & TQAunit::e_wrongNote) && !(m & TQAunit::e_wrongPos))
+                effSum += NOTBAD_EFF;
+        }
+        m_effectiveness = effSum / (qreal)mistakes.size();
+    } else
+        m_effectiveness = 0.0;
+
+    if (effectiveness() >= 50.0) {
+        if (m_sum & TQAunit::e_wrongNote) { // subtract e_wrongNote if summary has sufficient effectiveness
+            m_sum = m_sum - TQAunit::e_wrongNote; // attempt was successful
+            m_sum |= TQAunit::e_littleNotes; // but has little valid notes
+        }
+    }
+}
+
+void Tattempt::toXml(QXmlStreamWriter &xml) const
+{
+    xml.writeStartElement(QLatin1String("a")); // a like attempt
+    if (mistakes.size()) {
+        xml.writeStartElement(QLatin1String("mistakes"));
+        for (int i = 0; i < mistakes.size(); ++i)
+            xml.writeTextElement(QLatin1String("m"), QVariant(mistakes[i]).toString());
+        xml.writeEndElement(); // mistakes
     }
     if (m_playedCounter)
-      xml.writeTextElement(QLatin1String("p"), QVariant(m_playedCounter).toString());
+        xml.writeTextElement(QLatin1String("p"), QVariant(m_playedCounter).toString());
     if (m_totalTime)
-      xml.writeTextElement(QLatin1String("tt"), QVariant(m_totalTime).toString());
+        xml.writeTextElement(QLatin1String("tt"), QVariant(m_totalTime).toString());
     if (m_prepTime)
-      xml.writeTextElement(QLatin1String("pt"), QVariant(m_prepTime).toString());
-  xml.writeEndElement(); // a
+        xml.writeTextElement(QLatin1String("pt"), QVariant(m_prepTime).toString());
+    xml.writeEndElement(); // a
 }
 
-
-void Tattempt::fromXml(QXmlStreamReader& xml) {
-  m_playedCounter = 0;
-  while (xml.readNextStartElement()) {
-    if (xml.name() == QLatin1String("mistakes")) {
-        mistakes.clear();
-        while (xml.readNextStartElement()) {
-          if (xml.name() == QLatin1String("m"))
-            mistakes << xml.readElementText().toInt();
-          else
+void Tattempt::fromXml(QXmlStreamReader &xml)
+{
+    m_playedCounter = 0;
+    while (xml.readNextStartElement()) {
+        if (xml.name() == QLatin1String("mistakes")) {
+            mistakes.clear();
+            while (xml.readNextStartElement()) {
+                if (xml.name() == QLatin1String("m"))
+                    mistakes << xml.readElementText().toInt();
+                else
+                    xml.skipCurrentElement();
+            }
+            updateEffectiveness();
+        } else if (xml.name() == QLatin1String("p"))
+            m_playedCounter = xml.readElementText().toInt();
+        else if (xml.name() == QLatin1String("tt"))
+            m_totalTime = xml.readElementText().toInt();
+        else if (xml.name() == QLatin1String("pt"))
+            m_prepTime = xml.readElementText().toInt();
+        else
             xml.skipCurrentElement();
-        }
-        updateEffectiveness();
-    } else if (xml.name() == QLatin1String("p"))
-        m_playedCounter = xml.readElementText().toInt();
-    else if (xml.name() == QLatin1String("tt"))
-        m_totalTime = xml.readElementText().toInt();
-    else if (xml.name() == QLatin1String("pt"))
-        m_prepTime = xml.readElementText().toInt();
-    else
-      xml.skipCurrentElement();
-  }
+    }
 }
-
-
-
-
-
-
-
-

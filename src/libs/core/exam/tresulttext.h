@@ -16,22 +16,21 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
-
 #ifndef TRESULTTEXT_H
 #define TRESULTTEXT_H
 
-#include <nootkacoreglobal.h>
 #include <QtCore/qstring.h>
+#include <nootkacoreglobal.h>
 
 class TQAunit;
 class QColor;
 
-    /**
-     * Returns HTML formatted text with answer details.
-     * If @p fontSize remains default - default @p fontSize is taken.
-     * When @p attempt is bigger than 0 (and answer was a melody of course)
-     * The summary of that attempt is prepared.
-     */
-NOOTKACORE_EXPORT QString wasAnswerOKtext(TQAunit* answer, int attempt = 0);
+/**
+ * Returns HTML formatted text with answer details.
+ * If @p fontSize remains default - default @p fontSize is taken.
+ * When @p attempt is bigger than 0 (and answer was a melody of course)
+ * The summary of that attempt is prepared.
+ */
+NOOTKACORE_EXPORT QString wasAnswerOKtext(TQAunit *answer, int attempt = 0);
 
 #endif // TRESULTTEXT_H

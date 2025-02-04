@@ -18,48 +18,45 @@
 
 #include "tnamestylefilter.h"
 
-bool* TnameStyleFilter::m_is7th_B = nullptr;
-Tnote::EnameStyle* TnameStyleFilter::m_solfegeStyle = nullptr;
-
+bool *TnameStyleFilter::m_is7th_B = nullptr;
+Tnote::EnameStyle *TnameStyleFilter::m_solfegeStyle = nullptr;
 
 TnameStyleFilter::TnameStyleFilter()
-{}
-
+{
+}
 
 /**
  * TODO
  * @p solfegeStyle is not used (ignored)
  * it can be set the same way as letter styles
  */
-void TnameStyleFilter::setStyleFilter(bool* is7th_B, Tnote::EnameStyle* solfegeStyle) {
-  m_is7th_B = is7th_B;
-  m_solfegeStyle = solfegeStyle;
+void TnameStyleFilter::setStyleFilter(bool *is7th_B, Tnote::EnameStyle *solfegeStyle)
+{
+    m_is7th_B = is7th_B;
+    m_solfegeStyle = solfegeStyle;
 }
 
+Tnote::EnameStyle TnameStyleFilter::get(Tnote::EnameStyle style)
+{
+    if (m_is7th_B) {
+        if (style == Tnote::e_italiano_Si || style == Tnote::e_russian_Ci)
+            return style;
+        //       return *(m_solfegeStyle); TODO ignored
 
-Tnote::EnameStyle TnameStyleFilter::get(Tnote::EnameStyle style) {
-  if (m_is7th_B) {
-    if (style == Tnote::e_italiano_Si || style == Tnote::e_russian_Ci)
-      return style;
-//       return *(m_solfegeStyle); TODO ignored
+        if (style == Tnote::e_deutsch_His || style == Tnote::e_nederl_Bis) {
+            if (*(m_is7th_B))
+                return Tnote::e_nederl_Bis;
+            else
+                return Tnote::e_deutsch_His;
+        }
 
-    if (style == Tnote::e_deutsch_His || style == Tnote::e_nederl_Bis) {
-      if (*(m_is7th_B))
-        return Tnote::e_nederl_Bis;
-      else
-        return Tnote::e_deutsch_His;
+        if (style == Tnote::e_english_Bb || style == Tnote::e_norsk_Hb) {
+            if (*(m_is7th_B))
+                return Tnote::e_english_Bb;
+            else
+                return Tnote::e_norsk_Hb;
+        }
     }
 
-    if (style == Tnote::e_english_Bb|| style == Tnote::e_norsk_Hb) {
-      if (*(m_is7th_B))
-        return Tnote::e_english_Bb;
-      else
-        return Tnote::e_norsk_Hb;
-    }
-  }
-
-  return style;
+    return style;
 }
-
-
-

@@ -19,12 +19,10 @@
 #ifndef TMTR_H
 #define TMTR_H
 
-
 #include "nootkacoreglobal.h"
-#include <QtWidgets/qapplication.h>
-#include <QtGui/qscreen.h>
 #include <QtGui/qfont.h>
-
+#include <QtGui/qscreen.h>
+#include <QtWidgets/qapplication.h>
 
 /**
  * These are static measurement units depend on available screen size,
@@ -33,28 +31,27 @@
  */
 class NOOTKACORE_EXPORT Tmtr
 {
-
 public:
-  static void init(QApplication* a);
+    static void init(QApplication *a);
 
-      /** size of finger (1 cm) in pixels */
-  static int fingerPixels() { return m_fingerPixels; }
+    /** size of finger (1 cm) in pixels */
+    static int fingerPixels() { return m_fingerPixels; }
 
-      /** height or width of a screen (less of them) */
-  static int shortScreenSide() { return m_shortScreenSide; }
+    /** height or width of a screen (less of them) */
+    static int shortScreenSide() { return m_shortScreenSide; }
 
-      /** height or width of a screen (bigger of them) */
-  static int longScreenSide() { return m_longScreenSide; }
+    /** height or width of a screen (bigger of them) */
+    static int longScreenSide() { return m_longScreenSide; }
 
-  static int screenWidth() { return qApp->screens().first()->geometry().width(); }
-  static int screenHeight() { return qApp->screens().first()->geometry().height(); }
+    static int screenWidth() { return qApp->screens().first()->geometry().width(); }
+    static int screenHeight() { return qApp->screens().first()->geometry().height(); }
 
-  static QFont systemFont;
+    static QFont systemFont;
 
 private:
-  static int m_fingerPixels;
-  static int m_shortScreenSide;
-  static int m_longScreenSide;
+    static int m_fingerPixels;
+    static int m_shortScreenSide;
+    static int m_longScreenSide;
 };
 
 #endif // TMTR_H

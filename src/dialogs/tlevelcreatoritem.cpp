@@ -104,7 +104,7 @@ void TlevelCreatorItem::continueLevelSave(const QString& name, const QString& de
   // Saving to file
   QLatin1String dotNel(".nel");
   bool toTr = name.startsWith(QLatin1String("tr("));
-  QString fName = QDir::toNativeSeparators(GLOB->E->levelsDir + QLatin1String("/") + m_level->name.mid(toTr ? 3 : 0));
+  QString fName = QDir::toNativeSeparators(GLOB->examParams->levelsDir + QLatin1String("/") + m_level->name.mid(toTr ? 3 : 0));
   fName = fName.replace(QLatin1String("."), QString()); //HACK: file dialogues don't like dots in the names
   if (QFileInfo::exists(fName  + dotNel))
     fName += QLatin1String("-") + QDateTime::currentDateTime().toString(QLatin1String("(dd-MMM-hhmmss)"));
@@ -122,7 +122,7 @@ void TlevelCreatorItem::continueLevelSave(const QString& name, const QString& de
 
   if (fileName.right(4) != dotNel)
     fileName += dotNel;
-  GLOB->E->levelsDir = QFileInfo(fileName).absoluteDir().absolutePath();
+  GLOB->examParams->levelsDir = QFileInfo(fileName).absoluteDir().absolutePath();
   if (!Tlevel::saveToFile(*m_level, fileName)) {
     wantNotSavedMessage(QString(), tr("Cannot open file for writing") + QLatin1String("\n") + fileName);
     if (m_resumeAfterLevelChange)

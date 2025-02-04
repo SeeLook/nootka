@@ -18,56 +18,54 @@
 
 #include "tstafflines.h"
 
-#include <QtGui/qpalette.h>
-#include <QtGui/qpainter.h>
 #include <QtGui/qguiapplication.h>
-
+#include <QtGui/qpainter.h>
+#include <QtGui/qpalette.h>
 
 #define LINE_WIDTH (0.2)
-
 
 /**
  * There is fixed height set to 9.0 whether actual staff height is about 8.2
  * To able to paint line with its complete width we need to set that staff height bigger
  */
-TstaffLines::TstaffLines(QQuickItem* parent) :
-  QQuickPaintedItem(parent)
+TstaffLines::TstaffLines(QQuickItem *parent)
+    : QQuickPaintedItem(parent)
 {
-  setAcceptHoverEvents(true);
-  setRenderTarget(QQuickPaintedItem::FramebufferObject);
-  setAntialiasing(true);
-  setHeight(9.0);
-  connect(qApp, &QGuiApplication::paletteChanged, this, [=]{ update(); });
+    setAcceptHoverEvents(true);
+    setRenderTarget(QQuickPaintedItem::FramebufferObject);
+    setAntialiasing(true);
+    setHeight(9.0);
+    connect(qApp, &QGuiApplication::paletteChanged, this, [=] {
+        update();
+    });
 }
 
-
-void TstaffLines::setStaffScale(qreal stScale) {
-  if (stScale != m_staffScale) {
-    m_staffScale = stScale;
-    setTextureSize(QSize(qRound(m_staffScale * width()), qRound(height() * m_staffScale)));
-    update();
-  }
+void TstaffLines::setStaffScale(qreal stScale)
+{
+    if (stScale != m_staffScale) {
+        m_staffScale = stScale;
+        setTextureSize(QSize(qRound(m_staffScale * width()), qRound(height() * m_staffScale)));
+        update();
+    }
 }
 
-
-void TstaffLines::paint(QPainter* painter) {
-  painter->setPen(QPen(qApp->palette().color(isEnabled() ? QPalette::Active : QPalette::Disabled, QPalette::Text), LINE_WIDTH));
-  for (int l = 0; l < 5; ++l) {
-    qreal yy = l * 2.0 + LINE_WIDTH / 2.0;
-    painter->drawLine(QPointF(0.0, yy), QPointF(width(), yy));
-  }
+void TstaffLines::paint(QPainter *painter)
+{
+    painter->setPen(QPen(qApp->palette().color(isEnabled() ? QPalette::Active : QPalette::Disabled, QPalette::Text), LINE_WIDTH));
+    for (int l = 0; l < 5; ++l) {
+        qreal yy = l * 2.0 + LINE_WIDTH / 2.0;
+        painter->drawLine(QPointF(0.0, yy), QPointF(width(), yy));
+    }
 }
 
+// #################################################################################################
+// ###################              PROTECTED           ############################################
+// #################################################################################################
 
-//#################################################################################################
-//###################              PROTECTED           ############################################
-//#################################################################################################
-
-void TstaffLines::geometryChanged(const QRectF& newGeometry, const QRectF& oldGeometry) {
-  if (newGeometry.width() != oldGeometry.width() || newGeometry.height() != oldGeometry.height()) {
-    setTextureSize(QSize(qRound(m_staffScale * newGeometry.width()), qRound(newGeometry.height() * m_staffScale)));
-    update();
-  }
+void TstaffLines::geometryChanged(const QRectF &newGeometry, const QRectF &oldGeometry)
+{
+    if (newGeometry.width() != oldGeometry.width() || newGeometry.height() != oldGeometry.height()) {
+        setTextureSize(QSize(qRound(m_staffScale * newGeometry.width()), qRound(newGeometry.height() * m_staffScale)));
+        update();
+    }
 }
-
-

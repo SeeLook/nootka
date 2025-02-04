@@ -19,15 +19,12 @@
 #ifndef TADDNOTEITEM_H
 #define TADDNOTEITEM_H
 
-
 #include "nootkacoreglobal.h"
-#include <QtQuick/qquickitem.h>
 #include <QtCore/qelapsedtimer.h>
-
+#include <QtQuick/qquickitem.h>
 
 class TscoreObject;
 class QTimer;
-
 
 /**
  * This is C++ part of @p NoteAdd component which is not able to handle mouse grabbing,
@@ -35,55 +32,54 @@ class QTimer;
  */
 class NOOTKACORE_EXPORT TaddNoteItem : public QQuickItem
 {
+    Q_OBJECT
 
-  Q_OBJECT
-
-  Q_PROPERTY(TscoreObject* scoreObject READ scoreObject WRITE setScoreObject)
-  Q_PROPERTY(bool active READ active WRITE setActive NOTIFY activeChanged)
-  Q_PROPERTY(qreal yPos READ yPos WRITE setYpos NOTIFY yPosChanged)
+    Q_PROPERTY(TscoreObject *scoreObject READ scoreObject WRITE setScoreObject)
+    Q_PROPERTY(bool active READ active WRITE setActive NOTIFY activeChanged)
+    Q_PROPERTY(qreal yPos READ yPos WRITE setYpos NOTIFY yPosChanged)
 
 public:
-  explicit TaddNoteItem(QQuickItem* parent = nullptr);
-  ~TaddNoteItem() {}
+    explicit TaddNoteItem(QQuickItem *parent = nullptr);
+    ~TaddNoteItem() { }
 
-  TscoreObject* scoreObject() { return m_scoreObject; }
-  void setScoreObject(TscoreObject* sc);
+    TscoreObject *scoreObject() { return m_scoreObject; }
+    void setScoreObject(TscoreObject *sc);
 
-  bool active() const { return m_active; }
-  void setActive(bool a);
+    bool active() const { return m_active; }
+    void setActive(bool a);
 
-  qreal yPos() const { return m_yPos; }
+    qreal yPos() const { return m_yPos; }
 
-      /**
-       * WARNING: Use this with caution!
-       * Usually @p yPos property is handled by mouse hover or touch.
-       *
-       * It is used also to perform score usage animation.
-       */
-  void setYpos(qreal yp);
+    /**
+     * WARNING: Use this with caution!
+     * Usually @p yPos property is handled by mouse hover or touch.
+     *
+     * It is used also to perform score usage animation.
+     */
+    void setYpos(qreal yp);
 
 signals:
-  void activeChanged();
-  void yPosChanged();
+    void activeChanged();
+    void yPosChanged();
 
 protected:
-  void hoverEnterEvent(QHoverEvent* event) override;
-  void hoverLeaveEvent(QHoverEvent*) override;
-  void hoverMoveEvent(QHoverEvent* event) override;
+    void hoverEnterEvent(QHoverEvent *event) override;
+    void hoverLeaveEvent(QHoverEvent *) override;
+    void hoverMoveEvent(QHoverEvent *event) override;
 
-  void mousePressEvent(QMouseEvent* event) override;
-  void mouseReleaseEvent(QMouseEvent* event) override;
-  void mouseMoveEvent(QMouseEvent* event) override;
+    void mousePressEvent(QMouseEvent *event) override;
+    void mouseReleaseEvent(QMouseEvent *event) override;
+    void mouseMoveEvent(QMouseEvent *event) override;
 
-  void addNote();
+    void addNote();
 
 private:
-  TscoreObject                        *m_scoreObject = nullptr;
-  bool                                 m_active = false;
-  bool                                 m_hovered = false;
-  QTimer                              *m_hideTimer;
-  qreal                                m_yPos;
-  QElapsedTimer                        m_touchElapsed;
+    TscoreObject *m_scoreObject = nullptr;
+    bool m_active = false;
+    bool m_hovered = false;
+    QTimer *m_hideTimer;
+    qreal m_yPos;
+    QElapsedTimer m_touchElapsed;
 };
 
 #endif // TADDNOTEITEM_H

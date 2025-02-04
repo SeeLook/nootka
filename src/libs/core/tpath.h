@@ -19,10 +19,8 @@
 #ifndef TPATH_H
 #define TPATH_H
 
-
 #include "nootkacoreglobal.h"
 #include <QtCore/qstring.h>
-
 
 /**
  * Set of static methods returning appropriate paths
@@ -37,67 +35,65 @@
  * @p img() for images
  * @p sound() for sounds
  * @p lang() for translations
-*/
+ */
 class NOOTKACORE_EXPORT Tpath
 {
-
 public:
-  Tpath() {}
-  ~Tpath() {}
+    Tpath() { }
+    ~Tpath() { }
 
-  static QString main; /**< Path with Nootka resources (/usr/share -Linux /Resources - MacOs) */
+    static QString main; /**< Path with Nootka resources (/usr/share -Linux /Resources - MacOs) */
 
-      /**
-       * Returns path to Nootka images (picts) with given image name.
-       * By default a '.png' extensions is added
-       * but it can be changed through @p ext parameter.
-       */
-  static QString img(const char* imageFileName, const char* ext = ".png");
+    /**
+     * Returns path to Nootka images (picts) with given image name.
+     * By default a '.png' extensions is added
+     * but it can be changed through @p ext parameter.
+     */
+    static QString img(const char *imageFileName, const char *ext = ".png");
 
-      /**
-       * Returns path to Nootka images (picts) with given image name.
-       * It is accessible from QML through @p Noo.pix("image_name")
-       */
-  static QString pix(const QString& imageFileName);
+    /**
+     * Returns path to Nootka images (picts) with given image name.
+     * It is accessible from QML through @p Noo.pix("image_name")
+     */
+    static QString pix(const QString &imageFileName);
 
-
-      /**
-       * Returns a path to given ogg file with samples in sound resource directory
-       */
-  static QString sound(const char* soundFileName, const char* ext = ".ogg") {
-#if defined (Q_OS_ANDROID)
-      return QString("assets:/sounds/%1%2").arg(soundFileName, ext);
+    /**
+     * Returns a path to given ogg file with samples in sound resource directory
+     */
+    static QString sound(const char *soundFileName, const char *ext = ".ogg")
+    {
+#if defined(Q_OS_ANDROID)
+        return QString("assets:/sounds/%1%2").arg(soundFileName, ext);
 #else
-      return QString("%1sounds/%2%3").arg(main, soundFileName, ext);
+        return QString("%1sounds/%2%3").arg(main, soundFileName, ext);
 #endif
-  }
+    }
 
-      /**
-       * Returns path where Nootka language files (*.qm) are located.
-       * (Under Mac/Win/Android Qt translations as well).
-       * WARNING! there is no trailing slash at the end.
-       */
-  static QString lang() {
-#if defined (Q_OS_ANDROID)
-      return QStringLiteral("assets:/lang");
+    /**
+     * Returns path where Nootka language files (*.qm) are located.
+     * (Under Mac/Win/Android Qt translations as well).
+     * WARNING! there is no trailing slash at the end.
+     */
+    static QString lang()
+    {
+#if defined(Q_OS_ANDROID)
+        return QStringLiteral("assets:/lang");
 #else
-      return main + QLatin1String("lang");
+        return main + QLatin1String("lang");
 #endif
-  }
+    }
 
-        /**
-         * Path with defined Nootka levels *.nel files
-         */
-  static QString levels() {
-#if defined (Q_OS_ANDROID)
-    return QStringLiteral("assets:/levels");
+    /**
+     * Path with defined Nootka levels *.nel files
+     */
+    static QString levels()
+    {
+#if defined(Q_OS_ANDROID)
+        return QStringLiteral("assets:/levels");
 #else
-    return main + QLatin1String("levels");
+        return main + QLatin1String("levels");
 #endif
-  }
-
+    }
 };
-
-
 
 #endif // TPATH_H

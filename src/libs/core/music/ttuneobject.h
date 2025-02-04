@@ -19,11 +19,9 @@
 #ifndef TTUNEOBJECT_H
 #define TTUNEOBJECT_H
 
-
 #include "nootkacoreglobal.h"
 #include "ttune.h"
 #include <QtCore/qobject.h>
-
 
 /**
  * Wraps @class Ttune with @class QObject
@@ -32,60 +30,58 @@
  */
 class NOOTKACORE_EXPORT TtuneObject : public QObject
 {
-  Q_OBJECT
+    Q_OBJECT
 
-  Q_PROPERTY(QString name READ name NOTIFY tuningChanged)
-  Q_PROPERTY(int type READ typeInt NOTIFY tuningChanged)
-  Q_PROPERTY(int stringNumber READ stringNumber NOTIFY tuningChanged)
-  Q_PROPERTY(bool scordature READ scordature NOTIFY scordatureChanged)
+    Q_PROPERTY(QString name READ name NOTIFY tuningChanged)
+    Q_PROPERTY(int type READ typeInt NOTIFY tuningChanged)
+    Q_PROPERTY(int stringNumber READ stringNumber NOTIFY tuningChanged)
+    Q_PROPERTY(bool scordature READ scordature NOTIFY scordatureChanged)
 
 public:
+    explicit TtuneObject(QObject *parent = nullptr);
+    ~TtuneObject() override;
 
-  explicit TtuneObject(QObject* parent = nullptr);
-  ~TtuneObject() override;
+    void setTune(Ttune *t);
 
-  void setTune(Ttune* t);
+    QString name() const;
 
-  QString name() const;
+    int typeInt() const { return static_cast<int>(m_tuning->type()); }
 
-  int typeInt() const { return static_cast<int>(m_tuning->type()); }
+    Q_INVOKABLE Tnote string(int realStrNr) const { return m_tuning->str(realStrNr); }
 
-  Q_INVOKABLE Tnote string(int realStrNr) const { return m_tuning->str(realStrNr); }
+    /**
+     * Name of a given string (note name without octave)
+     */
+    Q_INVOKABLE QString stringName(int realStrNr) const;
 
-      /**
-       * Name of a given string (note name without octave)
-       */
-  Q_INVOKABLE QString stringName(int realStrNr) const;
+    /**
+     * Returns @p TRUE when given string is different than the same string in standard guitar tuning
+     */
+    Q_INVOKABLE bool otherThanStd(int realStrNr) const;
 
-      /**
-       * Returns @p TRUE when given string is different than the same string in standard guitar tuning
-       */
-  Q_INVOKABLE bool otherThanStd(int realStrNr) const;
+    int stringNumber() { return static_cast<int>(m_tuning->stringNr()); }
 
-  int stringNumber() { return static_cast<int>(m_tuning->stringNr()); }
+    /**
+     * @p TRUE when tuning is guitar tuning (not bass) and differs from standard EADGBE one
+     */
+    bool scordature() const;
 
-      /**
-       * @p TRUE when tuning is guitar tuning (not bass) and differs from standard EADGBE one
-       */
-  bool scordature() const;
+    /**
+     * Number of strings that were changed (tuned)
+     */
+    Q_INVOKABLE int changedStrings() const;
 
-      /**
-       * Number of strings that were changed (tuned)
-       */
-  Q_INVOKABLE int changedStrings() const;
-
-      /**
-       * Raw copy of the tuning (rather CPU expensive)
-       */
-  Q_INVOKABLE Ttune raw() { return *m_tuning; }
+    /**
+     * Raw copy of the tuning (rather CPU expensive)
+     */
+    Q_INVOKABLE Ttune raw() { return *m_tuning; }
 
 signals:
-  void tuningChanged();
-  void scordatureChanged();
+    void tuningChanged();
+    void scordatureChanged();
 
 private:
-  Ttune                 *m_tuning;
+    Ttune *m_tuning;
 };
-
 
 #endif // TTUNEOBJECT_H

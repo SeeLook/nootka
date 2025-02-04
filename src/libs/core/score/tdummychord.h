@@ -19,15 +19,12 @@
 #ifndef TDUMMYCHORD_H
 #define TDUMMYCHORD_H
 
-
-#include <nootkacoreglobal.h>
-#include "music/tnote.h"
 #include "music/timportscore.h"
+#include "music/tnote.h"
 #include <QtQuick/qquickitem.h>
-
+#include <nootkacoreglobal.h>
 
 class TnoteItem;
-
 
 /**
  * @class TdummyChord is QML item over @p TnoteItem score note
@@ -41,71 +38,69 @@ class TnoteItem;
  */
 class NOOTKACORE_EXPORT TdummyChord : public QQuickItem
 {
+    Q_OBJECT
 
-  Q_OBJECT
-
-  Q_PROPERTY(QString noteHead READ noteHead NOTIFY chordChanged)
-  Q_PROPERTY(int chordModel READ chordModel NOTIFY chordChanged)
-  Q_PROPERTY(Tmelody* chord READ chord NOTIFY chordChanged)
-  Q_PROPERTY(int selected READ selected WRITE setSelected NOTIFY selectedChanged)
-  Q_PROPERTY(qreal hiPosY READ hiPosY NOTIFY chordChanged)
-  Q_PROPERTY(qreal loPosY READ loPosY NOTIFY chordChanged)
-  Q_PROPERTY(bool selectSingle READ selectSingle NOTIFY selectSingleChanged)
+    Q_PROPERTY(QString noteHead READ noteHead NOTIFY chordChanged)
+    Q_PROPERTY(int chordModel READ chordModel NOTIFY chordChanged)
+    Q_PROPERTY(Tmelody *chord READ chord NOTIFY chordChanged)
+    Q_PROPERTY(int selected READ selected WRITE setSelected NOTIFY selectedChanged)
+    Q_PROPERTY(qreal hiPosY READ hiPosY NOTIFY chordChanged)
+    Q_PROPERTY(qreal loPosY READ loPosY NOTIFY chordChanged)
+    Q_PROPERTY(bool selectSingle READ selectSingle NOTIFY selectSingleChanged)
 
 public:
-  explicit TdummyChord(QQuickItem* parent = nullptr);
-  ~TdummyChord();
+    explicit TdummyChord(QQuickItem *parent = nullptr);
+    ~TdummyChord();
 
-  int chordModel() const;
+    int chordModel() const;
 
-  Tmelody* chord() { return m_alaChord->notes(); }
-  void setChord(TalaChord* c);
+    Tmelody *chord() { return m_alaChord->notes(); }
+    void setChord(TalaChord *c);
 
-      /**
-       * Number of selected note from this chord.
-       */
-  int selected() const { return m_selected; }
-  void setSelected(int s);
+    /**
+     * Number of selected note from this chord.
+     */
+    int selected() const { return m_selected; }
+    void setSelected(int s);
 
-  QString noteHead() const;
+    QString noteHead() const;
 
+    qreal hiPosY() const { return m_hiPosY; }
+    qreal loPosY() const { return m_loPosY; }
 
-  qreal hiPosY() const { return m_hiPosY; }
-  qreal loPosY() const { return m_loPosY; }
+    /**
+     * @p TRUE when single note from the chord is to select,
+     * otherwise arpeggiating is done
+     */
+    bool selectSingle() const;
 
-      /**
-       * @p TRUE when single note from the chord is to select,
-       * otherwise arpeggiating is done
-       */
-  bool selectSingle() const;
+    /**
+     * Handle note item (parent) change.
+     * Connect with note parent (@p TscoreObj::destroyed)
+     * to reset @p m_parentNote
+     */
+    void setParentItem(QQuickItem *pi);
 
-      /**
-       * Handle note item (parent) change.
-       * Connect with note parent (@p TscoreObj::destroyed)
-       * to reset @p m_parentNote
-       */
-  void setParentItem(QQuickItem* pi);
+    Q_INVOKABLE qreal headPos(int id);
+    Q_INVOKABLE QString alterText(int id);
+    Q_INVOKABLE QVariant part();
 
-  Q_INVOKABLE qreal headPos(int id);
-  Q_INVOKABLE QString alterText(int id);
-  Q_INVOKABLE QVariant part();
-
-  Q_INVOKABLE void setRhythm();
-  Q_INVOKABLE void arpeggiateChord();
+    Q_INVOKABLE void setRhythm();
+    Q_INVOKABLE void arpeggiateChord();
 
 signals:
-  void chordChanged();
-  void selectedChanged();
-  void selectSingleChanged();
+    void chordChanged();
+    void selectedChanged();
+    void selectSingleChanged();
 
 protected:
-  void findHiLoPos();
+    void findHiLoPos();
 
 private:
-  TalaChord                 *m_alaChord = nullptr;
-  TnoteItem                 *m_parentNote = nullptr;
-  int                        m_selected = -1;
-  qreal                      m_hiPosY = 50.0, m_loPosY = 0.0;
+    TalaChord *m_alaChord = nullptr;
+    TnoteItem *m_parentNote = nullptr;
+    int m_selected = -1;
+    qreal m_hiPosY = 50.0, m_loPosY = 0.0;
 };
 
 #endif // TDUMMYCHORD_H
