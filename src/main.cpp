@@ -178,9 +178,22 @@ int main(int argc, char *argv[])
         auto sound = new Tsound();
 
         e = new QQmlApplicationEngine;
-        e->rootContext()->setContextProperty(QStringLiteral("GLOB"), gl);
-        e->rootContext()->setContextProperty(QStringLiteral("NOO"), nooObj);
-        e->rootContext()->setContextProperty(QStringLiteral("SOUND"), sound);
+
+        qmlRegisterSingletonType<Tglobals>("Nootka", 1, 0, "GLOB",
+                                          [&](QQmlEngine*, QJSEngine*)->QObject* {
+                                              return gl;
+                                          });
+
+        qmlRegisterSingletonType<TnootkaQML>("Nootka", 1, 0, "NOO",
+                                           [&](QQmlEngine*, QJSEngine*)->QObject* {
+                                               return nooObj;
+                                           });
+
+        qmlRegisterSingletonType<Tsound>("Nootka", 1, 0, "SOUND",
+                                             [&](QQmlEngine*, QJSEngine*)->QObject* {
+                                                 return sound;
+                                             });
+
         bool wasFirstRun = gl->isFirstRun;
         TmainHelp *hlp = nullptr; // keep help object live after wizard, Qt deletes it with some delay
         if (gl->isFirstRun) {
@@ -200,9 +213,22 @@ int main(int argc, char *argv[])
             e->deleteLater(); // Android crashes without a delayed destroy
             qApp->quit();
             e = new QQmlApplicationEngine;
-            e->rootContext()->setContextProperty(QStringLiteral("GLOB"), gl);
-            e->rootContext()->setContextProperty(QStringLiteral("NOO"), nooObj);
-            e->rootContext()->setContextProperty(QStringLiteral("SOUND"), sound);
+
+            qmlRegisterSingletonType<Tglobals>("Nootka", 1, 0, "GLOB",
+                                               [&](QQmlEngine*, QJSEngine*)->QObject* {
+                                                   return gl;
+                                               });
+
+            qmlRegisterSingletonType<TnootkaQML>("Nootka", 1, 0, "NOO",
+                                                 [&](QQmlEngine*, QJSEngine*)->QObject* {
+                                                     return nooObj;
+                                                 });
+
+            qmlRegisterSingletonType<Tsound>("Nootka", 1, 0, "SOUND",
+                                                 [&](QQmlEngine*, QJSEngine*)->QObject* {
+                                                     return sound;
+                                                 });
+
             gl->isFirstRun = false;
             gl->config->setValue(QLatin1String("version"), gl->version);
             // TODO: storing current version in settings avoids opening 'about' window next launch
@@ -289,7 +315,7 @@ int main(int argc, char *argv[])
                 if (cmd.isSet(dumpOpt))
                     SOUND->changeDumpPath(cmd.value(dumpOpt));
                 else if (cmd.isSet(nootiniOpt)) {
-                    qmlRegisterType<TaudioAnalyzeItem>("Nootka.Main", 1, 0, "TaudioAnalyzeItem");
+                    qmlRegisterType<TaudioAnalyzeItem>("Nootka", 1, 0, "TaudioAnalyzeItem");
                     QMetaObject::invokeMethod(e->rootObjects().first(), "audioAnalyze");
                     if (cmd.isSet(instrOpt)) {
                         int instr = cmd.value(instrOpt).toInt();
@@ -332,8 +358,8 @@ int main(int argc, char *argv[])
         if (hlp)
             delete hlp;
         delete e;
-        delete sound;
-        delete gl;
+        // delete sound; // singleton -  deleted by engine
+        // delete gl; // singleton -  deleted by engine
 #if defined(Q_OS_ANDROID)
         if (nooObj->resetConfig()) { // delete config file - new Nootka instance will start with first run wizard
             QFile f(confFile);
@@ -345,7 +371,7 @@ int main(int argc, char *argv[])
 #endif
     } while (nooObj->resetConfig());
 
-    delete nooObj;
+    // delete nooObj; // singleton -  deleted by engine
     qInstallMessageHandler(0);
 
     delete a;

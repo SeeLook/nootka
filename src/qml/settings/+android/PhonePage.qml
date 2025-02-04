@@ -2,10 +2,10 @@
  * Copyright (C) 2020-2021 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
-
 import QtQuick 2.12
 import QtQuick.Controls 2.12
 
+import Nootka 1.0
 import "../"
 
 

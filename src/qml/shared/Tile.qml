@@ -4,6 +4,7 @@
 
 import QtQuick 2.12
 
+import Nootka 1.0
 
 /**
  * 12 is magical number of pixels that corresponds with tipbg.png image size and keeps the frame pretty at any circumstances

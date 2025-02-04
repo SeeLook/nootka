@@ -133,11 +133,11 @@ QString Taction::key() const
 void Taction::createQmlShortcut(QQmlComponent *qmlComp, const char *keySequence)
 {
     if (m_shortcut) {
-        qDebug() << "[Taction] name:" << m_text << "has shortcut already! Ignored!";
+        qDebug() << "[Taction]" << "name:" << m_text << "has shortcut already! Ignored!";
         return;
     }
     if (keySequence) { // for empty key sequence, QML component data will be used
-        std::string d = "import QtQuick 2.9; Shortcut { sequence: ";
+        std::string d = "import QtQuick 2.9; import Nootka 1.0; Shortcut { sequence: ";
         d.append(keySequence);
         d.append(" }");
         qmlComp->setData(d.c_str(), QUrl());
@@ -147,5 +147,5 @@ void Taction::createQmlShortcut(QQmlComponent *qmlComp, const char *keySequence)
         sc->setParent(this);
         setShortcut(sc);
     } else
-        qDebug() << "[Taction] Can't create shortcut for" << keySequence;
+        qDebug() << "[Taction]" << "Can't create shortcut for" << keySequence;
 }

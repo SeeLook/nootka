@@ -5,13 +5,12 @@
 import QtQuick 2.12
 import QtQuick.Controls 2.12
 
-
+import Nootka 1.0
 import "../"
 
 ListView {
   id: chList
   width: parent.width; height: parent.height
-
 
   model: dialogObj.getChanges()
   delegate: Tile {

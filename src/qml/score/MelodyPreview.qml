@@ -4,9 +4,9 @@
 
 import QtQuick 2.12
 
+import Nootka 1.0
 import Score 1.0
 import "../"
-
 
 TpopupDialog {
   id: popup

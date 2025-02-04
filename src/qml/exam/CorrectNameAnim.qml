@@ -4,6 +4,7 @@
 
 import QtQuick 2.12
 
+import Nootka 1.0
 
 SequentialAnimation {
   property bool doCross: false

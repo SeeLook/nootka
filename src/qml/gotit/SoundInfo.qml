@@ -4,10 +4,10 @@
 
 import QtQuick 2.12
 
+import Nootka 1.0
 import Nootka.Main 1.0
 import "../"
 import "../sound"
-
 
 GotIt {
   gotItType: TgotIt.GotSoundInfo

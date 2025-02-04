@@ -5,6 +5,7 @@
 import QtQuick 2.12
 import QtQuick.Window 2.12
 
+import Nootka 1.0
 import "sound"
 
 

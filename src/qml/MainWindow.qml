@@ -7,7 +7,6 @@ import QtQuick.Controls 2.12
 
 import Nootka 1.0
 
-
 ApplicationWindow {
   id: nootkaWindow
   visible: true

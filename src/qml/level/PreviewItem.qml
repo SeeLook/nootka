@@ -4,6 +4,7 @@
 
 import QtQuick 2.12
 
+import Nootka 1.0
 
 Rectangle {
   property int index: aboveItem ? aboveItem.index + (aboveItem.visible ? 1 : 0) : 0
