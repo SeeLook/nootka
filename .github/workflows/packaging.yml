@@ -56,7 +56,7 @@ jobs:
 
   macos_dmg:
     name:           Build Mac dmg
-    runs-on:        macos-11
+    runs-on:        macos-13
     needs:          win_installer
     #if: "contains(github.event.commits[0].message, 'prepare_build')"
 
@@ -64,7 +64,7 @@ jobs:
       - name: Select Xcode version for Mac
         uses: maxim-lobanov/setup-xcode@v1
         with:
-          xcode-version: '12.4'
+          xcode-version: '14.3'
 
       - name: Checkout code
         uses: actions/checkout@v4
