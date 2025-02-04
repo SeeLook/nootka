@@ -19,10 +19,8 @@
 #ifndef TMAINSCOREOBJECT_H
 #define TMAINSCOREOBJECT_H
 
-
 #include <QtCore/qobject.h>
 #include <QtGui/qcolor.h>
-
 
 class Taction;
 class TscoreObject;
@@ -34,9 +32,7 @@ class QQmlComponent;
 class Ttechnical;
 class TstaffLines;
 
-
 #define MAIN_SCORE TmainScoreObject::instance()
-
 
 /**
  * @p TmainScoreObject is yet another helper to divide score implementation and move its logic to C++
@@ -47,190 +43,188 @@ class TstaffLines;
  */
 class TmainScoreObject : public QObject
 {
+    Q_OBJECT
 
-  Q_OBJECT
-
-  Q_PROPERTY(TscoreObject* scoreObject READ scoreObject WRITE setScoreObject)
-  Q_PROPERTY(Taction* showNamesAct READ showNamesAct)
-  Q_PROPERTY(Taction* extraAccidsAct READ extraAccidsAct)
-  Q_PROPERTY(Taction* zoomOutAct READ zoomOutAct)
-  Q_PROPERTY(Taction* zoomInAct READ zoomInAct)
-  Q_PROPERTY(QList<QObject*> scoreActions READ scoreActions NOTIFY scoreActionsChanged)
-  Q_PROPERTY(QList<QObject*> noteActions READ noteActions NOTIFY scoreActionsChanged)
-  Q_PROPERTY(Taction* nextNoteAct READ prevNoteAct)
-  Q_PROPERTY(Taction* playAct READ playAct)
-  Q_PROPERTY(Taction* openXmlAct READ openXmlAct)
-  Q_PROPERTY(Taction* saveXmlAct READ saveXmlAct)
-  Q_PROPERTY(Taction* randMelodyAct READ randMelodyAct)
-  Q_PROPERTY(Taction* notesMenuAct READ notesMenuAct)
-  Q_PROPERTY(Taction* transposeAct READ transposeAct)
-  Q_PROPERTY(Taction* reviewModeAct READ reviewModeAct)
-  Q_PROPERTY(QList<QObject*> melodyActions READ melodyActions NOTIFY melodyActionsChanged)
-  Q_PROPERTY(QString keyNameText READ keyNameText NOTIFY keyNameTextChanged)
-  Q_PROPERTY(QQuickItem* mainScoreItem READ mainScoreItem WRITE setMainScoreItem)
-  Q_PROPERTY(QString title READ title NOTIFY titleChanged)
-  Q_PROPERTY(QString composer READ composer NOTIFY titleChanged)
+    Q_PROPERTY(TscoreObject *scoreObject READ scoreObject WRITE setScoreObject)
+    Q_PROPERTY(Taction *showNamesAct READ showNamesAct)
+    Q_PROPERTY(Taction *extraAccidsAct READ extraAccidsAct)
+    Q_PROPERTY(Taction *zoomOutAct READ zoomOutAct)
+    Q_PROPERTY(Taction *zoomInAct READ zoomInAct)
+    Q_PROPERTY(QList<QObject *> scoreActions READ scoreActions NOTIFY scoreActionsChanged)
+    Q_PROPERTY(QList<QObject *> noteActions READ noteActions NOTIFY scoreActionsChanged)
+    Q_PROPERTY(Taction *nextNoteAct READ prevNoteAct)
+    Q_PROPERTY(Taction *playAct READ playAct)
+    Q_PROPERTY(Taction *openXmlAct READ openXmlAct)
+    Q_PROPERTY(Taction *saveXmlAct READ saveXmlAct)
+    Q_PROPERTY(Taction *randMelodyAct READ randMelodyAct)
+    Q_PROPERTY(Taction *notesMenuAct READ notesMenuAct)
+    Q_PROPERTY(Taction *transposeAct READ transposeAct)
+    Q_PROPERTY(Taction *reviewModeAct READ reviewModeAct)
+    Q_PROPERTY(QList<QObject *> melodyActions READ melodyActions NOTIFY melodyActionsChanged)
+    Q_PROPERTY(QString keyNameText READ keyNameText NOTIFY keyNameTextChanged)
+    Q_PROPERTY(QQuickItem *mainScoreItem READ mainScoreItem WRITE setMainScoreItem)
+    Q_PROPERTY(QString title READ title NOTIFY titleChanged)
+    Q_PROPERTY(QString composer READ composer NOTIFY titleChanged)
 
 public:
-  explicit TmainScoreObject(QObject* parent = nullptr);
-  ~TmainScoreObject() override;
+    explicit TmainScoreObject(QObject *parent = nullptr);
+    ~TmainScoreObject() override;
 
-  static TmainScoreObject* instance() { return m_instance; }
+    static TmainScoreObject *instance() { return m_instance; }
 
-  TscoreObject* scoreObject() { return m_scoreObj; }
-  void setScoreObject(TscoreObject* scoreObj);
+    TscoreObject *scoreObject() { return m_scoreObj; }
+    void setScoreObject(TscoreObject *scoreObj);
 
-  Taction* showNamesAct() { return m_showNamesAct; }
-  Taction* extraAccidsAct() { return m_extraAccidsAct; }
-  Taction* zoomOutAct() { return m_zoomOutAct; }
-  Taction* zoomInAct() { return m_zoomInAct; }
+    Taction *showNamesAct() { return m_showNamesAct; }
+    Taction *extraAccidsAct() { return m_extraAccidsAct; }
+    Taction *zoomOutAct() { return m_zoomOutAct; }
+    Taction *zoomInAct() { return m_zoomInAct; }
 
-  QList<QObject*> scoreActions() { return m_scoreActions; }
-  QList<QObject*> noteActions() { return m_noteActions; }
+    QList<QObject *> scoreActions() { return m_scoreActions; }
+    QList<QObject *> noteActions() { return m_noteActions; }
 
-  Taction* nextNoteAct() { return m_nextNoteAct; }
-  Taction* prevNoteAct() { return m_prevNoteAct; }
-  Taction* transposeAct() { return m_transposeAct; }
+    Taction *nextNoteAct() { return m_nextNoteAct; }
+    Taction *prevNoteAct() { return m_prevNoteAct; }
+    Taction *transposeAct() { return m_transposeAct; }
 
-  Taction* playAct() { return m_playAct; }
-  Taction* openXmlAct() { return m_openXmlAct; }
-  Taction* saveXmlAct() { return m_saveXmlAct; }
-  Taction* randMelodyAct() { return m_randMelodyAct; }
-  Taction* notesMenuAct() { return m_notesMenuAct; }
-  Taction* reviewModeAct() { return m_reviewModeAct; }
+    Taction *playAct() { return m_playAct; }
+    Taction *openXmlAct() { return m_openXmlAct; }
+    Taction *saveXmlAct() { return m_saveXmlAct; }
+    Taction *randMelodyAct() { return m_randMelodyAct; }
+    Taction *notesMenuAct() { return m_notesMenuAct; }
+    Taction *reviewModeAct() { return m_reviewModeAct; }
 
-  QList<QObject*> melodyActions() { return m_melodyActions; }
+    QList<QObject *> melodyActions() { return m_melodyActions; }
 
-  QString keyNameText() const;
+    QString keyNameText() const;
 
-  QQuickItem* mainScoreItem() { return m_mainScoreItem; }
-  void setMainScoreItem(QQuickItem* msItem);
+    QQuickItem *mainScoreItem() { return m_mainScoreItem; }
+    void setMainScoreItem(QQuickItem *msItem);
 
-  QString title() const { return m_title; }
-  QString composer() const { return m_composer; }
+    QString title() const { return m_title; }
+    QString composer() const { return m_composer; }
 
-// redirected from TscoreObject
-  int notesCount() const;
-  void setReadOnly(bool ro);
-  void clearScore();
-  void setKeySignatureEnabled(bool enbleKey);
-  void setKeySignature(const TkeySignature& key);
-  char keySignatureValue();
-  int clefType() const;
-  void setClef(int clefType);
-  int meter() const;
-  void setMeter(int meterType);
-  Tnote getNote(int id);
-  int setSelectedItem(int id);
-  void setTechnical(int noteId, quint32 tech);
-  bool selectInReadOnly() const;
-  void setSelectInReadOnly(bool sel);
-  quint32 technical(int noteId);
-  void setMelody(Tmelody* mel);
-  void getMelody(Tmelody* melody);
+    // redirected from TscoreObject
+    int notesCount() const;
+    void setReadOnly(bool ro);
+    void clearScore();
+    void setKeySignatureEnabled(bool enbleKey);
+    void setKeySignature(const TkeySignature &key);
+    char keySignatureValue();
+    int clefType() const;
+    void setClef(int clefType);
+    int meter() const;
+    void setMeter(int meterType);
+    Tnote getNote(int id);
+    int setSelectedItem(int id);
+    void setTechnical(int noteId, quint32 tech);
+    bool selectInReadOnly() const;
+    void setSelectInReadOnly(bool sel);
+    quint32 technical(int noteId);
+    void setMelody(Tmelody *mel);
+    void getMelody(Tmelody *melody);
 
-  Taction* clearScoreAct();
-  Taction* scoreMenuAct();
+    Taction *clearScoreAct();
+    Taction *scoreMenuAct();
 
-// exam/exercise related
-  void askQuestion(const Tnote& note, quint32 technicalData = 255);
-  void askQuestion(const Tnote& note, const TkeySignature& key, quint32 technicalData = 255);
-  void askQuestion(Tmelody* mel, bool ignoreTechnical, const TkeySignature& melodyKey);
-  void prepareKeyToAnswer(const TkeySignature& fakeKey, const QString& expectKeyName);
-  void showNoteNames(bool showName);
-  void showNoteName(int noteNr, bool showName);
+    // exam/exercise related
+    void askQuestion(const Tnote &note, quint32 technicalData = 255);
+    void askQuestion(const Tnote &note, const TkeySignature &key, quint32 technicalData = 255);
+    void askQuestion(Tmelody *mel, bool ignoreTechnical, const TkeySignature &melodyKey);
+    void prepareKeyToAnswer(const TkeySignature &fakeKey, const QString &expectKeyName);
+    void showNoteNames(bool showName);
+    void showNoteName(int noteNr, bool showName);
 
-      /**
-       * Sets given accidental
-       */
-  void forceAccidental(int accid);
-  void unLockScore();
-  void lockKeySignature(bool lock);
+    /**
+     * Sets given accidental
+     */
+    void forceAccidental(int accid);
+    void unLockScore();
+    void lockKeySignature(bool lock);
 
-      /**
-       * Marks note head of index @p noteNr
-       * If note starts a tie - all tied notes are marked as well.
-       * Also when note is a rest - all continuous rests are treated as one
-       * Returns how many notes was marked
-       */
-  int markNoteHead(const QColor& outColor, int noteNr);
+    /**
+     * Marks note head of index @p noteNr
+     * If note starts a tie - all tied notes are marked as well.
+     * Also when note is a rest - all continuous rests are treated as one
+     * Returns how many notes was marked
+     */
+    int markNoteHead(const QColor &outColor, int noteNr);
 
-  void correctNote(const Tnote& goodNote, bool corrAccid = false);
-  void correctKeySignature(const TkeySignature& keySign);
+    void correctNote(const Tnote &goodNote, bool corrAccid = false);
+    void correctKeySignature(const TkeySignature &keySign);
 
-      /**
-       * @p TRUE if correction animation was started.
-       * In this moment @p m_correctNoteId stores note item id,
-       * otherwise it is -1
-       */
-  bool isCorrectAnimPending() { return m_correctNoteId > -1; }
+    /**
+     * @p TRUE if correction animation was started.
+     * In this moment @p m_correctNoteId stores note item id,
+     * otherwise it is -1
+     */
+    bool isCorrectAnimPending() { return m_correctNoteId > -1; }
 
-  Q_INVOKABLE void saveMusicXml(const QString& fileName, const QString& title = QString(), const QString& composer = QString());
-  Q_INVOKABLE QStringList recentTitles() const;
-  Q_INVOKABLE QStringList recentComposers() const;
+    Q_INVOKABLE void saveMusicXml(const QString &fileName, const QString &title = QString(), const QString &composer = QString());
+    Q_INVOKABLE QStringList recentTitles() const;
+    Q_INVOKABLE QStringList recentComposers() const;
 
 signals:
-  void scoreActionsChanged();
-  void melodyActionsChanged();
-  void keyNameTextChanged();
-  void correctionFinished();
-  void wantSelectGotIt();
-  // redirected from TscoreObject
-  void clicked();
-  void readOnlyNoteClicked(int noteId);
-  void melodyGenerate();
-  void melodyNameDialog();
-  void titleChanged();
+    void scoreActionsChanged();
+    void melodyActionsChanged();
+    void keyNameTextChanged();
+    void correctionFinished();
+    void wantSelectGotIt();
+    // redirected from TscoreObject
+    void clicked();
+    void readOnlyNoteClicked(int noteId);
+    void melodyGenerate();
+    void melodyNameDialog();
+    void titleChanged();
 
 protected:
-  void openXmlActSlot();
-  void randMelodySlot();
-  void isExamChangedSlot();
-  void singleModeSlot();
-  void paletteSlot();
-  void getMelodyNameSlot();
-  void playScoreSlot();
-  void gotItNoteSelectedSlot();
-  void openXmlFileSlot(const QString& xmlFile);
-  void melodyImportSlot();
+    void openXmlActSlot();
+    void randMelodySlot();
+    void isExamChangedSlot();
+    void singleModeSlot();
+    void paletteSlot();
+    void getMelodyNameSlot();
+    void playScoreSlot();
+    void gotItNoteSelectedSlot();
+    void openXmlFileSlot(const QString &xmlFile);
+    void melodyImportSlot();
 
-  QColor scoreBackgroundColor(const QColor& c, int alpha);
-  void checkSingleNoteVisibility();
+    QColor scoreBackgroundColor(const QColor &c, int alpha);
+    void checkSingleNoteVisibility();
 
-  void checkExtraStaves();
+    void checkExtraStaves();
 
 protected slots:
-  void applyCorrectSlot();
-  void correctionFinishedSlot();
+    void applyCorrectSlot();
+    void correctionFinishedSlot();
 
 private:
-  TscoreObject              *m_scoreObj = nullptr;
-  Taction                   *m_playAct;
-  Taction                   *m_showNamesAct, *m_extraAccidsAct;
-  Taction                   *m_zoomOutAct, *m_zoomInAct;
-  Taction                   *m_transposeAct;
-  Taction                   *m_openXmlAct, *m_saveXmlAct, *m_randMelodyAct;
-  Taction                   *m_nextNoteAct, *m_prevNoteAct;
-  Taction                   *m_notesMenuAct = nullptr;
-  Taction                   *m_reviewModeAct = nullptr;
-  QList<QObject*>            m_scoreActions;
-  QList<QObject*>            m_noteActions;
-  QList<QObject*>            m_melodyActions;
+    TscoreObject *m_scoreObj = nullptr;
+    Taction *m_playAct;
+    Taction *m_showNamesAct, *m_extraAccidsAct;
+    Taction *m_zoomOutAct, *m_zoomInAct;
+    Taction *m_transposeAct;
+    Taction *m_openXmlAct, *m_saveXmlAct, *m_randMelodyAct;
+    Taction *m_nextNoteAct, *m_prevNoteAct;
+    Taction *m_notesMenuAct = nullptr;
+    Taction *m_reviewModeAct = nullptr;
+    QList<QObject *> m_scoreActions;
+    QList<QObject *> m_noteActions;
+    QList<QObject *> m_melodyActions;
 
-  QQuickItem                *m_questionMark = nullptr;
-  QQuickItem                *m_questionKey = nullptr;
+    QQuickItem *m_questionMark = nullptr;
+    QQuickItem *m_questionKey = nullptr;
 
-  static TmainScoreObject   *m_instance;
+    static TmainScoreObject *m_instance;
 
-  QQuickItem                *m_mainScoreItem = nullptr;
+    QQuickItem *m_mainScoreItem = nullptr;
 
-  QList<TstaffLines*>        m_emptyStaves;
-  Tnote                     *m_goodNote;
-  QObject                   *m_animationObj = nullptr;
-  int                        m_correctNoteId = -1; /**< keeps id of note with correction anim, -1 no note, no anim */
-  QString                    m_title;
-  QString                    m_composer;
-
+    QList<TstaffLines *> m_emptyStaves;
+    Tnote *m_goodNote;
+    QObject *m_animationObj = nullptr;
+    int m_correctNoteId = -1; /**< keeps id of note with correction anim, -1 no note, no anim */
+    QString m_title;
+    QString m_composer;
 };
 
 #endif // TMAINSCOREOBJECT_H

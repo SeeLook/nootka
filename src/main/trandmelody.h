@@ -19,22 +19,18 @@
 #ifndef TRANDMELODY_H
 #define TRANDMELODY_H
 
-
 #include <exam/tqagroup.h>
-
 
 class TkeySignature;
 class Tmelody;
 
-
-void getRandomMelodyNG(QList<TQAgroup>& qList, Tmelody* mel, int len, bool inKey, bool onTonic, int maxStep = 0);
+void getRandomMelodyNG(QList<TQAgroup> &qList, Tmelody *mel, int len, bool inKey, bool onTonic, int maxStep = 0);
 
 TrhythmList getRandomRhythm(int meter, int barCount, quint32 basicMask, quint32 dotsMask, int rtmDiversity);
 
-    /**
-     * Returns @p TRUE when merge was correct
-     */
-bool mergeRhythmAndMelody(const TrhythmList& rList, Tmelody* melody);
-
+/**
+ * Returns @p TRUE when merge was correct
+ */
+bool mergeRhythmAndMelody(const TrhythmList &rList, Tmelody *melody);
 
 #endif // TRANDMELODY_H

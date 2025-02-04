@@ -17,147 +17,146 @@
  ***************************************************************************/
 
 #include "tmelgenitem.h"
-#include "trtmselectoritem.h"
 #include "main/tmainscoreobject.h"
 #include "main/trandmelody.h"
-#include <music/tmelody.h>
+#include "trtmselectoritem.h"
 #include <QtCore/qsettings.h>
 #include <QtGui/qguiapplication.h>
+#include <music/tmelody.h>
 
 #include <QtCore/qdebug.h>
 
-
-TmelGenItem::TmelGenItem(QQuickItem* parent) :
-  QQuickItem(parent)
+TmelGenItem::TmelGenItem(QQuickItem *parent)
+    : QQuickItem(parent)
 {
 #if defined(Q_OS_WIN32) || defined(Q_OS_MAC) // I hate mess in Win registry
-  m_settings = new QSettings(QSettings::IniFormat, QSettings::UserScope, qApp->applicationName(), qApp->applicationName());
+    m_settings = new QSettings(QSettings::IniFormat, QSettings::UserScope, qApp->applicationName(), qApp->applicationName());
 #else
-  m_settings = new QSettings();
+    m_settings = new QSettings();
 #endif
-  m_settings->beginGroup(QLatin1String("Melody"));
-  m_basicMask = m_settings->value(QLatin1String("basic"), BASIC_MASK).toUInt();
-  m_dotsMask = m_settings->value(QLatin1String("dots"), DOTS_MASK).toUInt();
-  m_rtmDiversity = qBound(1, m_settings->value(QLatin1String("rtmDiversity"), 5).toInt(), 10);
-  m_barNumber = qBound(2, m_settings->value(QLatin1String("barNumber"), 4).toInt(), 32) ;
-  m_endsOnTonic = m_settings->value(QLatin1String("endsOnTonic"), true).toBool();
-  m_onlyCurrKey = m_settings->value(QLatin1String("onlyCurrKey"), true).toBool();
-  m_maxStep = qBound(2, m_settings->value(QLatin1String("maxStep"), 7).toInt(), 36);
-  m_length = qBound(2, m_settings->value(QLatin1String("length"), 8).toInt(), 50);
-  m_settings->endGroup();
+    m_settings->beginGroup(QLatin1String("Melody"));
+    m_basicMask = m_settings->value(QLatin1String("basic"), BASIC_MASK).toUInt();
+    m_dotsMask = m_settings->value(QLatin1String("dots"), DOTS_MASK).toUInt();
+    m_rtmDiversity = qBound(1, m_settings->value(QLatin1String("rtmDiversity"), 5).toInt(), 10);
+    m_barNumber = qBound(2, m_settings->value(QLatin1String("barNumber"), 4).toInt(), 32);
+    m_endsOnTonic = m_settings->value(QLatin1String("endsOnTonic"), true).toBool();
+    m_onlyCurrKey = m_settings->value(QLatin1String("onlyCurrKey"), true).toBool();
+    m_maxStep = qBound(2, m_settings->value(QLatin1String("maxStep"), 7).toInt(), 36);
+    m_length = qBound(2, m_settings->value(QLatin1String("length"), 8).toInt(), 50);
+    m_settings->endGroup();
 }
 
 TmelGenItem::~TmelGenItem()
 {
-  delete m_settings;
+    delete m_settings;
 }
 
-
-void TmelGenItem::setRhythmSelector(TrtmSelectorItem* rtmS) {
-  if (m_rtmSelector == nullptr) {
-    m_rtmSelector = rtmS;
-    m_rtmSelector->setBasicMask(m_basicMask);
-    m_rtmSelector->setDotsMask(m_dotsMask);
-  }
+void TmelGenItem::setRhythmSelector(TrtmSelectorItem *rtmS)
+{
+    if (m_rtmSelector == nullptr) {
+        m_rtmSelector = rtmS;
+        m_rtmSelector->setBasicMask(m_basicMask);
+        m_rtmSelector->setDotsMask(m_dotsMask);
+    }
 }
 
-
-void TmelGenItem::setBarNumber(int bars) {
-  if (bars != m_barNumber) {
-    m_barNumber = bars;
-    emit barNumberChanged();
-  }
+void TmelGenItem::setBarNumber(int bars)
+{
+    if (bars != m_barNumber) {
+        m_barNumber = bars;
+        emit barNumberChanged();
+    }
 }
 
-
-void TmelGenItem::setRhythmDiversity(int diverity) {
-  if (diverity != m_rtmDiversity) {
-    m_rtmDiversity = diverity;
-    emit rhythmDiversityChanged();
-  }
+void TmelGenItem::setRhythmDiversity(int diverity)
+{
+    if (diverity != m_rtmDiversity) {
+        m_rtmDiversity = diverity;
+        emit rhythmDiversityChanged();
+    }
 }
 
-
-void TmelGenItem::setEndsOnTonic(bool eot) {
-  if (eot != m_endsOnTonic) {
-    m_endsOnTonic = eot;
-    emit endsOnTonicChanged();
-  }
+void TmelGenItem::setEndsOnTonic(bool eot)
+{
+    if (eot != m_endsOnTonic) {
+        m_endsOnTonic = eot;
+        emit endsOnTonicChanged();
+    }
 }
 
-
-void TmelGenItem::setOnlyCurrKey(bool only) {
-  if (only != m_onlyCurrKey) {
-    m_onlyCurrKey = only;
-    emit onlyCurrKeyChanged();
-  }
+void TmelGenItem::setOnlyCurrKey(bool only)
+{
+    if (only != m_onlyCurrKey) {
+        m_onlyCurrKey = only;
+        emit onlyCurrKeyChanged();
+    }
 }
 
-
-void TmelGenItem::setMaxStep(int max) {
-  if (max != m_maxStep) {
-    m_maxStep = max;
-    emit maxStepChanged();
-  }
+void TmelGenItem::setMaxStep(int max)
+{
+    if (max != m_maxStep) {
+        m_maxStep = max;
+        emit maxStepChanged();
+    }
 }
 
-
-void TmelGenItem::setLength(int l) {
-  if (l != m_length) {
-    m_length = l;
-    emit lengthChanged();
-  }
+void TmelGenItem::setLength(int l)
+{
+    if (l != m_length) {
+        m_length = l;
+        emit lengthChanged();
+    }
 }
 
-
-bool TmelGenItem::hasRhythms() {
-  return MAIN_SCORE->meter() != Tmeter::NoMeter;
+bool TmelGenItem::hasRhythms()
+{
+    return MAIN_SCORE->meter() != Tmeter::NoMeter;
 }
 
+void TmelGenItem::generate()
+{
+    int meter = MAIN_SCORE->meter();
+    TrhythmList rhythms = getRandomRhythm(meter, m_barNumber, m_rtmSelector->basicMask(), m_rtmSelector->dotsMask(), m_rtmDiversity);
+    if (meter > 0 && rhythms.isEmpty()) {
+        qDebug() << "[TmelGenItem] no rhythms from current parameters. Skipping melody generate!";
+        return;
+    }
 
-void TmelGenItem::generate() {
-  int meter = MAIN_SCORE->meter();
-  TrhythmList rhythms = getRandomRhythm(meter, m_barNumber, m_rtmSelector->basicMask(), m_rtmSelector->dotsMask(), m_rtmDiversity);
-  if (meter > 0 && rhythms.isEmpty()) {
-    qDebug() << "[TmelGenItem] no rhythms from current parameters. Skipping melody generate!";
-    return;
-  }
+    QList<TQAgroup> ql;
+    short ambit = 15; // highestNote().chromatic() - lowestNote().chromatic();
+    short first = 1;
+    auto clef = static_cast<Tclef::EclefType>(MAIN_SCORE->clefType());
+    if (clef == Tclef::Bass_F_8down)
+        first = -20;
+    else if (clef == Tclef::Bass_F)
+        first = -9;
+    else if (clef == Tclef::Treble_G)
+        first = 11;
+    for (short i = 0; i < ambit; i++) {
+        TQAgroup qa;
+        qa.note = Tnote(first + i);
+        ql << qa;
+    }
+    auto mel = new Tmelody(QString(), TkeySignature(MAIN_SCORE->keySignatureValue()));
+    mel->setMeter(meter);
+    mel->setClef(clef);
+    int melLen = meter == Tmeter::NoMeter ? m_length : rhythms.count();
+    getRandomMelodyNG(ql, mel, melLen, m_onlyCurrKey, m_endsOnTonic, m_maxStep);
+    // merge rhythm and melody
+    if (!rhythms.isEmpty())
+        mergeRhythmAndMelody(rhythms, mel);
 
-  QList<TQAgroup> ql;
-  short ambit = 15; //highestNote().chromatic() - lowestNote().chromatic();
-  short first = 1;
-  auto clef = static_cast<Tclef::EclefType>(MAIN_SCORE->clefType());
-  if (clef == Tclef::Bass_F_8down)
-    first = -20;
-  else if (clef == Tclef::Bass_F)
-    first = -9;
-  else if (clef == Tclef::Treble_G)
-    first = 11;
-  for (short i = 0; i < ambit; i++) {
-    TQAgroup qa;
-    qa.note = Tnote(first + i);
-    ql << qa;
-  }
-  auto mel = new Tmelody(QString(), TkeySignature(MAIN_SCORE->keySignatureValue()));
-  mel->setMeter(meter);
-  mel->setClef(clef);
-  int melLen = meter == Tmeter::NoMeter ? m_length : rhythms.count();
-  getRandomMelodyNG(ql, mel, melLen, m_onlyCurrKey, m_endsOnTonic, m_maxStep);
-// merge rhythm and melody
-  if (!rhythms.isEmpty())
-    mergeRhythmAndMelody(rhythms, mel);
-
-  MAIN_SCORE->setMelody(mel);
-  delete mel;
-// store settings only when melody is generated
-  m_settings->beginGroup(QLatin1String("Melody"));
-  m_settings->setValue(QLatin1String("basic"), m_rtmSelector->basicMask());
-  m_settings->setValue(QLatin1String("dots"), m_rtmSelector->dotsMask());
-  m_settings->setValue(QLatin1String("rtmDiversity"), m_rtmDiversity);
-  m_settings->setValue(QLatin1String("barNumber"), m_barNumber);
-  m_settings->setValue(QLatin1String("endsOnTonic"), m_endsOnTonic);
-  m_settings->setValue(QLatin1String("onlyCurrKey"), m_onlyCurrKey);
-  m_settings->setValue(QLatin1String("maxStep"), m_maxStep);
-  m_settings->setValue(QLatin1String("length"), m_length);
-  m_settings->endGroup();
+    MAIN_SCORE->setMelody(mel);
+    delete mel;
+    // store settings only when melody is generated
+    m_settings->beginGroup(QLatin1String("Melody"));
+    m_settings->setValue(QLatin1String("basic"), m_rtmSelector->basicMask());
+    m_settings->setValue(QLatin1String("dots"), m_rtmSelector->dotsMask());
+    m_settings->setValue(QLatin1String("rtmDiversity"), m_rtmDiversity);
+    m_settings->setValue(QLatin1String("barNumber"), m_barNumber);
+    m_settings->setValue(QLatin1String("endsOnTonic"), m_endsOnTonic);
+    m_settings->setValue(QLatin1String("onlyCurrKey"), m_onlyCurrKey);
+    m_settings->setValue(QLatin1String("maxStep"), m_maxStep);
+    m_settings->setValue(QLatin1String("length"), m_length);
+    m_settings->endGroup();
 }

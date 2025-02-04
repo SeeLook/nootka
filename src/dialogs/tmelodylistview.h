@@ -19,19 +19,15 @@
 #ifndef TMELODYLISTVIEW_H
 #define TMELODYLISTVIEW_H
 
-
-#include <QtQuick/qquickitem.h>
 #include <QtCore/qabstractitemmodel.h>
-
+#include <QtQuick/qquickitem.h>
 
 class TscoreObject;
 class Tmelody;
 class Tlevel;
 class TmelodyWrapper;
 
-
 #define MELODY_LENGHT (15)
-
 
 /**
  * @class TmelodyListView manages melody previews logic displayed by QML.
@@ -41,50 +37,49 @@ class TmelodyWrapper;
  */
 class TmelodyListView : public QQuickItem
 {
+    Q_OBJECT
 
-  Q_OBJECT
-
-  Q_PROPERTY(QObject* melodyModel READ melodyModel WRITE setMelodyModel)
+    Q_PROPERTY(QObject *melodyModel READ melodyModel WRITE setMelodyModel)
 
 public:
-  explicit TmelodyListView(QQuickItem* parent = nullptr);
-  ~TmelodyListView() override;
+    explicit TmelodyListView(QQuickItem *parent = nullptr);
+    ~TmelodyListView() override;
 
-  QObject* melodyModel() { return m_melodyModel; }
-  void setMelodyModel(QObject* mm);
+    QObject *melodyModel() { return m_melodyModel; }
+    void setMelodyModel(QObject *mm);
 
-  Q_INVOKABLE void setLevel(Tlevel* l);
+    Q_INVOKABLE void setLevel(Tlevel *l);
 
-  Q_INVOKABLE void loadMelody();
-  Q_INVOKABLE void removeMelody(int id);
-  Q_INVOKABLE void swapMelodies(int from, int to);
+    Q_INVOKABLE void loadMelody();
+    Q_INVOKABLE void removeMelody(int id);
+    Q_INVOKABLE void swapMelodies(int from, int to);
 
-  Q_INVOKABLE QVariant getMelody(int melId);
+    Q_INVOKABLE QVariant getMelody(int melId);
 
-  Q_INVOKABLE void divideMelody(int melId, int bars);
-  Q_INVOKABLE void transpose(int semis, bool outScaleToRes, bool inInstrScale, TmelodyWrapper* wrapp);
+    Q_INVOKABLE void divideMelody(int melId, int bars);
+    Q_INVOKABLE void transpose(int semis, bool outScaleToRes, bool inInstrScale, TmelodyWrapper *wrapp);
 
 signals:
-  void appendMelody();
-  void insertMelody(int melId);
-  void melodiesChanged();
-  void melodiesCountChanged();
+    void appendMelody();
+    void insertMelody(int melId);
+    void melodiesChanged();
+    void melodiesCountChanged();
 
 protected:
-      /**
-       * Loads melodies from @p Tlevel after @p setLevel().
-       * It has to be invoked with delay
-       */
-  void loadMelodies();
+    /**
+     * Loads melodies from @p Tlevel after @p setLevel().
+     * It has to be invoked with delay
+     */
+    void loadMelodies();
 
-  void processNextXmlFile();
-  void melodyImportSlot();
+    void processNextXmlFile();
+    void melodyImportSlot();
 
 private:
-  Tlevel                    *m_level = nullptr;
-  QObject                   *m_melodyModel = nullptr;
-  QStringList                m_xmlFiles;
-  int                        m_lastMelodyId = -1; /**< Index of the latest melody that was added by @p loadMelodies()  */
+    Tlevel *m_level = nullptr;
+    QObject *m_melodyModel = nullptr;
+    QStringList m_xmlFiles;
+    int m_lastMelodyId = -1; /**< Index of the latest melody that was added by @p loadMelodies()  */
 };
 
 #endif // TMELODYLISTVIEW_H

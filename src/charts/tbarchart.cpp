@@ -19,29 +19,27 @@
 #include "tbarchart.h"
 #include <exam/texam.h>
 
-
-TbarChart::TbarChart(QObject* parent) :
-  TmainChart(parent)
+TbarChart::TbarChart(QObject *parent)
+    : TmainChart(parent)
 {
 }
 
-
-void TbarChart::init() {
-  p_chartSett.separateWrong = false;
-  sort();
-  if (p_chartSett.order != e_byMistake) {
-      qreal maxTime = 0.0;
-      for (int i = 0; i < p_sortedLists.size(); i++) {
-        maxTime = qMax(maxTime, p_sortedLists[i].averTime());
-      }
-      setYaxisParams(maxTime / 10.0, Tchart::e_timeInSec);
-  } else { // For e_byMistake we are looking for highest amount of questions in a group
-      int maxSize = 0;
-      for (int i = 0; i < p_sortedLists.size(); i++) {
-        maxSize = qMax(maxSize, p_sortedLists[i].size());
-      }
-      setYaxisParams(static_cast<qreal>(maxSize), e_questionNr);
-  }
-  prepareChart(p_sortedLists.size() - (p_hasListUnrelated ? 1 : 0));
+void TbarChart::init()
+{
+    p_chartSett.separateWrong = false;
+    sort();
+    if (p_chartSett.order != e_byMistake) {
+        qreal maxTime = 0.0;
+        for (int i = 0; i < p_sortedLists.size(); i++) {
+            maxTime = qMax(maxTime, p_sortedLists[i].averTime());
+        }
+        setYaxisParams(maxTime / 10.0, Tchart::e_timeInSec);
+    } else { // For e_byMistake we are looking for highest amount of questions in a group
+        int maxSize = 0;
+        for (int i = 0; i < p_sortedLists.size(); i++) {
+            maxSize = qMax(maxSize, p_sortedLists[i].size());
+        }
+        setYaxisParams(static_cast<qreal>(maxSize), e_questionNr);
+    }
+    prepareChart(p_sortedLists.size() - (p_hasListUnrelated ? 1 : 0));
 }
-

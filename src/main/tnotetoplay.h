@@ -19,12 +19,9 @@
 #ifndef TNOTETOPLAY_H
 #define TNOTETOPLAY_H
 
-
 #include <music/tnote.h>
 
-
 class Tmelody;
-
 
 /**
  * @class TnoteToPlay is simple container for a melody note that is either a question or an answer.
@@ -34,41 +31,41 @@ class Tmelody;
 class TnoteToPlay
 {
 public:
-  TnoteToPlay(const Tnote& note, int index, int transposition = 0);
+    TnoteToPlay(const Tnote &note, int index, int transposition = 0);
 
-      /**
-       * Default constructor required by @p QVector.
-       */
-  TnoteToPlay() {}
+    /**
+     * Default constructor required by @p QVector.
+     */
+    TnoteToPlay() { }
 
-  int pitch() const { return m_pitch; }
-  int duration() const { return m_duration; }
+    int pitch() const { return m_pitch; }
+    int duration() const { return m_duration; }
 
-      /**
-       * Index (number) that corresponds with a  melody or a score
-       * from which this note structure was created
-       */
-  int index() const { return m_index; }
-  bool isRest() const { return m_pitch == 127; }
+    /**
+     * Index (number) that corresponds with a  melody or a score
+     * from which this note structure was created
+     */
+    int index() const { return m_index; }
+    bool isRest() const { return m_pitch == 127; }
 
-      /**
-       * Appends duration of given @p note to existing duration
-       */
-  void append(const Tnote& note) { m_duration += note.duration(); }
+    /**
+     * Appends duration of given @p note to existing duration
+     */
+    void append(const Tnote &note) { m_duration += note.duration(); }
 
-      /**
-       * Converts given melody list on @p TnoteToPlay objects
-       * - stores only chromatic pitch number and duration,
-       * folds all ties and multiple rests into single elements
-       * with summarized duration.
-       * Utilizes transposition if any.
-       */
-  static QVector<TnoteToPlay> fromMelody(Tmelody* m, int transposition);
+    /**
+     * Converts given melody list on @p TnoteToPlay objects
+     * - stores only chromatic pitch number and duration,
+     * folds all ties and multiple rests into single elements
+     * with summarized duration.
+     * Utilizes transposition if any.
+     */
+    static QVector<TnoteToPlay> fromMelody(Tmelody *m, int transposition);
 
 private:
-  qint16          m_pitch = 127; // rest
-  int             m_duration = 0;
-  qint16          m_index = 0;
+    qint16 m_pitch = 127; // rest
+    int m_duration = 0;
+    qint16 m_index = 0;
 };
 
 #endif // TNOTETOPLAY_H

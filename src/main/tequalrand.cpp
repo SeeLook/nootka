@@ -19,79 +19,72 @@
 #include "tequalrand.h"
 #include <QtCore/qrandom.h>
 
-
-TequalRand::TequalRand(int range, int startVal) :
-  m_range(range),
-  m_depth(1),
-  m_offset(startVal),
-  m_count(0),
-  m_isLastLoop(false)
+TequalRand::TequalRand(int range, int startVal)
+    : m_range(range)
+    , m_depth(1)
+    , m_offset(startVal)
+    , m_count(0)
+    , m_isLastLoop(false)
 {
-  m_total = m_range * m_depth;
-  m_shotTable = new quint8[m_range];
-  reset();
+    m_total = m_range * m_depth;
+    m_shotTable = new quint8[m_range];
+    reset();
 }
-
 
 TequalRand::~TequalRand()
 {
-  delete m_shotTable;
+    delete m_shotTable;
 }
 
-
-void TequalRand::setTotalRandoms(int total) {
-  if (total / m_range < 256) {
-    m_depth = qMax(1, total / m_range);
-    m_total = total;
-  }
+void TequalRand::setTotalRandoms(int total)
+{
+    if (total / m_range < 256) {
+        m_depth = qMax(1, total / m_range);
+        m_total = total;
+    }
 }
 
-
-void TequalRand::reset() {
-  for (int i = 0; i < m_range; ++i) {
-    m_shotTable[i] = 0;
-  }
+void TequalRand::reset()
+{
+    for (int i = 0; i < m_range; ++i) {
+        m_shotTable[i] = 0;
+    }
 }
 
+int TequalRand::get()
+{
+    m_count++;
+    if ((m_total % m_range) && (m_count % m_total == 0)) { // reset if last loop occurred
+        reset();
+        m_isLastLoop = false;
+        setTotalRandoms(m_total); // restore depth
+    }
+    int val = QRandomGenerator::global()->bounded(m_range);
+    if (m_shotTable[val] == m_depth)
+        val = next(val);
+    m_shotTable[val] += 1;
+    return val + m_offset;
+}
 
-int TequalRand::get() {
-  m_count++;
-  if ((m_total % m_range) && (m_count % m_total == 0)) { // reset if last loop occurred
+int TequalRand::next(int currVal)
+{
+    int dir = 1; // Random direction of searching next value
+    if (QRandomGenerator::global()->bounded(2))
+        dir = -1;
+    int result = currVal;
+    do {
+        result = result + dir;
+        if (result >= m_range)
+            result = 0;
+        else if (result < 0)
+            result = m_range - 1;
+        if (m_shotTable[result] < m_depth)
+            return result;
+    } while (result != currVal);
+    if (m_total % m_range && !m_isLastLoop) {
+        m_depth = 1;
+        m_isLastLoop = true;
+    }
     reset();
-    m_isLastLoop = false;
-    setTotalRandoms(m_total); // restore depth
-  }
-  int val = QRandomGenerator::global()->bounded(m_range);
-  if (m_shotTable[val] == m_depth)
-    val = next(val);
-  m_shotTable[val] += 1;
-  return val + m_offset;
+    return currVal;
 }
-
-
-int TequalRand::next(int currVal) {
-  int dir = 1; // Random direction of searching next value
-  if (QRandomGenerator::global()->bounded(2))
-    dir = -1;
-  int result = currVal;
-  do {
-    result = result + dir;
-    if (result >= m_range)
-      result = 0;
-    else if (result < 0)
-      result = m_range - 1;
-    if (m_shotTable[result] < m_depth)
-      return result;
-  } while (result != currVal);
-  if (m_total % m_range && !m_isLastLoop) {
-      m_depth = 1;
-      m_isLastLoop = true;
-  }
-  reset();
-  return currVal;
-}
-
-
-
-
-

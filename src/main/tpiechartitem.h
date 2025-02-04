@@ -19,67 +19,62 @@
 #ifndef TPIECHARTITEM_H
 #define TPIECHARTITEM_H
 
-
 #include <QtQuick/qquickpainteditem.h>
 
-
 class QPainter;
-
 
 /**
  * Paints pie chart with slices representing integer values of @p values() list
  */
 class TpieChartItem : public QQuickPaintedItem
 {
+    Q_OBJECT
 
-  Q_OBJECT
-
-  Q_PROPERTY(QList<int> values READ values WRITE setValues NOTIFY valuesChanged)
-  Q_PROPERTY(QStringList colors READ colors WRITE setColors NOTIFY colorsChanged)
+    Q_PROPERTY(QList<int> values READ values WRITE setValues NOTIFY valuesChanged)
+    Q_PROPERTY(QStringList colors READ colors WRITE setColors NOTIFY colorsChanged)
 
 public:
-  explicit TpieChartItem(QQuickItem* parent = nullptr);
+    explicit TpieChartItem(QQuickItem *parent = nullptr);
 
-  void paint(QPainter* painter) override;
+    void paint(QPainter *painter) override;
 
-      /**
-       * List of values.
-       * All values are summarized and every slice is proportional to the sum.
-       * Null values are ignored during @p paint(),
-       * so corresponding colors will be displayed correctly.
-       */
-  QList<int> values() { return m_valueList; }
-  void setValues(QList<int> valList);
+    /**
+     * List of values.
+     * All values are summarized and every slice is proportional to the sum.
+     * Null values are ignored during @p paint(),
+     * so corresponding colors will be displayed correctly.
+     */
+    QList<int> values() { return m_valueList; }
+    void setValues(QList<int> valList);
 
-      /**
-       * Colors list (array) defines color for every slice of the pie.
-       * But only if it is set,
-       * if not, then darkest variant of the last color in the list is taken.
-       * When list is empty, @p Qt::red is used by default.
-       * In other words:
-       * one can set color for every value in the list,
-       * or just set a single color - it darker variants will be used for more values
-       * or just live color list empty - red one will be used.
-       *
-       * Due to Qt version compatibility color is set through @p QString name
-       */
-  QStringList colors() const { return m_colors; }
-  void setColors(const QStringList& cl);
+    /**
+     * Colors list (array) defines color for every slice of the pie.
+     * But only if it is set,
+     * if not, then darkest variant of the last color in the list is taken.
+     * When list is empty, @p Qt::red is used by default.
+     * In other words:
+     * one can set color for every value in the list,
+     * or just set a single color - it darker variants will be used for more values
+     * or just live color list empty - red one will be used.
+     *
+     * Due to Qt version compatibility color is set through @p QString name
+     */
+    QStringList colors() const { return m_colors; }
+    void setColors(const QStringList &cl);
 
-      /**
-       * Helper method to quickly convert QML color/ C++ QColor to name
-       */
-  Q_INVOKABLE QString cn(QColor c) { return c.name() ;}
+    /**
+     * Helper method to quickly convert QML color/ C++ QColor to name
+     */
+    Q_INVOKABLE QString cn(QColor c) { return c.name(); }
 
 signals:
-  void valuesChanged();
-  void colorsChanged();
+    void valuesChanged();
+    void colorsChanged();
 
 private:
-  QList<int>                   m_valueList;
-  qreal                        m_sum = 0.0;
-  QStringList                  m_colors;
-
+    QList<int> m_valueList;
+    qreal m_sum = 0.0;
+    QStringList m_colors;
 };
 
 #endif // TPIECHARTITEM_H

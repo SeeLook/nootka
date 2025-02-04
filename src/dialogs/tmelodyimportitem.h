@@ -19,70 +19,64 @@
 #ifndef TMELODYIMPORTITEM_H
 #define TMELODYIMPORTITEM_H
 
-
 #include <QtQuick/qquickitem.h>
 
-
 class TmelodyPart;
-
 
 /**
  * C++ proxy for QML @p MelodyImport dialog window.
  */
 class TmelodyImportItem : public QQuickItem
 {
+    Q_OBJECT
 
-  Q_OBJECT
-
-  Q_PROPERTY(QString title READ title NOTIFY melodyChanged)
-  Q_PROPERTY(QList<QObject*> partsModel READ partsModel NOTIFY partsModelChanged)
-  Q_PROPERTY(int globalSplitNr READ globalSplitNr WRITE setGlobalSplitNr NOTIFY globalSplitNrChanged)
-  Q_PROPERTY(bool multiSelect READ multiSelect WRITE setMultiSelect NOTIFY melodyChanged)
+    Q_PROPERTY(QString title READ title NOTIFY melodyChanged)
+    Q_PROPERTY(QList<QObject *> partsModel READ partsModel NOTIFY partsModelChanged)
+    Q_PROPERTY(int globalSplitNr READ globalSplitNr WRITE setGlobalSplitNr NOTIFY globalSplitNrChanged)
+    Q_PROPERTY(bool multiSelect READ multiSelect WRITE setMultiSelect NOTIFY melodyChanged)
 
 public:
-  explicit TmelodyImportItem(QQuickItem* parent = nullptr);
-  ~TmelodyImportItem();
+    explicit TmelodyImportItem(QQuickItem *parent = nullptr);
+    ~TmelodyImportItem();
 
-  QString title() const;
+    QString title() const;
 
-      /**
-       * @p partsModel is available only when XML parsing thread is done.
-       * So at the beginning it is empty.
-       */
-  QList<QObject*> partsModel() const;
+    /**
+     * @p partsModel is available only when XML parsing thread is done.
+     * So at the beginning it is empty.
+     */
+    QList<QObject *> partsModel() const;
 
-  int globalSplitNr() const;
-  void setGlobalSplitNr(int gsn);
+    int globalSplitNr() const;
+    void setGlobalSplitNr(int gsn);
 
-      /**
-       * @p TRUE when there are more melodies to import
-       */
-  bool multiSelect() const;
-  void setMultiSelect(bool ms);
+    /**
+     * @p TRUE when there are more melodies to import
+     */
+    bool multiSelect() const;
+    void setMultiSelect(bool ms);
 
-      /**
-       * Emits @p TimportScore::importReady() signal
-       * so import caller can process what is to import
-       */
-  Q_INVOKABLE void emitImport();
+    /**
+     * Emits @p TimportScore::importReady() signal
+     * so import caller can process what is to import
+     */
+    Q_INVOKABLE void emitImport();
 
-  Q_INVOKABLE void transpose(int semis, bool outScaleToRes, bool inInstrScale, TmelodyPart* part);
+    Q_INVOKABLE void transpose(int semis, bool outScaleToRes, bool inInstrScale, TmelodyPart *part);
 
-  Q_INVOKABLE void selectNoteInChords(int noteNr, bool fromTop);
+    Q_INVOKABLE void selectNoteInChords(int noteNr, bool fromTop);
 
-  Q_INVOKABLE void arpeggiateChords();
+    Q_INVOKABLE void arpeggiateChords();
 
-      /**
-       * Method invoked by QML when Import window is created.
-       */
-  Q_INVOKABLE void importWindowReady();
+    /**
+     * Method invoked by QML when Import window is created.
+     */
+    Q_INVOKABLE void importWindowReady();
 
 signals:
-  void melodyChanged();
-  void globalSplitNrChanged();
-  void partsModelChanged();
-
+    void melodyChanged();
+    void globalSplitNrChanged();
+    void partsModelChanged();
 };
-
 
 #endif // TMELODYIMPORTITEM_H

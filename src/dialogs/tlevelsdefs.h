@@ -19,17 +19,13 @@
 #ifndef TLEVELSDEFS_H
 #define TLEVELSDEFS_H
 
-
 #include <QtCore/qlist.h>
-
 
 class Tlevel;
 
-
-    /**
-     * Fills given list with predefined levels.
-     */
-void getExampleLevels(QList<Tlevel>& llist);
-
+/**
+ * Fills given list with predefined levels.
+ */
+void getExampleLevels(QList<Tlevel> &llist);
 
 #endif // TLEVELSDEFS_H

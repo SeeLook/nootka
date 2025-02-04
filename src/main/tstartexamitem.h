@@ -19,61 +19,55 @@
 #ifndef TSTARTEXAMITEM_H
 #define TSTARTEXAMITEM_H
 
-
-#include <exam/tlevel.h>
 #include <QtQuick/qquickitem.h>
-
+#include <exam/tlevel.h>
 
 class Tlevel;
 class Taction;
 
-
 class TstartExamItem : public QQuickItem
 {
+    Q_OBJECT
 
-  Q_OBJECT
-
-  Q_PROPERTY(QList<QObject*> recentModel READ recentModel NOTIFY recentModelChanged)
-  Q_PROPERTY(QString lastExamFile READ lastExamFile NOTIFY lastExamFileChanged)
+    Q_PROPERTY(QList<QObject *> recentModel READ recentModel NOTIFY recentModelChanged)
+    Q_PROPERTY(QString lastExamFile READ lastExamFile NOTIFY lastExamFileChanged)
 
 public:
-  explicit TstartExamItem(QQuickItem* parent = nullptr);
+    explicit TstartExamItem(QQuickItem *parent = nullptr);
 
-  QList<QObject*> recentModel() { return m_recentModel; }
+    QList<QObject *> recentModel() { return m_recentModel; }
 
-  QString lastExamFile() const;
+    QString lastExamFile() const;
 
-  Q_INVOKABLE QString prevLevelName() const;
+    Q_INVOKABLE QString prevLevelName() const;
 
-  Q_INVOKABLE Tlevel* prevLevel() { return m_prevExerciseLevel; }
+    Q_INVOKABLE Tlevel *prevLevel() { return m_prevExerciseLevel; }
 
 signals:
-  void recentModelChanged();
-  void lastExamFileChanged();
-  void openActChanged();
-  void continueExam(const QString& examFile);
+    void recentModelChanged();
+    void lastExamFileChanged();
+    void openActChanged();
+    void continueExam(const QString &examFile);
 
 private:
-  void examFromFileDialog();
+    void examFromFileDialog();
 
-      /**
-       * when some action with exam file path was clicked.
-       */
-  void continuePrevExam();
+    /**
+     * when some action with exam file path was clicked.
+     */
+    void continuePrevExam();
 
-      /**
-       * Continue last exam button click slot
-       */
-  void continueTheLast();
-  void examToContSelected(const QString& eFile);
+    /**
+     * Continue last exam button click slot
+     */
+    void continueTheLast();
+    void examToContSelected(const QString &eFile);
 
 private:
-  QStringList                m_recentExams;
-  QString                    m_selectedExamFile;
-  QList<QObject*>            m_recentModel;
-  Tlevel                    *m_prevExerciseLevel;
-
+    QStringList m_recentExams;
+    QString m_selectedExamFile;
+    QList<QObject *> m_recentModel;
+    Tlevel *m_prevExerciseLevel;
 };
 
 #endif // TSTARTEXAMITEM_H
-

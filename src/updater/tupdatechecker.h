@@ -16,15 +16,12 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
-
 #ifndef TUPDATECHECKER_H
 #define TUPDATECHECKER_H
 
-
+#include "updatefunctions.h"
 #include <QtCore/qobject.h>
 #include <QtNetwork/qnetworkreply.h>
-#include "updatefunctions.h"
-
 
 class QNetworkAccessManager;
 
@@ -35,12 +32,11 @@ class QNetworkAccessManager;
  */
 class TupdateChecker : public QObject
 {
-
-  Q_OBJECT
+    Q_OBJECT
 
 public:
-  TupdateChecker(QObject *parent = nullptr);
-  virtual ~TupdateChecker();
+    TupdateChecker(QObject *parent = nullptr);
+    virtual ~TupdateChecker();
 
     /**
      * Performs checking.
@@ -48,31 +44,29 @@ public:
      * Doesn't display dialog when no new version was found.
      * otherwise forces connection and when versions are the same displays 'no update found'.
      */
-  void check(bool checkRules = true);
+    void check(bool checkRules = true);
 
 signals:
-  void updateMessage(QString);
-  void updateSummary(const QString& version, const QString& changes, TupdateRules* rules);
+    void updateMessage(QString);
+    void updateSummary(const QString &version, const QString &changes, TupdateRules *rules);
 
 protected:
-  void replySlot(QNetworkReply* netReply);
+    void replySlot(QNetworkReply *netReply);
 
-      /**
-       * Grabs connection errors, if any.
-       */
-  void errorSlot(QNetworkReply::NetworkError err);
+    /**
+     * Grabs connection errors, if any.
+     */
+    void errorSlot(QNetworkReply::NetworkError err);
 
-  void showUpdateSummary(QString version, QString changes, TupdateRules *rules = nullptr);
-
+    void showUpdateSummary(QString version, QString changes, TupdateRules *rules = nullptr);
 
 private:
-  QNetworkAccessManager     *m_netManager;
-  QNetworkReply             *m_reply;
-  QString                    m_curVersion;
-  bool                       m_respectRules;
-  bool                       m_success;
-  TupdateRules               m_updateRules;
-
+    QNetworkAccessManager *m_netManager;
+    QNetworkReply *m_reply;
+    QString m_curVersion;
+    bool m_respectRules;
+    bool m_success;
+    TupdateRules m_updateRules;
 };
 
 #endif // TUPDATECHECKER_H

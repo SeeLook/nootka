@@ -16,14 +16,10 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
-
-
 #ifndef TASIOEMITTER_H
 #define TASIOEMITTER_H
 
-
 #include <QtCore/qobject.h>
-
 
 /**
  * This is @p QObject that emits @p resetASIO() signal
@@ -32,20 +28,22 @@
  */
 class TASIOEmitter : public QObject
 {
-  Q_OBJECT
+    Q_OBJECT
 
 public:
-  explicit TASIOEmitter(QObject* parent = 0) : QObject(parent) {}
+    explicit TASIOEmitter(QObject *parent = 0)
+        : QObject(parent)
+    {
+    }
 
-  void emitResetASIO() { emit resetASIO(); }
+    void emitResetASIO() { emit resetASIO(); }
 
 signals:
 
-      /**
-       * Emitted when user changes devices or parameters in ASIO console - stream have to be stopped and started again
-       */
-  void resetASIO();
-
+    /**
+     * Emitted when user changes devices or parameters in ASIO console - stream have to be stopped and started again
+     */
+    void resetASIO();
 };
 
 #endif // TASIOEMITTER_H

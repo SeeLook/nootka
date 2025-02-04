@@ -17,47 +17,46 @@
  ***************************************************************************/
 
 #include "tnotetoplay.h"
-#include <music/tmelody.h>
 #include <QtCore/qdebug.h>
+#include <music/tmelody.h>
 
-
-TnoteToPlay::TnoteToPlay(const Tnote &note, int index, int transposition) :
-  m_duration(note.duration()),
-  m_index(index)
+TnoteToPlay::TnoteToPlay(const Tnote &note, int index, int transposition)
+    : m_duration(note.duration())
+    , m_index(index)
 {
-  if (!note.isRest())
-    m_pitch = note.chromatic() + transposition;
+    if (!note.isRest())
+        m_pitch = note.chromatic() + transposition;
 }
 
+QVector<TnoteToPlay> TnoteToPlay::fromMelody(Tmelody *m, int transposition)
+{
+    QVector<TnoteToPlay> prList;
+    bool wasRest = false;
+    for (int n = 0; n < m->length(); ++n) {
+        if (m->note(n)->p().isRest()) { // treat a multiple rests as a single duration
+            if (wasRest)
+                prList.last().append(m->note(n)->p());
+            else {
+                wasRest = true;
+                prList << TnoteToPlay(m->note(n)->p(), n);
+            }
+            continue;
+        } else
+            wasRest = false;
 
-QVector<TnoteToPlay> TnoteToPlay::fromMelody(Tmelody *m, int transposition) {
-  QVector<TnoteToPlay> prList;
-  bool wasRest = false;
-  for (int n = 0; n < m->length(); ++n) {
-    if (m->note(n)->p().isRest()) { // treat a multiple rests as a single duration
-        if (wasRest)
+        if (m->note(n)->p().rtm.tie() < Trhythm::e_tieCont) // no tie or tie starts
+            prList << TnoteToPlay(m->note(n)->p(), n, transposition);
+        else { // note with tie is continued or ends
+            if (prList.isEmpty()) { // TODO: it should never happened, so delete it after testing
+                qDebug() << "[TnoteToPlay] wrong tie in first note of melody";
+                break;
+            }
+            if (prList.last().pitch() != m->note(n)->p().chromatic() + transposition) { // TODO: it should never happened, so delete it after testing
+                qDebug() << "[TnoteToPlay] tied notes are different!" << n << m->note(n)->p().toText();
+                continue;
+            }
             prList.last().append(m->note(n)->p());
-        else {
-            wasRest = true;
-            prList << TnoteToPlay(m->note(n)->p(), n);
         }
-        continue;
-    } else
-        wasRest = false;
-
-    if (m->note(n)->p().rtm.tie() < Trhythm::e_tieCont) // no tie or tie starts
-        prList << TnoteToPlay(m->note(n)->p(), n, transposition);
-    else { // note with tie is continued or ends
-        if (prList.isEmpty()) { // TODO: it should never happened, so delete it after testing
-          qDebug() << "[TnoteToPlay] wrong tie in first note of melody";
-          break;
-        }
-        if (prList.last().pitch() != m->note(n)->p().chromatic() + transposition) { // TODO: it should never happened, so delete it after testing
-          qDebug() << "[TnoteToPlay] tied notes are different!" << n << m->note(n)->p().toText();
-          continue;
-        }
-        prList.last().append(m->note(n)->p());
     }
-  }
-  return prList;
+    return prList;
 }

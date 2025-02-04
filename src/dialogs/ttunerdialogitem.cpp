@@ -19,74 +19,73 @@
 #include "ttunerdialogitem.h"
 #include <music/tnotestruct.h>
 #include <music/ttune.h>
-#include <tsound.h>
-#include <tglobals.h>
 #include <taudioparams.h>
+#include <tglobals.h>
+#include <tsound.h>
 
-#include <QtCore/qtimer.h>
 #include <QtCore/qdebug.h>
+#include <QtCore/qtimer.h>
 
-#if defined (Q_OS_ANDROID)
-  #include <QtAndroidExtras/qandroidfunctions.h>
-  #include <QtAndroidExtras/qandroidjnienvironment.h>
+#if defined(Q_OS_ANDROID)
+#include <QtAndroidExtras/qandroidfunctions.h>
+#include <QtAndroidExtras/qandroidjnienvironment.h>
 #endif
 
-
-TtunerDialogItem::TtunerDialogItem(QQuickItem* parent) :
-  QQuickItem(parent)
+TtunerDialogItem::TtunerDialogItem(QQuickItem *parent)
+    : QQuickItem(parent)
 {
-  m_timer = new QTimer(this);
-  connect(m_timer, &QTimer::timeout, this, &TtunerDialogItem::timeoutSlot);
-  m_stoppedByUserState = SOUND->stoppedByUser();
-  QTimer::singleShot(350, this, [=]{ delayedInit(); });
-  SOUND->setTunerMode(true);
-  connect(SOUND, &Tsound::noteStartedEntire, this, &TtunerDialogItem::noteStartedSlot);
+    m_timer = new QTimer(this);
+    connect(m_timer, &QTimer::timeout, this, &TtunerDialogItem::timeoutSlot);
+    m_stoppedByUserState = SOUND->stoppedByUser();
+    QTimer::singleShot(350, this, [=] {
+        delayedInit();
+    });
+    SOUND->setTunerMode(true);
+    connect(SOUND, &Tsound::noteStartedEntire, this, &TtunerDialogItem::noteStartedSlot);
 
-#if defined (Q_OS_ANDROID)
-  qApp->installEventFilter(this);
+#if defined(Q_OS_ANDROID)
+    qApp->installEventFilter(this);
 #endif
 }
-
 
 TtunerDialogItem::~TtunerDialogItem()
 {
-  SOUND->stopListen();
-  GLOB->setMidAfreq(m_workFreq);
-  SOUND->setStoppedByUser(m_stoppedByUserState);
-  SOUND->setTunerMode(false);
-  SOUND->startListen();
+    SOUND->stopListen();
+    GLOB->setMidAfreq(m_workFreq);
+    SOUND->setStoppedByUser(m_stoppedByUserState);
+    SOUND->setTunerMode(false);
+    SOUND->startListen();
 }
 
-
-qreal TtunerDialogItem::deviation() const {
-  return SOUND->pitchDeviation();
+qreal TtunerDialogItem::deviation() const
+{
+    return SOUND->pitchDeviation();
 }
 
-
-QString TtunerDialogItem::noteName() const {
-  return SOUND->note().styledName();
+QString TtunerDialogItem::noteName() const
+{
+    return SOUND->note().styledName();
 }
 
-
-QStringList TtunerDialogItem::tuningModel() {
-  QStringList model;
-  auto t = GLOB->Gtune();
-  auto pitch440Offset = GLOB->audioParams->a440diff;
-  if (GLOB->instrument().isGuitar() && t->stringNr() > 2) { // guitar
-      for (int i = 1; i <= t->stringNr(); i++) {
-        float offPitch = TnoteStruct::pitchToFreq(t->str(i).toMidi() + pitch440Offset + static_cast<qreal>(GLOB->audioParams->transposition));
-        model << QString("%1;%2 Hz").arg((t->str(i)).styledName()).arg(offPitch, 0, 'f', 1);
-      }
-  } else { // no guitar - C-major scale frequencies
-      for (int i = 1; i < 8; i++) {
-        Tnote n(i, 1, 0);
-        float offPitch = TnoteStruct::pitchToFreq(n.toMidi() + pitch440Offset + static_cast<qreal>(GLOB->audioParams->transposition));
-        model << QString("%1;%2 Hz").arg(n.styledName()).arg(offPitch, 0, 'f', 1);
-      }
-  }
-  return model;
+QStringList TtunerDialogItem::tuningModel()
+{
+    QStringList model;
+    auto t = GLOB->Gtune();
+    auto pitch440Offset = GLOB->audioParams->a440diff;
+    if (GLOB->instrument().isGuitar() && t->stringNr() > 2) { // guitar
+        for (int i = 1; i <= t->stringNr(); i++) {
+            float offPitch = TnoteStruct::pitchToFreq(t->str(i).toMidi() + pitch440Offset + static_cast<qreal>(GLOB->audioParams->transposition));
+            model << QString("%1;%2 Hz").arg((t->str(i)).styledName()).arg(offPitch, 0, 'f', 1);
+        }
+    } else { // no guitar - C-major scale frequencies
+        for (int i = 1; i < 8; i++) {
+            Tnote n(i, 1, 0);
+            float offPitch = TnoteStruct::pitchToFreq(n.toMidi() + pitch440Offset + static_cast<qreal>(GLOB->audioParams->transposition));
+            model << QString("%1;%2 Hz").arg(n.styledName()).arg(offPitch, 0, 'f', 1);
+        }
+    }
+    return model;
 }
-
 
 /**
  * By setting @p a440diff parameter directly, we are cheating the system...
@@ -95,89 +94,89 @@ QStringList TtunerDialogItem::tuningModel() {
  * But "the system" (Nootka) is not aware of that (i.e. for recalculating audio data of changed note)
  * Global change will be approve only after tuner dialog is closed (destroyed)
  */
-void TtunerDialogItem::setWorkFreq(int wFreq) {
-  if (wFreq != m_workFreq) {
-    GLOB->audioParams->a440diff = Tglobals::pitchOfFreq(static_cast<qreal>(wFreq)) - Tglobals::pitchOfFreq(440.0);
-    m_workFreq = wFreq;
-    emit workFreqChanged();
-    emit tuningModelChanged();
-  }
-}
-
-
-int TtunerDialogItem::pitch() const {
-  return SOUND->note().isValid() ? static_cast<int>(SOUND->note().chromatic()) : 0;
-}
-
-
-int TtunerDialogItem::lowestNote() const {
-  return static_cast<int>(GLOB->loNote().chromatic()) - 5;
-}
-
-
-int TtunerDialogItem::highestNote() const {
-  return static_cast<int>(GLOB->hiString().chromatic()) + 3;
-}
-
-
-QString TtunerDialogItem::styledName(int chroma) const {
-  return Tnote(chroma).styledName();
-}
-
-
-bool TtunerDialogItem::isOpenString(int chroma) const {
-  for (int s = 1; s <= GLOB->stringNumber(); ++s) {
-    if (GLOB->Gtune()->strChromatic(s) == chroma)
-      return true;
-  }
-  return false;
-}
-
-
-int TtunerDialogItem::whichString(int chroma) const {
-  for (int s = 1; s <= GLOB->stringNumber(); ++s) {
-    if (GLOB->Gtune()->strChromatic(s) == chroma)
-      return GLOB->strOrder(s - 1) + 1;
-  }
-  return 0;
-}
-
-
-#if defined (Q_OS_ANDROID)
-bool TtunerDialogItem::eventFilter(QObject* watched, QEvent* event) {
-  if (event->type() == QEvent::KeyPress) {
-    auto ke = static_cast<QKeyEvent*>(event);
-    if (ke->key() == Qt::Key_Back) {
-      QTimer::singleShot(100, this, [=]{ emit wantClose(); });
+void TtunerDialogItem::setWorkFreq(int wFreq)
+{
+    if (wFreq != m_workFreq) {
+        GLOB->audioParams->a440diff = Tglobals::pitchOfFreq(static_cast<qreal>(wFreq)) - Tglobals::pitchOfFreq(440.0);
+        m_workFreq = wFreq;
+        emit workFreqChanged();
+        emit tuningModelChanged();
     }
-  }
-  return QObject::eventFilter(watched, event);
+}
+
+int TtunerDialogItem::pitch() const
+{
+    return SOUND->note().isValid() ? static_cast<int>(SOUND->note().chromatic()) : 0;
+}
+
+int TtunerDialogItem::lowestNote() const
+{
+    return static_cast<int>(GLOB->loNote().chromatic()) - 5;
+}
+
+int TtunerDialogItem::highestNote() const
+{
+    return static_cast<int>(GLOB->hiString().chromatic()) + 3;
+}
+
+QString TtunerDialogItem::styledName(int chroma) const
+{
+    return Tnote(chroma).styledName();
+}
+
+bool TtunerDialogItem::isOpenString(int chroma) const
+{
+    for (int s = 1; s <= GLOB->stringNumber(); ++s) {
+        if (GLOB->Gtune()->strChromatic(s) == chroma)
+            return true;
+    }
+    return false;
+}
+
+int TtunerDialogItem::whichString(int chroma) const
+{
+    for (int s = 1; s <= GLOB->stringNumber(); ++s) {
+        if (GLOB->Gtune()->strChromatic(s) == chroma)
+            return GLOB->strOrder(s - 1) + 1;
+    }
+    return 0;
+}
+
+#if defined(Q_OS_ANDROID)
+bool TtunerDialogItem::eventFilter(QObject *watched, QEvent *event)
+{
+    if (event->type() == QEvent::KeyPress) {
+        auto ke = static_cast<QKeyEvent *>(event);
+        if (ke->key() == Qt::Key_Back) {
+            QTimer::singleShot(100, this, [=] {
+                emit wantClose();
+            });
+        }
+    }
+    return QObject::eventFilter(watched, event);
 }
 #endif
 
-//#################################################################################################
-//###################              PRIVATE             ############################################
-//#################################################################################################
+// #################################################################################################
+// ###################              PRIVATE             ############################################
+// #################################################################################################
 
-void TtunerDialogItem::delayedInit() {
-  m_timer->start(75);
-  SOUND->setStoppedByUser(false);
-  SOUND->startListen();
+void TtunerDialogItem::delayedInit()
+{
+    m_timer->start(75);
+    SOUND->setStoppedByUser(false);
+    SOUND->startListen();
 }
 
-
-void TtunerDialogItem::timeoutSlot() {
-  emit deviationChanged();
+void TtunerDialogItem::timeoutSlot()
+{
+    emit deviationChanged();
 }
 
-
-void TtunerDialogItem::noteStartedSlot(const TnoteStruct& note) {
-  m_frequency = qCeil(note.freq * 100.0) / 100.0;
-  emit frequencyChanged();
-  if (note.pitch.isValid())
-    emit noteNameChanged();
+void TtunerDialogItem::noteStartedSlot(const TnoteStruct &note)
+{
+    m_frequency = qCeil(note.freq * 100.0) / 100.0;
+    emit frequencyChanged();
+    if (note.pitch.isValid())
+        emit noteNameChanged();
 }
-
-
-
-

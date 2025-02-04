@@ -19,37 +19,34 @@
 #ifndef UPDATEFUNCTIONS_H
 #define UPDATEFUNCTIONS_H
 
-
 #include <QtCore/qdatetime.h>
 
-
-class TupdateRules {
+class TupdateRules
+{
 public:
-  enum Eperiod { e_daily = 0, e_weekly = 1, e_monthly = 2 };
+    enum Eperiod { e_daily = 0, e_weekly = 1, e_monthly = 2 };
 
-  bool            enable; /**< is updating enabled */
-  Eperiod         period; /**< how often checking has to be perform */
-  bool            checkForAll; /**< if true check for all versions (alpha, beta, rc) */
+    bool enable; /**< is updating enabled */
+    Eperiod period; /**< how often checking has to be perform */
+    bool checkForAll; /**< if true check for all versions (alpha, beta, rc) */
 };
 
-
-    /**
-     * Fulfills @p updateRules with configuration file content.
-     */
+/**
+ * Fulfills @p updateRules with configuration file content.
+ */
 void getUpdateRules(TupdateRules &updateRules);
 
-    /**
-     * Compares date of recent checking, current date, update period
-     * and determine is update necessary.
-     */
+/**
+ * Compares date of recent checking, current date, update period
+ * and determine is update necessary.
+ */
 bool isUpdateNecessary(TupdateRules &updateRules);
 
 bool isNewVersionStable(QString version);
 
-    /**
-     * Stores rules in Nootka configuration file
-     */
+/**
+ * Stores rules in Nootka configuration file
+ */
 void saveUpdateRules(TupdateRules &updateRules);
-
 
 #endif // UPDATEFUNCTIONS_H

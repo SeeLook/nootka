@@ -22,49 +22,53 @@
 
 #include <QtCore/qsettings.h>
 
-
-void getUpdateRules(TupdateRules& updateRules) {
-  GLOB->config->beginGroup(QLatin1String("Updates"));
+void getUpdateRules(TupdateRules &updateRules)
+{
+    GLOB->config->beginGroup(QLatin1String("Updates"));
     updateRules.enable = GLOB->config->value(QLatin1String("enableUpdates"), true).toBool();
     updateRules.period = static_cast<TupdateRules::Eperiod>(GLOB->config->value(QLatin1String("period"), 0).toInt());
     updateRules.checkForAll = GLOB->config->value(QLatin1String("checkForAll"), true).toBool();
-  GLOB->config->endGroup();
+    GLOB->config->endGroup();
 }
 
-void saveUpdateRules(TupdateRules& updateRules) {
-  GLOB->config->beginGroup(QLatin1String("Updates"));
-  GLOB->config->setValue(QLatin1String("enableUpdates"), updateRules.enable);
-  GLOB->config->setValue(QLatin1String("period"), static_cast<int>(updateRules.period));
-  GLOB->config->setValue(QLatin1String("checkForAll"), updateRules.checkForAll);
-  GLOB->config->endGroup();
+void saveUpdateRules(TupdateRules &updateRules)
+{
+    GLOB->config->beginGroup(QLatin1String("Updates"));
+    GLOB->config->setValue(QLatin1String("enableUpdates"), updateRules.enable);
+    GLOB->config->setValue(QLatin1String("period"), static_cast<int>(updateRules.period));
+    GLOB->config->setValue(QLatin1String("checkForAll"), updateRules.checkForAll);
+    GLOB->config->endGroup();
 }
 
-
-bool isUpdateNecessary(TupdateRules& updateRules) {
-  auto recentDate = GLOB->config->value(QLatin1String("Updates/recentDate"), QDate(2012, 12, 31)).toDate();
-  int passedDays = recentDate.daysTo(QDate::currentDate());
-  bool necessariness = false;
-  if (passedDays) {
-    switch(updateRules.period) {
-      case TupdateRules::e_daily:
-        if (passedDays >= 1) necessariness = true;
-        break;
-      case TupdateRules::e_weekly:
-        if (passedDays >= 7) necessariness = true;
-        break;
-      case TupdateRules::e_monthly:
-        if (passedDays >= 30) necessariness = true;
-        break;
+bool isUpdateNecessary(TupdateRules &updateRules)
+{
+    auto recentDate = GLOB->config->value(QLatin1String("Updates/recentDate"), QDate(2012, 12, 31)).toDate();
+    int passedDays = recentDate.daysTo(QDate::currentDate());
+    bool necessariness = false;
+    if (passedDays) {
+        switch (updateRules.period) {
+        case TupdateRules::e_daily:
+            if (passedDays >= 1)
+                necessariness = true;
+            break;
+        case TupdateRules::e_weekly:
+            if (passedDays >= 7)
+                necessariness = true;
+            break;
+        case TupdateRules::e_monthly:
+            if (passedDays >= 30)
+                necessariness = true;
+            break;
+        }
     }
-  }
-  return necessariness;
+    return necessariness;
 }
 
-
-bool isNewVersionStable(QString version) {
-  bool nonStable = false;
-  nonStable = version.contains(QLatin1String("alpha"));
-  nonStable = version.contains(QLatin1String("beta"));
-  nonStable = version.contains(QLatin1String("rc"));
-  return !nonStable;
+bool isNewVersionStable(QString version)
+{
+    bool nonStable = false;
+    nonStable = version.contains(QLatin1String("alpha"));
+    nonStable = version.contains(QLatin1String("beta"));
+    nonStable = version.contains(QLatin1String("rc"));
+    return !nonStable;
 }

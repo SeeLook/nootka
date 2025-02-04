@@ -19,16 +19,13 @@
 #ifndef TMAINCHART_H
 #define TMAINCHART_H
 
-
 #include "tchart.h"
 #include "tgroupedqaunit.h"
-
 
 class Tlevel;
 class Tnote;
 class Texam;
 class TQAunit;
-
 
 /**
  * This is abstract class for bar and linear charts.
@@ -37,53 +34,51 @@ class TQAunit;
  */
 class TmainChart : public Tchart
 {
-
-  Q_OBJECT
+    Q_OBJECT
 
 public:
-  explicit TmainChart(QObject* parent = nullptr);
+    explicit TmainChart(QObject *parent = nullptr);
 
-  void setExam(Texam* e);
-  void setChartSettings(const Tsettings& s);
+    void setExam(Texam *e);
+    void setChartSettings(const Tsettings &s);
 
-  Texam* exam() { return p_currExam; }
+    Texam *exam() { return p_currExam; }
 
-  virtual void init() = 0;
+    virtual void init() = 0;
 
-  int qCount() const { return p_sortedLists.count(); }
-  int goodCount() const { return p_goodAnsw.size(); }
-  int badCount() const { return p_badAnsw.size(); }
-  TgroupedQAunit* group(int grNr) { return grNr > -1 && grNr < p_sortedLists.size() ? &p_sortedLists[grNr] : nullptr; }
+    int qCount() const { return p_sortedLists.count(); }
+    int goodCount() const { return p_goodAnsw.size(); }
+    int badCount() const { return p_badAnsw.size(); }
+    TgroupedQAunit *group(int grNr) { return grNr > -1 && grNr < p_sortedLists.size() ? &p_sortedLists[grNr] : nullptr; }
 
-  QString ticText(TQAunit* unit, int questNr = 0);
+    QString ticText(TQAunit *unit, int questNr = 0);
 
-      /**
-       * Returns @p TQAunit pointer of @p unitNr question in @p p_sortedLists
-       */
-  TQAunit* getSorted(int unitNr);
-  TqaPtr* getSortedPtr(int ptrNr);
-
-protected:
-      /**
-       * Sorts exam data by params given in chartSett. 
-       * Initializes sortedLists, hasListUnrelated and kindOfAccids.
-       */
-  void sort();
-
-      /**
-       * Performs common elements for all kinds of charts.
-       */
-  void prepareChart(int maxX);
+    /**
+     * Returns @p TQAunit pointer of @p unitNr question in @p p_sortedLists
+     */
+    TQAunit *getSorted(int unitNr);
+    TqaPtr *getSortedPtr(int ptrNr);
 
 protected:
-  Tsettings                   p_chartSett;
-  Texam                      *p_currExam = nullptr;
-  bool                        p_hasListUnrelated; /**< Returns true if list contains unrelated list of questions. */
-  TgroupedQAunit              p_goodAnsw, p_badAnsw;
-  QList<TgroupedQAunit>       p_sortedLists;
-  int                         p_goodSize; /**< number of lists with good answers */
-  QList<char>                 p_kindOfAccids;
+    /**
+     * Sorts exam data by params given in chartSett.
+     * Initializes sortedLists, hasListUnrelated and kindOfAccids.
+     */
+    void sort();
 
+    /**
+     * Performs common elements for all kinds of charts.
+     */
+    void prepareChart(int maxX);
+
+protected:
+    Tsettings p_chartSett;
+    Texam *p_currExam = nullptr;
+    bool p_hasListUnrelated; /**< Returns true if list contains unrelated list of questions. */
+    TgroupedQAunit p_goodAnsw, p_badAnsw;
+    QList<TgroupedQAunit> p_sortedLists;
+    int p_goodSize; /**< number of lists with good answers */
+    QList<char> p_kindOfAccids;
 };
 
 #endif // TMAINCHART_H

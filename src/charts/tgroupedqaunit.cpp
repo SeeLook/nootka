@@ -16,31 +16,28 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
-
 #include "tgroupedqaunit.h"
-#include <exam/tqaunit.h>
 #include <exam/texam.h>
-
+#include <exam/tqaunit.h>
 
 /*static*/
 bool TgroupedQAunit::m_skipWrong = true;
 
-
 TgroupedQAunit::~TgroupedQAunit()
 {
-  list.clear();
+    list.clear();
 }
 
-
-void TgroupedQAunit::addQAunit(TQAunit* qaUnit, unsigned int questNr) {
-  TqaPtr qaPtr;
-  qaPtr.nr = questNr;
-  qaPtr.qaPtr = qaUnit;
-  list << qaPtr;
+void TgroupedQAunit::addQAunit(TQAunit *qaUnit, unsigned int questNr)
+{
+    TqaPtr qaPtr;
+    qaPtr.nr = questNr;
+    qaPtr.qaPtr = qaUnit;
+    list << qaPtr;
 }
 
-
-void TgroupedQAunit::resume(const QString& desc, const QString& fullDesc) {
+void TgroupedQAunit::resume(const QString &desc, const QString &fullDesc)
+{
     setDescription(desc);
     m_fullDesc = fullDesc;
     m_mistakes = 0;
@@ -50,24 +47,22 @@ void TgroupedQAunit::resume(const QString& desc, const QString& fullDesc) {
     int cnt = 0; // number of answers in average
     qreal effSum = 0.0;
     for (int i = 0; i < list.size(); i++) {
-      TqaPtr& p = list[i];
-      effSum += p.qaPtr->effectiveness();
-      if (p.qaPtr->isWrong())
-        m_mistakes++;
-      else if (p.qaPtr->isNotSoBad())
-        m_halfMist++;
-      if (skipWrong() && (p.qaPtr->wrongNote() || p.qaPtr->wrongPos()) ) 
-          badTime += static_cast<qreal>(p.qaPtr->time);
-      else {
-        okTime += static_cast<qreal>(p.qaPtr->time);
-        cnt++;
-      }
+        TqaPtr &p = list[i];
+        effSum += p.qaPtr->effectiveness();
+        if (p.qaPtr->isWrong())
+            m_mistakes++;
+        else if (p.qaPtr->isNotSoBad())
+            m_halfMist++;
+        if (skipWrong() && (p.qaPtr->wrongNote() || p.qaPtr->wrongPos()))
+            badTime += static_cast<qreal>(p.qaPtr->time);
+        else {
+            okTime += static_cast<qreal>(p.qaPtr->time);
+            cnt++;
+        }
     }
     if (cnt)
-      m_averTime = okTime / static_cast<qreal>(cnt);
+        m_averTime = okTime / static_cast<qreal>(cnt);
     else
-      m_averTime = badTime / static_cast<qreal>(list.size());
+        m_averTime = badTime / static_cast<qreal>(list.size());
     m_effectiveness = effSum / static_cast<qreal>(list.size());
 }
-
-

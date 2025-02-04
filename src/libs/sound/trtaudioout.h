@@ -16,64 +16,57 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
-
 #ifndef TRTAUDIOOUT_H
 #define TRTAUDIOOUT_H
-
 
 #include "nootkacoreglobal.h"
 #include "tabstractplayer.h"
 #include "trtaudio.h"
 #include <QtCore/qstringlist.h>
 
-
 class ToggScale;
 class Tnote;
-
 
 /**
  * Nootka audio output through @p RtAudio
  */
 class NOOTKASOUND_EXPORT TaudioOUT : public TabstractPlayer, public TrtAudio
 {
-
-  Q_OBJECT
+    Q_OBJECT
 
 public:
-  TaudioOUT(TaudioParams* _params, QObject* parent = nullptr);
-  ~TaudioOUT() override;
+    TaudioOUT(TaudioParams *_params, QObject *parent = nullptr);
+    ~TaudioOUT() override;
 
-  static QStringList getAudioDevicesList();
+    static QStringList getAudioDevicesList();
 
-  void stop() override;
+    void stop() override;
 
-  void setAudioOutParams();
+    void setAudioOutParams();
 
 protected:
-  static bool outCallBack(void* outBuff, void* inBuff, unsigned int nBufferFrames);
+    static bool outCallBack(void *outBuff, void *inBuff, unsigned int nBufferFrames);
 
-  void decodeNextSlot();
+    void decodeNextSlot();
 
-  void startPlaying() override;
+    void startPlaying() override;
 
-  void updateSlot() { setAudioOutParams(); }
-  void playingFinishedDelay();
-  void playingFinishedSlot();
+    void updateSlot() { setAudioOutParams(); }
+    void playingFinishedDelay();
+    void playingFinishedSlot();
 
 #if defined(Q_OS_WIN)
-  void ASIORestartSlot();
+    void ASIORestartSlot();
 #endif
 
-
 protected:
-  static TaudioOUT               *instance; /**< Static pointer of this class instance. */
-  ToggScale                      *oggScale;
-  int                             ratioOfRate; /**< ratio of current sample rate to 44100 */
+    static TaudioOUT *instance; /**< Static pointer of this class instance. */
+    ToggScale *oggScale;
+    int ratioOfRate; /**< ratio of current sample rate to 44100 */
 
 private:
-  bool                            m_callBackIsBussy;
-  bool                            m_singleNotePlayed = false;
-
+    bool m_callBackIsBussy;
+    bool m_singleNotePlayed = false;
 };
 
 #endif // TRTAUDIOOUT_H

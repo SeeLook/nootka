@@ -19,147 +19,138 @@
 #include "trtaudioin.h"
 #include "taudioparams.h"
 #if defined(Q_OS_WIN)
-  #include "tasioemitter.h"
+#include "tasioemitter.h"
 #endif
 #include <QtCore/qdebug.h>
 
-
 /*static */
-QStringList TaudioIN::getAudioDevicesList() {
-  QStringList devList;
-  createRtAudio();
-  if (getCurrentApi() == RtAudio::LINUX_ALSA)
-      closeStream(); // close ALSA stream to get full list of devices
-  int devCnt = getDeviceCount();
-  if (devCnt < 1)
-      return devList;
-  for (int i = 0; i < devCnt; i++) {
-      RtAudio::DeviceInfo devInfo;
-      if (!getDeviceInfo(devInfo, i))
-        continue;
-      if (devInfo.probed && devInfo.inputChannels > 0)
-        devList << convDevName(devInfo);
-  }
-  if (getCurrentApi() == RtAudio::LINUX_ALSA && !devList.isEmpty())
-      devList.prepend("ALSA default");
-  return devList;
-}
-
-
-bool TaudioIN::inCallBack(void*, void* inBuff, unsigned int nBufferFrames) {
-  if (m_goingDelete || instance()->isStoped())
-    return true;
-
-  instance()->finder()->copyToBuffer(inBuff, nBufferFrames);
-  return false;
-}
-
-
-TaudioIN*               TaudioIN::m_instance = nullptr;
-bool                    TaudioIN::m_goingDelete = false;
-
-
-//#################################################################################################
-//###################              CONSTRUCTOR         ############################################
-//#################################################################################################
-
-TaudioIN::TaudioIN(TaudioParams* params, QObject* parent) :
-  TcommonListener(params, parent),
-  TrtAudio(params, e_input, inCallBack)
+QStringList TaudioIN::getAudioDevicesList()
 {
-  if (m_instance) {
-    qDebug() << "Nothing of this kind... TaudioIN already exist!";
-    return;
-  }
-  m_instance = this;
-  setAudioInParams();
-  m_goingDelete = false;
-  forceUpdate = true;
-
-  connect(ao(), &TaudioObject::paramsUpdated, this, &TaudioIN::updateSlot);
-  connect(ao(), &TaudioObject::playingFinished, this, &TaudioIN::playingFinishedSlot);
+    QStringList devList;
+    createRtAudio();
+    if (getCurrentApi() == RtAudio::LINUX_ALSA)
+        closeStream(); // close ALSA stream to get full list of devices
+    int devCnt = getDeviceCount();
+    if (devCnt < 1)
+        return devList;
+    for (int i = 0; i < devCnt; i++) {
+        RtAudio::DeviceInfo devInfo;
+        if (!getDeviceInfo(devInfo, i))
+            continue;
+        if (devInfo.probed && devInfo.inputChannels > 0)
+            devList << convDevName(devInfo);
+    }
+    if (getCurrentApi() == RtAudio::LINUX_ALSA && !devList.isEmpty())
+        devList.prepend("ALSA default");
+    return devList;
 }
 
+bool TaudioIN::inCallBack(void *, void *inBuff, unsigned int nBufferFrames)
+{
+    if (m_goingDelete || instance()->isStoped())
+        return true;
+
+    instance()->finder()->copyToBuffer(inBuff, nBufferFrames);
+    return false;
+}
+
+TaudioIN *TaudioIN::m_instance = nullptr;
+bool TaudioIN::m_goingDelete = false;
+
+// #################################################################################################
+// ###################              CONSTRUCTOR         ############################################
+// #################################################################################################
+
+TaudioIN::TaudioIN(TaudioParams *params, QObject *parent)
+    : TcommonListener(params, parent)
+    , TrtAudio(params, e_input, inCallBack)
+{
+    if (m_instance) {
+        qDebug() << "Nothing of this kind... TaudioIN already exist!";
+        return;
+    }
+    m_instance = this;
+    setAudioInParams();
+    m_goingDelete = false;
+    forceUpdate = true;
+
+    connect(ao(), &TaudioObject::paramsUpdated, this, &TaudioIN::updateSlot);
+    connect(ao(), &TaudioObject::playingFinished, this, &TaudioIN::playingFinishedSlot);
+}
 
 TaudioIN::~TaudioIN()
 {
-  m_goingDelete = true;
-  closeStream();
-  finder()->blockSignals(true);
-  m_instance = nullptr;
-  deleteInParams();
-  resetCallBack();
+    m_goingDelete = true;
+    closeStream();
+    finder()->blockSignals(true);
+    m_instance = nullptr;
+    deleteInParams();
+    resetCallBack();
 }
 
-//#################################################################################################
-//###################                PUBLIC            ############################################
-//#################################################################################################
+// #################################################################################################
+// ###################                PUBLIC            ############################################
+// #################################################################################################
 
-void TaudioIN::setAudioInParams() {
-  TcommonListener::setAudioInParams();
-  finder()->setSampleRate(inRate(), detectionRange()); // framesPerChunk is determined here
+void TaudioIN::setAudioInParams()
+{
+    TcommonListener::setAudioInParams();
+    finder()->setSampleRate(inRate(), detectionRange()); // framesPerChunk is determined here
 #if defined(Q_OS_WIN)
-  if (getCurrentApi() == RtAudio::WINDOWS_ASIO)
-    connect(rtDevice()->emitter(), &TASIOEmitter::resetASIO, this, &TaudioIN::ASIORestartSlot, Qt::UniqueConnection);
+    if (getCurrentApi() == RtAudio::WINDOWS_ASIO)
+        connect(rtDevice()->emitter(), &TASIOEmitter::resetASIO, this, &TaudioIN::ASIORestartSlot, Qt::UniqueConnection);
 #endif
-//   qDebug() << "setAudioInParams" << "\nrate:" << sampleRate() << "\nmethod:" << audioParams()->detectMethod
-//            << "\nmin duration" << audioParams()->minDuration << "\nmin volume" << audioParams()->minimalVol
-//            << "\nnoise filter:" << finder()->aGl()->equalLoudness << "\ndetection range:" << detectionRange();
+    //   qDebug() << "setAudioInParams" << "\nrate:" << sampleRate() << "\nmethod:" << audioParams()->detectMethod
+    //            << "\nmin duration" << audioParams()->minDuration << "\nmin volume" << audioParams()->minimalVol
+    //            << "\nnoise filter:" << finder()->aGl()->equalLoudness << "\ndetection range:" << detectionRange();
 }
 
-//#################################################################################################
-//###################         PUBLIC SLOTS             ############################################
-//#################################################################################################
+// #################################################################################################
+// ###################         PUBLIC SLOTS             ############################################
+// #################################################################################################
 
-void TaudioIN::startListening() {
-  if (!streamParams()) {
-      qDebug() << "[TrtAudioIn] Can not start listening due to uninitialized input";
-      return;
-  }
-  if (detectingState() != e_detecting) {
-    resetVolume();
-    if (!stoppedByUser()) {
-      if (startStream())
-        setState(e_detecting);
-//       qDebug() << "start listening";
+void TaudioIN::startListening()
+{
+    if (!streamParams()) {
+        qDebug() << "[TrtAudioIn] Can not start listening due to uninitialized input";
+        return;
     }
-  }
+    if (detectingState() != e_detecting) {
+        resetVolume();
+        if (!stoppedByUser()) {
+            if (startStream())
+                setState(e_detecting);
+            //       qDebug() << "start listening";
+        }
+    }
 }
 
-
-void TaudioIN::stopListening() {
-  if (detectingState() != e_stopped) {
-//     qDebug() << "stop listening";
-    resetVolume();
-    resetChunkPitch();
-    setState(e_stopped);
-    finder()->stop(true);
-  }
+void TaudioIN::stopListening()
+{
+    if (detectingState() != e_stopped) {
+        //     qDebug() << "stop listening";
+        resetVolume();
+        resetChunkPitch();
+        setState(e_stopped);
+        finder()->stop(true);
+    }
 }
 
-//#################################################################################################
-//###################               PRIVATE SLOTS      ############################################
-//#################################################################################################
+// #################################################################################################
+// ###################               PRIVATE SLOTS      ############################################
+// #################################################################################################
 
-void TaudioIN::playingFinishedSlot() {
-  if (detectingState() == e_detecting) {
-    openStream();
-    startStream();
-  }
+void TaudioIN::playingFinishedSlot()
+{
+    if (detectingState() == e_detecting) {
+        openStream();
+        startStream();
+    }
 }
-
 
 #if defined(Q_OS_WIN)
-void TaudioIN::ASIORestartSlot() {
-  restartASIO();
+void TaudioIN::ASIORestartSlot()
+{
+    restartASIO();
 }
 #endif
-
-
-
-
-
-
-
-
-

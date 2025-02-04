@@ -19,20 +19,16 @@
 #ifndef TLINEARCHART_H
 #define TLINEARCHART_H
 
-
 #include "tmainchart.h"
-
-
 
 class TlinearChart : public TmainChart
 {
-
-  Q_OBJECT
+    Q_OBJECT
 
 public:
-  explicit TlinearChart(QObject* parent = nullptr);
+    explicit TlinearChart(QObject *parent = nullptr);
 
-  void init() override;
+    void init() override;
 };
 
 #endif // TLINEARCHART_H

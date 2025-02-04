@@ -19,13 +19,10 @@
 #ifndef TEXAMSUMMARY_H
 #define TEXAMSUMMARY_H
 
-
 #include <QtQuick/qquickitem.h>
-
 
 class Texam;
 class TlevelPreviewItem;
-
 
 /**
  * Content of a dialog with exam summary
@@ -33,88 +30,86 @@ class TlevelPreviewItem;
  */
 class TexamSummary : public QQuickItem
 {
+    Q_OBJECT
 
-  Q_OBJECT
-
-  Q_PROPERTY(TlevelPreviewItem* levelPreview READ levelPreview WRITE setLevelPreview)
-  // Exam properties
-  Q_PROPERTY(QString student READ student NOTIFY updateExam)
-  Q_PROPERTY(QStringList answersLabel READ answersLabel NOTIFY updateExam)
-  Q_PROPERTY(QStringList timesModel READ timesModel NOTIFY updateExam)
-  Q_PROPERTY(QString resultHeader READ resultHeader NOTIFY updateExam)
-  Q_PROPERTY(QStringList resultsModel READ resultsModel NOTIFY updateExam)
-  Q_PROPERTY(QList<int> kindOfMistakes READ kindOfMistakes NOTIFY updateExam)
-  Q_PROPERTY(bool hasVariousMistakes READ hasVariousMistakes NOTIFY updateExam)
-  Q_PROPERTY(QList<int> answersModel READ answersModel NOTIFY updateExam)
-  Q_PROPERTY(bool hasQuestions READ hasQuestions NOTIFY updateExam)
+    Q_PROPERTY(TlevelPreviewItem *levelPreview READ levelPreview WRITE setLevelPreview)
+    // Exam properties
+    Q_PROPERTY(QString student READ student NOTIFY updateExam)
+    Q_PROPERTY(QStringList answersLabel READ answersLabel NOTIFY updateExam)
+    Q_PROPERTY(QStringList timesModel READ timesModel NOTIFY updateExam)
+    Q_PROPERTY(QString resultHeader READ resultHeader NOTIFY updateExam)
+    Q_PROPERTY(QStringList resultsModel READ resultsModel NOTIFY updateExam)
+    Q_PROPERTY(QList<int> kindOfMistakes READ kindOfMistakes NOTIFY updateExam)
+    Q_PROPERTY(bool hasVariousMistakes READ hasVariousMistakes NOTIFY updateExam)
+    Q_PROPERTY(QList<int> answersModel READ answersModel NOTIFY updateExam)
+    Q_PROPERTY(bool hasQuestions READ hasQuestions NOTIFY updateExam)
 
 public:
-  explicit TexamSummary(QQuickItem* parent = nullptr);
+    explicit TexamSummary(QQuickItem *parent = nullptr);
 
-  TlevelPreviewItem* levelPreview() { return m_levelPreview; }
-  void setLevelPreview(TlevelPreviewItem* lp);
+    TlevelPreviewItem *levelPreview() { return m_levelPreview; }
+    void setLevelPreview(TlevelPreviewItem *lp);
 
-  QString student() const;
-  QStringList answersLabel() const { return m_answersLabel; }
-  QStringList timesModel() const { return m_timesModel; }
-  QString resultHeader() const { return m_resultHeader; }
-  QStringList resultsModel() const { return m_resultsModel; }
+    QString student() const;
+    QStringList answersLabel() const { return m_answersLabel; }
+    QStringList timesModel() const { return m_timesModel; }
+    QString resultHeader() const { return m_resultHeader; }
+    QStringList resultsModel() const { return m_resultsModel; }
 
-  QList<int> kindOfMistakes() const { return m_kindOfMistakes; }
-  QList<int> answersModel() const { return m_answersModel; }
+    QList<int> kindOfMistakes() const { return m_kindOfMistakes; }
+    QList<int> answersModel() const { return m_answersModel; }
 
-  bool hasQuestions() const;
+    bool hasQuestions() const;
 
-      /**
-       * @p TRUE when there are more than one kind of mistake
-       */
-  bool hasVariousMistakes() { return m_kindOfMistakes.count() > 1; }
+    /**
+     * @p TRUE when there are more than one kind of mistake
+     */
+    bool hasVariousMistakes() { return m_kindOfMistakes.count() > 1; }
 
-  Q_INVOKABLE QString title() const;
+    Q_INVOKABLE QString title() const;
 
-  Q_INVOKABLE bool isExercise() const;
-  Q_INVOKABLE void continueExecutor();
-  Q_INVOKABLE void exerciseToExam();
-  Q_INVOKABLE void closeSummary();
+    Q_INVOKABLE bool isExercise() const;
+    Q_INVOKABLE void continueExecutor();
+    Q_INVOKABLE void exerciseToExam();
+    Q_INVOKABLE void closeSummary();
 
-      /**
-       * Indicates whether the summary dialog was discarded when exam is presented before start.
-       * Summary dialog has to delete executor then.
-       * In other cases (when exam or exercise was performed and executor was fully initialized)
-       * the executor destroys itself
-       */
-  Q_INVOKABLE bool discardedAtBegin() const;
+    /**
+     * Indicates whether the summary dialog was discarded when exam is presented before start.
+     * Summary dialog has to delete executor then.
+     * In other cases (when exam or exercise was performed and executor was fully initialized)
+     * the executor destroys itself
+     */
+    Q_INVOKABLE bool discardedAtBegin() const;
 
-      /**
-       * When 'continue' button can be displayed to user
-       */
-  Q_INVOKABLE bool enableContinue() const;
+    /**
+     * When 'continue' button can be displayed to user
+     */
+    Q_INVOKABLE bool enableContinue() const;
 
-      /**
-       * Number of columns to contain navigation buttons. (2 or 3)
-       * To minimize QML parsing
-       */
-  Q_INVOKABLE int buttColumsCount() const;
+    /**
+     * Number of columns to contain navigation buttons. (2 or 3)
+     * To minimize QML parsing
+     */
+    Q_INVOKABLE int buttColumsCount() const;
 
-  Q_INVOKABLE Texam* exam() { return m_exam; }
-#if defined (Q_OS_ANDROID)
-  Q_INVOKABLE void sendExam();
+    Q_INVOKABLE Texam *exam() { return m_exam; }
+#if defined(Q_OS_ANDROID)
+    Q_INVOKABLE void sendExam();
 #endif
 
-
 signals:
-  void updateExam();
+    void updateExam();
 
 private:
-  Texam                       *m_exam = nullptr;
-  TlevelPreviewItem           *m_levelPreview = nullptr;
-  bool                         m_accepted = false;
-  QStringList                  m_answersLabel;
-  QString                      m_resultHeader;
-  QStringList                  m_timesModel;
-  QStringList                  m_resultsModel;
-  QList<int>                   m_kindOfMistakes;
-  QList<int>                   m_answersModel;
+    Texam *m_exam = nullptr;
+    TlevelPreviewItem *m_levelPreview = nullptr;
+    bool m_accepted = false;
+    QStringList m_answersLabel;
+    QString m_resultHeader;
+    QStringList m_timesModel;
+    QStringList m_resultsModel;
+    QList<int> m_kindOfMistakes;
+    QList<int> m_answersModel;
 };
 
 #endif // TEXAMSUMMARY_H

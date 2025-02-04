@@ -21,13 +21,12 @@
 
 #include <QtWidgets/qdialog.h>
 
-
 class QSpinBox;
 class TcolorPreview;
-namespace color_widgets {
-  class ColorWheel;
+namespace color_widgets
+{
+class ColorWheel;
 }
-
 
 /**
  * This is replacement of QColorDialog for Android and other mobile.
@@ -40,22 +39,22 @@ namespace color_widgets {
  */
 class TcolorDialog : public QDialog
 {
-  Q_OBJECT
+    Q_OBJECT
 
 public:
-  explicit TcolorDialog(const QColor& initial, QWidget* parent = 0);
-  QColor selectedColor();
-  void setColor(const QColor& c);
+    explicit TcolorDialog(const QColor &initial, QWidget *parent = 0);
+    QColor selectedColor();
+    void setColor(const QColor &c);
 
 protected slots:
-  void colorChanged(const QColor& c);
-  void spinValueChanged();
+    void colorChanged(const QColor &c);
+    void spinValueChanged();
 
 private:
-  QSpinBox                        *m_redSpin, *m_greenSpin, *m_blueSpin;
-  QPushButton                     *m_acceptBut, *m_cancelButt;
-  TcolorPreview                   *m_colorPreview;
-  color_widgets::ColorWheel       *m_wheel;
+    QSpinBox *m_redSpin, *m_greenSpin, *m_blueSpin;
+    QPushButton *m_acceptBut, *m_cancelButt;
+    TcolorPreview *m_colorPreview;
+    color_widgets::ColorWheel *m_wheel;
 };
 
 #endif // TCOLORDIALOG_H

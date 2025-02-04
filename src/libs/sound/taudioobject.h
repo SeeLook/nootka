@@ -16,14 +16,11 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
-
 #ifndef TAUDIOOBJECT_H
 #define TAUDIOOBJECT_H
 
-
-#include <QtCore/qobject.h>
 #include "nootkasoundglobal.h"
-
+#include <QtCore/qobject.h>
 
 /**
  * This class is like 'emitter' of signals for TrtAudio class
@@ -31,42 +28,43 @@
  */
 class NOOTKASOUND_EXPORT TaudioObject : public QObject
 {
-
-  Q_OBJECT
+    Q_OBJECT
 
 public:
-  explicit TaudioObject(QObject* parent = nullptr) : QObject(parent) {}
+    explicit TaudioObject(QObject *parent = nullptr)
+        : QObject(parent)
+    {
+    }
 
-  void emitStreamOpened() { emit streamOpened(); }
+    void emitStreamOpened() { emit streamOpened(); }
 
-      /**
-       * Emitted after @p TrtAudio::updateAudioParams()
-       */
-  void emitParamsUpdated() { emit paramsUpdated(); }
+    /**
+     * Emitted after @p TrtAudio::updateAudioParams()
+     */
+    void emitParamsUpdated() { emit paramsUpdated(); }
 
-      /**
-       * When a single note or a melody starts playing
-       */
-  void emitPlayingStarted() { emit playingStarted(); }
+    /**
+     * When a single note or a melody starts playing
+     */
+    void emitPlayingStarted() { emit playingStarted(); }
 
-      /**
-       * Emitted when all note data were send to output buffer through callback
-       */
-  void emitPlayingFinished() { emit playingFinished(); }
+    /**
+     * Emitted when all note data were send to output buffer through callback
+     */
+    void emitPlayingFinished() { emit playingFinished(); }
 
-      /**
-       * In out callback, when next note of melody is going to be played,
-       * to synchronize note selected on the score 
-       */
-  void emitNextNoteStarted() { emit nextNoteStarted(); }
+    /**
+     * In out callback, when next note of melody is going to be played,
+     * to synchronize note selected on the score
+     */
+    void emitNextNoteStarted() { emit nextNoteStarted(); }
 
 signals:
-  void streamOpened();
-  void paramsUpdated();
-  void playingStarted();
-  void playingFinished();
-  void nextNoteStarted();
-
+    void streamOpened();
+    void paramsUpdated();
+    void playingStarted();
+    void playingFinished();
+    void nextNoteStarted();
 };
 
 #endif // TAUDIOOBJECT_H

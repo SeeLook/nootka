@@ -19,9 +19,7 @@
 #ifndef TMAINHELP_H
 #define TMAINHELP_H
 
-
 #include <QtCore/qobject.h>
-
 
 /**
  * This is help text displayed in first run wizard and in help dialog
@@ -30,37 +28,38 @@
  */
 class TmainHelp : public QObject
 {
-
-  Q_OBJECT
+    Q_OBJECT
 
 public:
-  explicit TmainHelp(QObject *parent = nullptr) : QObject(parent) {}
+    explicit TmainHelp(QObject *parent = nullptr)
+        : QObject(parent)
+    {
+    }
 
-      /**
-       * Whole text of II. paragraph (II. Exercises and exams)
-       */
-  static QString exerciseAndExamText();
+    /**
+     * Whole text of II. paragraph (II. Exercises and exams)
+     */
+    static QString exerciseAndExamText();
 
-      /**
-       * You will learn by answering questions. To answer, you can play, sing, put in the name of a note, and so on.
-       */
-  static QString youWillLearnText();
+    /**
+     * You will learn by answering questions. To answer, you can play, sing, put in the name of a note, and so on.
+     */
+    static QString youWillLearnText();
 
-      /**
-       * During exercising %1 the program will be your understanding and friendly teacher - 
-       * it will show you corrected answers if you miss.
-       */
-  static QString duringExercisingText();
+    /**
+     * During exercising %1 the program will be your understanding and friendly teacher -
+     * it will show you corrected answers if you miss.
+     */
+    static QString duringExercisingText();
 
-      /**
-       * During exams %1 Nootka will be your strict and &quot;old school&quot; master.
-       * Any mistake will be penalized with additional questions...
-       * When you pass an exam you got a certificate!
-       */
-  static QString duringExamsText();
+    /**
+     * During exams %1 Nootka will be your strict and &quot;old school&quot; master.
+     * Any mistake will be penalized with additional questions...
+     * When you pass an exam you got a certificate!
+     */
+    static QString duringExamsText();
 
-  Q_INVOKABLE static QString mainHelp();
-
+    Q_INVOKABLE static QString mainHelp();
 };
 
 #endif // TMAINHELP_H

@@ -19,107 +19,104 @@
 #ifndef TLINCHARTDELEGATE_H
 #define TLINCHARTDELEGATE_H
 
-
-#include <QtQuick/qquickpainteditem.h>
 #include <QtGui/qpainter.h>
-
+#include <QtQuick/qquickpainteditem.h>
 
 class TchartItem;
 class TQAunit;
 class TtipInfo;
-
 
 /**
  * C++ logic for linear delegate of QML Nootka chart.
  * Exposes data of singe question to chart (QML ListView)
  * But it paints staff lines and average progress using @p QPainter
  */
-class TlinChartDelegate : public QQuickPaintedItem {
+class TlinChartDelegate : public QQuickPaintedItem
+{
+    Q_OBJECT
 
-  Q_OBJECT
-
-  Q_PROPERTY(TchartItem* chart READ chart WRITE setChart NOTIFY examChanged)
-  Q_PROPERTY(int chartNr READ chartNr WRITE setChartNr NOTIFY nrChanged)
-  Q_PROPERTY(int groupNr READ groupNr NOTIFY nrChanged)
-  Q_PROPERTY(qreal pointY READ pointY NOTIFY pointYChanged)
-  Q_PROPERTY(QColor pointColor READ pointColor NOTIFY examChanged)
-  Q_PROPERTY(QString pointSymbol READ pointSymbol NOTIFY examChanged)
-  Q_PROPERTY(qreal averageY READ averageY NOTIFY examChanged)
+    Q_PROPERTY(TchartItem *chart READ chart WRITE setChart NOTIFY examChanged)
+    Q_PROPERTY(int chartNr READ chartNr WRITE setChartNr NOTIFY nrChanged)
+    Q_PROPERTY(int groupNr READ groupNr NOTIFY nrChanged)
+    Q_PROPERTY(qreal pointY READ pointY NOTIFY pointYChanged)
+    Q_PROPERTY(QColor pointColor READ pointColor NOTIFY examChanged)
+    Q_PROPERTY(QString pointSymbol READ pointSymbol NOTIFY examChanged)
+    Q_PROPERTY(qreal averageY READ averageY NOTIFY examChanged)
     // X axis text column
-  Q_PROPERTY(QString nrText READ nrText NOTIFY examChanged)
-  Q_PROPERTY(QString noteText READ noteText NOTIFY examChanged)
-  Q_PROPERTY(QString posText READ posText NOTIFY examChanged)
-  Q_PROPERTY(QString keyText READ keyText NOTIFY examChanged)
+    Q_PROPERTY(QString nrText READ nrText NOTIFY examChanged)
+    Q_PROPERTY(QString noteText READ noteText NOTIFY examChanged)
+    Q_PROPERTY(QString posText READ posText NOTIFY examChanged)
+    Q_PROPERTY(QString keyText READ keyText NOTIFY examChanged)
 
 public:
-  explicit TlinChartDelegate(QQuickItem* parent = nullptr);
-  ~TlinChartDelegate() override;
+    explicit TlinChartDelegate(QQuickItem *parent = nullptr);
+    ~TlinChartDelegate() override;
 
-  void paint(QPainter* painter) override;
+    void paint(QPainter *painter) override;
 
-  TchartItem* chart() { return m_chart; }
-  void setChart(TchartItem* ch);
+    TchartItem *chart() { return m_chart; }
+    void setChart(TchartItem *ch);
 
-  int chartNr() const { return m_nrInchart; }
-  void setChartNr(int n);
-  int groupNr() const;
+    int chartNr() const { return m_nrInchart; }
+    void setChartNr(int n);
+    int groupNr() const;
 
-  qreal pointY() const;
-  QColor pointColor() const;
-  QString pointSymbol() const;
+    qreal pointY() const;
+    QColor pointColor() const;
+    QString pointSymbol() const;
 
-  // X axis text column
-  QString nrText() const;
-  QString noteText() const;
-  QString posText() const;
-  QString keyText() const;
+    // X axis text column
+    QString nrText() const;
+    QString noteText() const;
+    QString posText() const;
+    QString keyText() const;
 
-      /**
-       * For ordered by number it is average reaction time of entire exam
-       * and for the rest linear sorting order is average value of a group delegate belongs to
-       * @p 0.0 should be ignored
-       */
-  qreal averageY() const;
+    /**
+     * For ordered by number it is average reaction time of entire exam
+     * and for the rest linear sorting order is average value of a group delegate belongs to
+     * @p 0.0 should be ignored
+     */
+    qreal averageY() const;
 
-  Q_INVOKABLE void pointEntered();
-  Q_INVOKABLE void pointExited();
-  Q_INVOKABLE void lineEntered(qreal posX, qreal posY);
-  Q_INVOKABLE void lineExited();
+    Q_INVOKABLE void pointEntered();
+    Q_INVOKABLE void pointExited();
+    Q_INVOKABLE void lineEntered(qreal posX, qreal posY);
+    Q_INVOKABLE void lineExited();
 
-      /**
-       * 
-       */
-  Q_INVOKABLE QString getHintText();
+    /**
+     *
+     */
+    Q_INVOKABLE QString getHintText();
 
 signals:
-  void nrChanged();
-  void pointYChanged();
-  void examChanged();
+    void nrChanged();
+    void pointYChanged();
+    void examChanged();
 
 protected:
-  TQAunit* getUnit(int qNr) const;
+    TQAunit *getUnit(int qNr) const;
 
-      /**
-       * Progress line is fancy information about changes of average time for every next question.
-       * Values are taken from @p TchartItem::TmainChart::averChunk()
-       * @p m_prevAverY and @p m_thisAverY hold Y values to paint that line
-       * and this methods calculates those values which depend on height as well.
-       * They are also used to catch mouse hover over that line
-       */
-  void calcProgressRangeY();
+    /**
+     * Progress line is fancy information about changes of average time for every next question.
+     * Values are taken from @p TchartItem::TmainChart::averChunk()
+     * @p m_prevAverY and @p m_thisAverY hold Y values to paint that line
+     * and this methods calculates those values which depend on height as well.
+     * They are also used to catch mouse hover over that line
+     */
+    void calcProgressRangeY();
 
-  void setProgressHoverred(bool ph);
+    void setProgressHoverred(bool ph);
 
-  void hoverEnterEvent (QHoverEvent* e) override;
-  void hoverMoveEvent (QHoverEvent* e) override;
-  void hoverLeaveEvent (QHoverEvent*) override;
+    void hoverEnterEvent(QHoverEvent *e) override;
+    void hoverMoveEvent(QHoverEvent *e) override;
+    void hoverLeaveEvent(QHoverEvent *) override;
 
 private:
-  TchartItem              *m_chart = nullptr;
-  TtipInfo                *m_qInf;
-  int                      m_nrInchart = -1;
-  qreal                    m_prevAverY = 0.0, m_thisAverY = 0.0;
-  bool                     m_progressHoverred = false;
+    TchartItem *m_chart = nullptr;
+    TtipInfo *m_qInf;
+    int m_nrInchart = -1;
+    qreal m_prevAverY = 0.0, m_thisAverY = 0.0;
+    bool m_progressHoverred = false;
 };
 
 #endif // TLINCHARTDELEGATE_H

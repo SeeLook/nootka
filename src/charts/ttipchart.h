@@ -22,29 +22,25 @@
 #include <graphics/tgraphicstexttip.h>
 #include <music/tclef.h>
 
-
 class TquestionPoint;
 
-
 /**
- * This class represent tip displayed when user hovers cursor 
+ * This class represent tip displayed when user hovers cursor
  * over question point in the chart.
  */
 class TtipChart : public TgraphicsTextTip
 {
-
 public:
-  TtipChart(TquestionPoint *point);
-	
-			/** Controls default clef for all tips. Primary is @p Tclef::e_treble_G_8down */
-	static Tclef defaultClef;
-  
-protected:
-  TquestionPoint* qa() { return m_point; } /** returns pointer to question/answer which this point describing. */
-  
-private:
-  TquestionPoint *m_point;
+    TtipChart(TquestionPoint *point);
 
+    /** Controls default clef for all tips. Primary is @p Tclef::e_treble_G_8down */
+    static Tclef defaultClef;
+
+protected:
+    TquestionPoint *qa() { return m_point; } /** returns pointer to question/answer which this point describing. */
+
+private:
+    TquestionPoint *m_point;
 };
 
 #endif // TTIPCHART_H

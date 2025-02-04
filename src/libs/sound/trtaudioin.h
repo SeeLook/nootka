@@ -16,15 +16,12 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
-
 #ifndef TRTAUDIOIN_H
 #define TRTAUDIOIN_H
 
-
-#include "trtaudio.h"
-#include "tpitchfinder.h"
 #include "tcommonlistener.h"
-
+#include "tpitchfinder.h"
+#include "trtaudio.h"
 
 /**
  * This class manages audio input in desktop versions of Nootka.
@@ -38,40 +35,35 @@ public:
     explicit TaudioIN(TaudioParams *params, QObject *parent = nullptr);
     ~TaudioIN();
 
-  static TaudioIN* instance() { return m_instance; }
+    static TaudioIN *instance() { return m_instance; }
 
-        /**
-         * Returns list of audio input devices filtered by template audio format
-         */
-  static QStringList getAudioDevicesList();
-
+    /**
+     * Returns list of audio input devices filtered by template audio format
+     */
+    static QStringList getAudioDevicesList();
 
     /**
      * Sets device parameters stores in structure SaudioInParams.
      * SaudioInParams::deviceName is ignored. It have to be set separately by setAudioDevice() method.
      */
-  void setAudioInParams();
-
+    void setAudioInParams();
 
 public slots:
-  virtual void startListening();
-  virtual void stopListening();
+    virtual void startListening();
+    virtual void stopListening();
 
 protected:
-  static bool inCallBack(void*, void* inBuff, unsigned int nBufferFrames);
-
+    static bool inCallBack(void *, void *inBuff, unsigned int nBufferFrames);
 
 #if defined(Q_OS_WIN)
-  void ASIORestartSlot();
+    void ASIORestartSlot();
 #endif
 
-  void playingFinishedSlot();
+    void playingFinishedSlot();
 
 private:
-  static TaudioIN     *m_instance; /**< Keeps static pointer of TaudioIN instance. static inCallBack uses it to has access. */
-  static bool          m_goingDelete; /**< is set to @p FALSE when destructor starts. It prevents to performs callbacks routines then. */
-
+    static TaudioIN *m_instance; /**< Keeps static pointer of TaudioIN instance. static inCallBack uses it to has access. */
+    static bool m_goingDelete; /**< is set to @p FALSE when destructor starts. It prevents to performs callbacks routines then. */
 };
 
 #endif // TRTAUDIOIN_H
-

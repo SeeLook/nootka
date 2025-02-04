@@ -19,13 +19,10 @@
 #ifndef TONSETLOGIC_H
 #define TONSETLOGIC_H
 
-
 #include <QtCore/qlist.h>
 #include <QtCore/qobject.h>
 
-
 class NoteData;
-
 
 /**
  * Simple container of audio data information.
@@ -37,18 +34,18 @@ class NoteData;
 class TonsetChunk
 {
 public:
-    TonsetChunk(float* d, int len);
+    TonsetChunk(float *d, int len);
     TonsetChunk(float vol);
 
-  void setData(float* d, int len);
+    void setData(float *d, int len);
 
-      /**
-       * The highest volume (amplitude) occurred in the chunk
-       */
-  float hiVol() const { return m_hiVol; }
+    /**
+     * The highest volume (amplitude) occurred in the chunk
+     */
+    float hiVol() const { return m_hiVol; }
 
 private:
-  float               m_hiVol = 0.0;
+    float m_hiVol = 0.0;
 };
 
 /**
@@ -72,69 +69,68 @@ private:
  */
 class TonsetLogic
 {
-
-  Q_GADGET
+    Q_GADGET
 
 public:
     TonsetLogic();
-    ~TonsetLogic() {}
+    ~TonsetLogic() { }
 
-  enum EvolumeState {
-    e_volInitial = 0,
-    e_volOnset, /**< moment when new note was detected */
-    e_volPending,
-    e_volSilence
-  };
-  Q_ENUM(EvolumeState);
+    enum EvolumeState {
+        e_volInitial = 0,
+        e_volOnset, /**< moment when new note was detected */
+        e_volPending,
+        e_volSilence
+    };
+    Q_ENUM(EvolumeState);
 
-      /**
-       * Method to perform look up for note beginning in audio data.
-       */
-  void analyzeChunk(float* d, int len);
+    /**
+     * Method to perform look up for note beginning in audio data.
+     */
+    void analyzeChunk(float *d, int len);
 
-      /**
-       * The energy or dynamic of volume change.
-       * Only positive changes are registered (when volume grows).
-       * It indicates when new note is beginning.
-       */
-  float dynamicValue() const { return m_dynamicVal; }
-  float pcmVolume() const { return m_chunks.isEmpty() ? 0.0 : m_chunks.last().hiVol(); }
+    /**
+     * The energy or dynamic of volume change.
+     * Only positive changes are registered (when volume grows).
+     * It indicates when new note is beginning.
+     */
+    float dynamicValue() const { return m_dynamicVal; }
+    float pcmVolume() const { return m_chunks.isEmpty() ? 0.0 : m_chunks.last().hiVol(); }
 
-  int minDuration() const { return m_minDuration; }
-  void setMinDuration(int md) { m_minDuration = md; }
+    int minDuration() const { return m_minDuration; }
+    void setMinDuration(int md) { m_minDuration = md; }
 
-  bool noteStarted() const { return m_noteStarted; }
-  bool noteFinished() const { return m_noteFinished; }
-  bool restStarted() const { return m_restStarted; }
+    bool noteStarted() const { return m_noteStarted; }
+    bool noteFinished() const { return m_noteFinished; }
+    bool restStarted() const { return m_restStarted; }
 
-      /** @p TpitchFinder doesn't use that */
-  bool restFinished() const { return m_restFinished; }
+    /** @p TpitchFinder doesn't use that */
+    bool restFinished() const { return m_restFinished; }
 
-  quint32 chunkNr() const { return m_chunkNr; }
-  quint32 startedAt() const { return m_startedAt; }
-  quint32 finishedAt() const { return m_finishedAt; }
-  EvolumeState volumeState() const { return m_volumeState; }
+    quint32 chunkNr() const { return m_chunkNr; }
+    quint32 startedAt() const { return m_startedAt; }
+    quint32 finishedAt() const { return m_finishedAt; }
+    EvolumeState volumeState() const { return m_volumeState; }
 
-  void skipNote();
-  void acceptNote();
+    void skipNote();
+    void acceptNote();
 
-      /**
-       * Resets states of all variables
-       */
-  void reset();
+    /**
+     * Resets states of all variables
+     */
+    void reset();
 
 private:
-  QList<TonsetChunk>                m_chunks;
-  float                             m_dynamicVal = 0.0f;
-  bool                              m_noteStarted = false, m_restStarted = false;
-  bool                              m_noteFinished = false, m_restFinished = false;
-  bool                              m_noteWasStarted = false, m_restWasStarted = false;
-  bool                              m_firstNoteAccepted = false;
-  quint32                           m_chunkNr = 0;
-  quint32                           m_startedAt = 0, m_finishedAt = 0, m_silenceAt = 0;
-  EvolumeState                      m_volumeState = e_volInitial;
-  int                               m_minDuration;
-  float                             m_totalMaxVol;
+    QList<TonsetChunk> m_chunks;
+    float m_dynamicVal = 0.0f;
+    bool m_noteStarted = false, m_restStarted = false;
+    bool m_noteFinished = false, m_restFinished = false;
+    bool m_noteWasStarted = false, m_restWasStarted = false;
+    bool m_firstNoteAccepted = false;
+    quint32 m_chunkNr = 0;
+    quint32 m_startedAt = 0, m_finishedAt = 0, m_silenceAt = 0;
+    EvolumeState m_volumeState = e_volInitial;
+    int m_minDuration;
+    float m_totalMaxVol;
 };
 
 #endif // TONSETLOGIC_H

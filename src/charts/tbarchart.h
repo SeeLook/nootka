@@ -19,17 +19,14 @@
 #ifndef TBARCHART_H
 #define TBARCHART_H
 
-
 #include "tmainchart.h"
-
 
 class TbarChart : public TmainChart
 {
-
 public:
-  explicit TbarChart(QObject* parent = nullptr);
+    explicit TbarChart(QObject *parent = nullptr);
 
-  void init() override;
+    void init() override;
 };
 
 #endif // TBARCHART_H

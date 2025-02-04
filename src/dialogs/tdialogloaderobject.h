@@ -19,13 +19,10 @@
 #ifndef TDIALOGLOADEROBJECT_H
 #define TDIALOGLOADEROBJECT_H
 
-
 #include <QtCore/qobject.h>
 #include <QtGui/qcolor.h>
 
-
 class TupdateRules;
-
 
 /**
  * Implements logic for dialogues loader (@p DialogLoader.qml),
@@ -34,72 +31,70 @@ class TupdateRules;
  */
 class TdialogLoaderObject : public QObject
 {
+    Q_OBJECT
 
-  Q_OBJECT
-
-  Q_PROPERTY(QString updateMessage READ updateMessage NOTIFY updateMessageChanged)
+    Q_PROPERTY(QString updateMessage READ updateMessage NOTIFY updateMessageChanged)
 
 public:
-  TdialogLoaderObject(QObject* parent = nullptr);
-  ~TdialogLoaderObject() override;
+    TdialogLoaderObject(QObject *parent = nullptr);
+    ~TdialogLoaderObject() override;
 
-  QString updateMessage() { return m_updateMessage; }
+    QString updateMessage() { return m_updateMessage; }
 
-      /**
-       * Returns translated text according to Qt @p ButtonDialogBox enumerator
-       */
-  Q_INVOKABLE QString stdButtonText(int role);
+    /**
+     * Returns translated text according to Qt @p ButtonDialogBox enumerator
+     */
+    Q_INVOKABLE QString stdButtonText(int role);
 
-      /**
-       * Icon image name of given @p ButtonDialogBox role
-       */
-  Q_INVOKABLE QString stdButtonIcon(int role);
+    /**
+     * Icon image name of given @p ButtonDialogBox role
+     */
+    Q_INVOKABLE QString stdButtonIcon(int role);
 
-      /**
-       * icon name by button role
-       */
-  Q_INVOKABLE QString buttonRoleIcon(int role) const;
+    /**
+     * icon name by button role
+     */
+    Q_INVOKABLE QString buttonRoleIcon(int role) const;
 
-  Q_INVOKABLE QColor buttinRoleColor(int role) const;
+    Q_INVOKABLE QColor buttinRoleColor(int role) const;
 
-  Q_INVOKABLE void openFile(const QString& fileName);
+    Q_INVOKABLE void openFile(const QString &fileName);
 
-  Q_INVOKABLE QString aboutQt() const;
+    Q_INVOKABLE QString aboutQt() const;
 
-  Q_INVOKABLE QString mainHelp() const;
+    Q_INVOKABLE QString mainHelp() const;
 
-  Q_INVOKABLE QStringList getChanges() const;
+    Q_INVOKABLE QStringList getChanges() const;
 
-  Q_INVOKABLE QString getLicense();
+    Q_INVOKABLE QString getLicense();
 
-  static void updateCheckInBackground();
+    static void updateCheckInBackground();
 
-  Q_INVOKABLE void checkForUpdates();
+    Q_INVOKABLE void checkForUpdates();
 
-      /**
-       * Do routines related to version change, show support window or other actions.
-       * Returns @p TRUE if dialog will be invoked, or @p FALSE if no action will be proceeded.
-       * @p nootWin should be QObject instance of QML main window.
-       * Also it stores current version in settings - it should be only place where it is done
-       */
-  static bool checkVersion(QObject* nootWin);
+    /**
+     * Do routines related to version change, show support window or other actions.
+     * Returns @p TRUE if dialog will be invoked, or @p FALSE if no action will be proceeded.
+     * @p nootWin should be QObject instance of QML main window.
+     * Also it stores current version in settings - it should be only place where it is done
+     */
+    static bool checkVersion(QObject *nootWin);
 
-      /**
-       * Checks days passed from last check for displaying support popup dialog.
-       * Returns @p TRUE when popup was displayed.
-       */
-  static bool checkForSupport(QObject* nootWin);
+    /**
+     * Checks days passed from last check for displaying support popup dialog.
+     * Returns @p TRUE when popup was displayed.
+     */
+    static bool checkForSupport(QObject *nootWin);
 
 signals:
-  void continueExam(const QString& examFile);
-  void openLevel(const QString& levelFile);
-  void updateMessageChanged();
-  void updateSummary(const QString& version, const QString& changes, const TupdateRules& rules);
+    void continueExam(const QString &examFile);
+    void openLevel(const QString &levelFile);
+    void updateMessageChanged();
+    void updateSummary(const QString &version, const QString &changes, const TupdateRules &rules);
 
 private:
-  static bool                    m_firstTime;
-  QString                        m_updateMessage;
-
+    static bool m_firstTime;
+    QString m_updateMessage;
 };
 
 #endif // TDIALOGLOADEROBJECT_H

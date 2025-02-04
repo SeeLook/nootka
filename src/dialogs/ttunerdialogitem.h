@@ -19,13 +19,10 @@
 #ifndef TTUNERDIALOGITEM_H
 #define TTUNERDIALOGITEM_H
 
-
 #include <QtQuick/qquickitem.h>
-
 
 class QTimer;
 class TnoteStruct;
-
 
 /**
  * The logic of Nooter (Nootka tuner)
@@ -35,68 +32,67 @@ class TnoteStruct;
  */
 class TtunerDialogItem : public QQuickItem
 {
+    Q_OBJECT
 
-  Q_OBJECT
-
-  Q_PROPERTY(qreal deviation READ deviation NOTIFY deviationChanged)
-  Q_PROPERTY(qreal frequency READ frequency NOTIFY frequencyChanged)
-  Q_PROPERTY(QString noteName READ noteName NOTIFY noteNameChanged)
-  Q_PROPERTY(QStringList tuningModel READ tuningModel NOTIFY tuningModelChanged)
-  Q_PROPERTY(int workFreq READ workFreq WRITE setWorkFreq NOTIFY workFreqChanged)
-  Q_PROPERTY(int pitch READ pitch NOTIFY noteNameChanged)
+    Q_PROPERTY(qreal deviation READ deviation NOTIFY deviationChanged)
+    Q_PROPERTY(qreal frequency READ frequency NOTIFY frequencyChanged)
+    Q_PROPERTY(QString noteName READ noteName NOTIFY noteNameChanged)
+    Q_PROPERTY(QStringList tuningModel READ tuningModel NOTIFY tuningModelChanged)
+    Q_PROPERTY(int workFreq READ workFreq WRITE setWorkFreq NOTIFY workFreqChanged)
+    Q_PROPERTY(int pitch READ pitch NOTIFY noteNameChanged)
 
 public:
-  explicit TtunerDialogItem(QQuickItem* parent = nullptr);
-  ~TtunerDialogItem() override;
+    explicit TtunerDialogItem(QQuickItem *parent = nullptr);
+    ~TtunerDialogItem() override;
 
-  qreal deviation() const;
-  qreal frequency() const { return m_frequency; }
-  QString noteName() const;
-  QStringList tuningModel();
+    qreal deviation() const;
+    qreal frequency() const { return m_frequency; }
+    QString noteName() const;
+    QStringList tuningModel();
 
-  int workFreq() const { return m_workFreq; }
-  void setWorkFreq(int wFreq);
+    int workFreq() const { return m_workFreq; }
+    void setWorkFreq(int wFreq);
 
-  int pitch() const;
+    int pitch() const;
 
-      /**
-       * Lowest note in actual tuning - chromatic number
-       */
-  Q_INVOKABLE int lowestNote() const;
-  Q_INVOKABLE int highestNote() const;
-  Q_INVOKABLE QString styledName(int chroma) const;
-  Q_INVOKABLE bool isOpenString(int chroma) const;
+    /**
+     * Lowest note in actual tuning - chromatic number
+     */
+    Q_INVOKABLE int lowestNote() const;
+    Q_INVOKABLE int highestNote() const;
+    Q_INVOKABLE QString styledName(int chroma) const;
+    Q_INVOKABLE bool isOpenString(int chroma) const;
 
-      /**
-       * Returns real string number [1 - 6] of a given note
-       * or @p 0 if not such a string
-       */
-  Q_INVOKABLE int whichString(int chroma) const;
+    /**
+     * Returns real string number [1 - 6] of a given note
+     * or @p 0 if not such a string
+     */
+    Q_INVOKABLE int whichString(int chroma) const;
 
-#if defined (Q_OS_ANDROID)
-  bool eventFilter(QObject* watched, QEvent* event) override;
+#if defined(Q_OS_ANDROID)
+    bool eventFilter(QObject *watched, QEvent *event) override;
 #endif
 
 signals:
-  void deviationChanged();
-  void frequencyChanged();
-  void noteNameChanged();
-  void tuningModelChanged();
-  void workFreqChanged();
-  #if defined (Q_OS_ANDROID)
-  void wantClose();
+    void deviationChanged();
+    void frequencyChanged();
+    void noteNameChanged();
+    void tuningModelChanged();
+    void workFreqChanged();
+#if defined(Q_OS_ANDROID)
+    void wantClose();
 #endif
 
 private:
-  void delayedInit();
-  void timeoutSlot();
-  void noteStartedSlot(const TnoteStruct& note);
+    void delayedInit();
+    void timeoutSlot();
+    void noteStartedSlot(const TnoteStruct &note);
 
 private:
-  QTimer            *m_timer;
-  bool               m_stoppedByUserState;
-  qreal              m_frequency = 0.0;
-  int                m_workFreq = 440;
+    QTimer *m_timer;
+    bool m_stoppedByUserState;
+    qreal m_frequency = 0.0;
+    int m_workFreq = 440;
 };
 
 #endif // TTUNERDIALOGITEM_H

@@ -19,9 +19,7 @@
 #ifndef TAUDIOBUFFER_H
 #define TAUDIOBUFFER_H
 
-
 #include <QtCore/qiodevice.h>
-
 
 /**
  * The @p TaudioBuffer class is proxy between physical mobile sound device
@@ -36,47 +34,49 @@
  */
 class TaudioBuffer : public QIODevice
 {
-
-  Q_OBJECT
+    Q_OBJECT
 
 public:
-  TaudioBuffer(QObject* parent = nullptr) : QIODevice(parent), m_bufferSize(2048) {}
+    TaudioBuffer(QObject *parent = nullptr)
+        : QIODevice(parent)
+        , m_bufferSize(2048)
+    {
+    }
 
-      /**
-       * In fact, there is no any buffer!
-       * That value controls size of data to get by @p feedAudio()
-       * instead of @p maxlen value sending in @p readData(data, maxlen)
-       * or @p len value from @p writeData(data, len).
-       * If this value is set to 0, then values send by device are respected.
-       */
-  void setBufferSize(qint64 s) { m_bufferSize = s; }
-  qint64 bufferSize() const { return m_bufferSize; }
+    /**
+     * In fact, there is no any buffer!
+     * That value controls size of data to get by @p feedAudio()
+     * instead of @p maxlen value sending in @p readData(data, maxlen)
+     * or @p len value from @p writeData(data, len).
+     * If this value is set to 0, then values send by device are respected.
+     */
+    void setBufferSize(qint64 s) { m_bufferSize = s; }
+    qint64 bufferSize() const { return m_bufferSize; }
 
 signals:
-  void feedAudio(char*, qint64, qint64&);
-  void readAudio(const char*, qint64&);
+    void feedAudio(char *, qint64, qint64 &);
+    void readAudio(const char *, qint64 &);
 
 protected:
+    virtual qint64 readData(char *data, qint64 maxlen)
+    {
+        qint64 wasRead = 0;
+        emit feedAudio(data, m_bufferSize ? m_bufferSize : maxlen, wasRead);
+        return wasRead;
+    }
 
-  virtual qint64 readData(char *data, qint64 maxlen) {
-    qint64 wasRead = 0;
-    emit feedAudio(data, m_bufferSize ? m_bufferSize : maxlen, wasRead);
-    return wasRead;
-  }
-
-
-      /**
-       * When @p m_bufferSize is set to 0 @p len parameter is respected
-       */
-  virtual qint64 writeData(const char *data, qint64 len) {
-    qint64 dataLenght = m_bufferSize ? m_bufferSize : len;
-    emit readAudio(data, dataLenght);
-    return dataLenght;
-  }
+    /**
+     * When @p m_bufferSize is set to 0 @p len parameter is respected
+     */
+    virtual qint64 writeData(const char *data, qint64 len)
+    {
+        qint64 dataLenght = m_bufferSize ? m_bufferSize : len;
+        emit readAudio(data, dataLenght);
+        return dataLenght;
+    }
 
 private:
-  qint64          m_bufferSize;
-
+    qint64 m_bufferSize;
 };
 
 #endif // TAUDIOBUFFER_H

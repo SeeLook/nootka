@@ -19,52 +19,47 @@
 #ifndef TAUDIOANALYZEITEM_H
 #define TAUDIOANALYZEITEM_H
 
-
-#include <QtQuick/qquickitem.h>
 #include <QtCore/qfile.h>
-
+#include <QtQuick/qquickitem.h>
 
 class TcommonListener;
 class TnoteStruct;
 
-
-#define   ANALYZER   TaudioAnalyzeItem::instance()
-
+#define ANALYZER TaudioAnalyzeItem::instance()
 
 /**
  * This is a proxy QML item with C++ logic of audio/sound note data,
  */
 class TaudioAnalyzeItem : public QQuickItem
 {
-
-  Q_OBJECT
+    Q_OBJECT
 
 public:
-  explicit TaudioAnalyzeItem(QQuickItem* parent = nullptr);
-  ~TaudioAnalyzeItem();
+    explicit TaudioAnalyzeItem(QQuickItem *parent = nullptr);
+    ~TaudioAnalyzeItem();
 
-  static TaudioAnalyzeItem* instance() { return m_instance; }
+    static TaudioAnalyzeItem *instance() { return m_instance; }
 
-      /**
-       * If set, it is audio file in supported format
-       * to be processed when sound is initialized.
-       */
-  static void processAudioFile(const QString& fileName);
+    /**
+     * If set, it is audio file in supported format
+     * to be processed when sound is initialized.
+     */
+    static void processAudioFile(const QString &fileName);
 
 signals:
-  void dataReady(qreal pcmVol, qreal energy, bool onSet, const QString& note);
-  void noteData(int start, int end, const QString& note);
+    void dataReady(qreal pcmVol, qreal energy, bool onSet, const QString &note);
+    void noteData(int start, int end, const QString &note);
 
 protected:
-  void soundInitSlot();
-  void volumeSlot();
-  void noteFinishedSlot(const TnoteStruct& n);
-  void doProcess();
+    void soundInitSlot();
+    void volumeSlot();
+    void noteFinishedSlot(const TnoteStruct &n);
+    void doProcess();
 
 private:
-  TcommonListener                   *m_sniffer = nullptr;
-  static TaudioAnalyzeItem          *m_instance;
-  QFile                              m_audioFile;
+    TcommonListener *m_sniffer = nullptr;
+    static TaudioAnalyzeItem *m_instance;
+    QFile m_audioFile;
 };
 
 #endif // TAUDIOANALYZEITEM_H

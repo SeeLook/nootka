@@ -19,14 +19,11 @@
 #ifndef TEXAMMELODY_H
 #define TEXAMMELODY_H
 
-
-#include <music/tnotestruct.h>
 #include "tnotetoplay.h"
 #include <QtCore/qobject.h>
-
+#include <music/tnotestruct.h>
 
 class Tmelody;
-
 
 /**
  * This class manages melodies during exams/exercises.
@@ -50,114 +47,111 @@ class Tmelody;
  */
 class TexamMelody : public QObject
 {
-
-  Q_OBJECT
+    Q_OBJECT
 
 public:
+    TexamMelody(QObject *parent);
+    ~TexamMelody();
 
-  TexamMelody(QObject* parent);
-  ~TexamMelody();
+    QVector<TnoteStruct> &played() { return m_playedList; }
+    TnoteStruct *currentNote() { return m_playedList.isEmpty() || m_currentIndex < 0 ? nullptr : &m_playedList[m_currentIndex]; }
 
-  QVector<TnoteStruct>& played() { return m_playedList; }
-  TnoteStruct* currentNote() { return m_playedList.isEmpty() || m_currentIndex < 0 ? nullptr : &m_playedList[m_currentIndex]; }
+    QVector<TnoteToPlay> &toPlay() { return m_toPlayList; }
 
-  QVector<TnoteToPlay>& toPlay() { return m_toPlayList; }
+    TnoteToPlay *nextToPlay() { return m_currentIndex + 1 < m_toPlayList.size() ? &m_toPlayList[m_currentIndex + 1] : nullptr; }
+    TnoteToPlay *currentToPlay() { return m_currentIndex > -1 ? &m_toPlayList[m_currentIndex] : nullptr; }
+    int nextToPlayIndex() { return m_currentIndex > -1 && m_currentIndex < m_toPlayList.count() ? m_toPlayList[m_currentIndex].index() : -1; }
 
-  TnoteToPlay* nextToPlay() { return m_currentIndex + 1 < m_toPlayList.size() ? &m_toPlayList[m_currentIndex + 1] : nullptr; }
-  TnoteToPlay* currentToPlay() { return m_currentIndex > -1 ? &m_toPlayList[m_currentIndex] : nullptr; }
-  int nextToPlayIndex() { return m_currentIndex > -1 && m_currentIndex < m_toPlayList.count() ? m_toPlayList[m_currentIndex].index() : -1; }
+    /**
+     * Number of notes to play and to be played.
+     * Both lists must have the same number of notes
+     */
+    int count() const { return m_playedList.count(); }
 
-      /**
-       * Number of notes to play and to be played.
-       * Both lists must have the same number of notes
-       */
-  int count() const { return m_playedList.count(); }
+    /**
+     * Returns played note corresponding to note number (id) on the score
+     */
+    TnoteStruct *listenedFromReal(int realId) { return realId >= m_realList.count() ? nullptr : &m_playedList[m_realList[realId]]; }
 
-      /**
-       * Returns played note corresponding to note number (id) on the score
-       */
-  TnoteStruct* listenedFromReal(int realId) { return realId >= m_realList.count() ? nullptr : &m_playedList[m_realList[realId]]; }
+    void newMelody(Tmelody *m, int transposition = 0);
 
-  void newMelody(Tmelody* m, int transposition = 0);
+    /**
+     * Increases current index, note is listened.
+     */
+    void noteStarted();
 
-      /**
-       * Increases current index, note is listened.
-       */
-  void noteStarted();
+    /**
+     * Sets note of current index to given value.
+     */
+    void setNote(const TnoteStruct &n);
 
-      /**
-       * Sets note of current index to given value.
-       */
-  void setNote(const TnoteStruct& n);
+    Tnote pitch(int id) const;
 
-  Tnote pitch(int id) const;
+    /**
+     * Index of current note in the list.
+     */
+    int currentIndex() const { return m_currentIndex; }
+    void setCurrentIndex(int realId);
+    bool wasIndexChanged() { return m_indexChanged; }
 
-      /**
-       * Index of current note in the list.
-       */
-  int currentIndex() const { return m_currentIndex; }
-  void setCurrentIndex(int realId);
-  bool wasIndexChanged() { return m_indexChanged; }
+    /**
+     * Index of a note in real melody/score corresponding to currently played one
+     */
+    int realNoteId() const { return m_toPlayList[m_currentIndex].index(); }
 
-      /**
-       * Index of a note in real melody/score corresponding to currently played one
-       */
-  int realNoteId() const { return m_toPlayList[m_currentIndex].index(); }
+    /**
+     * List of fixed notes in melody during exercise
+     */
+    QVector<bool> &attemptFix() { return m_attemptFix; }
 
-      /**
-       * List of fixed notes in melody during exercise
-       */
-  QVector<bool>& attemptFix() { return m_attemptFix; }
+    /**
+     * Clears the list and sets all given number elements to false.
+     */
+    void clearToFix(int notesCount);
+    bool fixed(int noteNr) { return m_attemptFix[noteNr]; }
 
-      /**
-       * Clears the list and sets all given number elements to false.
-       */
-  void clearToFix(int notesCount);
-  bool fixed(int noteNr) { return m_attemptFix[noteNr]; }
+    /**
+     * Sets given note number to true (fixed)
+     */
+    void setFixed(int noteNr);
 
-      /**
-       * Sets given note number to true (fixed)
-       */
-  void setFixed(int noteNr);
+    /**
+     * Number of already fixed notes.
+     */
+    int numberOfFixed() { return m_numberOfFixed; }
 
-      /**
-       * Number of already fixed notes.
-       */
-  int numberOfFixed() { return m_numberOfFixed; }
+    /**
+     * It is @p TRUE when latest note was saved
+     */
+    bool wasLatestNoteSet() const { return m_indexOfSaved == m_currentIndex; }
 
-      /**
-       * It is @p TRUE when latest note was saved
-       */
-  bool wasLatestNoteSet() const { return m_indexOfSaved == m_currentIndex; }
+    /**
+     * Counts how many times the same melody was asked
+     */
+    int repeatCounter() const { return m_repeatCounter; }
+    void setRepeat(int r) { m_repeatCounter = r; }
 
-      /**
-       * Counts how many times the same melody was asked
-       */
-  int repeatCounter() const { return m_repeatCounter; }
-  void setRepeat(int r) { m_repeatCounter = r; }
+    /**
+     * Increases repeat counter
+     */
+    void nextRepeat() { m_repeatCounter++; }
 
-      /**
-       * Increases repeat counter
-       */
-  void nextRepeat() { m_repeatCounter++; }
-
-  int lastMelodyId() const { return m_lastMelodyId; }
-  void setLastMelodyId(int li) { m_lastMelodyId = li; }
+    int lastMelodyId() const { return m_lastMelodyId; }
+    void setLastMelodyId(int li) { m_lastMelodyId = li; }
 
 private:
+    QVector<TnoteStruct> m_playedList;
+    QVector<int> m_realList;
+    QVector<TnoteToPlay> m_toPlayList;
+    int m_currentIndex;
+    int m_indexOfSaved; /**< Number of note that was recently saved through @p setNote() */
+    bool m_indexChanged;
+    int m_numberOfFixed;
+    bool m_tieOrRests = false; /**< @p True if melody contains tie or multiple rests */
 
-  QVector<TnoteStruct>      m_playedList;
-  QVector<int>              m_realList;
-  QVector<TnoteToPlay>      m_toPlayList;
-  int                       m_currentIndex;
-  int                       m_indexOfSaved; /**< Number of note that was recently saved through @p setNote() */
-  bool                      m_indexChanged;
-  int                       m_numberOfFixed;
-  bool                      m_tieOrRests = false; /**< @p True if melody contains tie or multiple rests */
-
-  QVector<bool>             m_attemptFix;
-  int                       m_repeatCounter = 1;
-  int                       m_lastMelodyId = 0;
+    QVector<bool> m_attemptFix;
+    int m_repeatCounter = 1;
+    int m_lastMelodyId = 0;
 };
 
 #endif // TEXAMMELODY_H

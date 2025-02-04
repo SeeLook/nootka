@@ -16,10 +16,8 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
-
 #ifndef TQTAUDIOOUT_H
 #define TQTAUDIOOUT_H
-
 
 #include "nootkasoundglobal.h"
 #include "tabstractplayer.h"
@@ -27,69 +25,65 @@
 #include <QtMultimedia/qaudio.h>
 #include <QtMultimedia/qaudiodeviceinfo.h>
 
-
 class ToggScale;
 class TaudioParams;
 class QAudioOutput;
 class TaudioBuffer;
-
 
 /**
  * Implementation of sound player using Qt Multimedia
  */
 class NOOTKASOUND_EXPORT TaudioOUT : public TabstractPlayer
 {
-
-  Q_OBJECT
+    Q_OBJECT
 
 public:
-  TaudioOUT(TaudioParams* _params, QObject* parent = 0);
-  virtual ~TaudioOUT();
+    TaudioOUT(TaudioParams *_params, QObject *parent = 0);
+    virtual ~TaudioOUT();
 
-  static QStringList getAudioDevicesList();
-  static QString outputName() { return m_devName; }
-  static TaudioOUT* instance() { return m_instance; }
+    static QStringList getAudioDevicesList();
+    static QString outputName() { return m_devName; }
+    static TaudioOUT *instance() { return m_instance; }
 
-  void startPlaying() override;
+    void startPlaying() override;
 
-  void setAudioOutParams();
+    void setAudioOutParams();
 
-      /**
-       * Immediately stops playing.
-       */
-  void stop() override;
+    /**
+     * Immediately stops playing.
+     */
+    void stop() override;
 
-  TaudioParams* audioParams() { return m_audioParams; }
+    TaudioParams *audioParams() { return m_audioParams; }
 
 protected:
-  void createOutputDevice();
+    void createOutputDevice();
 
-  void decodeNext();
+    void decodeNext();
 
 signals:
-  void finishSignal();
+    void finishSignal();
 
 protected:
-  ToggScale                      *oggScale;
-  int                             ratioOfRate; // ratio of current sample rate to 44100
+    ToggScale *oggScale;
+    int ratioOfRate; // ratio of current sample rate to 44100
 
 private:
-  void outCallBack(char* data, qint64 maxLen, qint64& wasRead);
-//   void updateSlot() { setAudioOutParams(); }
-  void playingFinishedSlot();
-  void stateChangedSlot(QAudio::State state);
-  void startPlayingSlot();
-
+    void outCallBack(char *data, qint64 maxLen, qint64 &wasRead);
+    //   void updateSlot() { setAudioOutParams(); }
+    void playingFinishedSlot();
+    void stateChangedSlot(QAudio::State state);
+    void startPlayingSlot();
 
 private:
-  static QString                   m_devName;
-  static TaudioOUT                *m_instance;
-  int                              m_bufferFrames, m_sampleRate;
-  bool                             m_callBackIsBussy;
-  TaudioParams                    *m_audioParams;
-  QAudioOutput                    *m_audioOUT;
-  TaudioBuffer                    *m_buffer;
-  QAudioDeviceInfo                 m_deviceInfo;
+    static QString m_devName;
+    static TaudioOUT *m_instance;
+    int m_bufferFrames, m_sampleRate;
+    bool m_callBackIsBussy;
+    TaudioParams *m_audioParams;
+    QAudioOutput *m_audioOUT;
+    TaudioBuffer *m_buffer;
+    QAudioDeviceInfo m_deviceInfo;
 };
 
 #endif // TRTAUDIOOUT_H
