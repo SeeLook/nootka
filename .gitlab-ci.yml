@@ -3,7 +3,7 @@ appimage-amd64:
     variables:
       - $CI_COMMIT_MESSAGE =~ /prepare_build/
 
-  image: ubuntu:18.04
+  image: ubuntu:22.04
 
   before_script:
     - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
@@ -16,7 +16,7 @@ appimage-amd64:
 
     - apt-get update
     - apt-get install -y mesa-common-dev libsoundtouch-dev libfftw3-dev libasound2-dev libogg-dev libvorbis-dev libpulse-dev libjack-dev cmake git wget build-essential software-properties-common rsync
-    - add-apt-repository -y -u ppa:beineri/opt-qt-5.15.2-bionic
+    - add-apt-repository -y -u ppa:beineri/opt-qt-5.15.2-focal
     - apt-get install -y qt515base qt515graphicaleffects qt515translations qt515x11extras qt515tools libgl1-mesa-glx libgl1-mesa-dri qt515quickcontrols2 qt515quickcontrols libgl1-mesa-dev
 
   script:
