@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2017-2022 by Tomasz Bojczuk (seelook@gmail.com)     *
+ * Copyright (C) 2017-2025 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.12
@@ -72,6 +72,8 @@ Tflickable {
           ListElement { flag:"br"; lang: "Português";   trr: "Lucas Marques Fonseca";  web: "<a href=\"https://github.com/LucasMarquess\">GitHub</a>" }
           ListElement { flag:"ru"; lang: "Русский";     trr: "Timur Artykov,<br>Sergei Ivanov (tico-tico)"; web: "" }
           ListElement { flag:"sl"; lang: "Slovenščina"; trr: "Grega Trček";     web: "" }
+          ListElement { flag:"ta"; lang: "தமிழ்";                      trr: " - - -";
+                        web: "<a href=\"https://hosted.weblate.org/projects/nootka/translations/ta/\">Weblate translation</a>" }
           ListElement { flag:"uk"; lang: "Українська";  trr: " - - -";
                         web: "<a href=\"https://hosted.weblate.org/projects/nootka/translations/uk/\">Weblate translation</a>" }
         }
