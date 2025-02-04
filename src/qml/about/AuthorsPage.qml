@@ -73,8 +73,8 @@ Tflickable {
           ListElement { flag:"br"; lang: "Português";   trr: "Lucas Marques Fonseca";  web: "<a href=\"https://github.com/LucasMarquess\">GitHub</a>" }
           ListElement { flag:"ru"; lang: "Русский";     trr: "Timur Artykov,<br>Sergei Ivanov (tico-tico)"; web: "" }
           ListElement { flag:"sl"; lang: "Slovenščina"; trr: "Grega Trček";     web: "" }
-          ListElement { flag:"ta"; lang: "தமிழ்";                      trr: " - - -";
-                        web: "<a href=\"https://hosted.weblate.org/projects/nootka/translations/ta/\">Weblate translation</a>" }
+          ListElement { flag:"ta"; lang: "தமிழ்";                      trr: "தமிழ்நேரக்குழு";
+                        web: "<a href=\"https://tamilneram.github.io/\">https://tamilneram.github.io/</a>" }
           ListElement { flag:"uk"; lang: "Українська";  trr: " - - -";
                         web: "<a href=\"https://hosted.weblate.org/projects/nootka/translations/uk/\">Weblate translation</a>" }
         }

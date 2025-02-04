@@ -38,7 +38,7 @@ Tflickable {
         ListElement { flag:"br"; lang: "Português" }
         ListElement { flag:"ru"; lang: "Русский" }
         ListElement { flag:"sl"; lang: "Slovenščina" }
-        ListElement { flag:"ta"; lang: "தமிழ" }
+        ListElement { flag:"ta"; lang: "தமிழ்" }
         ListElement { flag:"uk"; lang: "Українська" }
       }
 
