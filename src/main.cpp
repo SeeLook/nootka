@@ -210,24 +210,6 @@ int main(int argc, char *argv[])
 #endif
             }
             exitCode = a->exec();
-            e->deleteLater(); // Android crashes without a delayed destroy
-            qApp->quit();
-            e = new QQmlApplicationEngine;
-
-            qmlRegisterSingletonType<Tglobals>("Nootka", 1, 0, "GLOB",
-                                               [&](QQmlEngine*, QJSEngine*)->QObject* {
-                                                   return gl;
-                                               });
-
-            qmlRegisterSingletonType<TnootkaQML>("Nootka", 1, 0, "NOO",
-                                                 [&](QQmlEngine*, QJSEngine*)->QObject* {
-                                                     return nooObj;
-                                                 });
-
-            qmlRegisterSingletonType<Tsound>("Nootka", 1, 0, "SOUND",
-                                                 [&](QQmlEngine*, QJSEngine*)->QObject* {
-                                                     return sound;
-                                                 });
 
             gl->isFirstRun = false;
             gl->config->setValue(QLatin1String("version"), gl->version);
