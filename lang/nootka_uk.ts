@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="uk">
+<TS version="2.1" language="uk_UA">
 <context>
     <name>AboutPage</name>
     <message>
@@ -475,11 +475,11 @@
     </message>
     <message>
         <source>Open with Nootka</source>
-        <translation>Відкрийте за допомогою Nootka</translation>
+        <translation>Відкрийте за допомогою Нооткі</translation>
     </message>
     <message>
         <source>Nootka exam file</source>
-        <translation>Файл іспиту Nootka</translation>
+        <translation>Файл іспиту Нооткі</translation>
     </message>
 </context>
 <context>
@@ -1974,7 +1974,7 @@ But better keep them short, so divide them first in some external software.</sou
     <name>TexamHelp</name>
     <message>
         <source>When your exercising will go well Nootka will suggest you to start an exam.</source>
-        <translation type="unfinished">Коли ваші тренування підуть добре, Нутка запропонує вам почати іспит.</translation>
+        <translation>Коли ваші тренування підуть добре, Нутка запропонує вам почати іспит.</translation>
     </message>
     <message>
         <source>Exams can be saved to files and continued later. Moreover, exam files can be opened to analyze.</source>
@@ -1998,7 +1998,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source> Briefly: Nootka give you a question and you give an answer...</source>
-        <translation type="unfinished"> Коротко: Нутка задає вам питання, а ви даєте відповідь ...</translation>
+        <translation> Коротко: Нутка задає вам питання, а ви даєте відповідь ...</translation>
     </message>
     <message>
         <source>Questions are marked with this color and &quot;?&quot; mark.</source>
