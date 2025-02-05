@@ -104,39 +104,30 @@ int main(int argc, char *argv[])
 
     QTranslator qtTranslator;
     QTranslator nooTranslator;
-    Tglobals *gl = nullptr;
+    Tglobals *glob = nullptr;
     QPointer<QApplication> a = nullptr;
-    QQmlApplicationEngine *e = nullptr;
-    auto nooObj = new TnootkaQML();
+    QQmlApplicationEngine *engine = nullptr;
+    TnootkaQML *nooQML = nullptr;
+    bool resetConfig = false;
 
     int exitCode;
     bool firstLoop = true;
     QString confFile;
     do {
+        resetConfig = false;
+        nooQML = new TnootkaQML();
 #if !defined(Q_OS_ANDROID)
         if (a)
             delete a;
-        if (nooObj->resetConfig()) { // delete config file - new Nootka instance will start with first run wizard
-            QFile f(confFile);
-            f.remove();
-            auto exerciseFile = QDir::toNativeSeparators(QFileInfo(confFile).absolutePath() + QLatin1String("/exercise2.noo"));
-            if (QFileInfo(exerciseFile).exists())
-                QFile::remove(exerciseFile);
-            // also clean exercise from Nootka versions up to 1.7.X
-            exerciseFile = QDir::toNativeSeparators(QFileInfo(confFile).absolutePath() + QLatin1String("/exercise.noo"));
-            if (QFileInfo(exerciseFile).exists())
-                QFile::remove(exerciseFile);
-        }
-        nooObj->setResetConfig(false);
 #endif
 
         a = new QApplication(argc, argv);
 
         Tmtr::init(a);
 
-        gl = new Tglobals();
-        gl->path = Tglobals::getInstPath(qApp->applicationDirPath());
-        confFile = gl->config->fileName();
+        glob = new Tglobals();
+        glob->path = Tglobals::getInstPath(qApp->applicationDirPath());
+        confFile = glob->config->fileName();
         if (!initCoreLibrary())
             return 110;
         prepareTranslations(a, qtTranslator, nooTranslator);
@@ -168,7 +159,7 @@ int main(int argc, char *argv[])
         }
         f.setPointSizeF(f.pointSizeF() * gl->guiScale());
 #else
-        f.setPointSizeF(f.pointSizeF() * gl->guiScale());
+        f.setPointSizeF(f.pointSizeF() * glob->guiScale());
 #endif
 
         a->setFont(f);
@@ -177,16 +168,16 @@ int main(int argc, char *argv[])
 
         auto sound = new Tsound();
 
-        e = new QQmlApplicationEngine;
+        engine = new QQmlApplicationEngine;
 
         qmlRegisterSingletonType<Tglobals>("Nootka", 1, 0, "GLOB",
                                           [&](QQmlEngine*, QJSEngine*)->QObject* {
-                                              return gl;
+                                              return glob;
                                           });
 
         qmlRegisterSingletonType<TnootkaQML>("Nootka", 1, 0, "NOO",
                                            [&](QQmlEngine*, QJSEngine*)->QObject* {
-                                               return nooObj;
+                                               return nooQML;
                                            });
 
         qmlRegisterSingletonType<Tsound>("Nootka", 1, 0, "SOUND",
@@ -194,13 +185,13 @@ int main(int argc, char *argv[])
                                                  return sound;
                                              });
 
-        bool wasFirstRun = gl->isFirstRun;
+        bool wasFirstRun = glob->isFirstRun;
         TmainHelp *hlp = nullptr; // keep help object live after wizard, Qt deletes it with some delay
-        if (gl->isFirstRun) {
+        if (glob->isFirstRun) {
             hlp = new TmainHelp();
-            e->rootContext()->setContextProperty(QStringLiteral("HELP"), hlp);
-            nooObj->setQmlEngine(e);
-            e->load(QUrl(QStringLiteral("qrc:/wizard/Wizard.qml")));
+            engine->rootContext()->setContextProperty(QStringLiteral("HELP"), hlp);
+            nooQML->setQmlEngine(engine);
+            engine->load(QUrl(QStringLiteral("qrc:/wizard/Wizard.qml")));
             if (firstLoop) {
 #if defined(Q_OS_ANDROID)
                 qDebug() << "Nootka wizard launch time" << startElapsed.nsecsElapsed() / 1000000.0 << " [ms]";
@@ -211,12 +202,12 @@ int main(int argc, char *argv[])
             }
             exitCode = a->exec();
 
-            gl->isFirstRun = false;
-            gl->config->setValue(QLatin1String("version"), gl->version);
+            glob->isFirstRun = false;
+            glob->config->setValue(QLatin1String("version"), glob->version);
             // TODO: storing current version in settings avoids opening 'about' window next launch
             //       but if there will be another window - delete line above
         }
-        nooObj->setQmlEngine(e);
+        nooQML->setQmlEngine(engine);
         qmlRegisterType<TgotIt>("Nootka.Main", 1, 0, "TgotIt");
         qmlRegisterType<TnameItem>("Nootka.Main", 1, 0, "TnameItem");
         qmlRegisterType<TmainScoreObject>("Nootka.Main", 1, 0, "TmainScoreObject");
@@ -226,10 +217,10 @@ int main(int argc, char *argv[])
         qmlRegisterType<TmobileMenu>("Nootka", 1, 0, "TmobileMenu");
 #endif
 
-        e->load(QUrl(QStringLiteral("qrc:/MainWindow.qml")));
+        engine->load(QUrl(QStringLiteral("qrc:/MainWindow.qml")));
 
 #if !defined(Q_OS_ANDROID)
-        if (e->rootObjects().isEmpty()) {
+        if (engine->rootObjects().isEmpty()) {
             QTextStream o(stdout);
             o << "\033[0;31m Something went wrong and Nootka was not able to launch.\033[01;00m\n";
             return 121;
@@ -298,7 +289,7 @@ int main(int argc, char *argv[])
                     SOUND->changeDumpPath(cmd.value(dumpOpt));
                 else if (cmd.isSet(nootiniOpt)) {
                     qmlRegisterType<TaudioAnalyzeItem>("Nootka", 1, 0, "TaudioAnalyzeItem");
-                    QMetaObject::invokeMethod(e->rootObjects().first(), "audioAnalyze");
+                    QMetaObject::invokeMethod(engine->rootObjects().first(), "audioAnalyze");
                     if (cmd.isSet(instrOpt)) {
                         int instr = cmd.value(instrOpt).toInt();
                         GLOB->setTransposition(Tinstrument(static_cast<Tinstrument::Etype>(instr)).transposition());
@@ -315,20 +306,20 @@ int main(int argc, char *argv[])
                     if (cmd.isSet(clefOpt))
                         GLOB->setClefType(cmd.value(clefOpt).toInt());
                 } else
-                    nooObj->openFile(QString::fromLocal8Bit(argv[argc - 1]));
+                    nooQML->openFile(QString::fromLocal8Bit(argv[argc - 1]));
             }
 #endif
         }
 
         sound->init();
 
-        if (firstLoop && !wasFirstRun && !e->rootObjects().isEmpty()) {
+        if (firstLoop && !wasFirstRun && !engine->rootObjects().isEmpty()) {
             // show dialog with changes when version was changed
-            if (!TdialogLoaderObject::checkVersion(e->rootObjects().first())) {
+            if (!TdialogLoaderObject::checkVersion(engine->rootObjects().first())) {
                 // or check to dispay support dialog
-                if (!TdialogLoaderObject::checkForSupport(e->rootObjects().first())) {
+                if (!TdialogLoaderObject::checkForSupport(engine->rootObjects().first())) {
                     // or check for updates if any of above
-                    if (gl->config->value(QLatin1String("Updates/enableUpdates"), true).toBool())
+                    if (glob->config->value(QLatin1String("Updates/enableUpdates"), true).toBool())
                         TdialogLoaderObject::updateCheckInBackground();
                 }
             }
@@ -337,24 +328,37 @@ int main(int argc, char *argv[])
         firstLoop = false;
         exitCode = a->exec();
 
+        resetConfig = nooQML->resetConfig();
+
         if (hlp)
             delete hlp;
-        delete e;
-        // delete sound; // singleton -  deleted by engine
-        // delete gl; // singleton -  deleted by engine
+        delete engine;
+        /** by deleting @p QQmlEngine engine all singletons: @p sound, @p glob, @p nooQML are also deleted */
+
 #if defined(Q_OS_ANDROID)
-        if (nooObj->resetConfig()) { // delete config file - new Nootka instance will start with first run wizard
-            QFile f(confFile);
-            f.remove();
+        if (resetConfig) { // delete config file - new Nootka instance will start with first run wizard
+            // QFile f(confFile); // TODO: check this and remove
+            // f.remove();
             Tandroid::restartNootka(); // and call Nootka after delay
         }
-        nooObj->setResetConfig(false); // do - while loop doesn't work with Android
         qApp->quit(); // HACK: calling QApplication::quick() solves hang on x86 when Qt uses native (usually obsolete) SSL libraries
+#else
+        if (resetConfig) { // delete config file - new Nootka instance will start with first run wizard
+            qDebug() << "Reset configuration" << confFile;
+            QFile f(confFile);
+            f.remove();
+            auto exerciseFile = QDir::toNativeSeparators(QFileInfo(confFile).absolutePath() + QLatin1String("/exercise2.noo"));
+            if (QFileInfo(exerciseFile).exists())
+                QFile::remove(exerciseFile);
+            // also clean exercise from Nootka versions up to 1.7.X
+            exerciseFile = QDir::toNativeSeparators(QFileInfo(confFile).absolutePath() + QLatin1String("/exercise.noo"));
+            if (QFileInfo(exerciseFile).exists())
+                QFile::remove(exerciseFile);
+        }
 #endif
-    } while (nooObj->resetConfig());
+    } while (resetConfig);
 
-    // delete nooObj; // singleton -  deleted by engine
-    qInstallMessageHandler(0);
+    qInstallMessageHandler(nullptr);
 
     delete a;
     return exitCode;
