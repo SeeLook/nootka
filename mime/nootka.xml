@@ -14,8 +14,10 @@
     <comment xml:lang="pt">Arquivo de nível Nootka</comment>
     <comment xml:lang="ru">Файл Нутки с уровнем</comment>
     <comment xml:lang="sl">Nootka stopenjska datoteka</comment>
+    <comment xml:lang="ta">நூட்கா நிலை கோப்பு</comment>
+    <comment xml:lang="uk">Файл рівня Нооткі</comment>
     <icon name="nootkalevel" />
-    <glob pattern="*.nel"/>
+    <glob pattern="*.nel" />
     <acronym>NEL</acronym>
     <expanded-acronym>Nootka Exam Level</expanded-acronym>
   </mime-type>
@@ -34,8 +36,12 @@
     <comment xml:lang="pt">Arquivo de exame Nootka</comment>
     <comment xml:lang="ru">Файл Нутки с экзаменом</comment>
     <comment xml:lang="sl">Nootka izpitna datoteka</comment>
+    <comment xml:lang="ta">நூட்கா தேர்வு கோப்பு</comment>
+    <comment xml:lang="uk">Файл іспиту Нооткі</comment>
     <icon name="nootkaexam" />
     <glob pattern="*.noo" />
+    <acronym>NOO</acronym>
+    <expanded-acronym>Nootka Exam File</expanded-acronym>
   </mime-type>
 
 </mime-info> 

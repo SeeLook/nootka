@@ -35,7 +35,7 @@ Tflickable {
         ListElement { flag:"hu"; lang: "Magyar" }
         ListElement { flag:"it"; lang: "Italiano" }
         ListElement { flag:"pl"; lang: "polski" }
-        ListElement { flag:"br"; lang: "Português" }
+        ListElement { flag:"br"; lang: "português brasileiro" }
         ListElement { flag:"ru"; lang: "Русский" }
         ListElement { flag:"sl"; lang: "Slovenščina" }
         ListElement { flag:"ta"; lang: "தமிழ்" }
@@ -66,7 +66,12 @@ Tflickable {
               anchors.horizontalCenter: parent.horizontalCenter
               text: flag === "default" ? qsTr(lang) : lang
               color: activPal.text
+              height: langTumb.height * 0.15; width: langTumb.height * 1.1
+              horizontalAlignment: Text.AlignHCenter; verticalAlignment: Text.AlignVCenter
               font { bold: langTumb.currentIndex === index; pixelSize: langTumb.height * 0.1 }
+              minimumPixelSize: langTumb.height * 0.05
+              lineHeight: 0.8
+              fontSizeMode: Text.Fit
             }
           }
         }
@@ -89,8 +94,8 @@ Tflickable {
           }
         }
         Rectangle {
-          z: -1; width: parent.height * 1.1; height: parent.height * 0.7
-          x: parent.width / 2 - width / 2; y: parent.height * 0.01
+          z: -1; width: langTumb.height * 1.1; height: langTumb.height * 0.7
+          x: langTumb.width / 2 - width / 2; y: langTumb.height * 0.01
           color: NOO.alpha(activPal.highlight, 100)
           radius: width / 12
         }

@@ -1,6 +1,6 @@
 [Desktop Entry]
 Name=Nootka
-GenericName=to play scores
+GenericName=to play from sheet music
 GenericName[cs]=pro hru z not
 GenericName[de]=um Partituren zu spielen
 GenericName[es]=interpretar partituras
@@ -12,6 +12,7 @@ GenericName[pt]=tocar partituras
 GenericName[ru]=чтобы играть с листа
 GenericName[sl]=za igranje partitur
 GenericName[ta]=மதிப்பெண்களை விளையாட
+GenericName[uk]=щоб грати з нот
 Type=Application
 Comment=Application for learning musical score notation 
 Comment[cs]=Program pro vyučování notového zápisu hudby
@@ -25,6 +26,7 @@ Comment[pt]=Aplicativo para aprender a ler a notação musical
 Comment[ru]=Программа для обучения нотной грамоте
 Comment[sl]=Aplikacija za učenje glasbene notacije
 Comment[ta]=இசை மதிப்பெண் குறியீட்டைக் கற்றுக்கொள்வதற்கான பயன்பாடு
+Comment[uk]=Додаток для вивчення нотного запису
 Exec=nootka %f
 Icon=nootka
 Terminal=false
