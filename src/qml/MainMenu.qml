@@ -5,24 +5,27 @@
 import QtQuick 2.12
 import QtQuick.Controls 2.12
 
-
 Item {
-  property alias toolBar: toolBar
-  property var scoreMenu: null
-  property var melodyMenu: null
+    property alias toolBar: toolBar
+    property var scoreMenu: null
+    property var melodyMenu: null
 
-  TtoolBar { id: toolBar }
+    function open() {
+        if (!scoreMenu)
+            scoreMenu = Qt.createComponent("qrc:/ScoreMenuContent.qml").createObject(nootkaWindow.contentItem);
 
-  function open() {
-    if (!scoreMenu)
-      scoreMenu = Qt.createComponent("qrc:/ScoreMenuContent.qml").createObject(nootkaWindow.contentItem)
-    scoreMenu.open()
-  }
+        scoreMenu.open();
+    }
 
-  function melodyOpen() {
-    if (!melodyMenu)
-      melodyMenu = Qt.createComponent("qrc:/MelodyMenuContent.qml").createObject(nootkaWindow.contentItem)
-    melodyMenu.open()
-  }
+    function melodyOpen() {
+        if (!melodyMenu)
+            melodyMenu = Qt.createComponent("qrc:/MelodyMenuContent.qml").createObject(nootkaWindow.contentItem);
+
+        melodyMenu.open();
+    }
+
+    TtoolBar {
+        id: toolBar
+    }
 
 }

@@ -5,22 +5,34 @@
 import QtQuick 2.12
 import QtQuick.Controls 2.12
 
-
 Tmenu {
-  id: menu
-  x: toolBar.melodyAct.x
-  y: score.y
+    id: menu
 
-  Repeater {
-    model: score.melodyActions
-    MenuItem {
-      padding: 0
-      width: menu.width
-      contentItem: MenuButton {
-        action: modelData
-        onClicked: close()
-        Rectangle { width: parent.width; height: index === score.melodyActions.length - 1 ? 0 : 1; color: activPal.text; y: parent.height - 1 }
-      }
+    x: toolBar.melodyAct.x
+    y: score.y
+
+    Repeater {
+        model: score.melodyActions
+
+        MenuItem {
+            padding: 0
+            width: menu.width
+
+            contentItem: MenuButton {
+                action: modelData
+                onClicked: close()
+
+                Rectangle {
+                    width: parent.width
+                    height: index === score.melodyActions.length - 1 ? 0 : 1
+                    color: activPal.text
+                    y: parent.height - 1
+                }
+
+            }
+
+        }
+
     }
-  }
+
 }

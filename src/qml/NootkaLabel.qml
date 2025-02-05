@@ -2,56 +2,61 @@
  * Copyright (C) 2017-2021 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
+import Nootka 1.0
 import QtQuick 2.12
 
-import Nootka 1.0
-
 Item {
-  id: nootkaLabel
-  property color bgColor: "white"
-  property alias active: mouseArea.hoverEnabled
+    id: nootkaLabel
 
-  signal clicked()
-  signal entered()
-  signal exited()
+    property color bgColor: "white"
+    property alias active: mouseArea.hoverEnabled
 
-  width: logo.width
+    signal clicked()
+    signal entered()
+    signal exited()
 
-  Rectangle {
-    id: bgRect
-    height: parent.height
     width: logo.width
-    color: bgColor
-  }
 
-  Image {
-    id: logo
-    mipmap: true
-    anchors.top: parent.Top
-    source: NOO.pix("logo")
-    height: nootkaLabel.height; width: height * (sourceSize.width / sourceSize.height)
-  }
+    Rectangle {
+        id: bgRect
 
-  Text {
-    y: nootkaLabel.height * 0.72
-    anchors.horizontalCenter: logo.horizontalCenter
-    font.pixelSize: nootkaLabel.height * 0.2
-    color: bgColor
-    text: NOO.version()
-  }
-
-  MouseArea {
-    id: mouseArea
-    anchors.fill: parent
-    hoverEnabled: !NOO.isAndroid()
-    onEntered: {
-      bgColor = NOO.randomColor()
-      nootkaLabel.entered()
+        height: parent.height
+        width: logo.width
+        color: bgColor
     }
-    onExited: {
-      bgColor = "white"
-      nootkaLabel.exited()
+
+    Image {
+        id: logo
+
+        mipmap: true
+        anchors.top: parent.Top
+        source: NOO.pix("logo")
+        height: nootkaLabel.height
+        width: height * (sourceSize.width / sourceSize.height)
     }
-    onClicked: nootkaLabel.clicked()
-  }
+
+    Text {
+        y: nootkaLabel.height * 0.72
+        anchors.horizontalCenter: logo.horizontalCenter
+        font.pixelSize: nootkaLabel.height * 0.2
+        color: bgColor
+        text: NOO.version()
+    }
+
+    MouseArea {
+        id: mouseArea
+
+        anchors.fill: parent
+        hoverEnabled: !NOO.isAndroid()
+        onEntered: {
+            bgColor = NOO.randomColor();
+            nootkaLabel.entered();
+        }
+        onExited: {
+            bgColor = "white";
+            nootkaLabel.exited();
+        }
+        onClicked: nootkaLabel.clicked()
+    }
+
 }
