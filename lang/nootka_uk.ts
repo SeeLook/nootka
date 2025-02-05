@@ -462,7 +462,7 @@
     <name>File association entries</name>
     <message>
         <source>to play scores</source>
-        <translation>відтворювати очки</translation>
+        <translation>щоб грати з нот</translation>
     </message>
     <message>
         <source>Application for learning musical score notation</source>
@@ -1415,7 +1415,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>If you want Nootka to write your melody with rhythm then you have to play exactly in selected tempo - preferably with a metronome. But during practice, when you are playing melody given by the application, the tempo can be at will unless some level defines it.</source>
-        <translation>Якщо ви хочете, щоб Nootka написав вашу мелодію з ритмом, ви повинні грати точно в обраному темпі - бажано з метрономом. Але під час практики, коли ви граєте мелодію, надану програмою, темп може бути будь-яким, якщо його не визначає якийсь рівень.</translation>
+        <translation>Якщо ви хочете, щоб Нутка написав вашу мелодію з ритмом, ви повинні грати точно в обраному темпі - бажано з метрономом. Але під час практики, коли ви граєте мелодію, надану програмою, темп може бути будь-яким, якщо його не визначає якийсь рівень.</translation>
     </message>
 </context>
 <context>
@@ -1560,7 +1560,7 @@ But better keep them short, so divide them first in some external software.</sou
     <name>SupportPage</name>
     <message>
         <source>Donate Nootka campaign</source>
-        <translation>Кампанія Donate Nootka</translation>
+        <translation>Кампанія Donate Нутка</translation>
     </message>
     <message>
         <source>Through PayPal or a card</source>
@@ -1974,7 +1974,7 @@ But better keep them short, so divide them first in some external software.</sou
     <name>TexamHelp</name>
     <message>
         <source>When your exercising will go well Nootka will suggest you to start an exam.</source>
-        <translation>Коли ваші тренування підуть добре, Nootka запропонує вам почати іспит.</translation>
+        <translation type="unfinished">Коли ваші тренування підуть добре, Нутка запропонує вам почати іспит.</translation>
     </message>
     <message>
         <source>Exams can be saved to files and continued later. Moreover, exam files can be opened to analyze.</source>
@@ -1998,7 +1998,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source> Briefly: Nootka give you a question and you give an answer...</source>
-        <translation> Коротко: Ноотка задає вам питання, а ви даєте відповідь ...</translation>
+        <translation type="unfinished"> Коротко: Нутка задає вам питання, а ви даєте відповідь ...</translation>
     </message>
     <message>
         <source>Questions are marked with this color and &quot;?&quot; mark.</source>
@@ -2293,7 +2293,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>When no note is chosen on the score, note cursor is highlighted and blinks. Notes are added one by one, either by playing real instrument or by selecting a sound on instrument displayed by the application.</source>
-        <translation>Якщо в партитурі не вибрано жодної ноти, нотний курсор виділяється і блимає. Ноти додаються одна за одною, граючи на реальному інструменті або вибираючи звук на інструменті, який відображається програмою</translation>
+        <translation>Якщо в партитурі не вибрано жодної ноти, нотний курсор виділяється і блимає. Ноти додаються одна за одною, граючи на реальному інструменті або вибираючи звук на інструменті, який відображається програмою.</translation>
     </message>
     <message>
         <source>To deselect the note just click or tap some free part of the score sheet or use arrow keys to navigate to the note cursor.</source>
@@ -3612,7 +3612,7 @@ But better keep them short, so divide them first in some external software.</sou
     <name>WizardInstrument</name>
     <message>
         <source>What instrument do you play?</source>
-        <translation>на якому інструменті ти граєш</translation>
+        <translation>Hа якому інструменті ти граєш?</translation>
     </message>
 </context>
 <context>
