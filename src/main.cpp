@@ -136,7 +136,7 @@ int main(int argc, char *argv[])
 
         auto f = a->font();
 #if defined(Q_OS_ANDROID)
-        f.setPixelSize(nooObj->factor());
+        f.setPixelSize(nooQML->factor());
         auto pal = qApp->palette();
         pal.setColor(QPalette::Active, QPalette::Highlight, QColor(0, 160, 160)); // Teal color of highlight for Android
         pal.setColor(QPalette::Active, QPalette::Shadow, QColor(120, 120, 120)); // Dark gray for shadow
@@ -157,7 +157,7 @@ int main(int argc, char *argv[])
             pal.setColor(QPalette::Active, QPalette::Highlight, c.lighter(150));
             qApp->setPalette(pal);
         }
-        f.setPointSizeF(f.pointSizeF() * gl->guiScale());
+        f.setPointSizeF(f.pointSizeF() * glob->guiScale());
 #else
         f.setPointSizeF(f.pointSizeF() * glob->guiScale());
 #endif
@@ -240,7 +240,7 @@ int main(int argc, char *argv[])
 #if defined(Q_OS_ANDROID)
             QString androidArg = Tandroid::getRunArgument();
             if (!androidArg.isEmpty())
-                nooObj->openFile(androidArg);
+                nooQML->openFile(androidArg);
 #else
             if (argc > 1) {
                 QCommandLineParser cmd;
