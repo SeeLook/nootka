@@ -5,11 +5,11 @@
     <name>AboutPage</name>
     <message>
         <source>Welcome on the board.&lt;br&gt;Nootka is an open source application to help you in learning (and in teaching) classical score notation.</source>
-        <translation>குழுவில் வரவேற்கிறோம்.</translation>
+        <translation>குழுவிற்கு வரவேற்கிறோம்.&lt;br&gt;நூட்கா என்பது பாரம்பரிய மதிப்பெண் குறியீட்டைக் கற்க (மற்றும் கற்பிப்பதில்) உங்களுக்கு உதவும் ஒரு திறந்த மூல பயன்பாடாகும்.</translation>
     </message>
     <message>
         <source>See a &lt;a href=&quot;%1&quot;&gt;program site&lt;/a&gt; for more details and further releases.&lt;br&gt;Any bugs, suggestions, translations and so on, please report to: %2.&lt;br&gt;&lt;br&gt;with respects&lt;br&gt;Author</source>
-        <translation>மேலும் விவரங்கள் மற்றும் மேலும் வெளியீடுகளுக்கு &lt;a href=&quot; %1&quot;&gt; நிரல் தளம் &lt;/a&gt; ஐப் பார்க்கவும். &lt;br&gt; ஏதேனும் பிழைகள், பரிந்துரைகள், மொழிபெயர்ப்புகள் மற்றும் பலவற்றில், தயவுசெய்து புகாரளிக்கவும்: %2. மரியாதையுடன் &lt;br&gt; ஆசிரியர்</translation>
+        <translation>மேலும் விவரங்கள் மற்றும் மேலும் வெளியீடுகளுக்கு &lt;a href=&quot; %1&quot;&gt;நிரல் தளத்தைப்&lt;/a&gt; பார்க்கவும். &lt;br&gt; ஏதேனும் பிழைகள், பரிந்துரைகள், மொழிபெயர்ப்புகள் மற்றும் பலவற்றில், தயவுசெய்து புகாரளிக்கவும்: %2.&lt;br&gt;&lt;br&gt; மரியாதையுடன் &lt;br&gt; ஆசிரியர்</translation>
     </message>
     <message>
         <source>This is a beta version and may contain bugs or behave in unexpected ways. Also, it has unfinished features.&lt;br&gt;In spite of that, you are welcome to try it!</source>
@@ -24,11 +24,11 @@
     </message>
     <message>
         <source># - sharps</source>
-        <translation># - சார்ப்ச்</translation>
+        <translation># - மீயெடுப்புகள்</translation>
     </message>
     <message>
         <source>b - flats</source>
-        <translation>பி - பிளாட்</translation>
+        <translation>பி - தட்டைகள்</translation>
     </message>
     <message>
         <source>x, bb - double accidentals</source>
@@ -36,7 +36,7 @@
     </message>
     <message>
         <source>force using appropriate accidental</source>
-        <translation>பொருத்தமான தற்செயலைப் பயன்படுத்தி கட்டாயப்படுத்துங்கள்</translation>
+        <translation>பொருத்தமான தற்செயலைப் பயன்படுத்த கட்டாயப்படுத்து</translation>
     </message>
     <message>
         <source>single key</source>
@@ -48,31 +48,31 @@
     </message>
     <message>
         <source>Select a key signature. Appropriate accidentals used in this level will be selected automatically.</source>
-        <translation>ஒரு முக்கிய கையொப்பத்தைத் தேர்ந்தெடுக்கவும். இந்த மட்டத்தில் பயன்படுத்தப்படும் பொருத்தமான தற்செயல்கள் தானாகவே தேர்ந்தெடுக்கப்படும்.</translation>
+        <translation>ஒரு விசை கையொப்பத்தைத் தேர்ந்தெடுக்கவும். இந்த மட்டத்தில் பயன்படுத்தப்படும் பொருத்தமான தற்செயல்கள் தானாகவே தேர்ந்தெடுக்கப்படும்.</translation>
     </message>
     <message>
         <source>select a key signature manually</source>
-        <translation>ஒரு முக்கிய கையொப்பத்தை கைமுறையாகத் தேர்ந்தெடுக்கவும்</translation>
+        <translation>ஒரு விசை கையொப்பத்தை கைமுறையாகத் தேர்ந்தெடு</translation>
     </message>
     <message>
         <source>if checked, in exam user have to select a key signature, otherwise it is shown by application.</source>
-        <translation>சரிபார்க்கப்பட்டால், தேர்வு பயனர் ஒரு முக்கிய கையொப்பத்தைத் தேர்ந்தெடுக்க வேண்டும், இல்லையெனில் அது பயன்பாட்டால் காட்டப்படுகிறது.</translation>
+        <translation>சரிபார்க்கப்பட்டால், தேர்வு பயனர் ஒரு விசை கையொப்பத்தைத் தேர்ந்தெடுக்க வேண்டும், இல்லையெனில் அது பயன்பாட்டால் காட்டப்படுகிறது.</translation>
     </message>
     <message>
         <source>Only notes from current key signature are taken. If key signature is disabled accidentals are not used.</source>
-        <translation>தற்போதைய முக்கிய கையொப்பத்திலிருந்து குறிப்புகள் மட்டுமே எடுக்கப்படுகின்றன. முக்கிய கையொப்பம் முடக்கப்பட்டால் தற்செயல்கள் பயன்படுத்தப்படவில்லை.</translation>
+        <translation>தற்போதைய விசை கையொப்பத்திலிருந்து குறிப்புகள் மட்டுமே எடுக்கப்படுகின்றன. விசை கையொப்பம் முடக்கப்பட்டால் தற்செயல்கள் பயன்படுத்தப்படவில்லை.</translation>
     </message>
     <message>
         <source>notes in current key signature only</source>
-        <translation>தற்போதைய முக்கிய கையொப்பத்தில் மட்டுமே குறிப்புகள்</translation>
+        <translation>தற்போதைய விசை கையொப்பத்தில் மட்டுமே குறிப்புகள்</translation>
     </message>
     <message>
         <source>Sharps will be used in questions and answers. It has to be checked, if keys with sharps are used.</source>
-        <translation>கேள்விகள் மற்றும் பதில்களில் சார்ப்ச் பயன்படுத்தப்படும். சார்ப்சுடன் சாவிகள் பயன்படுத்தப்பட்டால், அதைச் சரிபார்க்க வேண்டும்.</translation>
+        <translation>கேள்விகள் மற்றும் பதில்களில் மீயெடுப்புகள் பயன்படுத்தப்படும். மீயெடுப்புகள் விசைகள் பயன்படுத்தப்பட்டால், அதைச் சரிபார்க்க வேண்டும்.</translation>
     </message>
     <message>
         <source>Flats will be used in questions and answers. It has to be checked, if keys with flats are used.</source>
-        <translation>கேள்விகள் மற்றும் பதில்களில் பிளாட் பயன்படுத்தப்படும். பிளாட்களுடன் விசைகள் பயன்படுத்தப்பட்டால், அதைச் சரிபார்க்க வேண்டும்.</translation>
+        <translation>கேள்விகள் மற்றும் பதில்களில் தட்டைகள் பயன்படுத்தப்படும். தட்டைகளுடன் விசைகள் பயன்படுத்தப்பட்டால், அதைச் சரிபார்க்க வேண்டும்.</translation>
     </message>
     <message>
         <source>if checked, it is possible to select a note with given accidental only.</source>
@@ -80,7 +80,7 @@
     </message>
     <message>
         <source>Only one, selected key signature for whole exam.</source>
-        <translation>ஒன்று மட்டுமே, முழு தேர்வுக்கு தேர்ந்தெடுக்கப்பட்ட முக்கிய கையொப்பம்.</translation>
+        <translation>ஒன்று மட்டுமே, முழு தேர்வுக்கு தேர்ந்தெடுக்கப்பட்ட விசை கையொப்பம்.</translation>
     </message>
     <message>
         <source>Random key signature from selected range.</source>
@@ -95,7 +95,7 @@
     </message>
     <message>
         <source>bar chart</source>
-        <translation>பார் விளக்கப்படம்</translation>
+        <translation>பட்டை விளக்கப்படம்</translation>
     </message>
     <message>
         <source>Y value:</source>
@@ -128,11 +128,11 @@
     </message>
     <message>
         <source>Use %1 + mouse wheel or %2 buttons to zoom a chart.</source>
-        <translation>ஒரு விளக்கப்படத்தை பெரிதாக்க %1 + மவுச் சக்கரம் அல்லது %2 பொத்தான்களைப் பயன்படுத்தவும்.</translation>
+        <translation>ஒரு விளக்கப்படத்தை பெரிதாக்க %1 + சுட்டி சக்கரம் அல்லது %2 பொத்தான்களைப் பயன்படுத்தவும்.</translation>
     </message>
     <message>
         <source>Click and Drag the cursor to move the chart.</source>
-        <translation>விளக்கப்படத்தை நகர்த்த கர்சரைக் சொடுக்கு செய்து இழுக்கவும்.</translation>
+        <translation>விளக்கப்படத்தை நகர்த்த நிலை காட்டியைக் சொடுக்கி இழுக்கவும்.</translation>
     </message>
     <message>
         <source>Settings of a chart</source>
@@ -156,11 +156,11 @@
     </message>
     <message>
         <source>Recent exercise on level</source>
-        <translation>மட்டத்தில் அண்மைக் கால உடற்பயிற்சி</translation>
+        <translation>மட்டத்தில் அண்மைக் கால பயிற்சி</translation>
     </message>
     <message>
         <source>include time of wrong answers to average</source>
-        <translation>சராசரிக்கு தவறான பதில்களின் நேரத்தை சேர்க்கவும்</translation>
+        <translation>சராசரிக்கு தவறான பதில்களின் நேரத்தை சேர்</translation>
     </message>
     <message>
         <source>show wrong answers separately</source>
@@ -177,7 +177,7 @@
     </message>
     <message>
         <source>fret number</source>
-        <translation>FRET எண்</translation>
+        <translation>எரிச்சலடை எண்</translation>
     </message>
     <message>
         <source>accidentals</source>
@@ -185,7 +185,7 @@
     </message>
     <message>
         <source>key signature</source>
-        <translation>முக்கிய கையொப்பம்</translation>
+        <translation>விசை கையொப்பம்</translation>
     </message>
     <message>
         <source>mistake</source>
@@ -239,15 +239,15 @@
     </message>
     <message>
         <source>wrong key signature</source>
-        <translation>தவறான முக்கிய கையொப்பம்</translation>
+        <translation>தவறான விசை கையொப்பம்</translation>
     </message>
     <message>
         <source>wrong octave</source>
-        <translation>தவறான ஆக்டேவ்</translation>
+        <translation>தவறான எண்மம்</translation>
     </message>
     <message>
         <source>out of tune</source>
-        <translation>இசைக்கு வெளியே</translation>
+        <translation>இசைஒத்திசைவு வெளியே</translation>
     </message>
     <message>
         <source>correct notes</source>
@@ -263,15 +263,15 @@
     </message>
     <message>
         <source>wrong octaves</source>
-        <translation>தவறான ஆக்டேவ்ச்</translation>
+        <translation>தவறான எண்மங்கள்</translation>
     </message>
     <message>
         <source>correct key signatures</source>
-        <translation>சரியான முக்கிய கையொப்பங்கள்</translation>
+        <translation>சரியான விசை கையொப்பங்கள்</translation>
     </message>
     <message>
         <source>wrong key signatures</source>
-        <translation>தவறான முக்கிய கையொப்பங்கள்</translation>
+        <translation>தவறான விசை கையொப்பங்கள்</translation>
     </message>
     <message>
         <source>correct positions</source>
@@ -295,12 +295,12 @@
     <message>
         <source>Bellows is opening.</source>
         <comment>Check please what bandoneon/accordion bellows does in your language. It may be more sophisticated word than &apos;opening&apos;</comment>
-        <translation>பெல்லோச் திறக்கப்படுகிறது.</translation>
+        <translation>துருத்தி திறக்கப்படுகிறது.</translation>
     </message>
     <message>
         <source>Bellows is closing.</source>
         <comment>Check please what bandoneon/accordion bellows does in your language. It may be more sophisticated word than &apos;closing&apos;</comment>
-        <translation>பெல்லோச் மூடுகிறது.</translation>
+        <translation>துருத்தி மூடுகிறது.</translation>
     </message>
 </context>
 <context>
@@ -314,7 +314,7 @@
     <name>ChartDrawer</name>
     <message>
         <source>keep opened</source>
-        <translation>திறக்க தொடர்ந்து</translation>
+        <translation>திறந்தே வை</translation>
     </message>
 </context>
 <context>
@@ -322,7 +322,7 @@
     <message>
         <source>of</source>
         <comment>It will give text: &apos;Attempt x of y&apos;</comment>
-        <translation>of</translation>
+        <translation>ஆவது</translation>
     </message>
     <message>
         <source>played</source>
@@ -338,25 +338,25 @@
     <name>DivideMelody</name>
     <message>
         <source>Divide by selected bars number</source>
-        <translation>தேர்ந்தெடுக்கப்பட்ட பார்கள் எண்ணால் வகுக்கவும்</translation>
+        <translation>தேர்ந்தெடுக்கப்பட்ட பட்டைகள் எண்ணால் வகுக்கவும்</translation>
     </message>
 </context>
 <context>
     <name>EndOnTonicTile</name>
     <message>
         <source>Determines the last note of a melody.&lt;br&gt;When set, melody will be finished on tonic note in actual key signature.</source>
-        <translation>ஒரு மெல்லிசையின் கடைசி குறிப்பை தீர்மானிக்கிறது. &lt;br&gt; அமைக்கப்பட்டால், மெலடி உண்மையான விசை கையொப்பத்தில் டானிக் குறிப்பில் முடிக்கப்படும்.</translation>
+        <translation>ஒரு மெல்லிசையின் கடைசி குறிப்பை தீர்மானிக்கிறது. &lt;br&gt; அமைக்கப்பட்டால், மெலடி உண்மையான விசை கையொப்பத்தில் பலவிருத்தி குறிப்பில் முடிக்கப்படும்.</translation>
     </message>
     <message>
         <source>Melody ends on tonic note</source>
-        <translation>டானிக் குறிப்பில் மெல்லிசை முடிகிறது</translation>
+        <translation>பலவிருத்தி குறிப்பில் மெல்லிசை முடிகிறது</translation>
     </message>
 </context>
 <context>
     <name>ExamPage</name>
     <message>
         <source>Default name for every new exam or exercise.</source>
-        <translation>ஒவ்வொரு புதிய தேர்வு அல்லது உடற்பயிற்சிக்கும் இயல்புநிலை பெயர்.</translation>
+        <translation>ஒவ்வொரு புதிய தேர்வு அல்லது பயிற்சிக்கும் இயல்புநிலை பெயர்.</translation>
     </message>
     <message>
         <source>When you will make mistake, the program will show you automatically how a correct answer should be.</source>
@@ -380,7 +380,7 @@
     </message>
     <message>
         <source>Watch exercising progress and when it is going well, suggest to start an exam on the exercise level.</source>
-        <translation>உடற்பயிற்சி செய்யும் முன்னேற்றத்தைப் பாருங்கள், அது சரியாக நடக்கும்போது, உடற்பயிற்சி மட்டத்தில் ஒரு தேர்வைத் தொடங்க பரிந்துரைக்கவும்.</translation>
+        <translation>பயிற்சி செய்யும் முன்னேற்றத்தைப் பாருங்கள், அது சரியாக நடக்கும்போது, பயிற்சி மட்டத்தில் ஒரு தேர்வைத் தொடங்க பரிந்துரைக்கவும்.</translation>
     </message>
     <message>
         <source>wait for correct note</source>
@@ -388,7 +388,7 @@
     </message>
     <message>
         <source>When melody is played from score, every note is checked immediately and next note can be played only when the previous one was correct. When unset, notes are checked only after playing the last one (or check button was clicked).</source>
-        <translation>மதிப்பெண்ணிலிருந்து மெல்லிசை விளையாடும்போது, ஒவ்வொரு குறிப்பும் உடனடியாக சரிபார்க்கப்பட்டு, முந்தைய குறிப்பை சரியாக இருந்தபோதுதான் அடுத்த குறிப்பை இயக்க முடியும். கடைசியாக விளையாடிய பின்னரே குறிப்புகள் சரிபார்க்கப்படும் (அல்லது காசோலை பொத்தான் சொடுக்கு செய்யப்பட்டது).</translation>
+        <translation>மதிப்பெண்ணிலிருந்து மெல்லிசை விளையாடும்போது, ஒவ்வொரு குறிப்பும் உடனடியாக சரிபார்க்கப்பட்டு, முந்தைய குறிப்பை சரியாக இருந்தபோதுதான் அடுத்த குறிப்பை இயக்க முடியும். கடைசியாக விளையாடிய பின்னரே குறிப்புகள் சரிபார்க்கப்படும் (அல்லது சரிபார் பொத்தான் சொடுக்கு செய்யப்பட்டது).</translation>
     </message>
     <message>
         <source>show wrong played</source>
@@ -420,11 +420,11 @@
     </message>
     <message>
         <source>If checked, an application will not ask to answer pending question just mark it as wrong, save an exam to file (in directory: %1) and close itself without any confirmation needed.</source>
-        <translation>சரிபார்க்கப்பட்டால், நிலுவையில் உள்ள கேள்விக்கு பதிலளிக்க ஒரு பயன்பாடு கேட்காது, அதை தவறாகக் குறிக்கவும், ஒரு தேர்வை கோப்பிற்கு சேமிக்கவும் (கோப்பகத்தில்: %1) மற்றும் எந்த உறுதிப்படுத்தலும் இல்லாமல் தன்னை மூடு.</translation>
+        <translation>சரிபார்க்கப்பட்டால், நிலுவையில் உள்ள கேள்விக்கு பதிலளிக்க ஒரு பயன்பாடு கேட்காது, அதை தவறாகக் குறிக்கவும், ஒரு தேர்வை கோப்பிற்கு சேமிக்கவும் (கோப்பகத்தில்: %1) மற்றும் எந்த உறுதிப்படுத்தலும் இல்லாமல் தானே மூடு.</translation>
     </message>
     <message>
         <source>Experts mode</source>
-        <translation>நிபுணர்களின் பயன்முறை</translation>
+        <translation>வல்லுநர்களின் பயன்முறை</translation>
     </message>
     <message>
         <source>You are about to enter expert mode.&lt;br&gt; In this mode you don&apos;t need to confirm every answer,&lt;br&gt;&lt;b&gt;but remember the following:</source>
@@ -432,11 +432,11 @@
     </message>
     <message>
         <source>Selecting a note on the score or a position on the fingerboard invokes automatic checking of your answer, so select a key signature first, if required.</source>
-        <translation>மதிப்பெண்ணில் ஒரு குறிப்பைத் தேர்ந்தெடுப்பது அல்லது கைரேகையில் ஒரு நிலையைத் தேர்ந்தெடுப்பது உங்கள் பதிலை தானாகவே சரிபார்க்கும், எனவே தேவைப்பட்டால் முதலில் ஒரு முக்கிய கையொப்பத்தைத் தேர்ந்தெடுக்கவும்.</translation>
+        <translation>மதிப்பெண்ணில் ஒரு குறிப்பைத் தேர்ந்தெடுப்பது அல்லது கைரேகையில் ஒரு நிலையைத் தேர்ந்தெடுப்பது உங்கள் பதிலை தானாகவே சரிபார்க்கும், எனவே தேவைப்பட்டால் முதலில் ஒரு விசை கையொப்பத்தைத் தேர்ந்தெடுக்கவும்.</translation>
     </message>
     <message>
         <source>When an answer is the name of a note &lt;b&gt;first select a proper accidental and an octave&lt;/b&gt; and then click a note button - this automatically invokes checking.</source>
-        <translation>ஒரு பதில் ஒரு குறிப்பின் பெயர் &lt;b&gt; முதலில் சரியான தற்செயலான மற்றும் ஒரு ஆக்டேவ் &lt;/b&gt; ஐத் தேர்ந்தெடுத்து குறிப்பு பொத்தானைக் சொடுக்கு செய்க - இது தானாகவே சரிபார்ப்பைத் தூண்டுகிறது.</translation>
+        <translation>ஒரு பதில் ஒரு குறிப்பின் பெயர் &lt;b&gt;முதலில் சரியான தற்செயலான மற்றும் ஒரு எண்மத்தைத்&lt;/b&gt; தேர்ந்தெடுத்து குறிப்பு பொத்தானைக் சொடுக்குக - இது தானாகவே சரிபார்ப்பைத் தூண்டுகிறது.</translation>
     </message>
     <message>
         <source>When you have to play a note as an answer - the first detected sound will be taken, so be sure that your input device captures exactly what you want.</source>
@@ -475,7 +475,7 @@
     </message>
     <message>
         <source>Open with Nootka</source>
-        <translation>நூட்காவுடன் திறந்திருக்கும்</translation>
+        <translation>நூட்காவுடன் திற</translation>
     </message>
     <message>
         <source>Nootka exam file</source>
@@ -490,7 +490,7 @@
     </message>
     <message>
         <source>enable animations</source>
-        <translation>அனிமேசன்களை இயக்கவும்</translation>
+        <translation>அசைவூட்டங்களை இயக்கு</translation>
     </message>
     <message>
         <source>show hints</source>
@@ -498,7 +498,7 @@
     </message>
     <message>
         <source>Scaling factor of visible texts and others GUI elements.&lt;br&gt;Requires application restart.</source>
-        <translation>புலப்படும் நூல்கள் மற்றும் பிற GUI கூறுகளின் அளவிடுதல் காரணி. &lt;br&gt; பயன்பாட்டு மறுதொடக்கம் தேவை.</translation>
+        <translation>புலப்படும் நூல்கள் மற்றும் பிற இடைமுக கூறுகளின் அளவிடுதல் காரணி. &lt;br&gt; பயன்பாட்டு மறுதொடக்கம் தேவை.</translation>
     </message>
     <message>
         <source>scale</source>
@@ -506,15 +506,15 @@
     </message>
     <message>
         <source>Select a language.&lt;br&gt;&lt;span style=&quot;color: red;&quot;&gt;To take effect, this requires restarting the application!&lt;/span&gt;</source>
-        <translation>ஒரு மொழியைத் தேர்ந்தெடுக்கவும்.</translation>
+        <translation>ஒரு மொழியைத் தேர்ந்தெடு.&lt;br&gt;&lt;span style=&quot;color: red;&quot;&gt;பயன்பாட்டு மறுதொடக்கம் தேவை!&lt;/span&gt;</translation>
     </message>
     <message>
         <source>Check for updates</source>
-        <translation>புதுப்பிப்புகளை சரிபார்க்கவும்</translation>
+        <translation>புதுப்பிப்புகளை சரிபார்</translation>
     </message>
     <message>
         <source>Restore all default settings</source>
-        <translation>அனைத்து இயல்புநிலை அமைப்புகளையும் மீட்டெடுக்கவும்</translation>
+        <translation>அனைத்து இயல்புநிலை அமைப்புகளையும் மீட்டெடு</translation>
     </message>
     <message>
         <source>All settings will be reset to their default values!&lt;br&gt;Nootka will start up with the first-run wizard.</source>
@@ -556,7 +556,7 @@
     </message>
     <message>
         <source>If necessary, select accidental or rhythmic value.</source>
-        <translation>தேவைப்பட்டால், தற்செயலான அல்லது தாள மதிப்பைத் தேர்ந்தெடுக்கவும்.</translation>
+        <translation>தேவைப்பட்டால், தற்செயலான அல்லது தாள மதிப்பைத் தேர்ந்தெடு.</translation>
     </message>
     <message>
         <source>Finally, tap selected note shortly.</source>
@@ -574,7 +574,7 @@
     <name>ImportInfo</name>
     <message>
         <source>Unfortunately Nootka cannot display all notes of this score at once.</source>
-        <translation>துரதிர்ச்டவசமாக நூட்கா இந்த மதிப்பெண்ணின் அனைத்து குறிப்புகளையும் ஒரே நேரத்தில் காட்ட முடியாது.</translation>
+        <translation>எதிர்பாராதவிதமாக நூட்கா இந்த மதிப்பெண்ணின் அனைத்து குறிப்புகளையும் ஒரே நேரத்தில் காட்ட முடியாது.</translation>
     </message>
     <message>
         <source>But you can select here some voice or a part and import it to the application.</source>
@@ -582,11 +582,11 @@
     </message>
     <message>
         <source>Before that, you can transform (split, transpose and etc.) score parts and also select which note of a chord will be imported.</source>
-        <translation>அதற்கு முன், நீங்கள் மாற்றலாம் (பிளவு, இடமாற்றம் மற்றும் முதலியன) மதிப்பெண் பாகங்கள் மற்றும் ஒரு நாண் எந்த குறிப்பு இறக்குமதி செய்யப்படும் என்பதைத் தேர்ந்தெடுக்கவும்.</translation>
+        <translation>அதற்கு முன், நீங்கள் மாற்றலாம் (பிளவு, இடமாற்றம் மற்றும் முதலியன) மதிப்பெண் பாகங்கள் மற்றும் ஒரு நாண் எந்த குறிப்பு இறக்குமதி செய்யப்படும் என்பதைத் தேர்ந்தெடு.</translation>
     </message>
     <message>
         <source>Voices are divided automatically when meter, clef or key changes.</source>
-        <translation>மீட்டர், கிளெஃப் அல்லது முக்கிய மாற்றங்கள் போது குரல்கள் தானாகவே பிரிக்கப்படுகின்றன.</translation>
+        <translation>அளவி, பிளவு அல்லது விசை மாற்றங்கள் போது குரல்கள் தானாகவே பிரிக்கப்படுகின்றன.</translation>
     </message>
     <message>
         <source>When you are preparing an exam or an exercise from the score parts, more fragments can be imported at once.</source>
@@ -601,7 +601,7 @@
     </message>
     <message>
         <source>number of frets:</source>
-        <translation>ஃப்ரெட்களின் எண்ணிக்கை:</translation>
+        <translation>எரிச்சலடைகளின் எண்ணிக்கை:</translation>
     </message>
     <message>
         <source>number of strings:</source>
@@ -613,11 +613,11 @@
     </message>
     <message>
         <source>Select appropriate tuning from the list or prepare your own.</source>
-        <translation>பட்டியலிலிருந்து பொருத்தமான ட்யூனிங்கைத் தேர்ந்தெடுக்கவும் அல்லது உங்கள் சொந்தத்தைத் தயாரிக்கவும்.</translation>
+        <translation>பட்டியலிலிருந்து பொருத்தமான சரிப்படுத்துதலைத் தேர்ந்தெடு அல்லது உங்கள் சொந்தத்தைத் தயாரிக்கவும்.</translation>
     </message>
     <message>
         <source>Remember to select the appropriate clef in Score settings.</source>
-        <translation>மதிப்பெண் அமைப்புகளில் பொருத்தமான CLEF ஐத் தேர்ந்தெடுக்க நினைவில் கொள்ளுங்கள்.</translation>
+        <translation>மதிப்பெண் அமைப்புகளில் பொருத்தமான பிளவைத் தேர்ந்தெடுக்க நினைவில் கொள்.</translation>
     </message>
     <message>
         <source>Difference between score notation and real sound pitch.</source>
@@ -629,15 +629,15 @@
     </message>
     <message>
         <source># - sharps</source>
-        <translation># - சார்ப்ச்</translation>
+        <translation># - மீயெடுப்புகள்</translation>
     </message>
     <message>
         <source>b - flats</source>
-        <translation>பி - பிளாட்</translation>
+        <translation>பி - தட்டைகள்</translation>
     </message>
     <message>
         <source>Choose which accidentals will be shown on the staff.</source>
-        <translation>ஊழியர்களில் எந்த தற்செயல்கள் காண்பிக்கப்படும் என்பதைத் தேர்வுசெய்க.</translation>
+        <translation>கோல்களில் எந்த தற்செயல்கள் காண்பிக்கப்படும் என்பதைத் தேர்வுசெய்க.</translation>
     </message>
     <message>
         <source>show all possibilities of a note</source>
@@ -650,11 +650,11 @@
     <message>
         <source>marked frets</source>
         <comment>or frets with dots/marks</comment>
-        <translation>குறிக்கப்பட்ட ஃப்ரீட்ச்</translation>
+        <translation>குறிக்கப்பட்ட எரிச்சலடைகள்</translation>
     </message>
     <message>
         <source>Put numbers of frets marked with dot. Separate the numbers with comma. Add ! (exclamation mark) after a number to paint a dot twice.</source>
-        <translation>புள்ளியுடன் குறிக்கப்பட்ட ஃப்ரீட்களின் எண்களை வைக்கவும். எண்களை கமாவுடன் பிரிக்கவும். சேர்க்கவும்! (exclamation mark) after a எண் பெறுநர் paint a dot twice.</translation>
+        <translation>புள்ளியுடன் குறிக்கப்பட்ட எரிச்சலடைகளின் எண்களை வைக்கவும். எண்களை கமாவுடன் பிரிக்கவும். சேர்க்கவும்! (exclamation mark) after a எண் பெறுநர் paint a dot twice.</translation>
     </message>
     <message>
         <source>color of a pointer on an instrument</source>
@@ -678,7 +678,7 @@
     <name>KeySignature</name>
     <message>
         <source>Key signature - to change it, click above or below the staff or use mouse wheel.</source>
-        <translation>முக்கிய கையொப்பம் - அதை மாற்ற, ஊழியர்களுக்கு மேலே அல்லது கீழே சொடுக்கு செய்க அல்லது சுட்டி சக்கரத்தைப் பயன்படுத்தவும்.</translation>
+        <translation>விசை கையொப்பம் - அதை மாற்ற, கோல்களுக்கு மேலே அல்லது கீழே சொடுக்குக அல்லது சுட்டி சக்கரத்தைப் பயன்படுத்தவும்.</translation>
     </message>
 </context>
 <context>
@@ -731,7 +731,7 @@
     </message>
     <message>
         <source>Play popular, simple melodies on your instrument.</source>
-        <translation>உங்கள் கருவியில் பிரபலமான, எளிய மெல்லிசைகளை விளையாடுங்கள்.</translation>
+        <translation>உங்கள் கருவியில் பெயர்பெற்ற, எளிய மெல்லிசைகளை விளையாடுங்கள்.</translation>
     </message>
     <message>
         <source>J. S. Bach - Minuet</source>
@@ -746,15 +746,15 @@
     <name>LevelsPage</name>
     <message>
         <source>Start exam</source>
-        <translation>தேர்வைத் தொடங்கவும்</translation>
+        <translation>தேர்வைத் தொடங்கு</translation>
     </message>
     <message>
         <source>Start exercise</source>
-        <translation>உடற்பயிற்சியைத் தொடங்குங்கள்</translation>
+        <translation>பயிற்சியைத் தொடங்கு</translation>
     </message>
     <message>
         <source>Get more levels &lt;a href=&quot;%1&quot;&gt;from Nootka home page&lt;/a&gt;</source>
-        <translation>நூட்கா முகப்பு பக்கத்திலிருந்து  இலிருந்து &amp;lt;ஒரு href = &quot;%1&quot;&amp;gt; அதிக நிலைகளைப் பெறுங்கள்</translation>
+        <translation>&lt;a href=&quot;%1&quot;&gt;நூட்கா முகப்பு பக்கத்திலிருந்து&lt;/a&gt; அதிக நிலைகளைப் பெறுங்கள்</translation>
     </message>
     <message>
         <source>new level</source>
@@ -883,7 +883,7 @@ But better keep them short, so divide them first in some external software.</sou
     <name>MelodyPage</name>
     <message>
         <source>They will be transposed if key signatures are set to be used and any of them differs from the key(s) defined below.</source>
-        <translation>முக்கிய கையொப்பங்கள் பயன்படுத்தப்பட்டால் அவை இடமாற்றம் செய்யப்படும், அவற்றில் ஏதேனும் கீழே வரையறுக்கப்பட்ட முக்கிய (கள்) இலிருந்து வேறுபடுகிறது.</translation>
+        <translation>விசை கையொப்பங்கள் பயன்படுத்தப்பட்டால் அவை இடமாற்றம் செய்யப்படும், அவற்றில் ஏதேனும் கீழே வரையறுக்கப்பட்ட விசை(கள்) இலிருந்து வேறுபடுகிறது.</translation>
     </message>
     <message>
         <source>Melodies are composed from notes selected on the score below.</source>
@@ -987,7 +987,7 @@ But better keep them short, so divide them first in some external software.</sou
     <message>
         <source>letters</source>
         <comment>DO NOT TRANSLATE IT DIRECTLY. Put here &apos;letters&apos; or &apos;solfege&apos; This is country preferred style of naming key signatures. &apos;letters&apos; means C-major/a-minor names (&apos;major&apos; &amp; &apos;minor&apos; also are translated by you), &apos;solfege&apos; means Do-major/La-minor names</comment>
-        <translation>கடிதங்கள்</translation>
+        <translation>எழுத்துகள்</translation>
     </message>
 </context>
 <context>
@@ -1107,11 +1107,11 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>require octave</source>
-        <translation>ஆக்டேவ் தேவை</translation>
+        <translation>எண்மம் தேவை</translation>
     </message>
     <message>
         <source>if checked, selecting of valid octave is required</source>
-        <translation>சரிபார்க்கப்பட்டால், செல்லுபடியாகும் ஆக்டேவைத் தேர்ந்தெடுப்பது தேவை</translation>
+        <translation>சரிபார்க்கப்பட்டால், செல்லுபடியாகும் எண்மத்தைத் தேர்ந்தெடுப்பது தேவை</translation>
     </message>
     <message>
         <source>use different naming styles</source>
@@ -1230,7 +1230,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Number of measures in a melody. If &apos;variable&apos; is set, it will grow up to the given value as an exercise or an exam is progressing.</source>
-        <translation>ஒரு மெல்லிசையில் நடவடிக்கைகளின் எண்ணிக்கை. &apos;மாறி&apos; அமைக்கப்பட்டால், அது ஒரு உடற்பயிற்சியாக அல்லது ஒரு தேர்வு முன்னேறும்போது கொடுக்கப்பட்ட மதிப்புக்கு வளரும்.</translation>
+        <translation>ஒரு மெல்லிசையில் நடவடிக்கைகளின் எண்ணிக்கை. &apos;மாறி&apos; அமைக்கப்பட்டால், அது ஒரு பயிற்சியாக அல்லது ஒரு தேர்வு முன்னேறும்போது கொடுக்கப்பட்ட மதிப்புக்கு வளரும்.</translation>
     </message>
     <message>
         <source>variable</source>
@@ -1249,11 +1249,11 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Key signatures</source>
-        <translation>முக்கிய கையொப்பங்கள்</translation>
+        <translation>விசை கையொப்பங்கள்</translation>
     </message>
     <message>
         <source>Clefs</source>
-        <translation>விசைகள்</translation>
+        <translation>பிளவுகள்</translation>
     </message>
     <message>
         <source>Notes naming</source>
@@ -1269,7 +1269,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Octave numbers</source>
-        <translation>ஆக்டேவ் எண்கள்</translation>
+        <translation>எண்மம் எண்கள்</translation>
     </message>
     <message>
         <source>scientific</source>
@@ -1301,7 +1301,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Shows enharmonic variants of notes.&lt;br&gt;i.e.: the note E is also Fb (F flat) &lt;i&gt;and&lt;/i&gt; Dx (D with double sharp).</source>
-        <translation>குறிப்புகளின் மேம்பாட்டு மாறுபாடுகளைக் காட்டுகிறது.</translation>
+        <translation>குறிப்புகளின் மேம்பாட்டு மாறுபாடுகளைக் காட்டுகிறது.&lt;br&gt;i.e.: the note E is also Fb (F தட்டை) &lt;i&gt;and&lt;/i&gt; Dx (D with double மீயெடுப்பு).</translation>
     </message>
     <message>
         <source>show enharmonic variants of notes</source>
@@ -1313,7 +1313,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>If checked, you can use double sharps and double flats.</source>
-        <translation>சரிபார்க்கப்பட்டால், நீங்கள் இரட்டை சார்ப்ச் மற்றும் இரட்டை பிளாட்களைப் பயன்படுத்தலாம்.</translation>
+        <translation>சரிபார்க்கப்பட்டால், நீங்கள் இரட்டை மீயெடுப்புகள் மற்றும் இரட்டை தட்டைகளைப் பயன்படுத்தலாம்.</translation>
     </message>
     <message>
         <source>use double accidentals</source>
@@ -1325,7 +1325,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>show names of key signature</source>
-        <translation>முக்கிய கையொப்பத்தின் பெயர்களைக் காட்டு</translation>
+        <translation>விசை கையொப்பத்தின் பெயர்களைக் காட்டு</translation>
     </message>
     <message>
         <source>Naming extension</source>
@@ -1333,7 +1333,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Select default clef for the application.</source>
-        <translation>பயன்பாட்டிற்கான இயல்புநிலை CLEF ஐத் தேர்ந்தெடுக்கவும்.</translation>
+        <translation>பயன்பாட்டிற்கான இயல்புநிலை பிளவைத் தேர்ந்தெடு.</translation>
     </message>
     <message>
         <source>Remember! Not all clefs are suitable for some possible tunings or instrument types!</source>
@@ -1341,11 +1341,11 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Naming style of note. The main difference is the 7th note.&lt;br&gt;Is it B and B flat, or H and B?</source>
-        <translation>குறிப்பின் பெயரிடும் பாணி. முக்கிய வேறுபாடு 7 வது குறிப்பு. &lt;br&gt; இது பி மற்றும் பி பிளாட், அல்லது எச் மற்றும் பி?</translation>
+        <translation>குறிப்பின் பெயரிடும் பாணி. முதன்மை வேறுபாடு 7 வது குறிப்பு. &lt;br&gt; இது பி மற்றும் பி தட்டை, அல்லது எச் மற்றும் பி?</translation>
     </message>
     <message>
         <source>use key signatures</source>
-        <translation>முக்கிய கையொப்பங்களைப் பயன்படுத்தவும்</translation>
+        <translation>விசை கையொப்பங்களைப் பயன்படுத்தவும்</translation>
     </message>
 </context>
 <context>
@@ -1361,19 +1361,19 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>&lt;b&gt;double flat&lt;/b&gt; - lowers a note by two semitones (whole tone).&lt;br&gt;On the guitar it is two frets down.</source>
-        <translation>&lt;b&gt; இரட்டை பிளாட் &lt;/b&gt; - இரண்டு செமிடோன்களால் (முழு தொனியும்) ஒரு குறிப்பைக் குறைக்கிறது. &lt;br&gt; கிதாரில் இது இரண்டு ஃப்ரீட்ச் கீழே உள்ளது.</translation>
+        <translation>&lt;b&gt; இரட்டை தட்டை &lt;/b&gt; - இரண்டு செமிடோன்களால் (முழு தொனியும்) ஒரு குறிப்பைக் குறைக்கிறது. &lt;br&gt; கிதாரில் இது இரண்டு எரிச்சலடைகள் கீழே உள்ளது.</translation>
     </message>
     <message>
         <source>&lt;b&gt;flat&lt;/b&gt; - lowers a note by a half tone (semitone).&lt;br&gt;On the guitar it is one fret down.</source>
-        <translation>&lt;b&gt; பிளாட் &lt;/b&gt; - ஒரு குறிப்பை அரை தொனியால் (செமிடோன்) குறைக்கிறது. &lt;br&gt; கிதாரில் இது ஒரு குறைவு.</translation>
+        <translation>&lt;b&gt; தட்டை &lt;/b&gt; - ஒரு குறிப்பை அரை தொனியால் (செமிடோன்) குறைக்கிறது. &lt;br&gt; கிதாரில் இது ஒரு குறைவு.</translation>
     </message>
     <message>
         <source>&lt;b&gt;sharp&lt;/b&gt; - raises a note by a half tone (semitone).&lt;br&gt;On the guitar it is one fret up.</source>
-        <translation>&lt;b&gt; சார்ப் &lt;/b&gt; - ஒரு குறிப்பை அரை தொனியால் (செமிடோன்) எழுப்புகிறது. &lt;br&gt; கிதாரில் இது ஒரு வெறித்தனமானது.</translation>
+        <translation>&lt;b&gt; மீயெடுப்பு &lt;/b&gt; - ஒரு குறிப்பை அரை தொனியால் (செமிடோன்) எழுப்புகிறது. &lt;br&gt; கிதாரில் இது ஒரு வெறித்தனமானது.</translation>
     </message>
     <message>
         <source>&lt;b&gt;double sharp&lt;/b&gt; - raises a note by two semitones (whole tone).&lt;br&gt;On the guitar it is two frets up.</source>
-        <translation>&lt;b&gt; டபுள் சார்ப் &lt;/b&gt; - இரண்டு செமிடோன்களால் (முழு தொனியும்) ஒரு குறிப்பை எழுப்புகிறது. &lt;br&gt; கிதாரில் இது இரண்டு ஃப்ரெட்டுகள்.</translation>
+        <translation>&lt;b&gt; இரட்டை மீயெடுப்பு &lt;/b&gt; - இரண்டு செமிடோன்களால் (முழு தொனியும்) ஒரு குறிப்பை எழுப்புகிறது. &lt;br&gt; கிதாரில் இது இரண்டு எரிச்சலடைகள் மேலே.</translation>
     </message>
 </context>
 <context>
@@ -1525,11 +1525,11 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>To start exercising or to pass new exam put in your name and select a level. To continue the previous exam, select it from the list or load from file.</source>
-        <translation>உடற்பயிற்சியைத் தொடங்க அல்லது உங்கள் பெயரில் புதிய தேர்வில் தேர்ச்சி பெற்று ஒரு நிலையைத் தேர்ந்தெடுக்கவும். முந்தைய தேர்வைத் தொடர, பட்டியலிலிருந்து அதைத் தேர்ந்தெடுக்கவும் அல்லது கோப்பிலிருந்து ஏற்றவும்.</translation>
+        <translation>பயிற்சியைத் தொடங்க அல்லது உங்கள் பெயரில் புதிய தேர்வில் தேர்ச்சி பெற்று ஒரு நிலையைத் தேர்ந்தெடுக்கவும். முந்தைய தேர்வைத் தொடர, பட்டியலிலிருந்து அதைத் தேர்ந்தெடுக்கவும் அல்லது கோப்பிலிருந்து ஏற்றவும்.</translation>
     </message>
     <message>
         <source>Start exercise on level:</source>
-        <translation>மட்டத்தில் உடற்பயிற்சியைத் தொடங்குங்கள்:</translation>
+        <translation>மட்டத்தில் பயிற்சியைத் தொடங்குங்கள்:</translation>
     </message>
     <message>
         <source>No level was selected!</source>
@@ -1698,19 +1698,19 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>clef G</source>
-        <translation>கிளெஃப் ஐயா</translation>
+        <translation>பிளவு ஐ</translation>
     </message>
     <message>
         <source>clef G dropped octave down</source>
-        <translation>கிளெஃப் ஐயா ஆக்டேவை கீழே இறக்கிவிட்டார்</translation>
+        <translation>பிளவு ஐ எண்மம் கீழே இறக்கிவிட்டார்</translation>
     </message>
     <message>
         <source>clef F</source>
-        <translation>கிளெஃப் எஃப்</translation>
+        <translation>பிளவு ஏ</translation>
     </message>
     <message>
         <source>clef C</source>
-        <translation>விசை</translation>
+        <translation>பிளவு ஆ</translation>
     </message>
     <message>
         <source>treble and bass clefs</source>
@@ -1722,11 +1722,11 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Clef for bass guitar and double bass, also used for cello and trombone.</source>
-        <translation>பாச் கிட்டார் மற்றும் இரட்டை பாசிற்கான கிளெஃப், செலோ மற்றும் டிராம்போனுக்கும் பயன்படுத்தப்படுகிறது.</translation>
+        <translation>பாச் கிட்டார் மற்றும் இரட்டை பாசிற்கான பிளவு, செலோ மற்றும் டிராம்போனுக்கும் பயன்படுத்தப்படுகிறது.</translation>
     </message>
     <message>
         <source>percussion clef</source>
-        <translation>தாள கிளெஃப்</translation>
+        <translation>தாள பிளவு</translation>
     </message>
     <message>
         <source>For rhythms only, note pitch is undefined.</source>
@@ -1734,15 +1734,15 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Common used clef (for violin, flute, saxophones, etc.)</source>
-        <translation>பொதுவான பயன்படுத்தப்பட்ட CLEF (வயலின், புல்லாங்குழல், சாக்சபோன்கள் போன்றவற்றுக்கு)</translation>
+        <translation>பொதுவான பயன்படுத்தப்பட்ட பிளவு (வயலின், புல்லாங்குழல், சாக்சபோன்கள் போன்றவற்றுக்கு)</translation>
     </message>
     <message>
         <source>Clef for guitars (classical, electric and so)</source>
-        <translation>கிதார் (கிளாசிக்கல், மின்சாரம் மற்றும் SO) க்கான CLEF</translation>
+        <translation>கிதார் (கிளாசிக்கல், மின்சாரம் மற்றும் SO) க்கான பிளவு</translation>
     </message>
     <message>
         <source>Sometimes it is called clef for viola and mostly used for this instrument.</source>
-        <translation>சில நேரங்களில் இது வயோலாவுக்கு கிளெஃப் என்று அழைக்கப்படுகிறது, மேலும் பெரும்பாலும் இந்த கருவிக்கு பயன்படுத்தப்படுகிறது.</translation>
+        <translation>சில நேரங்களில் இது வயோலாவுக்கு பிளவு என்று அழைக்கப்படுகிறது, மேலும் பெரும்பாலும் இந்த கருவிக்கு பயன்படுத்தப்படுகிறது.</translation>
     </message>
 </context>
 <context>
@@ -1765,7 +1765,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Mouse wheel changes tempo promptly (also with %1 key). Click for more options.</source>
-        <translation>சுட்டி சக்கரம் டெம்போவை உடனடியாக மாற்றுகிறது ( %1 விசையுடன்). மேலும் விருப்பங்களுக்கு சொடுக்கு செய்க.</translation>
+        <translation>சுட்டி சக்கரம் டெம்போவை உடனடியாக மாற்றுகிறது ( %1 விசையுடன்). மேலும் விருப்பங்களுக்கு சொடுக்குக.</translation>
     </message>
     <message>
         <source>Audible metronome</source>
@@ -1847,7 +1847,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>as note on the staff</source>
-        <translation>ஊழியர்களைப் பற்றிய குறிப்பு</translation>
+        <translation>கழி கோல்மேல் குறிப்பு</translation>
     </message>
     <message>
         <source>as note name</source>
@@ -1904,7 +1904,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Exercise or exam preferences</source>
-        <translation>உடற்பயிற்சி அல்லது தேர்வு விருப்பத்தேர்வுகள்</translation>
+        <translation>பயிற்சி அல்லது தேர்வு விருப்பத்தேர்வுகள்</translation>
     </message>
     <message>
         <source>repeat previous question (backspace)</source>
@@ -1944,7 +1944,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>finish exercising</source>
-        <translation>உடற்பயிற்சியை முடிக்கவும்</translation>
+        <translation>பயிற்சியை முடிக்கவும்</translation>
     </message>
     <message>
         <source>stop the exam</source>
@@ -1971,7 +1971,7 @@ But better keep them short, so divide them first in some external software.</sou
     <name>TexamHelp</name>
     <message>
         <source>When your exercising will go well Nootka will suggest you to start an exam.</source>
-        <translation>உங்கள் உடற்பயிற்சி நன்றாக செல்லும் போது நூட்கா ஒரு தேர்வைத் தொடங்க பரிந்துரைக்கும்.</translation>
+        <translation>உங்கள் பயிற்சி நன்றாக செல்லும் போது நூட்கா ஒரு தேர்வைத் தொடங்க பரிந்துரைக்கும்.</translation>
     </message>
     <message>
         <source>Exams can be saved to files and continued later. Moreover, exam files can be opened to analyze.</source>
@@ -1991,7 +1991,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>How does an exercise or an exam work?</source>
-        <translation>ஒரு உடற்பயிற்சி அல்லது தேர்வு எவ்வாறு செயல்படுகிறது?</translation>
+        <translation>ஒரு பயிற்சி அல்லது தேர்வு எவ்வாறு செயல்படுகிறது?</translation>
     </message>
     <message>
         <source> Briefly: Nootka give you a question and you give an answer...</source>
@@ -2015,11 +2015,11 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>If you made a mistake during an exercise, Nootka can show you correct answer. To see it:</source>
-        <translation>ஒரு உடற்பயிற்சியின் போது நீங்கள் தவறு செய்தால், நூட்கா உங்களுக்கு சரியான பதிலைக் காட்டலாம். அதைப் பார்க்க:</translation>
+        <translation>ஒரு பயிற்சியின் போது நீங்கள் தவறு செய்தால், நூட்கா உங்களுக்கு சரியான பதிலைக் காட்டலாம். அதைப் பார்க்க:</translation>
     </message>
     <message>
         <source>You can every time click button %1 to pause or stop exercising and to see your results.</source>
-        <translation>இடைநிறுத்த அல்லது உடற்பயிற்சியை நிறுத்தவும், உங்கள் முடிவுகளைக் காணவும் ஒவ்வொரு முறையும் பொத்தானைக் சொடுக்கு செய்யலாம்.</translation>
+        <translation>இடைநிறுத்த அல்லது பயிற்சியை நிறுத்தவும், உங்கள் முடிவுகளைக் காணவும் ஒவ்வொரு முறையும் பொத்தானைக் சொடுக்கு செய்யலாம்.</translation>
     </message>
     <message>
         <source>Exams</source>
@@ -2035,7 +2035,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Just click this settings button to adjust an exercise or an exam to your current needs.</source>
-        <translation>உங்கள் தற்போதைய தேவைகளுக்கு ஒரு உடற்பயிற்சி அல்லது ஒரு தேர்வை சரிசெய்ய இந்த அமைப்புகள் பொத்தானைக் சொடுக்கு செய்க.</translation>
+        <translation>உங்கள் தற்போதைய தேவைகளுக்கு ஒரு பயிற்சி அல்லது ஒரு தேர்வை சரிசெய்ய இந்த அமைப்புகள் பொத்தானைக் சொடுக்குக.</translation>
     </message>
     <message>
         <source>GOOD LUCK!</source>
@@ -2059,7 +2059,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>click %1 button</source>
-        <translation>%1 பொத்தானைக் சொடுக்கு செய்க</translation>
+        <translation>%1 பொத்தானைக் சொடுக்குக</translation>
     </message>
     <message>
         <source>To get question</source>
@@ -2067,7 +2067,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>press &lt;b&gt;space&lt;/b&gt; key</source>
-        <translation>&lt;b&gt; விண்வெளி &lt;/b&gt; விசையை அழுத்தவும்</translation>
+        <translation>&lt;b&gt; இடைவெளி &lt;/b&gt; விசையை அழுத்தவும்</translation>
     </message>
     <message>
         <source>press &lt;b&gt;Enter&lt;/b&gt; key</source>
@@ -2083,7 +2083,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Click %1 button to stop.</source>
-        <translation>நிறுத்த %1 பொத்தானைக் சொடுக்கு செய்க.</translation>
+        <translation>நிறுத்த %1 பொத்தானைக் சொடுக்குக.</translation>
     </message>
     <message>
         <source>tap %1</source>
@@ -2093,7 +2093,7 @@ But better keep them short, so divide them first in some external software.</sou
     <message>
         <source>Click %1 to stop.</source>
         <comment>click &lt;icon-image&gt; to stop (exam or exercise)</comment>
-        <translation>நிறுத்த %1 என்பதைக் சொடுக்கு செய்க.</translation>
+        <translation>நிறுத்த %1 என்பதைக் சொடுக்குக.</translation>
     </message>
 </context>
 <context>
@@ -2124,11 +2124,11 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Wrong key signatures</source>
-        <translation>தவறான முக்கிய கையொப்பங்கள்</translation>
+        <translation>தவறான விசை கையொப்பங்கள்</translation>
     </message>
     <message>
         <source>Wrong octaves</source>
-        <translation>தவறான ஆக்டேவ்ச்</translation>
+        <translation>தவறான எண்மங்கள்</translation>
     </message>
     <message>
         <source>Wrong note names</source>
@@ -2424,19 +2424,19 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Guess notes from grand staff in different keys</source>
-        <translation>வெவ்வேறு விசைகளில் கிராண்ட் ஊழியர்களிடமிருந்து குறிப்புகளை யூகிக்கவும்</translation>
+        <translation>வெவ்வேறு விசைகளில் கிராண்ட் கோல்களிடமிருந்து குறிப்புகளை யூகிக்கவும்</translation>
     </message>
     <message>
         <source>Bass clef</source>
-        <translation>பாச் கிளெஃப்</translation>
+        <translation>பாச் பிளவு</translation>
     </message>
     <message>
         <source>Play a short and simple melody in bass clef</source>
-        <translation>பாச் கிளெப்பில் ஒரு குறுகிய மற்றும் எளிய மெல்லிசை விளையாடுங்கள்</translation>
+        <translation>பாச் பிளவில் ஒரு குறுகிய மற்றும் எளிய மெல்லிசை விளையாடுங்கள்</translation>
     </message>
     <message>
         <source>Play grand staff</source>
-        <translation>கிராண்ட் ஊழியர்களை விளையாடுங்கள்</translation>
+        <translation>கிராண்ட் கோல்களை விளையாடுங்கள்</translation>
     </message>
     <message>
         <source>Play random melodies from two staves of piano notation. Keys up to four accidentals.</source>
@@ -2448,7 +2448,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>The simplest. No key signatures, no double accidentals and no sound.&lt;br&gt;Automatically adjusted to current tune.</source>
-        <translation>எளிமையானது. முக்கிய கையொப்பங்கள் இல்லை, இரட்டை தற்செயல்கள் இல்லை மற்றும் ஒலி இல்லை. &lt;br&gt; தற்போதைய பாடலுடன் தானாகவே சரிசெய்யப்படும்.</translation>
+        <translation>எளிமையானது. விசை கையொப்பங்கள் இல்லை, இரட்டை தற்செயல்கள் இல்லை மற்றும் ஒலி இல்லை. &lt;br&gt; தற்போதைய பாடலுடன் தானாகவே சரிசெய்யப்படும்.</translation>
     </message>
     <message>
         <source>C-major scale</source>
@@ -2456,11 +2456,11 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>In first position. No accidentals, no sound.&lt;br&gt;Octave required.</source>
-        <translation>முதல் நிலையில். தற்செயல்கள் இல்லை, ஒலி இல்லை. &lt;br&gt; ஆக்டேவ் தேவை.</translation>
+        <translation>முதல் நிலையில். தற்செயல்கள் இல்லை, ஒலி இல்லை. &lt;br&gt; எண்மம் தேவை.</translation>
     </message>
     <message>
         <source>Give note name in C-major scale or show note on the staff knowing its name.</source>
-        <translation>குறிப்பு பெயரை சி-மேசர் அளவில் கொடுங்கள் அல்லது அதன் பெயரை அறிந்த ஊழியர்களிடம் குறிப்பைக் காட்டுங்கள்.</translation>
+        <translation>குறிப்பு பெயரை சி-மேசர் அளவில் கொடுங்கள் அல்லது அதன் பெயரை அறிந்த கோல்களிடம் குறிப்பைக் காட்டுங்கள்.</translation>
     </message>
     <message>
         <source>All to V fret</source>
@@ -2472,7 +2472,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Listen to a sound and show it on the staff.&lt;br&gt;Guitar, note names and key signatures are not used.&lt;br&gt;Scale a - a&lt;sup&gt;2&lt;/sup&gt;.</source>
-        <translation>ஒரு ஒலியைக் கேட்டு ஊழியர்களில் அதைக் காட்டுங்கள். &lt;br&gt; கிட்டார், குறிப்பு பெயர்கள் மற்றும் முக்கிய கையொப்பங்கள் பயன்படுத்தப்படாது.</translation>
+        <translation>ஒரு ஒலியைக் கேட்டு கோல்களில் அதைக் காட்டுங்கள். &lt;br&gt; கிட்டார், குறிப்பு பெயர்கள் மற்றும் விசை கையொப்பங்கள் பயன்படுத்தப்படாது.</translation>
     </message>
     <message>
         <source>Melody on trebles</source>
@@ -2480,7 +2480,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Play short melody on treble strings with notes just on first three frets. Sharps keys only.</source>
-        <translation>முதல் மூன்று ஃப்ரெட்டுகளில் குறிப்புகளுடன் ட்ரெபிள் சரங்களில் குறுகிய மெல்லிசை விளையாடுங்கள். விசைகள் மட்டுமே.</translation>
+        <translation>முதல் மூன்று எரிச்சலடைகளில் குறிப்புகளுடன் ட்ரெபிள் சரங்களில் குறுகிய மெல்லிசை விளையாடுங்கள். மீயெடுப்பு விசைகள் மட்டுமே.</translation>
     </message>
     <message>
         <source>Play scores</source>
@@ -2492,15 +2492,15 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Just sing a score...&lt;br&gt;No note names, no fretboard, no keys and double accids. Scale doesn&apos;t matter because octaves are ignored - you can transpose.</source>
-        <translation>ஒரு மதிப்பெண்ணைப் பாடுங்கள் ... &lt;br&gt; குறிப்பு பெயர்கள் இல்லை, ஃப்ரெட்போர்டில், விசைகள் மற்றும் இரட்டை அமிலங்கள் இல்லை. எண்கணிதங்கள் புறக்கணிக்கப்படுவதால் அளவு ஒரு பொருட்டல்ல - நீங்கள் இடமாற்றம் செய்யலாம்.</translation>
+        <translation>ஒரு மதிப்பெண்ணைப் பாடுங்கள் ... &lt;br&gt; குறிப்பு பெயர்கள் இல்லை, ஃப்ரெட்போர்டில், விசைகள் மற்றும் இரட்டை அமிலங்கள் இல்லை. எண்மங்கள் புறக்கணிக்கப்படுவதால் அளவு ஒரு பொருட்டல்ல - நீங்கள் இடமாற்றம் செய்யலாம்.</translation>
     </message>
     <message>
         <source>Pentatonic</source>
-        <translation>பென்டடோனிக்</translation>
+        <translation>ஐந்துவிருத்தி</translation>
     </message>
     <message>
         <source>Play melody composed from pentatonic scale, every time in different key signature.</source>
-        <translation>ஒவ்வொரு முறையும் வெவ்வேறு முக்கிய கையொப்பத்தில் பென்டடோனிக் அளவிலிருந்து இயற்றப்பட்ட மெல்லிசை விளையாடுங்கள்.</translation>
+        <translation>ஒவ்வொரு முறையும் வெவ்வேறு விசை கையொப்பத்தில் ஐந்துவிருத்தி அளவிலிருந்து இயற்றப்பட்ட மெல்லிசை விளையாடுங்கள்.</translation>
     </message>
     <message>
         <source>Some note of C-major scale point on the instrument, or give its name or show in the score.</source>
@@ -2508,7 +2508,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>All chromatic notes till 5th fret, no sound.&lt;br&gt;Without double accidentals. Key signatures: C, G, D, A</source>
-        <translation>அனைத்து வண்ணக் குறிப்புகளும் 5 வது எரிச்சலடை வரை, ஒலி இல்லை. &lt;br&gt; இரட்டை தற்செயல்கள் இல்லாமல். முக்கிய கையொப்பங்கள்: ஆ ஐ ஈ ஓ</translation>
+        <translation>அனைத்து வண்ணக் குறிப்புகளும் 5 வது எரிச்சலடை வரை, ஒலி இல்லை. &lt;br&gt; இரட்டை தற்செயல்கள் இல்லாமல். விசை கையொப்பங்கள்: ஆ ஐ ஈ ஓ</translation>
     </message>
     <message>
         <source>Take your instrument and just play...&lt;br&gt;Keys till 4 accidentals and double accidentals enabled!</source>
@@ -2555,7 +2555,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>&lt;li&gt;Range of frets is beyond the scale of this level&lt;/li&gt;</source>
-        <translation>&lt;li&gt; ஃப்ரெட்களின் வீச்சு இந்த மட்டத்தின் அளவிற்கு அப்பாற்பட்டது &lt;/li&gt;</translation>
+        <translation>&lt;li&gt; எரிச்சலடைகளின் வீச்சு இந்த மட்டத்தின் அளவிற்கு அப்பாற்பட்டது &lt;/li&gt;</translation>
     </message>
     <message>
         <source>&lt;li&gt;In range of notes some accidentals are used&lt;br&gt;but not available in this level&lt;/li&gt;</source>
@@ -2567,7 +2567,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>&lt;li&gt;Questions and answers as note names will be the same. To avoid that level has to use flats and sharps and/or double accidentals and/or to use different name styles.&lt;/li&gt;</source>
-        <translation>&lt;li&gt; குறிப்பு பெயர்களாக கேள்விகள் மற்றும் பதில்கள் ஒரே மாதிரியாக இருக்கும். அந்த அளவைத் தவிர்க்க பிளாட் மற்றும் சார்ப்ச் மற்றும்/அல்லது இரட்டை தற்செயல்கள் மற்றும்/அல்லது வெவ்வேறு பெயர் பாணிகளைப் பயன்படுத்த வேண்டும். &lt;/li&gt;</translation>
+        <translation>&lt;li&gt; குறிப்பு பெயர்களாக கேள்விகள் மற்றும் பதில்கள் ஒரே மாதிரியாக இருக்கும். அந்த அளவைத் தவிர்க்க தட்டைகள் மற்றும் மீயெடுப்புகள் மற்றும்/அல்லது இரட்டை தற்செயல்கள் மற்றும்/அல்லது வெவ்வேறு பெயர் பாணிகளைப் பயன்படுத்த வேண்டும். &lt;/li&gt;</translation>
     </message>
     <message>
         <source>&lt;li&gt;&apos;Use different naming styles&apos; was checked but neither questions nor answers as note name are checked.&lt;br&gt;Check this type of answer/question or uncheck &apos;Use different naming styles&apos;.&lt;/li&gt;</source>
@@ -2575,19 +2575,19 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>&lt;li&gt;Questions and answers as notes on the staff will be the same. Manually selecting keys or forcing accidentals has to be selected to avoid that.&lt;/li&gt;</source>
-        <translation>&lt;li&gt; ஊழியர்களின் குறிப்புகள் என கேள்விகள் மற்றும் பதில்கள் ஒரே மாதிரியாக இருக்கும். அதைத் தவிர்க்க விசைகளை கைமுறையாகத் தேர்ந்தெடுப்பது அல்லது கட்டாயப்படுத்துவது தேர்ந்தெடுக்கப்பட வேண்டும். &lt;/li&gt;</translation>
+        <translation>&lt;li&gt; கோல்களின் குறிப்புகள் என கேள்விகள் மற்றும் பதில்கள் ஒரே மாதிரியாக இருக்கும். அதைத் தவிர்க்க விசைகளை கைமுறையாகத் தேர்ந்தெடுப்பது அல்லது கட்டாயப்படுத்துவது தேர்ந்தெடுக்கப்பட வேண்டும். &lt;/li&gt;</translation>
     </message>
     <message>
         <source>&lt;li&gt;Manual selecting of a key signature was checked but answer as note on the staff was not checked.&lt;/li&gt;</source>
-        <translation>&lt;li&gt; ஒரு முக்கிய கையொப்பத்தை கையேடு தேர்ந்தெடுப்பது சரிபார்க்கப்பட்டது, ஆனால் ஊழியர்களின் குறிப்பு சரிபார்க்கப்படவில்லை. &lt;/li&gt;</translation>
+        <translation>&lt;li&gt; ஒரு விசை கையொப்பத்தை கையேடு தேர்ந்தெடுப்பது சரிபார்க்கப்பட்டது, ஆனால் கோல்களின் குறிப்பு சரிபார்க்கப்படவில்லை. &lt;/li&gt;</translation>
     </message>
     <message>
         <source>&lt;li&gt;Fret range is not enough to find any note in different positions. At least &lt;b&gt;%1&lt;/b&gt; frets range is required.&lt;/li&gt;</source>
-        <translation>&lt;li&gt; வெவ்வேறு நிலைகளில் எந்த குறிப்பையும் கண்டுபிடிக்க FRET வரம்பு போதாது. குறைந்தபட்சம் &lt;b&gt;%1 &lt;/b&gt; ஃப்ரெட்ச் வரம்பு தேவை. &lt;/li&gt;</translation>
+        <translation>&lt;li&gt; வெவ்வேறு நிலைகளில் எந்த குறிப்பையும் கண்டுபிடிக்க எரிச்சலடை வரம்பு போதாது. குறைந்தபட்சம் &lt;b&gt;%1 &lt;/b&gt; எரிச்சலடைகள் வரம்பு தேவை. &lt;/li&gt;</translation>
     </message>
     <message>
         <source>&lt;li&gt;Possible missing a tonic note for some key signatures in selected note range .&lt;/li&gt;</source>
-        <translation>&lt;li&gt; தேர்ந்தெடுக்கப்பட்ட குறிப்பு வரம்பில் சில முக்கிய கையொப்பங்களுக்கான டானிக் குறிப்பைக் காணவில்லை. &lt;/li&gt;</translation>
+        <translation>&lt;li&gt; தேர்ந்தெடுக்கப்பட்ட குறிப்பு வரம்பில் சில விசை கையொப்பங்களுக்கான பலவிருத்தி குறிப்பைக் காணவில்லை. &lt;/li&gt;</translation>
     </message>
     <message>
         <source>Seems like this level has some mistakes</source>
@@ -2610,11 +2610,11 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Clef</source>
-        <translation>கிளெஃப்</translation>
+        <translation>பிளவு</translation>
     </message>
     <message>
         <source>key signature:</source>
-        <translation>முக்கிய கையொப்பம்:</translation>
+        <translation>விசை கையொப்பம்:</translation>
     </message>
     <message>
         <source>none</source>
@@ -2622,11 +2622,11 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>proper octave is required</source>
-        <translation>சரியான ஆக்டேவ் தேவை</translation>
+        <translation>சரியான எண்மம் தேவை</translation>
     </message>
     <message>
         <source>octave does no matter</source>
-        <translation>ஆக்டேவ் பொருட்படுத்தாமல் செய்கிறது</translation>
+        <translation>எண்மம் பொருட்படுத்தாமல் செய்கிறது</translation>
     </message>
     <message>
         <source>no level selected</source>
@@ -2688,7 +2688,7 @@ But better keep them short, so divide them first in some external software.</sou
     <name>TlinearChart</name>
     <message>
         <source>Key signatures given by user</source>
-        <translation>பயனரால் வழங்கப்பட்ட முக்கிய கையொப்பங்கள்</translation>
+        <translation>பயனரால் வழங்கப்பட்ட விசை கையொப்பங்கள்</translation>
     </message>
     <message>
         <source>for notes without accidentals</source>
@@ -2711,7 +2711,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Select a level and warm up yourself exercising. Then try to pass an exam.</source>
-        <translation>ஒரு நிலையைத் தேர்ந்தெடுத்து, உடற்பயிற்சி செய்வதை சூடேற்றுங்கள். பின்னர் ஒரு தேர்வில் தேர்ச்சி பெற முயற்சிக்கவும்.</translation>
+        <translation>ஒரு நிலையைத் தேர்ந்தெடுத்து, பயிற்சி செய்வதை சூடேற்றுங்கள். பின்னர் ஒரு தேர்வில் தேர்ச்சி பெற முயற்சிக்கவும்.</translation>
     </message>
     <message>
         <source>You will learn by answering questions. To answer, you can play, sing, put in the name of a note, and so on.</source>
@@ -2719,7 +2719,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>During exercising %1 the program will be your understanding and friendly teacher - it will show you corrected answers if you miss.</source>
-        <translation>%1 உடற்பயிற்சியின் போது நிரல் உங்கள் புரிதல் மற்றும் நட்பு ஆசிரியராக இருக்கும் - நீங்கள் தவறவிட்டால் சரி செய்யப்பட்ட பதில்களை இது காண்பிக்கும்.</translation>
+        <translation>%1 பயிற்சியின் போது நிரல் உங்கள் புரிதல் மற்றும் நட்பு ஆசிரியராக இருக்கும் - நீங்கள் தவறவிட்டால் சரி செய்யப்பட்ட பதில்களை இது காண்பிக்கும்.</translation>
     </message>
     <message>
         <source>During exams %1 Nootka will be your strict and &amp;quot;old school&amp;quot; master. Any mistake will be penalized with additional questions...&lt;br&gt;When you pass an exam you got a certificate!</source>
@@ -2767,7 +2767,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Shows names of all notes on the staff.</source>
-        <translation>ஊழியர்களில் அனைத்து குறிப்புகளின் பெயர்களையும் காட்டுகிறது.</translation>
+        <translation>கோல்களில் அனைத்து குறிப்புகளின் பெயர்களையும் காட்டுகிறது.</translation>
     </message>
     <message>
         <source>Additional accidentals</source>
@@ -2775,7 +2775,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Shows accidentals from the key signature also next to a note. &lt;b&gt;WARING! It never occurs in real scores - use it only for theoretical purposes.&lt;/b&gt;</source>
-        <translation>ஒரு குறிப்புக்கு அடுத்ததாக முக்கிய கையொப்பத்திலிருந்து தற்செயல்களைக் காட்டுகிறது. &lt;b&gt; எச்சரிக்கை! இது ஒருபோதும் உண்மையான மதிப்பெண்களில் ஏற்படாது - தத்துவார்த்த நோக்கங்களுக்காக மட்டுமே இதைப் பயன்படுத்துங்கள். &lt;/b&gt;</translation>
+        <translation>ஒரு குறிப்புக்கு அடுத்ததாக விசை கையொப்பத்திலிருந்து தற்செயல்களைக் காட்டுகிறது. &lt;b&gt; எச்சரிக்கை! இது ஒருபோதும் உண்மையான மதிப்பெண்களில் ஏற்படாது - தத்துவார்த்த நோக்கங்களுக்காக மட்டுமே இதைப் பயன்படுத்துங்கள். &lt;/b&gt;</translation>
     </message>
     <message>
         <source>Zoom score out</source>
@@ -2851,18 +2851,18 @@ But better keep them short, so divide them first in some external software.</sou
     <name>TnameItem</name>
     <message>
         <source>Octaves</source>
-        <translation>ஆக்டேவ்ச்</translation>
+        <translation>எண்மங்கள்</translation>
     </message>
     <message>
         <source>Click to see what &lt;i&gt;octaves&lt;/i&gt; are at &quot;http://en.wikipedia.org/wiki/Octave&quot;</source>
         <comment>You can change this link to article in your language, but please KEEP QUOTATION MARKS AROUND THAT ADDRESS!</comment>
-        <translation>&lt;i&gt; ஆக்டேவ்ச் &lt;/i&gt; &quot;http://en.wikipedia.org/wiki/octave&quot; இல் இருப்பதைக் காண சொடுக்கு செய்க</translation>
+        <translation>&lt;i&gt; எண்மங்கள் &lt;/i&gt; &quot;http://en.wikipedia.org/wiki/octave&quot; இல் இருப்பதைக் காண சொடுக்குக</translation>
     </message>
     <message numerus="yes">
         <source>The octave &lt;b&gt;%n&lt;/b&gt; in International Pitch Notation</source>
         <translation>
-            <numerusform>பன்னாட்டு சுருதி குறியீட்டில் ஆக்டேவ் &lt;b&gt;%n &lt;/b&gt;</numerusform>
-            <numerusform>பன்னாட்டு சுருதி குறியீட்டில் ஆக்டேவ் &lt;b&gt;%n &lt;/b&gt;</numerusform>
+            <numerusform>பன்னாட்டு சுருதி குறியீட்டில் எண்மம் &lt;b&gt;%n &lt;/b&gt;</numerusform>
+            <numerusform>பன்னாட்டு சுருதி குறியீட்டில் எண்மம் &lt;b&gt;%n &lt;/b&gt;</numerusform>
         </translation>
     </message>
 </context>
@@ -2968,35 +2968,35 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Subcontra octave</source>
-        <translation>சப் கான்ட்ரா ஆக்டேவ்</translation>
+        <translation>சப் கான்ட்ரா எண்மம்</translation>
     </message>
     <message>
         <source>Contra octave</source>
-        <translation>கான்ட்ரா ஆக்டேவ்</translation>
+        <translation>கான்ட்ரா எண்மம்</translation>
     </message>
     <message>
         <source>Great octave</source>
-        <translation>பெரிய ஆக்டோவ்</translation>
+        <translation>பெரிய எண்மம்</translation>
     </message>
     <message>
         <source>Small octave</source>
-        <translation>சிறிய ஆக்டோவ்</translation>
+        <translation>சிறிய எண்மம்</translation>
     </message>
     <message>
         <source>One-line octave</source>
-        <translation>ஒரு வரி ஆக்டேவ்</translation>
+        <translation>ஒரு வரி எண்மம்</translation>
     </message>
     <message>
         <source>Two-line octave</source>
-        <translation>இரண்டு வரி ஆக்டேவ்</translation>
+        <translation>இரண்டு வரி எண்மம்</translation>
     </message>
     <message>
         <source>Three-line octave</source>
-        <translation>மூன்று வரி ஆக்டேவ்</translation>
+        <translation>மூன்று வரி எண்மம்</translation>
     </message>
     <message>
         <source>Four-line octave</source>
-        <translation>நான்கு வரி ஆக்டேவ்</translation>
+        <translation>நான்கு வரி எண்மம்</translation>
     </message>
 </context>
 <context>
@@ -3029,7 +3029,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>raise or drop about octave</source>
-        <translation>ஆக்டேவ் பற்றி உயர்த்தவும் அல்லது கைவிடவும்</translation>
+        <translation>எண்மம் பற்றி உயர்த்தவும் அல்லது கைவிடவும்</translation>
     </message>
     <message>
         <source>convert into rests</source>
@@ -3173,7 +3173,7 @@ But better keep them short, so divide them first in some external software.</sou
     <name>TstartExamDlg</name>
     <message>
         <source>To exercise or to pass an exam?</source>
-        <translation>உடற்பயிற்சி செய்ய அல்லது ஒரு தேர்வில் தேர்ச்சி பெற வேண்டுமா?</translation>
+        <translation>பயிற்சி செய்ய அல்லது ஒரு தேர்வில் தேர்ச்சி பெற வேண்டுமா?</translation>
     </message>
     <message>
         <source>Exam results</source>
@@ -3274,11 +3274,11 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Change enharmonically and show on the staff</source>
-        <translation>மேம்பட்ட முறையில் மாற்றி ஊழியர்களைக் காட்டுங்கள்</translation>
+        <translation>மேம்பட்ட முறையில் மாற்றி கோல்களைக் காட்டுங்கள்</translation>
     </message>
     <message>
         <source>Given note show on the staff</source>
-        <translation>ஊழியர்கள் மீது கொடுக்கப்பட்ட குறிப்பு காட்சி</translation>
+        <translation>கோல்கள் மீது கொடுக்கப்பட்ட குறிப்பு காட்சி</translation>
     </message>
     <message>
         <source>&lt;br&gt;&lt;b&gt;in %1 key.&lt;/b&gt;</source>
@@ -3303,7 +3303,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Show on the staff</source>
-        <translation>ஊழியர்களைக் காட்டு</translation>
+        <translation>கோல்களைக் காட்டு</translation>
     </message>
     <message>
         <source>Change enharmonically and give name of</source>
@@ -3325,11 +3325,11 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Guess a key signature</source>
-        <translation>ஒரு முக்கிய கையொப்பத்தை யூகிக்கவும்</translation>
+        <translation>ஒரு விசை கையொப்பத்தை யூகிக்கவும்</translation>
     </message>
     <message>
         <source>Listened sound show on the staff</source>
-        <translation>ஊழியர்களிடம் ஒலி நிகழ்ச்சி கேட்டது</translation>
+        <translation>கோல்களிடம் ஒலி நிகழ்ச்சி கேட்டது</translation>
     </message>
     <message>
         <source>Give name of listened sound</source>
@@ -3573,11 +3573,11 @@ But better keep them short, so divide them first in some external software.</sou
     <name>WizardBando</name>
     <message>
         <source>Notes for bandoneon are written on the grand staff - two staves joined with brace.</source>
-        <translation>பாண்டோனியனுக்கான குறிப்புகள் கிராண்ட் ஊழியர்களில் எழுதப்பட்டுள்ளன - இரண்டு தண்டுகள் பிரேசுடன் இணைந்தன.</translation>
+        <translation>பாண்டோனியனுக்கான குறிப்புகள் கிராண்ட் கோல்களில் எழுதப்பட்டுள்ளன - இரண்டு தண்டுகள் பிரேசுடன் இணைந்தன.</translation>
     </message>
     <message>
         <source>All notes on the upper staff with treble clef are played with right hand and the notes on the lower one with bass clef are played with the left hand.</source>
-        <translation>முக்கூறான அதிர்வெல்லையை கொண்ட மேல் ஊழியர்களின் அனைத்து குறிப்புகளும் வலது கையால் இயக்கப்படுகின்றன மற்றும் அடித்தொனி அதிர்வெல்லையுடன் கீழ் ஒன்றில் உள்ள குறிப்புகள் இடது கையால் இயக்கப்படுகின்றன.</translation>
+        <translation>முக்கூறான அதிர்வெல்லையை கொண்ட மேல் கோல்களின் அனைத்து குறிப்புகளும் வலது கையால் இயக்கப்படுகின்றன மற்றும் அடித்தொனி அதிர்வெல்லையுடன் கீழ் ஒன்றில் உள்ள குறிப்புகள் இடது கையால் இயக்கப்படுகின்றன.</translation>
     </message>
     <message>
         <source>Direction of bellows movement is marked with bowing symbols:</source>
@@ -3588,18 +3588,18 @@ But better keep them short, so divide them first in some external software.</sou
     <name>WizardBass</name>
     <message>
         <source>Musical notation for bass guitar uses bass clef (clef F), but the notes sound one octave lower. It means bass guitar is transposing instrument and it transposes one octave down.</source>
-        <translation>பாச் கிதார் இசை குறியீடு பாச் கிளெஃப் (கிளெஃப் எஃப்) ஐப் பயன்படுத்துகிறது, ஆனால் குறிப்புகள் ஒரு ஆக்டேவ் குறைவாக ஒலிக்கின்றன. இதன் பொருள் பாச் கிதார் கருவி மற்றும் அதன் இடமாற்றம் ஒரு ஆக்டேவை கீழே மாற்றுகிறது.</translation>
+        <translation>பாச் கிதார் இசை குறியீடு பாச் கிளெஃப் (கிளெஃப் எஃப்) ஐப் பயன்படுத்துகிறது, ஆனால் குறிப்புகள் ஒரு எண்மம் குறைவாக ஒலிக்கின்றன. இதன் பொருள் பாச் கிதார் கருவி மற்றும் அதன் இடமாற்றம் ஒரு எண்மத்தை கீழே மாற்றுகிறது.</translation>
     </message>
 </context>
 <context>
     <name>WizardGuitars</name>
     <message>
         <source>Guitar notation uses the treble clef with the digit &quot;eight&quot; written below &lt;br&gt;(even if some editors are forgetting about this digit).&lt;br&gt;Try to understand this.</source>
-        <translation>கிட்டார் குறியீடு &lt;br&gt; கீழே எழுதப்பட்ட &quot;எட்டு&quot; இலக்கத்துடன் ட்ரெபிள் கிளெப்பைப் பயன்படுத்துகிறது (சில ஆசிரியர்கள் இந்த இலக்கத்தை மறந்துவிட்டாலும் கூட). &lt;br&gt; இதைப் புரிந்து கொள்ள முயற்சிக்கவும்.</translation>
+        <translation>கிட்டார் குறியீடு &lt;br&gt; கீழே எழுதப்பட்ட &quot;எட்டு&quot; இலக்கத்துடன் ட்ரெபிள் பிளவைப் பயன்படுத்துகிறது (சில ஆசிரியர்கள் இந்த இலக்கத்தை மறந்துவிட்டாலும் கூட). &lt;br&gt; இதைப் புரிந்து கொள்ள முயற்சிக்கவும்.</translation>
     </message>
     <message>
         <source>Both pictures above show the same note!%1(note c in one-line octave)</source>
-        <translation>மேலே உள்ள இரண்டு படங்களும் ஒரே குறிப்பைக் காட்டுகின்றன!%1 (குறிப்பு சி ஒரு வரி ஆக்டேவில்)</translation>
+        <translation>மேலே உள்ள இரண்டு படங்களும் ஒரே குறிப்பைக் காட்டுகின்றன!%1 (குறிப்பு சி ஒரு வரி எண்மத்தில்)</translation>
     </message>
 </context>
 <context>
@@ -3640,7 +3640,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>I know about double sharps (x) and double flats (bb)</source>
-        <translation>இரட்டை சார்ப்ச் (எக்ச்) மற்றும் இரட்டை பிளாட் (பிபி) பற்றி எனக்குத் தெரியும்</translation>
+        <translation>இரட்டை மீயெடுப்புகள் (எக்ச்) மற்றும் இரட்டை தட்டைகள் (பிபி) பற்றி எனக்குத் தெரியும்</translation>
     </message>
     <message>
         <source>I know that e# is the same as f</source>
@@ -3648,21 +3648,21 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>I know about key signatures</source>
-        <translation>முக்கிய கையொப்பங்கள் பற்றி எனக்குத் தெரியும்</translation>
+        <translation>விசை கையொப்பங்கள் பற்றி எனக்குத் தெரியும்</translation>
     </message>
 </context>
 <context>
     <name>WizardOther</name>
     <message>
         <source>Select a clef and scale of notes appropriate for your instrument.</source>
-        <translation>உங்கள் கருவிக்கு பொருத்தமான ஒரு கிளெஃப் மற்றும் அளவிலான குறிப்புகளைத் தேர்ந்தெடுக்கவும்.</translation>
+        <translation>உங்கள் கருவிக்கு பொருத்தமான ஒரு பிளவு மற்றும் அளவிலான குறிப்புகளைத் தேர்ந்தெடுக்கவும்.</translation>
     </message>
 </context>
 <context>
     <name>WizardPiano</name>
     <message>
         <source>Notes for piano are written on the grand staff - two staves joined with brace. Usually the upper one, with treble clef is for right hand and the lower one with bass clef is for left hand.</source>
-        <translation>பியானோவிற்கான குறிப்புகள் கிராண்ட் ஊழியர்களில் எழுதப்பட்டுள்ளன - இரண்டு தண்டுகள் பிரேசுடன் இணைந்தன. வழக்கமாக மேல் ஒன்று, ட்ரெபிள் கிளெஃப் உடன் வலது கைக்கு மற்றும் பாச் கிளெஃப் உடன் கீழ் ஒன்று இடது கைக்கு.</translation>
+        <translation>பியானோவிற்கான குறிப்புகள் கிராண்ட் கோல்களில் எழுதப்பட்டுள்ளன - இரண்டு தண்டுகள் பிரேசுடன் இணைந்தன. வழக்கமாக மேல் ஒன்று, ட்ரெபிள் பிளவு உடன் வலது கைக்கு மற்றும் பாச் பிளவு உடன் கீழ் ஒன்று இடது கைக்கு.</translation>
     </message>
     <message>
         <source>Although for exercise purposes and also due to Nootka is supporting only single voice, sometimes just one of the staves can be used as well.</source>
