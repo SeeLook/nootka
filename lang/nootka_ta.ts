@@ -120,7 +120,7 @@
     </message>
     <message>
         <source>Analyze</source>
-        <translation>பகுப்பாய்வு செய்யுங்கள்</translation>
+        <translation>பகுப்பாய்வு</translation>
     </message>
     <message>
         <source>Press %1 button to select an exam from a file.</source>
@@ -197,7 +197,7 @@
     </message>
     <message>
         <source>Analysis of exercise</source>
-        <translation>உடற்பயிற்சியின் பகுப்பாய்வு</translation>
+        <translation>பயிற்சியின் பகுப்பாய்வு</translation>
     </message>
     <message>
         <source>Analysis of exam results</source>
@@ -451,7 +451,7 @@
     <name>ExamSummary</name>
     <message>
         <source>Analyze</source>
-        <translation>பகுப்பாய்வு செய்யுங்கள்</translation>
+        <translation>பகுப்பாய்வு</translation>
     </message>
     <message>
         <source>Pass an exam</source>
@@ -518,7 +518,7 @@
     </message>
     <message>
         <source>All settings will be reset to their default values!&lt;br&gt;Nootka will start up with the first-run wizard.</source>
-        <translation>எல்லா அமைப்புகளும் அவற்றின் இயல்புநிலை மதிப்புகளுக்கு மீட்டமைக்கப்படும்! &lt;br&gt; நூட்கா முதல் இயங்கும் வழிகாட்டி மூலம் தொடங்கும்.</translation>
+        <translation>எல்லா அமைப்புகளும் அவற்றின் இயல்புநிலை மதிப்புகளுக்கு மீட்டமைக்கப்படும்! &lt;br&gt; நூட்கா முதல் இயங்கும் வழிகாட்டிமூலம் தொடங்கும்.</translation>
     </message>
 </context>
 <context>
@@ -840,7 +840,7 @@
     </message>
     <message>
         <source>arpeggiate chords and insert all notes</source>
-        <translation>ஆர்பெசியேட் நாண் மற்றும் அனைத்து குறிப்புகளையும் செருகவும்</translation>
+        <translation>ஏற்றிசையில் மிழற்றப்படும் நாண் மற்றும் அனைத்து குறிப்புகளையும் செருகவும்</translation>
     </message>
     <message>
         <source>Select one of the notes</source>
@@ -848,7 +848,7 @@
     </message>
     <message>
         <source>Arpeggiate chord</source>
-        <translation>ஆர்பெசியேட் நாண்</translation>
+        <translation>ஏற்றிசையில் மிழற்றப்படும் நாண்</translation>
     </message>
     <message>
         <source>This fragment contains elements of musical score which are not supported by Nootka!</source>
@@ -861,7 +861,7 @@
         <source>Add here melodies from Music XML files.
 But better keep them short, so divide them first in some external software.</source>
         <translation>இசை எக்ச்எம்எல் கோப்புகளிலிருந்து மெல்லிசைகளை இங்கே சேர்க்கவும்.
- ஆனால் அவற்றைக் குறுகியதாக வைத்திருப்பது நல்லது, எனவே அவற்றை முதலில் சில வெளிப்புற மென்பொருளில் பிரிக்கவும்.</translation>
+ஆனால் அவற்றைக் குறுகியதாக வைத்திருப்பது நல்லது, எனவே அவற்றை முதலில் சில வெளிப்புற மென்பொருளில் பிரிக்கவும்.</translation>
     </message>
 </context>
 <context>
@@ -1146,11 +1146,11 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>adjust fret range</source>
-        <translation>FRET வரம்பை சரிசெய்யவும்</translation>
+        <translation>எரிச்சலடை வரம்பைச் சரிசெய்</translation>
     </message>
     <message>
         <source>Adjust fret range in a level to currently selected note range</source>
-        <translation>தற்போது தேர்ந்தெடுக்கப்பட்ட குறிப்பு வரம்பிற்கு ஒரு மட்டத்தில் FRET வரம்பை சரிசெய்யவும்</translation>
+        <translation>தற்போது தேர்ந்தெடுக்கப்பட்ட குறிப்பு வரம்பிற்கு ஒரு மட்டத்தில் எரிச்சலடை வரம்பைச் சரிசெய்</translation>
     </message>
     <message>
         <source>fret range:</source>
@@ -1166,11 +1166,11 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>adjust note range</source>
-        <translation>குறிப்பு வரம்பை சரிசெய்யவும்</translation>
+        <translation>குறிப்பு வரம்பைச் சரிசெய்</translation>
     </message>
     <message>
         <source>Adjust note range in a level to currently selected fret range</source>
-        <translation>தற்போது தேர்ந்தெடுக்கப்பட்ட FRET வரம்பிற்கு குறிப்பு வரம்பை சரிசெய்யவும்</translation>
+        <translation>தற்போது தேர்ந்தெடுக்கப்பட்ட எரிச்சலடை வரம்பிற்கு குறிப்பு வரம்பைச் சரிசெய்</translation>
     </message>
     <message>
         <source>Uncheck strings if you want to skip them in an exam.</source>
@@ -1395,11 +1395,11 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Adjust minimal note volume a little below of your input volume level.</source>
-        <translation>உங்கள் உள்ளீட்டு தொகுதி அளவிற்கு சற்று கீழே குறைந்தபட்ச குறிப்பு அளவை சரிசெய்யவும்.</translation>
+        <translation>உங்கள் உள்ளீட்டு ஒலி அளவிற்கு சற்று கீழே குறைந்தபட்ச குறிப்பு அளவை சரிசெய்.</translation>
     </message>
     <message>
         <source>Aim to play loud and clear and avoid dirty sounds specific to your instrument.</source>
-        <translation>சத்தமாகவும் தெளிவாகவும் விளையாடுவதை நோக்கமாகக் கொண்டு, உங்கள் கருவிக்கு குறிப்பிட்ட அழுக்கு ஒலிகளைத் தவிர்க்கவும்.</translation>
+        <translation>சத்தமாகவும் தெளிவாகவும் விளையாடுவதை நோக்கமாகக் கொண்டு, உங்கள் கருவிக்குக் குறிப்பிட்ட அழுக்கு ஒலிகளைத் தவிர்.</translation>
     </message>
     <message>
         <source>Nootka recognizes played sounds and theirs duration (rhythms). But to achieve accurate results it requires some preparations and a little patience. Here are some clues:</source>
@@ -1498,7 +1498,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>All sounds captured by audio input will be forwarded directly to output device.</source>
-        <translation>ஆடியோ உள்ளீட்டால் கைப்பற்றப்பட்ட அனைத்து ஒலிகளும் நேரடியாக வெளியீட்டு சாதனத்திற்கு அனுப்பப்படும்.</translation>
+        <translation>ஒலிப்பதிவு உள்ளீட்டால் கைப்பற்றப்பட்ட அனைத்து ஒலிகளும் நேரடியாக வெளியீட்டு சாதனத்திற்கு அனுப்பப்படும்.</translation>
     </message>
     <message>
         <source>forward input to output</source>
@@ -1686,7 +1686,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>alto</source>
-        <translation>ஆல்டோ</translation>
+        <translation>உச்ச ஆண்குரல்</translation>
     </message>
     <message>
         <source>tenor</source>
@@ -2051,7 +2051,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>ask next question automatically</source>
-        <translation>அடுத்த கேள்வியை தானாகவே கேளுங்கள்</translation>
+        <translation>அடுத்த கேள்வியைத் தானாகவே கேள்</translation>
     </message>
     <message>
         <source>or right mouse button</source>
@@ -2309,7 +2309,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>ascending - you are thinking too much</source>
-        <translation>ஏறுதல் - நீங்கள் அதிகமாக யோசிக்கிறீர்கள்</translation>
+        <translation>ஏறுதல் - நீங்கள் அதிகமாகச் சிந்திக்கிறீர்கள்</translation>
     </message>
 </context>
 <context>
@@ -2368,7 +2368,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Alt Saxophone</source>
-        <translation>ஆல்ட் சாக்சபோன்</translation>
+        <translation>மாற்று கூம்பிசைக்க‌ருவி</translation>
     </message>
     <message>
         <source>Tenor Saxophone</source>
@@ -2464,7 +2464,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>All to V fret</source>
-        <translation>அனைத்தும் வி ஃப்ரெட்</translation>
+        <translation>அனைத்தும் வி எரிச்சலடை</translation>
     </message>
     <message>
         <source>Ear training</source>
@@ -2508,7 +2508,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>All chromatic notes till 5th fret, no sound.&lt;br&gt;Without double accidentals. Key signatures: C, G, D, A</source>
-        <translation>அனைத்து வண்ணக் குறிப்புகளும் 5 வது சினம் வரை, ஒலி இல்லை. &lt;br&gt; இரட்டை தற்செயல்கள் இல்லாமல். முக்கிய கையொப்பங்கள்: சி, சி, டி, அ</translation>
+        <translation>அனைத்து வண்ணக் குறிப்புகளும் 5 வது எரிச்சலடை வரை, ஒலி இல்லை. &lt;br&gt; இரட்டை தற்செயல்கள் இல்லாமல். முக்கிய கையொப்பங்கள்: ஆ ஐ ஈ ஓ</translation>
     </message>
     <message>
         <source>Take your instrument and just play...&lt;br&gt;Keys till 4 accidentals and double accidentals enabled!</source>
@@ -2896,7 +2896,7 @@ But better keep them short, so divide them first in some external software.</sou
     <message>
         <source>As a witness to this accomplishment,&lt;br&gt;we hereby award this certificate on &lt;b&gt;[DATE]&lt;/b&gt;.</source>
         <comment>Under results - single indent</comment>
-        <translation>இந்த சாதனைக்கு சாட்சியாக, &lt;b&gt; [தேதி] &lt;/b&gt; இல் இந்த சான்றிதழை வழங்குகிறோம்.</translation>
+        <translation>இந்தச் சாதனைக்குச் சாட்சியாக, &lt;b&gt; [தேதி] &lt;/b&gt; இல் இந்தச் சான்றிதழை வழங்குகிறோம்.</translation>
     </message>
     <message>
         <source>&lt;small&gt;&lt;i&gt;examining board:&lt;/i&gt;&lt;br&gt;&lt;i&gt;president:&lt;/i&gt;&lt;b&gt; Nootka itself&lt;/b&gt;&lt;br&gt;&lt;b&gt;professor Processor&lt;/b&gt; &amp;amp;&lt;br&gt;&lt;b&gt;Mrs RAM&lt;/b&gt; his assistant&lt;br&gt;&lt;i&gt;secretary:&lt;/i&gt;&lt;b&gt; Mr Disk&lt;/b&gt;&lt;/small&gt;</source>
@@ -2952,19 +2952,19 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>1-line</source>
-        <translation>1-வரி</translation>
+        <translation>வரி-1</translation>
     </message>
     <message>
         <source>2-line</source>
-        <translation>2-வரி</translation>
+        <translation>வரி-2</translation>
     </message>
     <message>
         <source>3-line</source>
-        <translation>3-வரி</translation>
+        <translation>வரி-3</translation>
     </message>
     <message>
         <source>4-line</source>
-        <translation>4-வரி</translation>
+        <translation>வரி-4</translation>
     </message>
     <message>
         <source>Subcontra octave</source>
@@ -3130,7 +3130,7 @@ But better keep them short, so divide them first in some external software.</sou
     <name>TsettingsDialog</name>
     <message>
         <source>application&apos;s settings</source>
-        <translation>விண்ணப்பத்தின் அமைப்புகள்</translation>
+        <translation>பயன்பாட்டின் அமைப்புகள்</translation>
     </message>
     <message>
         <source>Common</source>
@@ -3426,7 +3426,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Analyze</source>
-        <translation>பகுப்பாய்வு செய்யுங்கள்</translation>
+        <translation>பகுப்பாய்வு</translation>
     </message>
 </context>
 <context>
@@ -3461,11 +3461,11 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>5-str. bass: B E A D G</source>
-        <translation>5-Str. பாச்: b இ a டி g</translation>
+        <translation>5-சர. அடித்தொனி: ஔ ஊ ஓ ஈ ஐ</translation>
     </message>
     <message>
         <source>6-str. bass: B E A D G C</source>
-        <translation>6-Str. பாச்: b இ a டி g c</translation>
+        <translation>6-சர. அடித்தொனி: ஔ ஊ ஓ ஈ ஐ ஆ</translation>
     </message>
     <message>
         <source>Standard C: G C E A</source>
@@ -3577,7 +3577,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>All notes on the upper staff with treble clef are played with right hand and the notes on the lower one with bass clef are played with the left hand.</source>
-        <translation>ட்ரெபிள் கிளெஃப் கொண்ட மேல் ஊழியர்களின் அனைத்து குறிப்புகளும் வலது கையால் இயக்கப்படுகின்றன மற்றும் பாச் கிளெஃப் உடன் கீழ் ஒன்றில் உள்ள குறிப்புகள் இடது கையால் இயக்கப்படுகின்றன.</translation>
+        <translation>முக்கூறான அதிர்வெல்லையை கொண்ட மேல் ஊழியர்களின் அனைத்து குறிப்புகளும் வலது கையால் இயக்கப்படுகின்றன மற்றும் அடித்தொனி அதிர்வெல்லையுடன் கீழ் ஒன்றில் உள்ள குறிப்புகள் இடது கையால் இயக்கப்படுகின்றன.</translation>
     </message>
     <message>
         <source>Direction of bellows movement is marked with bowing symbols:</source>
@@ -3636,7 +3636,7 @@ But better keep them short, so divide them first in some external software.</sou
     <name>WizardOptions</name>
     <message>
         <source>7th note can be B or H, depends on country&lt;br&gt;What is the name of 7th note in your country?</source>
-        <translation>7 வது குறிப்பு B அல்லது H ஆக இருக்கலாம், நாட்டைப் பொறுத்தது &lt;br&gt; உங்கள் நாட்டில் 7 வது குறிப்பின் பெயர் என்ன?</translation>
+        <translation>7 வது குறிப்பு ஔ அல்லது ஃ ஆக இருக்கலாம், நாட்டைப் பொறுத்தது &lt;br&gt; உங்கள் நாட்டில் 7 வது குறிப்பின் பெயர் என்ன?</translation>
     </message>
     <message>
         <source>I know about double sharps (x) and double flats (bb)</source>
@@ -3666,7 +3666,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Although for exercise purposes and also due to Nootka is supporting only single voice, sometimes just one of the staves can be used as well.</source>
-        <translation>உடற்பயிற்சி நோக்கங்களுக்காகவும், நூட்கா காரணமாகவும் ஒற்றை குரலை மட்டுமே ஆதரிக்கிறது என்றாலும், சில நேரங்களில் தண்டுகளில் ஒன்றையும் பயன்படுத்த முடியும்.</translation>
+        <translation>பயிற்சி நோக்கங்களுக்காகவும், நூட்கா காரணமாகவும் ஒற்றை குரலை மட்டுமே ஆதரிக்கிறது என்றாலும், சில நேரங்களில் தண்டுகளில் ஒன்றையும் பயன்படுத்த முடியும்.</translation>
     </message>
 </context>
 <context>
