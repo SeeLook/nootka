@@ -185,9 +185,9 @@ void TlevelSelector::loadFromFile(QString levelFile)
 {
     if (levelFile.isEmpty())
 #if defined(Q_OS_ANDROID)
-        if (GLOB->E->levelsDir.isEmpty())
-            GLOB->E->levelsDir = Tandroid::getExternalPath();
-    levelFile = TfileDialog::getOpenFileName(GLOB->E->levelsDir, QStringLiteral("nel"));
+        if (GLOB->examParams->levelsDir.isEmpty())
+            GLOB->examParams->levelsDir = Tandroid::getExternalPath();
+    levelFile = TfileDialog::getOpenFileName(GLOB->examParams->levelsDir, QStringLiteral("nel"));
 #else
         levelFile = TfileDialog::getOpenFileName(tr("Load exam level"), GLOB->examParams->levelsDir, levelFilterTxt() + QLatin1String(" (*.nel)"));
 #endif

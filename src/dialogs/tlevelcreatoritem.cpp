@@ -103,8 +103,8 @@ void TlevelCreatorItem::continueLevelSave(const QString &name, const QString &de
     m_level->desc = desc;
 
 #if defined(Q_OS_ANDROID)
-    if (GLOB->E->levelsDir.isEmpty())
-        GLOB->E->levelsDir = Tandroid::getExternalPath();
+    if (GLOB->examParams->levelsDir.isEmpty())
+        GLOB->examParams->levelsDir = Tandroid::getExternalPath();
 #endif
     // Saving to file
     QLatin1String dotNel(".nel");

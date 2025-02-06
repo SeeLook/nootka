@@ -121,9 +121,9 @@ void TstartExamItem::continuePrevExam()
 void TstartExamItem::examFromFileDialog()
 {
 #if defined(Q_OS_ANDROID)
-    if (GLOB->E->examsDir.isEmpty())
-        GLOB->E->examsDir = Tandroid::getExternalPath();
-    QString fileName = TfileDialog::getOpenFileName(GLOB->E->examsDir, QStringLiteral("noo"));
+    if (GLOB->examParams->examsDir.isEmpty())
+        GLOB->examParams->examsDir = Tandroid::getExternalPath();
+    QString fileName = TfileDialog::getOpenFileName(GLOB->examParams->examsDir, QStringLiteral("noo"));
 #else
     QString fileName = TfileDialog::getOpenFileName(TexTrans::loadExamFileTxt(), GLOB->examParams->examsDir, TexTrans::examFilterTxt());
 #endif

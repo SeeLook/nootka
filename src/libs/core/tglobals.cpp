@@ -755,9 +755,10 @@ void Tglobals::loadSettings(QSettings *cfg)
     scoreParams->tempo = cfg->value(QStringLiteral("tempo"), 120).toInt();
     scoreParams->scoreScale = cfg->value(QStringLiteral("scoreScale"), 1.0).toReal();
 #if defined(Q_OS_ANDROID)
-    S->lastXmlDir = cfg->value(QStringLiteral("lastXmlDir"), QString()).toString();
-    if (!S->lastXmlDir.isEmpty() && (S->lastXmlDir == QDir::homePath() || !QFileInfo::exists(S->lastXmlDir) || !QFileInfo(S->lastXmlDir).isWritable())) {
-        S->lastXmlDir.clear();
+    scoreParams->lastXmlDir = cfg->value(QStringLiteral("lastXmlDir"), QString()).toString();
+    if (!scoreParams->lastXmlDir.isEmpty()
+        && (scoreParams->lastXmlDir == QDir::homePath() || !QFileInfo::exists(scoreParams->lastXmlDir) || !QFileInfo(scoreParams->lastXmlDir).isWritable())) {
+        scoreParams->lastXmlDir.clear();
         /** WORKAROUND: This is workaround for 2.0.0 bug where lastXmlDir was set to QDir::homePath()
          * which is internal application location - no way to navigate outside,
          * so musicXML files on device storage(s) couldn't be reached. */
@@ -870,12 +871,12 @@ void Tglobals::loadSettings(QSettings *cfg)
 #if defined(Q_OS_ANDROID)
     bool hasWriteAccess = Tandroid::hasWriteAccess();
     if (hasWriteAccess) {
-        E->examsDir = cfg->value(QStringLiteral("examsDir"), Tandroid::getExternalPath()).toString();
-        if (!QFileInfo::exists(E->examsDir) || !QFileInfo(E->examsDir).isWritable()) // reset if doesn't exist
-            E->examsDir = Tandroid::getExternalPath();
-        E->levelsDir = cfg->value(QStringLiteral("levelsDir"), Tandroid::getExternalPath()).toString();
-        if (!QFileInfo::exists(E->levelsDir) || !QFileInfo(E->levelsDir).isWritable())
-            E->levelsDir = Tandroid::getExternalPath();
+        examParams->examsDir = cfg->value(QStringLiteral("examsDir"), Tandroid::getExternalPath()).toString();
+        if (!QFileInfo::exists(examParams->examsDir) || !QFileInfo(examParams->examsDir).isWritable()) // reset if doesn't exist
+            examParams->examsDir = Tandroid::getExternalPath();
+        examParams->levelsDir = cfg->value(QStringLiteral("levelsDir"), Tandroid::getExternalPath()).toString();
+        if (!QFileInfo::exists(examParams->levelsDir) || !QFileInfo(examParams->levelsDir).isWritable())
+            examParams->levelsDir = Tandroid::getExternalPath();
     }
 #else
     examParams->examsDir = cfg->value(QStringLiteral("examsDir"), QDir::homePath()).toString();
@@ -912,7 +913,7 @@ void Tglobals::loadSettings(QSettings *cfg)
     audioParams->INdevName = cfg->value(QStringLiteral("inDeviceName"), QString()).toString();
     audioParams->detectMethod = qBound(0, cfg->value(QStringLiteral("detectionMethod"), 2).toInt(), 2); // MPM modified cepstrum
 #if defined(Q_OS_ANDROID) // Input sound is loud on mobile
-    A->minimalVol = cfg->value(QStringLiteral("minimalVolume"), 0.6).toFloat();
+    audioParams->minimalVol = cfg->value(QStringLiteral("minimalVolume"), 0.6).toFloat();
 #else
     audioParams->minimalVol = cfg->value(QStringLiteral("minimalVolume"), 0.4).toReal();
     audioParams->dumpPath = cfg->value(QLatin1String("dumpPath"), QString()).toString();

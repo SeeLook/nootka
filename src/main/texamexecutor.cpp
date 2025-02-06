@@ -82,8 +82,8 @@ void debugStyle(TQAunit &qa)
 QString getExamFileName(Texam *e)
 {
 #if defined(Q_OS_ANDROID)
-    if (GLOB->E->examsDir.isEmpty())
-        GLOB->E->examsDir = Tandroid::getExternalPath();
+    if (GLOB->examParams->examsDir.isEmpty())
+        GLOB->examParams->examsDir = Tandroid::getExternalPath();
 #endif
     auto fName = QDir::toNativeSeparators(GLOB->examParams->examsDir + QLatin1String("/") + e->userName() + QLatin1String("-") + e->level()->name);
     fName = fName.replace(QLatin1String("."), QString()); // HACK: file dialogues don't like dots in the names
