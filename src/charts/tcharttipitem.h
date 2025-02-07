@@ -21,6 +21,8 @@
 
 #include <QtQuick/qquickitem.h>
 
+Q_MOC_INCLUDE("score/tscoreobject.h")
+
 class TtipInfo;
 class TscoreObject;
 class Texam;

@@ -170,7 +170,7 @@ void TpianoBg::showNoteName(Tnote::EnameStyle st, const Tnote &n, quint32 techn,
 // ###################              PROTECTED           ############################################
 // #################################################################################################
 
-void TpianoBg::geometryChanged(const QRectF &newGeometry, const QRectF &oldGeometry)
+void TpianoBg::geometryChange(const QRectF &newGeometry, const QRectF &oldGeometry)
 {
     if (oldGeometry.width() != newGeometry.width() || oldGeometry.height() != newGeometry.height()) {
         calculateMetrics(qFloor(newGeometry.width()));

@@ -40,7 +40,7 @@ public:
     void paint(QPainter *painter) override;
 
 protected:
-    void geometryChanged(const QRectF &newGeometry, const QRectF &oldGeometry) override;
+    void geometryChange(const QRectF &newGeometry, const QRectF &oldGeometry) override;
 
 private:
     qreal m_staffScale = 1.0;

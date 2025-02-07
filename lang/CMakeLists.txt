@@ -2,7 +2,7 @@
 ######   Cmake rules for creating Nootka translation files *.qm   ######
 ########################################################################
 
-find_package(Qt5 COMPONENTS LinguistTools)
+find_package(Qt6 COMPONENTS LinguistTools)
 
 file(GLOB TS_FILES "nootka_*.ts")
 list(APPEND TS_FILES "qtbase_sl.ts")
@@ -10,15 +10,15 @@ list(APPEND TS_FILES "qtbase_pt.ts")
 
 #list(REMOVE_ITEM ${TS_FILES} "if_any")
 
-qt5_add_translation(QM_FILES ${TS_FILES})
+qt_add_translation(QM_FILES ${TS_FILES})
 
 # HACK: above command doesn't want to invoke itself.
 # Following trick is needed
 add_custom_target(translations ALL DEPENDS ${QM_FILES})
 
 if(APPLE OR WIN32)
-  find_package(Qt5Core)
-  get_target_property(QtCore_location_Release Qt5::Core LOCATION_Release)
+  find_package(Qt6Core)
+  get_target_property(QtCore_location_Release Qt6::Core LOCATION_Release)
   get_filename_component(QT_BINARY_DIR "${QtCore_location_Release}" DIRECTORY)
   if (WIN32)
     if(NOT DEFINED QT_TRANSLATIONS_DIR)

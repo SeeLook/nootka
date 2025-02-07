@@ -114,10 +114,10 @@ else ()
 endif ()
 
 target_link_libraries(NootkaCore
-  Qt5::Widgets
-  Qt5::Qml
-  Qt5::Quick
-  Qt5::QuickControls2
+  Qt6::Widgets
+  Qt6::Qml
+  Qt6::Quick
+  Qt6::QuickControls2
   ${ZLIB_LIBRARY}
 )
 

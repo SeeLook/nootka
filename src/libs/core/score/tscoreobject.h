@@ -26,6 +26,9 @@
 #include <QtCore/qpoint.h>
 #include <QtGui/qcolor.h>
 
+Q_MOC_INCLUDE("taction.h")
+Q_MOC_INCLUDE("score/tnoteitem.h")
+
 /**
  * @class TclefOffset describes offset of a note depends on clef
  */

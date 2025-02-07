@@ -92,7 +92,7 @@ signals:
     void wantKeyToSelect(int k, bool isWhite);
 
 protected:
-    void geometryChanged(const QRectF &newGeometry, const QRectF &oldGeometry) override;
+    void geometryChange(const QRectF &newGeometry, const QRectF &oldGeometry) override;
 
 private:
     void calculateMetrics(qreal newWidth);

@@ -420,8 +420,8 @@ else ()
   add_library(NootkaSound SHARED ${LIB_NOOTKASOUND_SRC} )
 endif ()
 target_link_libraries(NootkaSound
-    Qt5::Core
-    Qt5::Qml
+    Qt6::Core
+    Qt6::Qml
     NootkaCore
     ${WIN_LIBS}
     ${FFTW3_LIBRARIES}

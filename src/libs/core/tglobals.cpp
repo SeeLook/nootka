@@ -89,7 +89,7 @@ Tglobals::Tglobals(QObject *parent)
 {
     version = NOOTKA_VERSION;
 
-    qRegisterMetaTypeStreamOperators<Ttune>("Ttune");
+    // qRegisterMetaTypeStreamOperators<Ttune>("Ttune");
     qRegisterMetaType<Tnote>("Tnote");
 
     QCoreApplication::setOrganizationName(QStringLiteral("Nootka"));

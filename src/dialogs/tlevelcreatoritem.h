@@ -23,6 +23,8 @@
 #include <QtQuick/qquickitem.h>
 #include <music/tnote.h>
 
+Q_MOC_INCLUDE("dialogs/tlevelselector.h")
+
 class Tlevel;
 class TlevelSelector;
 

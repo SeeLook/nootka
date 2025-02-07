@@ -62,8 +62,9 @@ void TstaffLines::paint(QPainter *painter)
 // ###################              PROTECTED           ############################################
 // #################################################################################################
 
-void TstaffLines::geometryChanged(const QRectF &newGeometry, const QRectF &oldGeometry)
+void TstaffLines::geometryChange(const QRectF &newGeometry, const QRectF &oldGeometry)
 {
+    // QQuickPaintedItem::geometryChange(newGeometry, oldGeometry);
     if (newGeometry.width() != oldGeometry.width() || newGeometry.height() != oldGeometry.height()) {
         setTextureSize(QSize(qRound(m_staffScale * newGeometry.width()), qRound(newGeometry.height() * m_staffScale)));
         update();

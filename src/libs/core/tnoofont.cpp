@@ -61,7 +61,7 @@ TnooFont::TnooFont(int pointSize)
 {
     setPixelSize(pointSize);
     setBold(false);
-    setWeight(50); // Normal
+    setWeight(QFont::Normal); // Normal
 }
 
 // #################################################################################################

@@ -148,7 +148,7 @@ QString TbarChartDelegate::xText() const
 
 void TbarChartDelegate::paint(QPainter *painter)
 {
-    painter->setRenderHints(QPainter::Antialiasing | QPainter::HighQualityAntialiasing);
+    painter->setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing);
 
     painter->setPen(Qt::NoPen);
 

@@ -334,7 +334,7 @@ void TguitarBg::updateGuitar()
         return; // HACK: Avoid crash when instrument is changed form guitar to another kind
 
     setTune();
-    geometryChanged(QRectF(x(), y(), width(), height()), QRectF());
+    geometryChange(QRectF(x(), y(), width(), height()), QRectF());
 }
 
 void TguitarBg::markSelected(const QColor &markColor)
@@ -430,7 +430,7 @@ void TguitarBg::pressedAt(qreal px, qreal py)
 // ###################              PROTECTED           ############################################
 // #################################################################################################
 
-void TguitarBg::geometryChanged(const QRectF &newGeometry, const QRectF &oldGeometry)
+void TguitarBg::geometryChange(const QRectF &newGeometry, const QRectF &oldGeometry)
 {
     if (oldGeometry.width() != newGeometry.width() || oldGeometry.height() != newGeometry.height()) {
         if (!GLOB->instrument().isGuitar())

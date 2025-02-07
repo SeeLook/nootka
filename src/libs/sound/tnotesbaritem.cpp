@@ -99,9 +99,9 @@ void TnotesBarItem::paint(QPainter *painter)
     }
 }
 
-void TnotesBarItem::geometryChanged(const QRectF &newGeometry, const QRectF &oldGeometry)
+void TnotesBarItem::geometryChange(const QRectF &newGeometry, const QRectF &oldGeometry)
 {
-    QQuickItem::geometryChanged(newGeometry, oldGeometry);
+    QQuickItem::geometryChange(newGeometry, oldGeometry);
     if (newGeometry.width() != oldGeometry.width() || newGeometry.height() != oldGeometry.height()) {
         m_notesSpan = m_highestNote.chromatic() - m_lowestNote.chromatic();
         emit expectedNoteChanged();

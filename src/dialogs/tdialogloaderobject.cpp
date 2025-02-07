@@ -244,7 +244,7 @@ QStringList TdialogLoaderObject::getChanges() const
     QTextStream in;
     if (file.open(QFile::ReadOnly | QFile::Text)) {
         QTextStream in(&file);
-        in.setCodec("UTF-8");
+        in.setEncoding(QStringConverter::Utf8);
         QStringList htmlText = in.readAll().replace(QLatin1String("  "), QLatin1String("&nbsp;&nbsp;")).split(QLatin1String("\n"));
         chLog << QLatin1String("<h1>Nootka TWO</h1>");
         for (int i = 0; i < htmlText.size(); i++) {
@@ -282,7 +282,7 @@ QString TdialogLoaderObject::getLicense()
     }
     if (file.open(QFile::ReadOnly | QFile::Text)) {
         QTextStream in(&file);
-        in.setCodec("UTF-8");
+        in.setEncoding(QStringConverter::Utf8);
         license = in.readAll();
     }
     file.close();

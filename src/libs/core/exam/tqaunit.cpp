@@ -23,6 +23,7 @@
 #include "tlevel.h"
 #include <QtCore/qdebug.h>
 #include <QtCore/qxmlstream.h>
+#include <QtCore/qvariant.h>
 #include <cmath>
 
 // ######################################################################

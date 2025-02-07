@@ -2,14 +2,14 @@
 # CMakeList.txt RtAudio library for Windows build
 ########################################################################
 
-cmake_minimum_required(VERSION 2.8.12)
+cmake_minimum_required(VERSION 3.16.0)
 
 project(RtAudio)
 # Revert c++11 flag set somewhere above - ASIO won't compile with c++11
 set(CMAKE_CXX_FLAGS "")
 
 set(CMAKE_AUTOMOC ON)
-find_package(Qt5Core REQUIRED)
+find_package(Qt6Core REQUIRED)
 
 set(LIBRARY_OUTPUT_PATH ${PROJECT_BINARY_DIR}../../../../)
 

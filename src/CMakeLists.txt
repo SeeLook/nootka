@@ -6,22 +6,7 @@ set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_AUTOMOC ON)
 
-
-find_package(Qt5Widgets REQUIRED)
-if (Qt5Widgets_FOUND)
-    if (Qt5Widgets_VERSION VERSION_LESS 5.15.0)
-        message(FATAL_ERROR "Minimum supported Qt version is 5.15.0")
-    endif()
-else()
-    message(SEND_ERROR "The Qt5Widgets library could not be found!")
-endif(Qt5Widgets_FOUND)
-
-
-find_package(Qt5Qml REQUIRED)
-find_package(Qt5Quick REQUIRED)
-find_package(Qt5QuickControls2 REQUIRED)
-find_package(Qt5Widgets REQUIRED)
-find_package(Qt5PrintSupport REQUIRED)
+find_package(Qt6 REQUIRED COMPONENTS Widgets PrintSupport Qml QuickControls2 Core5Compat)
 
 
 if(UNIX AND NOT APPLE)
@@ -139,7 +124,7 @@ option(ENABLE_UPDATER "Enable online checking for new Nootka versions" ON)
 
 if(ENABLE_UPDATER)
   message(STATUS "check for updates\t\t TRUE")
-  find_package(Qt5Network)
+  find_package(Qt6Network)
   list(APPEND NOOTKA_SRC
     updater/tupdatechecker.cpp
     updater/updatefunctions.cpp
@@ -160,19 +145,20 @@ if(MINGW)
 endif(MINGW)
 
 
-qt5_add_resources(NOOTKA_SRC nootka.qrc)
+qt_add_resources(NOOTKA_SRC nootka.qrc)
 
 
 add_executable(nootka WIN32 ${NOOTKA_SRC} ${NOOTKA_EXE_ICON})
 target_link_libraries(nootka
     NootkaCore
     NootkaSound
-    Qt5::Core
-    Qt5::Widgets
-    Qt5::Qml
-    Qt5::Quick
-    Qt5::QuickControls2
-    Qt5::PrintSupport
+    Qt6::Core
+    Qt6::Widgets
+    Qt6::Qml
+    Qt6::Quick
+    Qt6::QuickControls2
+    Qt6::PrintSupport
+    Qt6::Core5Compat
 )
 
 

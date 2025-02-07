@@ -23,6 +23,9 @@
 #include <QtGui/qguiapplication.h>
 #include <QtQuick/qquickitem.h>
 
+Q_MOC_INCLUDE("exam/texam.h")
+Q_MOC_INCLUDE("charts/tcharttipitem.h")
+
 class Texam;
 class Tlevel;
 class Taction;

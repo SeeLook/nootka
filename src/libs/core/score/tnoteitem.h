@@ -24,6 +24,8 @@
 #include <QtCore/qelapsedtimer.h>
 #include <QtQuick/qquickitem.h>
 
+Q_MOC_INCLUDE("score/tstaffitem.h")
+
 class TstaffItem;
 class TmeasureObject;
 class TnotePair;

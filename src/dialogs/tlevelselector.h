@@ -22,6 +22,8 @@
 #include <QtQuick/qquickitem.h>
 #include <exam/tlevel.h>
 
+Q_MOC_INCLUDE("dialogs/tlevelpreviewitem.h")
+
 class QFile;
 class TlevelPreviewItem;
 

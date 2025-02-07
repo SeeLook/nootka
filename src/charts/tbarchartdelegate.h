@@ -26,6 +26,8 @@ class TchartItem;
 class TgroupedQAunit;
 class TtipInfo;
 
+Q_MOC_INCLUDE("charts/tchartitem.h")
+
 /**
  * @todo write docs
  */
