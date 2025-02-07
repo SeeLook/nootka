@@ -57,18 +57,18 @@ set(LIB_NOOTKACORE_SRC
   minizip/unzip.c
   minizip/ioapi.c
 
-  music/tnote.cpp
-  music/trhythm.cpp
+  # music/tnote.cpp
+  # music/trhythm.cpp
   music/tnamestylefilter.cpp
-  music/ttune.cpp
+  # music/ttune.cpp
   music/ttuneobject.cpp
-  music/tclef.cpp
+  # music/tclef.cpp
   music/tinstrument.cpp
   music/tkeysignature.cpp
   music/tchunk.cpp
   music/tmeasure.cpp
   music/tmelody.cpp
-  music/tmeter.cpp
+  # music/tmeter.cpp
   music/tnotestruct.cpp
   music/ttechnical.cpp
   music/trtmgroup.cpp
@@ -107,32 +107,13 @@ if (WIN32)
   list(APPEND LIB_NOOTKACORE_SRC minizip/iowin32.c)
 endif()
 
-if (WITH_STATIC_LIB)
-  add_library(NootkaCore STATIC ${LIB_NOOTKACORE_SRC} )
-else ()
-  add_library(NootkaCore SHARED ${LIB_NOOTKACORE_SRC} )
-endif ()
 
-target_link_libraries(NootkaCore
-  Qt6::Widgets
-  Qt6::Qml
-  Qt6::Quick
-  Qt6::QuickControls2
-  ${ZLIB_LIBRARY}
+target_sources(nootka PUBLIC
+    ${LIB_NOOTKACORE_SRC}
 )
 
-
-if (NOT WITH_STATIC_LIB)
-  if(UNIX AND NOT APPLE)   # Linux path for Nootka library
-    install(TARGETS NootkaCore DESTINATION lib/nootka)
-  else(UNIX AND NOT APPLE)
-    if(WIN32)       # Windows
-      install(TARGETS NootkaCore DESTINATION .)
-      install(FILES ${ZLIB_LIBRARY} DESTINATION .)
-    else(WIN32)       # MacOs
-      install(TARGETS NootkaCore DESTINATION "${CMAKE_INSTALL_PREFIX}/nootka.app/Contents/Frameworks")
-    endif(WIN32)
-  endif(UNIX AND NOT APPLE)
-endif (NOT WITH_STATIC_LIB)
+target_link_libraries(nootka PUBLIC
+    ${ZLIB_LIBRARY}
+)
 
 

@@ -17,10 +17,8 @@ set(Nootka_VERSION_PATCH  "3-devel")
 
 set(Nootka_VERSION       "${Nootka_VERSION_MAJOR}.${Nootka_VERSION_MINOR}")
 set(Nootka_VERSION_FULL  "${Nootka_VERSION}.${Nootka_VERSION_PATCH}")
-message(STATUS "
-${PROJECT_NAME}-${Nootka_VERSION_FULL}
-" )
 
+message(STATUS "\n${PROJECT_NAME}-${Nootka_VERSION_FULL}\n")
 
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/src)
 set(LIBRARY_OUTPUT_PATH ${PROJECT_BINARY_DIR}/src)

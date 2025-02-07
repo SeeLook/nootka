@@ -19,7 +19,7 @@
 #ifndef TMETER_H
 #define TMETER_H
 
-#include <QtCore/qobject.h>
+#include <QtQml/qqmlengine.h>
 #include <QtCore/qxmlstream.h>
 #include <nootkacoreglobal.h>
 
@@ -29,6 +29,7 @@
 class NOOTKACORE_EXPORT Tmeter
 {
     Q_GADGET
+    QML_UNCREATABLE("")
 
 public:
     enum Emeter {
@@ -46,7 +47,6 @@ public:
         Meter_9_8 = 1024,
         Meter_12_8 = 2048
     };
-
     Q_ENUM(Emeter)
 
     Tmeter(Emeter meter = NoMeter)
@@ -134,5 +134,17 @@ public:
 private:
     Emeter m_meter;
 };
+
+class TmeterQML: public Tmeter
+{
+    Q_GADGET
+};
+
+namespace TmeterQMLForeign
+{
+    Q_NAMESPACE
+    QML_NAMED_ELEMENT(Tmeter)
+    QML_FOREIGN_NAMESPACE(TmeterQML)
+}
 
 #endif // TMETER_H

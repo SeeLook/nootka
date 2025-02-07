@@ -69,13 +69,7 @@ TnootkaQML::TnootkaQML(QObject *parent)
     }
     m_instance = this;
 
-    qRegisterMetaType<Tclef>();
-    qmlRegisterUncreatableType<Tclef>("Score", 1, 0, "Tclef", QStringLiteral("You cannot create an instance of the Tclef."));
-    qRegisterMetaType<Tmeter>();
-    qmlRegisterUncreatableType<Tmeter>("Score", 1, 0, "Tmeter", QStringLiteral("You cannot create an instance of the Tmeter."));
-    qmlRegisterUncreatableType<Trhythm>("Score", 1, 0, "Trhythm", QStringLiteral("You cannot create an instance of the Trhythm."));
-    qRegisterMetaType<Trhythm>();
-
+    qRegisterMetaType<Ttune>();
     qmlRegisterType<TscoreObject>("Score", 1, 0, "TscoreObject");
     qmlRegisterType<TstaffItem>("Score", 1, 0, "TstaffItem");
     qmlRegisterType<TnoteItem>("Score", 1, 0, "TnoteItem");
@@ -97,10 +91,6 @@ TnootkaQML::TnootkaQML(QObject *parent)
     qmlRegisterType<Taction>("Nootka", 1, 0, "Taction");
 
     qmlRegisterUncreatableType<TnootkaQML>("Nootka", 1, 0, "Nootka", QStringLiteral("You cannot create an instance of the TnootkaQML."));
-    qRegisterMetaType<Tinstrument>();
-    qmlRegisterUncreatableType<Tinstrument>("Nootka", 1, 0, "Tinstrument", QStringLiteral("You cannot create an instance of the Tinstrument."));
-    qRegisterMetaType<Ttune>();
-    qmlRegisterUncreatableType<Ttune>("Nootka", 1, 0, "Ttune", QStringLiteral("You cannot create an instance of the Ttune."));
     qmlRegisterType<TtuneObject>("Nootka", 1, 0, "TtuneObject");
 }
 

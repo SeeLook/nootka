@@ -19,7 +19,7 @@
 #ifndef TINSTRUMENT_H
 #define TINSTRUMENT_H
 
-#include <QtCore/qobject.h>
+#include <QtQml/qqmlengine.h>
 #include <nootkacoreglobal.h>
 
 #define INSTR_COUNT (9) // number of instruments supported by Nootka
@@ -30,6 +30,8 @@
 class NOOTKACORE_EXPORT Tinstrument
 {
     Q_GADGET
+    QML_UNCREATABLE("")
+    QML_VALUE_TYPE(tinstrument)
 
     Q_PROPERTY(Etype type READ type WRITE setType)
     Q_PROPERTY(QString name READ name)
@@ -147,5 +149,17 @@ public:
 private:
     Etype m_type;
 };
+
+class TinstrumentQML: public Tinstrument
+{
+    Q_GADGET
+};
+
+namespace TinstrumentQMLForeign
+{
+    Q_NAMESPACE
+    QML_NAMED_ELEMENT(Tinstrument)
+    QML_FOREIGN_NAMESPACE(TinstrumentQML)
+}
 
 #endif // TINSTRUMENT_H

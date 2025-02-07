@@ -244,7 +244,9 @@ IF(UNIX AND NOT APPLE)
 ENDIF(UNIX AND NOT APPLE)
 
 if(APPLE)
-  add_definitions(-D__MACOSX_CORE__)
+    target_compile_definitions(nootka PUBLIC
+        -D__MACOSX_CORE__
+    )
 endif(APPLE)
 
 
@@ -321,33 +323,39 @@ IF(UNIX AND NOT APPLE)
         set(JACK_LIBRARY_FOUND TRUE)
     endif (JACK_INCLUDE_DIR)
 
-  if(ALSA_LIBRARY)
-    add_definitions(-D__LINUX_ALSA__)
-    message(STATUS "support for ALSA\t\t TRUE")
-  else(ALSA_LIBRARY)
-    message(STATUS "support for ALSA\t\t FALSE")
-  endif(ALSA_LIBRARY)
-  if(ENABLE_JACK AND JACK_INCLUDE_DIR)
-    add_definitions(-D__UNIX_JACK__)
-    include_directories(${JACK_INCLUDE_DIR})
-    message(STATUS "support for JACK\t\t TRUE")
-  else(ENABLE_JACK AND JACK_INCLUDE_DIR)
-    message(STATUS "support for JACK\t\t FALSE")
-  endif(ENABLE_JACK AND JACK_INCLUDE_DIR)
-  if(ENABLE_PULSEAUDIO AND PULSE_INCLUDE_DIR)
-    add_definitions(-D__LINUX_PULSE__)
-    include_directories(${PULSE_INCLUDE_DIR})
-    message(STATUS "support for PulseAudio\t TRUE")
-  else(ENABLE_PULSEAUDIO AND PULSE_INCLUDE_DIR)
-    message(STATUS "support for PulseAudio\t FALSE")
-  endif(ENABLE_PULSEAUDIO AND PULSE_INCLUDE_DIR)
+    if(ALSA_LIBRARY)
+        target_compile_definitions(nootka PUBLIC
+            -D__LINUX_ALSA__
+        )
+        message(STATUS "support for ALSA\t\t TRUE")
+    else(ALSA_LIBRARY)
+        message(STATUS "support for ALSA\t\t FALSE")
+    endif(ALSA_LIBRARY)
+
+    if(ENABLE_JACK AND JACK_INCLUDE_DIR)
+        target_compile_definitions(nootka PUBLIC
+            -D__UNIX_JACK__
+        )
+        include_directories(${JACK_INCLUDE_DIR})
+        message(STATUS "support for JACK\t\t TRUE")
+    else(ENABLE_JACK AND JACK_INCLUDE_DIR)
+        message(STATUS "support for JACK\t\t FALSE")
+    endif(ENABLE_JACK AND JACK_INCLUDE_DIR)
+
+    if(ENABLE_PULSEAUDIO AND PULSE_INCLUDE_DIR)
+        target_compile_definitions(nootka PUBLIC
+            -D__LINUX_PULSE__
+        )
+        include_directories(${PULSE_INCLUDE_DIR})
+        message(STATUS "support for PulseAudio\t TRUE")
+    else(ENABLE_PULSEAUDIO AND PULSE_INCLUDE_DIR)
+        message(STATUS "support for PulseAudio\t FALSE")
+    endif(ENABLE_PULSEAUDIO AND PULSE_INCLUDE_DIR)
 
 endif(UNIX AND NOT APPLE)
 
 
 add_definitions(-DNOOTKASOUND_LIBRARY)
-
-include_directories( . ../core )
 
 if (WIN32)
   include_directories( rt )
@@ -414,15 +422,11 @@ else (WIN32)
   )
 endif(WIN32)
 
-if (WITH_STATIC_LIB)
-  add_library(NootkaSound STATIC ${LIB_NOOTKASOUND_SRC} )
-else ()
-  add_library(NootkaSound SHARED ${LIB_NOOTKASOUND_SRC} )
-endif ()
-target_link_libraries(NootkaSound
-    Qt6::Core
-    Qt6::Qml
-    NootkaCore
+target_sources(nootka PUBLIC
+    ${LIB_NOOTKASOUND_SRC}
+)
+
+target_link_libraries(nootka PUBLIC
     ${WIN_LIBS}
     ${FFTW3_LIBRARIES}
     ${VORBISFILE_LIB} ${VORBIS_LIB} ${OGG_LIB}
@@ -434,19 +438,3 @@ target_link_libraries(NootkaSound
     ${CoreMidi_LIB}
     ${CoreFoundation_LIB}
 )
-
-if (NOT WITH_STATIC_LIB)
-  if(UNIX AND NOT APPLE)   # Linux path for Nootka binary
-    install(TARGETS NootkaSound DESTINATION lib/nootka)
-  else(UNIX AND NOT APPLE)
-    if(WIN32)       # Windows
-      install(TARGETS NootkaSound DESTINATION .)
-      install(FILES ${FFTW3_LIBRARIES} DESTINATION .)
-      install(FILES ${VORBISFILE_LIB} ${VORBIS_LIB} ${OGG_LIB} DESTINATION .)
-    else(WIN32)       # MacOs
-      install(TARGETS NootkaSound DESTINATION "${CMAKE_INSTALL_PREFIX}/nootka.app/Contents/Frameworks")
-    endif(WIN32)
-  endif(UNIX AND NOT APPLE)
-endif (NOT WITH_STATIC_LIB)
-
-

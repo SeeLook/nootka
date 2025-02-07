@@ -21,7 +21,7 @@
 
 #include "tnote.h"
 #include <QtCore/qmetatype.h>
-#include <QtCore/qobject.h>
+#include <QtQml/qqmlengine.h>
 #include <QtCore/qxmlstream.h>
 #include <nootkacoreglobal.h>
 
@@ -32,6 +32,8 @@
 class NOOTKACORE_EXPORT Ttune
 {
     Q_GADGET
+    QML_UNCREATABLE("")
+    QML_VALUE_TYPE(ttune)
 
     Q_PROPERTY(QString name READ tuningName)
     Q_PROPERTY(int stringNumber READ stringNr)
@@ -188,5 +190,17 @@ Q_DECLARE_METATYPE(Ttune)
 
 NOOTKACORE_EXPORT QDataStream &operator<<(QDataStream &out, const Ttune &t);
 NOOTKACORE_EXPORT QDataStream &operator>>(QDataStream &in, Ttune &t);
+
+class TtuneQML: public Ttune
+{
+    Q_GADGET
+};
+
+namespace TtuneQMLForeign
+{
+    Q_NAMESPACE
+    QML_NAMED_ELEMENT(Ttune)
+    QML_FOREIGN_NAMESPACE(TtuneQML)
+}
 
 #endif

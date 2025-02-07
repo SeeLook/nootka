@@ -45,6 +45,10 @@ typedef std::vector<Tnote> TnotesList;
  */
 class NOOTKACORE_EXPORT Tnote
 {
+    Q_GADGET
+    QML_UNCREATABLE("")
+    QML_VALUE_TYPE(tnote)
+
 public:
     /**
      * Enumeration type describes the styles of notation
@@ -361,8 +365,6 @@ private:
     static std::string m_solmizationRu[7];
 };
 
-Q_DECLARE_METATYPE(Tnote)
-
 /**
  * This function is substitute of >> operator for @p Tnote.
  * It checks is Tnote valid, and return Boolean about it.
@@ -371,5 +373,17 @@ NOOTKACORE_EXPORT bool getNoteFromStream(QDataStream &in, Tnote &n);
 
 NOOTKACORE_EXPORT QDataStream &operator<<(QDataStream &out, const Tnote &n);
 NOOTKACORE_EXPORT QDataStream &operator>>(QDataStream &in, Tnote &n);
+
+class TnoteQML: public Tnote
+{
+    Q_GADGET
+};
+
+namespace TnoteQMLForeign
+{
+    Q_NAMESPACE
+    QML_NAMED_ELEMENT(Tnote)
+    QML_FOREIGN_NAMESPACE(TnoteQML)
+}
 
 #endif

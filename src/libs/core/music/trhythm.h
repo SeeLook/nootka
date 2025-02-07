@@ -22,7 +22,7 @@
 #include "nootkacoreglobal.h"
 #include <QtCore/qdatastream.h>
 #include <QtCore/qmath.h>
-#include <QtCore/qobject.h>
+#include <QtQml/qqmlengine.h>
 
 /**
  * Almost powers of 2, used to quickly mapping @p Erhythm enumerator into weight of rhythm value
@@ -67,6 +67,8 @@ typedef QList<Trhythm> TrhythmList;
 class NOOTKACORE_EXPORT Trhythm
 {
     Q_GADGET
+    QML_UNCREATABLE("")
+    QML_VALUE_TYPE(trhythm)
 
 public:
     static const std::string rhythmStrings[6];
@@ -291,5 +293,17 @@ private:
 
 NOOTKACORE_EXPORT QDataStream &operator<<(QDataStream &out, const Trhythm &r);
 NOOTKACORE_EXPORT QDataStream &operator>>(QDataStream &in, Trhythm &r);
+
+class TrhythmQML: public Trhythm
+{
+    Q_GADGET
+};
+
+namespace TrhythmQMLForeign
+{
+    Q_NAMESPACE
+    QML_NAMED_ELEMENT(Trhythm)
+    QML_FOREIGN_NAMESPACE(TrhythmQML)
+}
 
 #endif // TRHYTHM_H

@@ -19,8 +19,8 @@
 #ifndef TCLEF_H
 #define TCLEF_H
 
-#include <QtCore/qobject.h>
 #include <nootkacoreglobal.h>
+#include <QtQml/qqmlengine.h>
 
 class QXmlStreamReader;
 class QXmlStreamWriter;
@@ -28,6 +28,8 @@ class QXmlStreamWriter;
 class NOOTKACORE_EXPORT Tclef
 {
     Q_GADGET
+    QML_UNCREATABLE("")
+    QML_VALUE_TYPE(tclef)
 
     Q_PROPERTY(EclefType type READ type WRITE setClef)
 
@@ -42,7 +44,6 @@ public:
         Tenor_C = 32,
         PianoStaffClefs = 128 /**< exactly it is not a clef */
     };
-
     Q_ENUM(EclefType)
 
     Tclef(EclefType type = Treble_G)
@@ -83,4 +84,15 @@ private:
     EclefType m_type;
 };
 
+class TclefQML: public Tclef
+{
+    Q_GADGET
+};
+
+namespace TclefQMLForeign
+{
+    Q_NAMESPACE
+    QML_NAMED_ELEMENT(Tclef)
+    QML_FOREIGN_NAMESPACE(TclefQML)
+}
 #endif // TCLEF_H

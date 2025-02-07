@@ -2,12 +2,13 @@
 # CMakeList.txt src
 ########################################################################
 
+find_package(Qt6 REQUIRED COMPONENTS Widgets PrintSupport Qml QuickControls2 Core5Compat)
+
+qt_standard_project_setup(REQUIRES 6.5)
+
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_AUTOMOC ON)
-
-find_package(Qt6 REQUIRED COMPONENTS Widgets PrintSupport Qml QuickControls2 Core5Compat)
-
 
 if(UNIX AND NOT APPLE)
   if (PACKAGE_ARCHITECTURE MATCHES "arm" OR PACKAGE_ARCHITECTURE MATCHES "aarch64")
@@ -59,12 +60,12 @@ endif ()
 
 option (WITH_STATIC_LIB "Link Nootka libraries statically - used for AppImage" OFF)
 
+qt_add_executable(nootka WIN32)
 
 add_subdirectory( libs/core )     # libNootkaCore
 add_subdirectory( libs/sound )    # libNootkaSound
 
 include_directories( libs/core libs/sound ) # libs/main
-
 
 # nootka executable
 set(NOOTKA_SRC
@@ -135,9 +136,8 @@ else(ENABLE_UPDATER)
     message(STATUS "check for updates\t\t FALSE")
 endif(ENABLE_UPDATER)
 
-
 if(MINGW)
-    add_custom_command( OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/nootico.o
+    add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/nootico.o
                        COMMAND windres.exe -I${CMAKE_CURRENT_SOURCE_DIR} -i${CMAKE_CURRENT_SOURCE_DIR}/../picts/nootka-icon.rc
                             -o ${CMAKE_CURRENT_BINARY_DIR}/nootico.o )
     set(NOOTKA_SRCS ${NOOTKA_SRCS} ${CMAKE_CURRENT_BINARY_DIR}/nootico.o)
@@ -147,11 +147,30 @@ endif(MINGW)
 
 qt_add_resources(NOOTKA_SRC nootka.qrc)
 
+include_directories( libs/core/music )
+qt_add_qml_module(nootka
+    URI "Nootka.Music"
+    SOURCES
+        libs/core/music/tnote.h
+        libs/core/music/tnote.cpp
+        libs/core/music/trhythm.h
+        libs/core/music/trhythm.cpp
+        libs/core/music/tclef.h
+        libs/core/music/tclef.cpp
+        libs/core/music/tmeter.h
+        libs/core/music/tmeter.cpp
+        libs/core/music/ttune.h
+        libs/core/music/ttune.cpp
+        libs/core/music/tinstrument.h
+        libs/core/music/tinstrument.cpp
+)
 
-add_executable(nootka WIN32 ${NOOTKA_SRC} ${NOOTKA_EXE_ICON})
-target_link_libraries(nootka
-    NootkaCore
-    NootkaSound
+target_sources(nootka PUBLIC
+    ${NOOTKA_SRC}
+    ${NOOTKA_EXE_ICON}
+)
+
+target_link_libraries(nootka PUBLIC
     Qt6::Core
     Qt6::Widgets
     Qt6::Qml
@@ -160,7 +179,6 @@ target_link_libraries(nootka
     Qt6::PrintSupport
     Qt6::Core5Compat
 )
-
 
 if(UNIX AND NOT APPLE)   # Linux path for Nootka binary
   install(TARGETS nootka DESTINATION bin)
