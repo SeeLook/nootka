@@ -27,7 +27,7 @@ TlevelCreatorItem {
         pages.addItem("accidentals", qsTr("Accidentals"), "level/Accids");
         pages.addItem("range", qsTr("Range"), "level/Range");
         dialLoader.title = title;
-        dialLoader.standardButtons = DialogButtonBox.Close | DialogButtonBox.Help | DialogButtonBox.RestoreDefaults;
+        dialLoader.stdButtons = DialogButtonBox.Close | DialogButtonBox.Help | DialogButtonBox.RestoreDefaults;
         var b = dialLoader.buttonBox.standardButton(DialogButtonBox.RestoreDefaults);
         b.text = qsTr("Check");
         b.pixmap = NOO.pix("levelCreator");

@@ -2,6 +2,8 @@
  * Copyright (C) 2017-2021 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
+pragma ComponentBehavior: Bound
+
 import Nootka 1.0
 import QtQuick 2.12
 import QtQuick.Controls 2.12
@@ -11,6 +13,9 @@ Item {
 
     property int clef: GLOB.clefType
     property int instrument: GLOB.instrument.typeINT
+
+    width: parent.width
+    height: parent.height
 
     function apply() {
         GLOB.clefType = clef; // it can be changed either by score or instrument page
@@ -39,10 +44,8 @@ Item {
     onInstrumentChanged: {
         if (pages.buttons.length > 2)
             pages.buttons[2].pixmap = NOO.pix("pane/i-0" + instrument);
-
     }
-    width: parent.width
-    height: parent.height
+
     Component.onCompleted: {
         if (!GLOB.isExam) {
             pages.addItem("global", qsTr("Common"), "settings/Global");
@@ -54,7 +57,7 @@ Item {
         if (NOO.isAndroid() && !GLOB.isExam)
             pages.addItem("phoneSett", qsTr("Phone") + "\n& " + qsTr("Tablet"), "settings/Phone");
 
-        dialLoader.standardButtons = DialogButtonBox.Apply | DialogButtonBox.Cancel | DialogButtonBox.RestoreDefaults | DialogButtonBox.Help;
+        dialLoader.stdButtons = DialogButtonBox.Apply | DialogButtonBox.Cancel | DialogButtonBox.RestoreDefaults | DialogButtonBox.Help;
         dialLoader.title = "Nootka - " + qsTranslate("TsettingsDialog", "application's settings");
     }
 

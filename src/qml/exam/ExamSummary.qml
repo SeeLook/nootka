@@ -17,7 +17,7 @@ TexamSummary {
     height: parent.height
     levelPreview: previewItem
     Component.onCompleted: {
-        dialLoader.standardButtons = 0;
+        dialLoader.standardButtons = DialogButtonBox.NoButton;
         dialLoader.title = summDialog.title();
     }
     Component.onDestruction: {

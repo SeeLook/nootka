@@ -5,7 +5,7 @@
 import "../"
 import Nootka 1.0
 import QtQuick 2.12
-import QtQuick.Dialogs 1.2
+import QtQuick.Dialogs
 
 TcuteButton {
     id: colorButton
@@ -29,10 +29,10 @@ TcuteButton {
     ColorDialog {
         id: colorDialog
 
-        color: colorButton.color
-        onAccepted: colorButton.color = colorDialog.color
+        selectedColor: colorButton.color
+        onAccepted: colorButton.color = colorDialog.selectedColor
         modality: Qt.WindowModal
-        showAlphaChannel: color.a < 1
+        options: ColorDialog.ShowAlphaChannel | ColorDialog.NoEyeDropperButton
     }
 
     Behavior on color {

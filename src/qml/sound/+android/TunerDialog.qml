@@ -264,7 +264,7 @@ TtunerDialogItem {
 
   onWantClose: dialLoader.close()
 
-  Component.onCompleted: dialLoader.standardButtons = 0
+  Component.onCompleted: dialLoader.stdButtons = DialogButtonBox.NoButton
 
   Connections {
     target: SOUND

@@ -26,7 +26,7 @@ TmelGenItem {
     rhythmSelector: rtmSel
     Component.onCompleted: {
         dialLoader.title = NOO.TR("TmelodySettings", "Random melody");
-        dialLoader.standardButtons = DialogButtonBox.Close | DialogButtonBox.Help | DialogButtonBox.RestoreDefaults;
+        dialLoader.stdButtons = DialogButtonBox.Close | DialogButtonBox.Help | DialogButtonBox.RestoreDefaults;
         genButt = dialLoader.buttonBox.standardButton(DialogButtonBox.RestoreDefaults);
         genButt.text = NOO.TR("TmainScoreObject", "Generate melody");
         genButt.pixmap = NOO.pix("melody");

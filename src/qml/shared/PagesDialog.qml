@@ -24,7 +24,7 @@ Grid {
     property real maxWidth: 0
     property real maxHeight: 0
 
-    function addItem(icon, text, page) {
+    function addItem(icon: string, text: string, page: string) : void {
         pages.push("qrc:/" + page + "Page.qml");
         model.append({
             "iconName": "pane/" + icon,
@@ -32,7 +32,7 @@ Grid {
         });
     }
 
-    function selectPage(pageId) {
+    function selectPage(pageId: int) {
         if (navList.prevButt !== buttons[pageId]) {
             if (typeof (pages[pageId]) === "string")
                 pages[pageId] = Qt.createComponent(pages[pageId]).createObject(stack);
@@ -78,32 +78,27 @@ Grid {
 
             // highlight
             Rectangle {
-                width: navList.prevButt.width
-                height: navList.prevButt.height + NOO.factor() / 4
+                width: navList.prevButt?.width
+                height: navList.prevButt?.height + NOO.factor() / 4
                 color: activPal.highlight
-                y: navList.prevButt.y - NOO.factor() / 8
-                x: navList.prevButt.x
+                y: navList.prevButt?.y - NOO.factor() / 8
+                x: navList.prevButt ? navList.prevButt.x : 0
 
                 Behavior on y {
                     enabled: GLOB.useAnimations
-
                     SpringAnimation {
                         spring: 2
                         damping: 0.1
                     }
-
                 }
 
                 Behavior on x {
                     enabled: GLOB.useAnimations
-
                     SpringAnimation {
                         spring: 2
                         damping: 0.1
                     }
-
                 }
-
             }
 
             Grid {
@@ -175,7 +170,6 @@ Grid {
                 from: width
                 to: 0
             }
-
         }
 
         replaceExit: Transition {
@@ -186,7 +180,6 @@ Grid {
                 from: 0
                 to: -width
             }
-
         }
 
     }

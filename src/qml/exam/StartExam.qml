@@ -42,7 +42,7 @@ TstartExamItem {
     height: parent.height
     onContinueExam: start(Texecutor.ContinueExam, examFile)
     Component.onCompleted: {
-        dialLoader.standardButtons = 0;
+        dialLoader.stdButtons = DialogButtonBox.NoButton;
         if (!NOO.isAndroid())
             dialLoader.title = qsTr("Start exercises or an exam");
 

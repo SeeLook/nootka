@@ -25,7 +25,7 @@ Item {
         pages.addItem("donors", qsTr("Donors", "Would be 'Sponsors' or even 'Backers' - translate as such as You fill, what sounds/looks better in Your language"), "about/Donors");
         pages.addItem("changes", qsTr("Changes"), "about/Changes");
         pages.addItem("qt", "Qt", "about/Qt");
-        dialLoader.standardButtons = DialogButtonBox.Close;
+        dialLoader.stdButtons = DialogButtonBox.Close;
         dialLoader.title = qsTr("About Nootka");
     }
 

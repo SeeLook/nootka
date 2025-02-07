@@ -17,7 +17,7 @@ TtunerDialogItem {
     width: parent.width
     height: parent.height
     Component.onCompleted: {
-        dialLoader.standardButtons = DialogButtonBox.Close;
+        dialLoader.stdButtons = DialogButtonBox.Close;
         dialLoader.title = qsTr("Nooter - Nootka tuner");
     }
 
