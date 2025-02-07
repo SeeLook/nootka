@@ -7,7 +7,7 @@ import QtQuick.Controls 2.12
 
 import Nootka 1.0
 import Score 1.0
-
+import Nootka.Music
 
 Text {
   id: meter
@@ -45,7 +45,7 @@ Text {
       if (meterDrawer)
         meterDrawer.open()
       else
-        meterDrawer = Qt.createComponent("qrc:/score/MeterDrawer.qml").createObject(meter)
+        meterDrawer = Qt.createComponent("qrc:/score/MeterDrawer.qml").createObject(nootkaWindow.contentItem)
     }
   }
 }

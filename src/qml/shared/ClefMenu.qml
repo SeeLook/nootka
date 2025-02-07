@@ -7,7 +7,7 @@ import QtQuick.Controls 2.12
 
 import Nootka 1.0
 import Score 1.0
-
+import Nootka.Music
 
 ListView {
   id: clefMenu

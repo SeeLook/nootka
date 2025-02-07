@@ -5,6 +5,7 @@
 import QtQuick 2.12
 import QtQuick.Controls 2.12
 
+import Nootka.Music
 import Nootka 1.0
 import Score 1.0
 
@@ -30,7 +31,7 @@ Text {
       if (clefDrawer)
           clefDrawer.open()
       else {
-          clefDrawer = Qt.createComponent("qrc:/score/ClefDrawer.qml").createObject(clef)
+          clefDrawer = Qt.createComponent("qrc:/score/ClefDrawer.qml").createObject(nootkaWindow.contentItem)
           clefDrawer.clefMenu.clicked.connect(clef.clicked)
       }
       clefDrawer.selectedClef = score.clef
