@@ -3,22 +3,20 @@
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.12
-
 import Score 1.0
 
-
 NoteCursor {
-  width: parent ? parent.width - (scoreObj.singleNote ? 0 : parent.alterWidth) : 0
+    // private
+    property bool allow: true
 
-  // private
-  property bool allow: true
+    width: parent ? parent.width - (scoreObj.singleNote ? 0 : parent.alterWidth) : 0
+    visible: yPos > 0 && allow && (scoreObj.singleNote || scoreObj.editMode)
 
-  visible: yPos > 0 && allow && (scoreObj.singleNote || scoreObj.editMode)
-
-  Connections { // hide cursor after click on a note to show what was selected
-    target: scoreObj
-    onClicked: allow = false
-    onActiveYposChanged: allow = scoreObj.activeYpos > 0
-  }
+    // hide cursor after click on a note to show what was selected
+    Connections {
+        target: scoreObj
+        onClicked: allow = false
+        onActiveYposChanged: allow = scoreObj.activeYpos > 0
+    }
 
 }

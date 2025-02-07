@@ -4,9 +4,8 @@
 
 import QtQuick 2.12
 
-
-/** Text usually used in Tile for control label, it is vertically centered and palette aware */
+//* Text usually used in Tile for control label, it is vertically centered and palette aware
 Text {
-  anchors.verticalCenter: parent.verticalCenter;
-  color: enabled ? activPal.text : disdPal.text
+    anchors.verticalCenter: parent.verticalCenter
+    color: enabled ? activPal.text : disdPal.text
 }

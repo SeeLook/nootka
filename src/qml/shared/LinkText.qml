@@ -4,13 +4,14 @@
 
 import QtQuick 2.12
 
-
 Text {
-  color: activPal.text
-  onLinkActivated: Qt.openUrlExternally(link)
-  MouseArea {
-    anchors.fill: parent
-    acceptedButtons: Qt.NoButton
-    cursorShape: parent.hoveredLink ? Qt.PointingHandCursor : Qt.ArrowCursor
-  }
+    color: activPal.text
+    onLinkActivated: Qt.openUrlExternally(link)
+
+    MouseArea {
+        anchors.fill: parent
+        acceptedButtons: Qt.NoButton
+        cursorShape: parent.hoveredLink ? Qt.PointingHandCursor : Qt.ArrowCursor
+    }
+
 }

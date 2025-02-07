@@ -79,10 +79,6 @@ int main(int argc, char *argv[])
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 #endif
 
-    // It mutes QML warnings about connections syntax introduced in Qt 5.15
-    // TODO when Qt version requirements will rise to 5.15 or above, change syntax and remove that
-    QLoggingCategory::setFilterRules(QStringLiteral("qt.qml.connections=false"));
-
 #if defined(Q_OS_ANDROID)
     qputenv("QT_ANDROID_VOLUME_KEYS", "1"); // Handle volume keys by Qt, lock native Android behavior
 

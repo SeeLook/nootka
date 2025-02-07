@@ -4,15 +4,23 @@
 
 import QtQuick 2.12
 
-
 Text {
-  id: tie
-  property alias xScale: sc.xScale
-  property bool stemDown: false
+    id: tie
 
-  font { family: "Scorek"; pixelSize: 7 }
-  text: stemDown ? "\ue204" : "\ue1fd"
-  transform: Scale { id: sc }
-  y: stemDown ? -1.25 : -0.5
-  z: - 20
+    property alias xScale: sc.xScale
+    property bool stemDown: false
+
+    text: stemDown ? "\ue204" : "\ue1fd"
+    y: stemDown ? -1.25 : -0.5
+    z: -20
+
+    font {
+        family: "Scorek"
+        pixelSize: 7
+    }
+
+    transform: Scale {
+        id: sc
+    }
+
 }

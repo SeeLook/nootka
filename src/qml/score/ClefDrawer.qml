@@ -19,7 +19,7 @@ Drawer {
     ClefMenu {
         id: clefMenu
 
-        onClicked: cl => {
+        onClicked: (cl) => {
             close();
             score.clef = cl;
         }

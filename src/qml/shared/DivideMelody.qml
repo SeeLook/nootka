@@ -2,26 +2,34 @@
  * Copyright (C) 2021 by Tomasz Bojczuk (seelook@gmail.com)          *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
+import Nootka 1.0
 import QtQuick 2.12
 import QtQuick.Controls 2.12
 
-import Nootka 1.0
-
 Column {
-  property alias divisionBy: splitSpin.value
+    property alias divisionBy: splitSpin.value
 
-  spacing: NOO.factor()
-  Row {
-    id: splitRow
-    anchors.horizontalCenter: parent.horizontalCenter
     spacing: NOO.factor()
-    Text {
-      anchors.verticalCenter: parent.verticalCenter
-      color: activPal.text; text: qsTr("Divide by selected bars number")
+
+    Row {
+        id: splitRow
+
+        anchors.horizontalCenter: parent.horizontalCenter
+        spacing: NOO.factor()
+
+        Text {
+            anchors.verticalCenter: parent.verticalCenter
+            color: activPal.text
+            text: qsTr("Divide by selected bars number")
+        }
+
+        TspinBox {
+            id: splitSpin
+
+            from: 0
+            to: 64
+        }
+
     }
-    TspinBox {
-      id: splitSpin
-      from: 0; to: 64
-    }
-  }
+
 }

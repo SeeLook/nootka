@@ -5,8 +5,8 @@
 import QtQuick 2.12
 
 Rectangle {
-  x: score.singleNote ? 0.5 : - 1.0
-  height: 0.2
-  width: 4.0
-  color: noteCursor.color
+    x: score.singleNote ? 0.5 : -1
+    height: 0.2
+    width: 4
+    color: noteCursor.color
 }

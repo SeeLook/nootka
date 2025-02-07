@@ -2,41 +2,46 @@
  * Copyright (C) 2017-2021 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
+import "../"
+import Nootka 1.0
 import QtQuick 2.12
 import QtQuick.Dialogs 1.2
 
-import Nootka 1.0
-import "../"
-
-
 TcuteButton {
-  id: colorButton
+    id: colorButton
 
-  property alias title: colorDialog.title
+    property alias title: colorDialog.title
 
-  Behavior on color { enabled: GLOB.useAnimations; ColorAnimation { duration: 750 }}
+    implicitWidth: NOO.factor() * 3.5
+    implicitHeight: NOO.factor() * 2
+    onClicked: colorDialog.open()
+    contentItem: null
+    checked: !enabled
 
-  implicitWidth: NOO.factor() * 3.5
-  implicitHeight: NOO.factor() * 2
+    // disable cover
+    Rectangle {
+        anchors.fill: background
+        visible: !colorButton.enabled
+        color: disdPal.text
+        radius: NOO.factor() / 3
+    }
 
-  onClicked: colorDialog.open()
+    ColorDialog {
+        id: colorDialog
 
-  contentItem: null
+        color: colorButton.color
+        onAccepted: colorButton.color = colorDialog.color
+        modality: Qt.WindowModal
+        showAlphaChannel: color.a < 1
+    }
 
-  checked: !enabled
+    Behavior on color {
+        enabled: GLOB.useAnimations
 
-  Rectangle { // disable cover
-    anchors.fill: background
-    visible: !colorButton.enabled
-    color: disdPal.text
-    radius: NOO.factor() / 3
-  }
+        ColorAnimation {
+            duration: 750
+        }
 
-  ColorDialog {
-    id: colorDialog
-    color: colorButton.color
-    onAccepted: colorButton.color = colorDialog.color
-    modality: Qt.WindowModal
-    showAlphaChannel: color.a < 1.0
-  }
+    }
+
 }
