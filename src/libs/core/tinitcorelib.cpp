@@ -123,9 +123,8 @@ void prepareTranslations(QGuiApplication *a, QTranslator &qt, QTranslator &noo)
 bool loadNootkaFont(QGuiApplication *a)
 {
     Q_UNUSED(a)
-    QFontDatabase fd;
-    int fid = fd.addApplicationFont(Tpath::main + QLatin1String("fonts/nootka.ttf"));
-    int fid2 = fd.addApplicationFont(Tpath::main + QLatin1String("fonts/Scorek.otf"));
+    int fid = QFontDatabase::addApplicationFont(Tpath::main + QLatin1String("fonts/nootka.otf"));
+    int fid2 = QFontDatabase::addApplicationFont(Tpath::main + QLatin1String("fonts/Scorek.otf"));
     if (fid == -1 || fid2 == -1) {
         qDebug() << "Cannot load Nootka fonts!\nDid you forget to invoke:\n"
                  << "make runinplace\nor\nninja runinplace\nafter the first compilation?\n";
