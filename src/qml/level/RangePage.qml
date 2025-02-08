@@ -17,7 +17,7 @@ Tflickable {
 
     Connections {
         target: creator
-        onUpdateLevel: {
+        function onUpdateLevel() : void {
             rangeScore.setNote(0, creator.loNote);
             rangeScore.setNote(1, creator.hiNote);
         }
@@ -65,12 +65,12 @@ Tflickable {
 
                         Connections {
                             target: rangeScore.firstStaff.clef
-                            onClicked: creator.clef = rangeScore.clef
+                            function onClicked() : void { creator.clef = rangeScore.clef }
                         }
 
                         Connections {
                             target: rangeScore.scoreObj
-                            onClicked: {
+                            function onClicked() : void {
                                 creator.loNote = rangeScore.scoreObj.noteAt(0);
                                 creator.hiNote = rangeScore.scoreObj.noteAt(1);
                             }

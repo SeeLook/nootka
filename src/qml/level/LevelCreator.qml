@@ -50,7 +50,7 @@ TlevelCreatorItem {
             pages.pages[2].saveLevel();
 
     }
-    onWantValidationMessage: {
+    onWantValidationMessage: title, message, accent => {
         var c = Qt.createComponent("qrc:/level/LevelValidationMessage.qml");
         c.createObject(creator, {
             "caption": title,

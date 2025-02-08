@@ -72,12 +72,12 @@ Column {
 
     Connections {
         target: creator
-        onSaveNewLevel: {
+        function onSaveNewLevel(name: string, desc: string) : void {
             newLevelPopup.name = name === "" ? qsTr("new level") : name;
             newLevelPopup.desc = desc;
             newLevelPopup.open();
         }
-        onWantNotSavedMessage: {
+        function onWantNotSavedMessage(title: string, message: string) : void {
             if (!notSavedMess) {
                 notSavedMess = Qt.createComponent("qrc:/Tmessage.qml").createObject(creator, {
                     "accent": "#ff557f"

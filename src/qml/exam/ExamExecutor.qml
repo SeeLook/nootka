@@ -68,60 +68,67 @@ Texecutor {
 
     Connections {
         target: tipHandler
-        onWantStartTip: {
-            var s = Qt.createComponent("qrc:/exam/ExamTip.qml");
+        function onWantStartTip(text: string, color: color, pos: point) : void {
+            let s = Qt.createComponent("qrc:/exam/ExamTip.qml");
             tipHandler.startTip = s.createObject(executor, {
-                "text": text,
-                "offX": pos.x,
-                "offY": pos.y,
-                "bg": color
+                text: text,
+                offX: pos.x,
+                offY: pos.y,
+                bg: color
             });
         }
-        onWantQuestionTip: {
-            var s = Qt.createComponent("qrc:/exam/QuestionTip.qml");
+
+        function onWantQuestionTip(text: string, pos: point) : void {
+            let s = Qt.createComponent("qrc:/exam/QuestionTip.qml");
             tipHandler.questionTip = s.createObject(executor, {
-                "text": text,
-                "offX": pos.x,
-                "offY": pos.y
+                text: text,
+                offX: pos.x,
+                offY: pos.y
             });
         }
-        onWantConfirmTip: {
-            var s = Qt.createComponent("qrc:/exam/ExamTip.qml");
+
+        function onWantConfirmTip(text: string, color: color, pos: point) : void {
+            let s = Qt.createComponent("qrc:/exam/ExamTip.qml");
             tipHandler.confirmTip = s.createObject(executor, {
-                "text": text,
-                "offX": pos.x,
-                "offY": pos.y,
-                "bg": color,
-                "showExit": !NOO.isAndroid()
+                text: text,
+                offX: pos.x,
+                offY: pos.y,
+                bg: color,
+                showExit: !NOO.isAndroid()
             });
         }
-        onWantResultTip: {
-            var r = Qt.createComponent("qrc:/exam/ResultTip.qml");
+
+        function onWantResultTip(text: string, color: color) : void {
+            let r = Qt.createComponent("qrc:/exam/ResultTip.qml");
             tipHandler.resultTip = r.createObject(executor.parent, {
-                "text": text,
-                "color": color
+                text: text,
+                color: color
             });
         }
-        onWantTryAgainTip: {
-            var a = Qt.createComponent("qrc:/exam/ResultTip.qml");
+
+        function onWantTryAgainTip() : void {
+            let a = Qt.createComponent("qrc:/exam/ResultTip.qml");
             tipHandler.tryAgainTip = a.createObject(executor.parent, {
-                "text": qsTranslate("TtipHandler", "Try again!"),
-                "color": GLOB.wrongColor,
-                "targetY": Math.min(executor.width, executor.height) / 12
+                text: qsTranslate("TtipHandler", "Try again!"),
+                color: GLOB.wrongColor,
+                targetY: Math.min(executor.width, executor.height) / 12
             });
         }
-        onWantWhatNextTip: {
-            var s = Qt.createComponent("qrc:/exam/ExamTip.qml");
+
+        function onWantWhatNextTip(text: string, color: color, pos: point) : void {
+            let s = Qt.createComponent("qrc:/exam/ExamTip.qml");
             tipHandler.whatNextTip = s.createObject(executor, {
-                "text": text,
-                "offX": pos.x,
-                "offY": pos.y,
-                "bg": color
+                text: text,
+                offX: pos.x,
+                offY: pos.y,
+                bg: color
             });
         }
-        onWantCertificate: {
+
+        function onWantCertificate() : void {
             tipHandler.certTip = Qt.createComponent("qrc:/exam/Certificate.qml").createObject(nootkaWindow.contentItem.parent);
         }
+
     }
 
 }

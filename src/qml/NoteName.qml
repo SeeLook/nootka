@@ -39,7 +39,7 @@ TnameItem {
     Connections {
         target: score
         enabled: !GLOB.isExam
-        onNoteChanged: noteName.note = score.note
+        function onNoteChanged() : void { noteName.note = score.note }
     }
 
     Rectangle {

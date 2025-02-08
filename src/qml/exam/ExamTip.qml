@@ -31,12 +31,12 @@ GlowRect {
     width: text.width
     height: text.height
     scale: GLOB.useAnimations ? 0 : 1
+
     Component.onCompleted: {
         eW = executor.width;
         eH = executor.height;
         if (GLOB.useAnimations)
             scale = 1;
-
     }
 
     border {
@@ -50,7 +50,7 @@ GlowRect {
         color: activPal.text
         textFormat: Text.RichText
         padding: NOO.factor()
-        onLinkActivated: {
+        onLinkActivated: link => {
             executor.tipLink(link);
             tip.destroy();
         }
@@ -60,7 +60,6 @@ GlowRect {
             acceptedButtons: Qt.NoButton
             cursorShape: parent.hoveredLink ? Qt.PointingHandCursor : Qt.ArrowCursor
         }
-
     }
 
     Image {
@@ -85,12 +84,12 @@ GlowRect {
 
     Connections {
         target: executor
-        onWidthChanged: {
+        function onWidthChanged() : void {
             scale = (executor.width / eW) * scale;
             offX = offX * (executor.width / eW);
             eW = executor.width;
         }
-        onHeightChanged: {
+        function onHeightChanged() : void {
             offY = offY * (executor.height / eH);
             eH = executor.height;
         }
