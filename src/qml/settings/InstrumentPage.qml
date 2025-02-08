@@ -2,12 +2,13 @@
  * Copyright (C) 2017-2021 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
+import Nootka
+import Nootka.Music
+import QtQuick
+import QtQuick.Controls
+import Score
 import "../"
 import "../score"
-import Nootka 1.0
-import QtQuick 2.12
-import QtQuick.Controls 2.12
-import Score 1.0
 
 Flickable {
     id: instrPage
@@ -338,13 +339,10 @@ Flickable {
 
                     width: NOO.factor() * 15
                     maximumLength: 30
-
-                    validator: RegExpValidator {
-                        regExp: /([1-2]{0,1}[0-9]{1,2}!{0,1},){0,10}/
+                    validator: RegularExpressionValidator {
+                        regularExpression: /([1-2]{0,1}[0-9]{1,2}!{0,1},){0,10}/
                     }
-
                 }
-
             }
 
         }
