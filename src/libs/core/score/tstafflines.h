@@ -41,6 +41,9 @@ public:
 
 protected:
     void geometryChange(const QRectF &newGeometry, const QRectF &oldGeometry) override;
+#if !defined(Q_OS_ANDROID)
+    virtual bool eventFilter(QObject *obj, QEvent *event) override;
+#endif
 
 private:
     qreal m_staffScale = 1.0;

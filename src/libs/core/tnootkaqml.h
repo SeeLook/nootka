@@ -313,6 +313,10 @@ protected:
 
     void warnNewerVersionSlot(const QString &fileName);
 
+#if !defined(Q_OS_ANDROID)
+    virtual bool eventFilter(QObject *obj, QEvent *event) override;
+#endif
+
 private:
     static TnootkaQML *m_instance;
 

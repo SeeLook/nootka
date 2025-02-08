@@ -196,6 +196,9 @@ protected:
      * squeezes extra note @p np silently, without invoking visual changes
      */
     void insertSilently(int id, TnotePair *np);
+#if !defined(Q_OS_ANDROID)
+    virtual bool eventFilter(QObject *obj, QEvent *event) override;
+#endif
 
 private:
     void clearAccidState();

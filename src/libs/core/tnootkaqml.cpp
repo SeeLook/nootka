@@ -572,10 +572,7 @@ void TnootkaQML::setQmlEngine(QQmlEngine *e)
     connect(m_aboutAct, &Taction::triggered, this, &TnootkaQML::aboutActTriggered);
     m_messageColor = qApp->palette().highlight().color();
 
-    connect(qApp, &QGuiApplication::paletteChanged, this, [=] {
-        setMessageColor(qApp->palette().highlight().color());
-        m_scoreAct->setBgColor(qApp->palette().highlight().color());
-    });
+    qApp->installEventFilter(this);
 }
 
 /**
@@ -919,4 +916,13 @@ int TnootkaQML::scoreNotesCount() const
 QList<Tnote> &TnootkaQML::scoreNoteList() const
 {
     return m_scoreObject->noteList();
+}
+
+bool TnootkaQML::eventFilter(QObject *obj, QEvent *event)
+{
+    if (obj == qApp && event->type() == QEvent::ApplicationPaletteChange) {
+        setMessageColor(qApp->palette().highlight().color());
+        m_scoreAct->setBgColor(qApp->palette().highlight().color());
+    }
+    return QObject::eventFilter(obj, event);
 }

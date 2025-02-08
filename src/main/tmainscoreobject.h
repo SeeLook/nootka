@@ -182,7 +182,6 @@ protected:
     void randMelodySlot();
     void isExamChangedSlot();
     void singleModeSlot();
-    void paletteSlot();
     void getMelodyNameSlot();
     void playScoreSlot();
     void gotItNoteSelectedSlot();
@@ -193,6 +192,9 @@ protected:
     void checkSingleNoteVisibility();
 
     void checkExtraStaves();
+#if !defined(Q_OS_ANDROID)
+    virtual bool eventFilter(QObject *obj, QEvent *event) override;
+#endif
 
 protected slots:
     void applyCorrectSlot();

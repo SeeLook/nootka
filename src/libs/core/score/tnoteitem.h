@@ -213,6 +213,9 @@ protected:
     void mousePressEvent(QMouseEvent *event) override;
     void mouseReleaseEvent(QMouseEvent *event) override;
     void mouseMoveEvent(QMouseEvent *event) override;
+#if !defined(Q_OS_ANDROID)
+    virtual bool eventFilter(QObject *obj, QEvent *event) override;
+#endif
 
 private:
     TstaffItem *m_staff;

@@ -102,9 +102,7 @@ TnoteItem::TnoteItem(TstaffItem *staffObj, TnotePair *wrapper)
     setAcceptedMouseButtons(Qt::LeftButton | Qt::RightButton);
 
     updateNoteHead();
-    connect(qApp, &QGuiApplication::paletteChanged, this, [=] {
-        setColor(qApp->palette().text().color());
-    });
+    qApp->installEventFilter(this);
 }
 
 TnoteItem::~TnoteItem()
@@ -943,4 +941,12 @@ void TnoteItem::checkAddLinesVisibility()
         m_underLoLines[0]->setVisible(v && m_notePosY >= staff()->upperLine() + 32.0);
         m_underLoLines[1]->setVisible(v && m_notePosY >= staff()->upperLine() + 34.0);
     }
+}
+
+bool TnoteItem::eventFilter(QObject *obj, QEvent *event)
+{
+    if (obj == qApp && event->type() == QEvent::ApplicationPaletteChange) {
+        setColor(qApp->palette().text().color());
+    }
+    return QObject::eventFilter(obj, event);
 }

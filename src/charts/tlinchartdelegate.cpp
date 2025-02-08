@@ -45,19 +45,16 @@
 TlinChartDelegate::TlinChartDelegate(QQuickItem *parent)
     : QQuickPaintedItem(parent)
 {
-    //   setRenderTarget(QQuickPaintedItem::FramebufferObject);
     setAntialiasing(true);
     setAcceptHoverEvents(true);
 
     m_qInf = new TtipInfo();
 
-    connect(qApp, &QGuiApplication::paletteChanged, this, [=] {
-        update();
-    });
     connect(this, &QQuickItem::heightChanged, this, [=] {
         calcProgressRangeY();
         emit pointYChanged();
     });
+    qApp->installEventFilter(this);
 }
 
 TlinChartDelegate::~TlinChartDelegate()
@@ -397,4 +394,12 @@ void TlinChartDelegate::calcProgressRangeY()
         m_prevAverY = 0.0;
         m_thisAverY = 0.0;
     }
+}
+
+bool TlinChartDelegate::eventFilter(QObject *obj, QEvent *event)
+{
+    if (obj == qApp && event->type() == QEvent::ApplicationPaletteChange) {
+        update();
+    }
+    return QObject::eventFilter(obj, event);
 }

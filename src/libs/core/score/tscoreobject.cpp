@@ -210,7 +210,7 @@ void TscoreObject::setKeySignature(int k)
                     m_accidInKeyArray[(startVal + sign * (i * 4)) % 7] = 0;
             }
             m_keyChanged = true;
-            for (TmeasureObject *m : qAsConst(m_measures))
+            for (TmeasureObject *m : std::as_const(m_measures))
                 m->keySignatureChanged();
             if (notesCount() > 0)
                 adjustScoreWidth();
@@ -1605,11 +1605,11 @@ void TscoreObject::clearScorePrivate()
         setSelectedItem(nullptr);
         m_activeBarNr = -1;
         changeActiveNote(nullptr);
-        for (TnotePair *s : qAsConst(m_segments)) {
+        for (TnotePair *s : std::as_const(m_segments)) {
             s->flush();
             m_spareSegments << s;
         }
-        for (TmeasureObject *m : qAsConst(m_measures)) {
+        for (TmeasureObject *m : std::as_const(m_measures)) {
             m->flush();
             m_spareMeasures << m;
         }

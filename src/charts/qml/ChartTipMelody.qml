@@ -4,6 +4,7 @@
 
 import "../"
 import "../score"
+import Nootka
 import Nootka.Charts 1.0
 import QtQuick 2.12
 import Score 1.0

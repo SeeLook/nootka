@@ -68,6 +68,11 @@ signals:
     void groupNrChanged();
     void examChanged();
 
+protected:
+#if !defined(Q_OS_ANDROID)
+    virtual bool eventFilter(QObject *obj, QEvent *event) override;
+#endif
+
 private:
     TchartItem *m_chart = nullptr;
     bool m_hovered = false;

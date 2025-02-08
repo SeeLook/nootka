@@ -35,9 +35,7 @@ TstaffLines::TstaffLines(QQuickItem *parent)
     setRenderTarget(QQuickPaintedItem::FramebufferObject);
     setAntialiasing(true);
     setHeight(9.0);
-    connect(qApp, &QGuiApplication::paletteChanged, this, [=] {
-        update();
-    });
+    qApp->installEventFilter(this);
 }
 
 void TstaffLines::setStaffScale(qreal stScale)
@@ -64,9 +62,16 @@ void TstaffLines::paint(QPainter *painter)
 
 void TstaffLines::geometryChange(const QRectF &newGeometry, const QRectF &oldGeometry)
 {
-    // QQuickPaintedItem::geometryChange(newGeometry, oldGeometry);
     if (newGeometry.width() != oldGeometry.width() || newGeometry.height() != oldGeometry.height()) {
         setTextureSize(QSize(qRound(m_staffScale * newGeometry.width()), qRound(newGeometry.height() * m_staffScale)));
         update();
     }
+}
+
+bool TstaffLines::eventFilter(QObject *obj, QEvent *event)
+{
+    if (obj == qApp && event->type() == QEvent::ApplicationPaletteChange) {
+        update();
+    }
+    return QObject::eventFilter(obj, event);
 }

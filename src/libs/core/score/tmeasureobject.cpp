@@ -51,10 +51,7 @@ TmeasureObject::TmeasureObject(int nr, TscoreObject *parent)
     m_duration = m_score->meter()->duration();
     m_free = m_duration;
 
-    connect(qApp, &QGuiApplication::paletteChanged, this, [=] {
-        if (m_barLine)
-            m_barLine->setProperty("color", qApp->palette().text().color());
-    });
+    qApp->installEventFilter(this);
 }
 
 TmeasureObject::~TmeasureObject()
@@ -74,7 +71,7 @@ void TmeasureObject::setStaff(TstaffItem *st)
 {
     if (m_staff != st) {
         m_staff = st;
-        for (TnotePair *np : qAsConst(m_notes))
+        for (TnotePair *np : std::as_const(m_notes))
             np->item()->setStaff(m_staff);
     }
 }
@@ -178,7 +175,7 @@ void TmeasureObject::insertNote(TnoteItem *afterItem)
         // cut note duration if it is longer than possible measure duration starting from the item
         auto newRtmList = Trhythm::resolve(workDur > possibleDur ? possibleDur : workDur);
         Tpairs nl;
-        for (Trhythm rtm : qAsConst(newRtmList)) {
+        for (Trhythm rtm : std::as_const(newRtmList)) {
             Tnote newNote(0, 0, 0, Trhythm(rtm.rhythm(), true));
             auto np = m_score->insertSilently(afterItem->index(), newNote, this);
             m_notes.removeAt(afterIdInBar);
@@ -620,6 +617,14 @@ void TmeasureObject::insertSilently(int id, TnotePair *np)
         np->item()->setNoteNameVisible(true);
 }
 
+bool TmeasureObject::eventFilter(QObject *obj, QEvent *event)
+{
+    if (obj == qApp && event->type() == QEvent::ApplicationPaletteChange) {
+        if (m_barLine)
+            m_barLine->setProperty("color", qApp->palette().text().color());
+    }
+    return QObject::eventFilter(obj, event);
+}
 // #################################################################################################
 // ###################              PRIVATE             ############################################
 // #################################################################################################

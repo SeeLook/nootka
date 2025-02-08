@@ -95,6 +95,9 @@ protected:
     void setMeasure(TmeasureObject *m);
 
     void deleteBeam();
+#if !defined(Q_OS_ANDROID)
+    virtual bool eventFilter(QObject *obj, QEvent *event) override;
+#endif
 
 private:
     void resetBeam(TnotePair *noteToRemove);

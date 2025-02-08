@@ -62,19 +62,17 @@ TbeamObject::TbeamObject(TnotePair *sn, TmeasureObject *m)
     setAntialiasing(true);
     addNote(sn);
     setParent(m_measure->score());
-    connect(qApp, &QGuiApplication::paletteChanged, this, [=] {
-        update();
-    });
     connect(this, &QQuickPaintedItem::visibleChanged, this, [=] {
         if (isVisible() && count() > 1)
             drawBeam();
     });
+    qApp->installEventFilter(this);
 }
 
 TbeamObject::~TbeamObject()
 {
     //   qDebug() << "     [BEAM] deleted of id" << (m_notes.isEmpty() ? -1 : first()->index());
-    for (TnotePair *np : qAsConst(m_notes)) {
+    for (TnotePair *np : std::as_const(m_notes)) {
         np->addChange(TnotePair::e_beamChanged);
         np->setBeam(nullptr);
         //     resetBeam(np);
@@ -127,7 +125,7 @@ void TbeamObject::prepareBeam()
     int stemDirStrength = 0;
     bool stemsUpPossible = true;
     qreal hiNote = 99.0, loNote = 0.0;
-    for (TnotePair *np : qAsConst(m_notes)) {
+    for (TnotePair *np : std::as_const(m_notes)) {
         stemDirStrength += np->item()->notePosY()
             - (m_measure->staff()->upperLine()
                + (m_measure->score()->isPianoStaff() && np->item()->notePosY() > m_measure->staff()->upperLine() + 13.0 ? 26.0 : 4.0));
@@ -150,7 +148,7 @@ void TbeamObject::prepareBeam()
         if ((allStemsDown && stemTop < upperMidLine) || (!allStemsDown && stemTop > upperMidLine))
             stemTop = upperMidLine; // keep beam on staff middle line
     }
-    for (TnotePair *np : qAsConst(m_notes)) {
+    for (TnotePair *np : std::as_const(m_notes)) {
         np->note()->rtm.setStemDown(allStemsDown);
         np->addChange(TnotePair::e_stemDirChanged);
         np->item()->setStemHeight(qAbs(np->item()->notePosY() - stemTop));
@@ -223,7 +221,7 @@ bool TbeamObject::removeNote(TnotePair *np)
 {
     bool deleteBeam = false;
     int noteId = m_notes.indexOf(np);
-    if (noteId == -1) { // TODO remove this if does not occur
+    if (noteId == -1) {
         qDebug() << "     [BEAM] of note id" << first()->index() << "has no note to remove";
         return false;
     }
@@ -293,13 +291,21 @@ void TbeamObject::setMeasure(TmeasureObject *m)
 void TbeamObject::deleteBeam()
 {
     m_measure->score()->storeBeam(this);
-    for (TnotePair *np : qAsConst(m_notes)) {
+    for (TnotePair *np : std::as_const(m_notes)) {
         resetBeam(np);
     }
     m_16beams.clear();
     m_notes.clear();
     changeStaff(nullptr);
     m_measure = nullptr;
+}
+
+bool TbeamObject::eventFilter(QObject *obj, QEvent *event)
+{
+    if (obj == qApp && event->type() == QEvent::ApplicationPaletteChange) {
+        update();
+    }
+    return QObject::eventFilter(obj, event);
 }
 
 void TbeamObject::resetBeam(TnotePair *noteToRemove)

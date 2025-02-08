@@ -43,13 +43,10 @@ TnameItem::TnameItem(QQuickItem *parent)
     m_note.setOctave(-4);
     m_bgColor = qApp->palette().base().color();
     m_bgColor.setAlpha(175);
-    connect(qApp, &QGuiApplication::paletteChanged, this, [=] {
-        if (!m_questionAsked) // update color only when question is not asked
-            changeNameBgColor(qApp->palette().base().color());
-    });
     connect(GLOB, &Tglobals::showEnharmNotesChanged, this, &TnameItem::nameTextChanged);
     connect(GLOB, &Tglobals::noteNameStyleChanged, this, &TnameItem::nameTextChanged);
     connect(GLOB, &Tglobals::seventhIsBChanged, this, &TnameItem::nameTextChanged);
+    qApp->installEventFilter(this);
 }
 
 TnameItem::~TnameItem()
@@ -272,4 +269,20 @@ void TnameItem::applyCorrect()
 void TnameItem::finishCorrectAnim()
 {
     emit correctionFinished();
+}
+
+bool TnameItem::eventFilter(QObject *obj, QEvent *event)
+{
+    if (obj == qApp && event->type() == QEvent::ApplicationPaletteChange) {
+        if (!m_questionAsked) // update color only when question is not asked
+            changeNameBgColor(qApp->palette().base().color());
+    }
+    return QObject::eventFilter(obj, event);
+}
+
+void TnameItem::changeNameBgColor(const QColor &c)
+{
+    m_bgColor = c;
+    m_bgColor.setAlpha(175);
+    emit bgColorChanged();
 }
