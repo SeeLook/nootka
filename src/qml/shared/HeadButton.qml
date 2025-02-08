@@ -17,6 +17,7 @@ ToolButton {
     property Taction taction
     property bool hiHover: true
 
+    padding: 0
     hoverEnabled: true
     width: Math.max(pix.width, butText.width) + (NOO.isAndroid() ? 4 : factor * 2)
     height: butText.height + pix.height + NOO.factor() / 4
@@ -40,8 +41,11 @@ ToolButton {
 
         text: taction ? taction.text : ""
         font.pixelSize: Math.min(factor * 2.5, NOO.factor())
-        anchors.horizontalCenter: parent.horizontalCenter
-        anchors.bottom: parent.bottom
+        anchors {
+            horizontalCenter: parent.horizontalCenter
+            bottom: parent.bottom
+            bottomMargin: 1
+        }
         horizontalAlignment: Text.AlignHCenter
         color: activPal.text
     }

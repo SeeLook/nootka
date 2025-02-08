@@ -15,6 +15,7 @@ ToolBar {
 
     height: settAct.height
     z: 6
+    padding: 0
 
     Row {
         spacing: toolBar.width / 200
@@ -73,7 +74,7 @@ ToolBar {
         property var pitchView
 
         target: SOUND
-        onInitialized: {
+        function onInitialized() : void {
             if (!pitchView) {
                 var c = Qt.createComponent("qrc:/PitchView.qml");
                 pitchView = c.createObject(toolBar);
