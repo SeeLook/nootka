@@ -134,7 +134,7 @@ Score {
         MouseArea {
             anchors.fill: parent
             //z: -1
-            onWheel: {
+            onWheel: wheel => {
                 if (wheel.modifiers & Qt.ControlModifier) {
                     if (wheel.angleDelta.y > 0)
                         zoom(true);
