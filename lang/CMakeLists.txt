@@ -4,13 +4,16 @@
 
 find_package(Qt6 COMPONENTS LinguistTools)
 
-file(GLOB TS_FILES "nootka_*.ts")
-list(APPEND TS_FILES "qtbase_sl.ts")
-list(APPEND TS_FILES "qtbase_pt.ts")
+file(GLOB TR_SOURCES "nootka_*.ts")
+list(APPEND TR_SOURCES "qtbase_sl.ts")
+list(APPEND TR_SOURCES "qtbase_pt.ts")
 
-#list(REMOVE_ITEM ${TS_FILES} "if_any")
+#list(REMOVE_ITEM ${TR_SOURCES} "if_any")
 
-qt_add_translation(QM_FILES ${TS_FILES})
+qt6_add_translations(nootka
+    TS_FILES ${TR_SOURCES}
+    QM_FILES_OUTPUT_VARIABLE QM_FILES
+)
 
 # HACK: above command doesn't want to invoke itself.
 # Following trick is needed
