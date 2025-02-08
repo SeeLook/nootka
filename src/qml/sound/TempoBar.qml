@@ -210,7 +210,7 @@ Item {
 
     Connections {
         target: SOUND
-        onCountdownPrepare: {
+        function onCountdownPrepare() : void {
             if (SOUND.tickBeforePlay && !GLOB.singleNoteMode) {
                 if (!preCountItem) {
                     var d = Qt.createComponent("qrc:/sound/CountdownItem.qml");

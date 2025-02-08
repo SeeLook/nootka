@@ -17,8 +17,8 @@ ControlBase {
     Connections {
         target: scoreObj
         enabled: !scoreObj.singleNote && scoreObj.allowAdding && !scoreObj.readOnly
-        onEditModeChanged: delControl.show = scoreObj.editMode && activeItem
-        onActiveNoteChanged: {
+        function onEditModeChanged() : void { delControl.show = scoreObj.editMode && activeItem }
+        function onActiveNoteChanged() : void {
             if (scoreObj.activeNote) {
                 if (!scoreObj.readOnly && activeItem != scoreObj.activeNote) {
                     activeItem = scoreObj.activeNote;
@@ -30,7 +30,7 @@ ControlBase {
                 delControl.active = false;
             }
         }
-        onScoreWasCleared: show = false
+        function onScoreWasCleared() : void { show = false }
     }
 
     GlowRect {
@@ -94,18 +94,14 @@ ControlBase {
                 Component.onCompleted: {
                     if (scoreObj.deleteNoteAct)
                         statusTip = scoreObj.deleteNoteAct.text + ".<br><b>(" + scoreObj.deleteNoteAct.key() + ")</b>";
-
                 }
 
                 font {
                     family: "Nootka"
                     pixelSize: factor * 3
                 }
-
             }
-
         }
-
     }
 
 }

@@ -52,13 +52,13 @@ Flickable {
 
     Connections {
         target: GLOB
-        onInstrumentChanged: setInstrument()
+        function onInstrumentChanged() : void { setInstrument() }
     }
 
     Connections {
         target: score
         enabled: GLOB.instrument.piano
-        onClefChanged: instrument.setAmbitus(score.scoreObj.lowestNote(), score.scoreObj.highestNote())
+        function onClefChanged() : void { instrument.setAmbitus(score.scoreObj.lowestNote(), score.scoreObj.highestNote()) }
     }
 
 }

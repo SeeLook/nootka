@@ -157,12 +157,10 @@ ApplicationWindow {
             height: parent.height / (GLOB.singleNoteMode && topToBott ? 2 : 1)
             width: parent.width / (GLOB.singleNoteMode && !topToBott ? 2 : 1)
         }
-
     }
 
     Instrument {
         id: instrument
-
         score: score
     }
 

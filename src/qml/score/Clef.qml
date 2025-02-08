@@ -91,7 +91,7 @@ Text {
 
     Connections {
         target: score
-        onClefChanged: getPos()
+        function onClefChanged() : void { getPos() }
     }
 
 }

@@ -84,7 +84,7 @@ ToolButton {
 
     Connections {
         target: taction
-        onShakeButton: shakeAnim.running = true
+        function onShakeButton() : void { shakeAnim.running = true }
     }
 
     SequentialAnimation {
@@ -116,10 +116,8 @@ ToolButton {
             to: 0
             duration: 50
         }
-
     }
 
     background: Item {
     }
-
 }

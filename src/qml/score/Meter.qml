@@ -18,7 +18,7 @@ Text {
 
     Connections {
         target: score
-        onMeterChanged: text = NOO.meter(score.meter).symbol()
+        function onMeterChanged() : void { text = NOO.meter(score.meter).symbol() }
     }
 
     font {

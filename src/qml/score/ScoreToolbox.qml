@@ -55,8 +55,8 @@ ControlBase {
 
     Connections {
         target: scoreObj
-        onScoreWasCleared: show = false
-        onEditModeChanged: show = scoreObj.editMode && scoreObj.activeNote
+        function onScoreWasCleared() : void { show = false }
+        function onEditModeChanged() : void { show = scoreObj.editMode && scoreObj.activeNote }
     }
 
     component: Component {
@@ -86,11 +86,8 @@ ControlBase {
                             family: "scorek"
                             pixelSize: factor * 3
                         }
-
                     }
-
                 }
-
             }
 
             Rectangle {
@@ -116,20 +113,17 @@ ControlBase {
                                 var act = rtmActions[Math.floor(index / 2)];
                                 if (act)
                                     item.statusTip = act.text + "<br><b>(" + act.key() + ")</b>";
-
                             }
                         }
 
                         Connections {
                             target: item
-                            onClicked: {
+                            function onClicked : void {
                                 scoreObj.workRtmValue = item.rhythm;
                                 scoreObj.workRtmRest = item.rest;
                             }
                         }
-
                     }
-
                 }
                 // triplet
 
@@ -165,7 +159,6 @@ ControlBase {
                         item.text = ".";
                         if (scoreObj.dotNoteAct)
                             item.statusTip = scoreObj.dotNoteAct.text + "<br><b>(" + scoreObj.dotNoteAct.key() + ")</b>";
-
                     }
 
                     Binding {
@@ -182,9 +175,8 @@ ControlBase {
 
                     Connections {
                         target: dotLoad.item
-                        onClicked: scoreObj.workRtmDot = !scoreObj.workRtmDot
+                        function onClicked() : void { scoreObj.workRtmDot = !scoreObj.workRtmDot }
                     }
-
                 }
 
             }

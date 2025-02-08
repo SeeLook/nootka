@@ -130,7 +130,7 @@ TguitarBg {
     Connections {
         target: instrFlick
         enabled: !NOO.isAndroid()
-        onMovementEnded: instrument.pressedAt(0, 0)
+        function onMovementEnded() : void { instrument.pressedAt(0, 0) }
     }
 
     MouseArea {

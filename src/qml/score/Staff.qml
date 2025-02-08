@@ -94,7 +94,7 @@ TstaffItem {
 
     Connections {
         target: score
-        onEnableKeySignChanged: checkIsKeyEnabled()
+        function onEnableKeySignChanged() : void { checkIsKeyEnabled() }
     }
 
     // measure number

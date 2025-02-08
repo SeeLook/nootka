@@ -170,7 +170,7 @@ Score {
 
     Connections {
         target: SOUND
-        onInitialized: {
+        function onInitialized() : void {
             mainObj.scoreObject = scoreObj;
             singleNote = Qt.binding(function() {
                 return GLOB.singleNoteMode;
@@ -193,12 +193,12 @@ Score {
 
     Connections {
         target: GLOB
-        onClefTypeChanged: score.clef = GLOB.clefType
+        function onClefTypeChanged() : void { score.clef = GLOB.clefType }
     }
 
     Connections {
         target: GLOB.tuning
-        onScordatureChanged: updateScord()
+        function onScordatureChanged() : void { updateScord() }
     }
 
     // note highlight
