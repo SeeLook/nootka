@@ -92,7 +92,7 @@ int main(int argc, char *argv[])
         qDebug() << "==== NOOTKA LOG =======\n" << QDateTime::currentDateTime().toString();
     }
 #else
-    qputenv("QT_QUICK_CONTROLS_STYLE", ""); // reset style environment var - other styles can cause crashes
+    qputenv("QT_QUICK_CONTROLS_STYLE", "Basic"); // reset style environment var - other styles can cause crashes
 #endif
 
     QElapsedTimer startElapsed;
