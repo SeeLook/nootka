@@ -6,7 +6,8 @@ import "../"
 import "../settings"
 import Nootka 1.0
 import Nootka.Dialogs 1.0
-import QtQuick 2.12
+import QtQuick
+import Nootka.Music
 import QtQuick.Controls 2.12
 
 TtunerDialogItem {
@@ -312,15 +313,13 @@ TtunerDialogItem {
 
     Connections {
         target: SOUND
-        onVolumeUpPressed: {
+        function onVolumeUpPressed() : void {
             if (NOO.isAndroid())
                 volSlider.value++;
-
         }
-        onVolumeDownPressed: {
+        function onVolumeDownPressed() : void {
             if (NOO.isAndroid())
                 volSlider.value--;
-
         }
     }
 

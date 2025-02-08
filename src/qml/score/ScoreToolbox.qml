@@ -118,7 +118,7 @@ ControlBase {
 
                         Connections {
                             target: item
-                            function onClicked : void {
+                            function onClicked() : void {
                                 scoreObj.workRtmValue = item.rhythm;
                                 scoreObj.workRtmRest = item.rest;
                             }

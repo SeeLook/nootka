@@ -4,7 +4,8 @@
 
 import "../"
 import Nootka 1.0
-import QtQuick 2.12
+import QtQuick
+import Nootka.Music
 import QtQuick.Controls 2.12
 
 TnotesBarItem {

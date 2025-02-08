@@ -5,7 +5,8 @@
 import "../"
 import "../score"
 import Nootka 1.0
-import QtQuick 2.12
+import QtQuick
+import Nootka.Music
 import Score 1.0
 
 Column {

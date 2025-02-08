@@ -15,8 +15,8 @@ NoteCursor {
     // hide cursor after click on a note to show what was selected
     Connections {
         target: scoreObj
-        onClicked: allow = false
-        onActiveYposChanged: allow = scoreObj.activeYpos > 0
+        function onClicked() : void { allow = false }
+        function onActiveYposChanged() : void { allow = scoreObj.activeYpos > 0 }
     }
 
 }

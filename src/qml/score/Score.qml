@@ -100,12 +100,10 @@ Flickable {
             if (allowAdding) {
                 if (!delControl)
                     delControl = Qt.createComponent("qrc:/score/DelControl.qml").createObject(contentItem);
-
                 if (!noteAdd)
                     noteAdd = Qt.createComponent("qrc:/score/NoteAdd.qml").createObject(contentItem);
-
                 if (!scoreToobox)
-                    scoreToobox = Qt.createComponent("qrc:/score/ScoreToolbox.qml").createObject(parent);
+                    scoreToobox = Qt.createComponent("qrc:/score/ScoreToolbox.qml").createObject(score);
 
             }
         }
@@ -117,7 +115,7 @@ Flickable {
                 });
             }
             if (!scoreToobox && !readOnly)
-                scoreToobox = Qt.createComponent("qrc:/score/ScoreToolbox.qml").createObject(parent);
+                scoreToobox = Qt.createComponent("qrc:/score/ScoreToolbox.qml").createObject(score);
 
         }
         onScoreWasCleared: ensureVisible(0, 0)
