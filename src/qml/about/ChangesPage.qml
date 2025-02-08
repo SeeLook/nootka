@@ -16,7 +16,7 @@ ListView {
 
     delegate: Tile {
         width: chList.width
-        height: relText.height + NOO.factor()
+        height: relText.height + NOO.factor() * 2
         bgColor: index % 2 ? activPal.base : activPal.alternateBase
 
         Text {
@@ -24,7 +24,6 @@ ListView {
 
             text: modelData
             x: NOO.factor() / 2
-            y: NOO.factor() / 2
             width: chList.width - NOO.factor()
             horizontalAlignment: text.substring(0, 4) === "<h1>" ? Text.AlignHCenter : Text.AlignLeft
             color: activPal.text
