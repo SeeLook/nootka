@@ -91,7 +91,7 @@ TnotesBarItem {
 
     Connections {
         target: GLOB
-        onGuitarParamsChanged: setAmbitus(GLOB.loNote(), GLOB.hiNote())
+        function onGuitarParamsChanged() : void { setAmbitus(GLOB.loNote(), GLOB.hiNote()) }
     }
 
 }

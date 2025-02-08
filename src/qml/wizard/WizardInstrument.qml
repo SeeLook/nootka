@@ -63,10 +63,9 @@ Tflickable {
 
     Connections {
         target: nootkaWindow.swipe
-        onCurrentIndexChanged: {
+        function onCurrentIndexChanged() : void {
             if (nootkaWindow.swipe.currentIndex != 1 && instrPage.instrument != instrSel.instrument)
                 instrPage.instrument = instrSel.instrument;
-
         }
     }
 

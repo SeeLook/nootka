@@ -361,10 +361,9 @@ Tflickable {
 
     Connections {
         target: dialogObj
-        onUpdateSummary: {
+        function onUpdateSummary() : void {
             if (!updater)
                 updater = Qt.createComponent("qrc:/updater/UpdaterPopup.qml").createObject(globalPage);
-
             updater.open();
         }
     }

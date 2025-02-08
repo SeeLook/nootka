@@ -65,7 +65,7 @@ Grid {
 
     Connections {
         target: GLOB
-        onNoteNameStyleChanged: {
+        function onNoteNameStyleChanged() : void {
             for (var s = 0; s < scordModel.count; ++s) scordModel.get(s).name = GLOB.tuning.stringName(scordModel.get(s).strNr)
         }
     }

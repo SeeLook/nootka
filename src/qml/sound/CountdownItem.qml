@@ -23,10 +23,9 @@ TipRect {
 
     Connections {
         target: tempoBar
-        onCntChanged: {
+        function onCntChanged() : void {
             if (SOUND.metroRunning)
                 counter++;
-
         }
     }
 

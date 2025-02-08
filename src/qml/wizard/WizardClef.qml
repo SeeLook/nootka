@@ -84,7 +84,7 @@ Tflickable {
 
     Connections {
         target: nootkaWindow
-        onInstrumentChanged: changeInstrument()
+        function onInstrumentChanged() : void { changeInstrument() }
     }
 
 }

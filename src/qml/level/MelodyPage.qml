@@ -256,24 +256,20 @@ Tflickable {
                         bold: true
                         pixelSize: NOO.factor() * 0.9
                     }
-
                 }
-
             }
-
         }
-
     }
 
     Connections {
         target: creator
-        onUpdateNotesList: updateNotesList()
-        onUpdateMelodyList: checkMelodyView()
+        function onUpdateNotesList() : void { updateNotesList() }
+        function onUpdateMelodyList() : void { checkMelodyView() }
     }
 
     Connections {
         target: melCombo
-        onCurrentIndexChanged: checkMelodyView()
+        function onCurrentIndexChanged() : void { checkMelodyView() }
     }
 
 }

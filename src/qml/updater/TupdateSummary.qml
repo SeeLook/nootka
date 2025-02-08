@@ -22,7 +22,7 @@ TupdateItem {
 
     Connections {
         target: dialogObj
-        onUpdateSummary: {
+        function onUpdateSummary(version: string, changes: string, rules: var) : void {
             console.log(version);
             updateIt.version = version;
             updateIt.changes = changes;

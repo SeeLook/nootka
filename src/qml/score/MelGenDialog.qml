@@ -149,7 +149,7 @@ TmelGenItem {
 
     Connections {
         target: genButt
-        onClicked: {
+        function onClicked() : void {
             generate();
             dialLoader.close();
         }

@@ -83,7 +83,7 @@ Column {
 
     Connections {
         target: nootkaWindow
-        onInstrumentChanged: transpose.shift = NOO.instr(nootkaWindow.instrument).transposition
+        function onInstrumentChanged() : void { transpose.shift = NOO.instr(nootkaWindow.instrument).transposition }
     }
 
 }
