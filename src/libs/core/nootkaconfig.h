@@ -1,1 +1,1 @@
-#define NOOTKA_VERSION "2.0.3-devel"
+#define NOOTKA_VERSION "2.1.7-devel"
