@@ -95,10 +95,19 @@ public:
      * with given @p keySequence. It could be either simple key text: \"M\" (wrapped with quotas)
      * or standard key: StandardKey.Open (no quotas)
      * or any of above followed by other parameters: \"E\"; enabled: !score.singleNote.
-     * In such a case this @p Taction parent has to belong to proper context where those params are available.
+     * In such a case this @p Taction parent has to belong to proper context,
+     * where those parameters are available.
      * But if this parameter is null, @p qmlComp data is used directly.
      */
     void createQmlShortcut(QQmlComponent *qmlComp, const char *keySequence);
+
+    /**
+     * See above...
+     * The difference is that it uses sequences: []
+     * for multiple association, otherwise warnings appears
+     * If @p enblCond is set enabled: is added to shortcut
+     */
+    void createShortcutSequence(QQmlComponent *qmlComp, const char *keySequences, const char *enblCond = nullptr);
 
 public slots:
     void triggerSlot() { trigger(); }

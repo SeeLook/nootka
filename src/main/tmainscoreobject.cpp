@@ -107,7 +107,7 @@ TmainScoreObject::TmainScoreObject(QObject *parent)
     m_openXmlAct->createQmlShortcut(&actionsComp, "StandardKey.Open; enabled: !GLOB.singleNoteMode && !GLOB.isExam");
     m_saveXmlAct->createQmlShortcut(&actionsComp, "StandardKey.Save; enabled: !GLOB.singleNoteMode && !GLOB.isExam");
     m_zoomOutAct->createQmlShortcut(&actionsComp, "StandardKey.ZoomOut; enabled: !GLOB.singleNoteMode");
-    m_zoomInAct->createQmlShortcut(&actionsComp, "StandardKey.ZoomIn; enabled: !GLOB.singleNoteMode");
+    m_zoomInAct->createShortcutSequence(&actionsComp, "StandardKey.ZoomIn", "!GLOB.singleNoteMode");
     // HACK: Create m_playAct action shortcut only when enabled.
     m_randMelodyAct->createQmlShortcut(&actionsComp, "\"Ctrl+M\"; enabled: !GLOB.singleNoteMode && !GLOB.isExam");
     m_nextNoteAct->createQmlShortcut(&actionsComp, "StandardKey.MoveToNextChar");
