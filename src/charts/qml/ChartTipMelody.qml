@@ -80,7 +80,6 @@ TipRect {
                         bold: true
                         pixelSize: NOO.factor() * 1.6
                     }
-
                 }
 
                 Text {
@@ -92,9 +91,7 @@ TipRect {
                     font {
                         pixelSize: NOO.factor() * 0.8
                     }
-
                 }
-
             }
 
             Rectangle {
@@ -148,16 +145,12 @@ TipRect {
                             position: 0
                             color: "transparent"
                         }
-
                         GradientStop {
                             position: 0.5
                             color: activPal.base
                         }
-
                     }
-
                 }
-
             }
 
             TspinBox {
@@ -246,9 +239,7 @@ TipRect {
                     font {
                         pixelSize: NOO.factor() * 0.9
                     }
-
                 }
-
             }
 
             // line tip column
@@ -267,12 +258,9 @@ TipRect {
                     horizontalAlignment: Text.AlignHCenter
                     wrapMode: Text.WordWrap
                 }
-
             }
-
         }
         // tipItem
-
     }
 
     MouseArea {
@@ -285,7 +273,7 @@ TipRect {
         hoverEnabled: true
         onEntered: chartItem.tipEntered()
         onExited: overArea.visible = true
-        onPressed: {
+        onPressed: mouse => {
             startPosY = mouseY;
             if (tipCol.childAt(mouse.x, mouse.y) !== scoreRow)
                 attemptSpin.pressed(mapToItem(attemptSpin, mouse.x, mouse.y));
@@ -298,7 +286,7 @@ TipRect {
                 startPosY = mouseY;
             }
         }
-        onReleased: {
+        onReleased: mouse => {
             if (tipCol.childAt(mouse.x, mouse.y) === scoreRow) {
                 if (tipItem.moreMelody && !tipItem.prevShown) {
                     tipItem.showMelodyPreview();
