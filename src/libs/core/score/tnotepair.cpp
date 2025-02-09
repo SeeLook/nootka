@@ -82,7 +82,7 @@ void TnotePair::approve()
 int TnotePair::pairsDuration(const QList<TnotePair *> &pairs)
 {
     int dur = 0;
-    for (TnotePair *np : qAsConst(pairs))
+    for (TnotePair *np : std::as_const(pairs))
         dur += np->note()->duration();
     return dur;
 }

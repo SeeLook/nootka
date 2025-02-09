@@ -149,11 +149,11 @@ void TnoteItem::setColor(const QColor &c)
     m_alter->setProperty("color", c);
     m_flag->setProperty("color", c);
     m_stem->setProperty("color", c);
-    for (auto line : qAsConst(m_upLines))
+    for (auto line : std::as_const(m_upLines))
         line->setProperty("color", c);
-    for (auto line : qAsConst(m_loLines))
+    for (auto line : std::as_const(m_loLines))
         line->setProperty("color", c);
-    for (auto line : qAsConst(m_underLoLines))
+    for (auto line : std::as_const(m_underLoLines))
         line->setProperty("color", c);
     if (m_tie)
         m_tie->setProperty("color", c);
@@ -696,7 +696,7 @@ void TnoteItem::keySignatureChanged()
 void TnoteItem::hoverEnterEvent(QHoverEvent *event)
 {
     if (!m_staff->score()->readOnly() && (m_staff->score()->singleNote() || m_staff->score()->editMode())) {
-        if (event->pos().y() > 2.0 && event->pos().y() < height()) {
+        if (event->position().y() > 2.0 && event->position().y() < height()) {
             m_measure->score()->setHoveredNote(this);
             m_measure->score()->changeActiveNote(this);
         }
@@ -722,10 +722,10 @@ void TnoteItem::hoverMoveEvent(QHoverEvent *event)
             m_measure->score()->changeActiveNote(this);
         }
 
-        if (event->pos().y() > 2.0 && event->pos().y() < height()) {
+        if (event->position().y() > 2.0 && event->position().y() < height()) {
             if (!m_measure->score()->pressedNote() && m_measure->score()->hoveredNote()
-                && static_cast<int>(m_measure->score()->activeYpos()) != static_cast<int>(event->pos().y()))
-                m_measure->score()->setActiveNotePos(qFloor(event->pos().y()));
+                && static_cast<int>(m_measure->score()->activeYpos()) != static_cast<int>(event->position().y()))
+                m_measure->score()->setActiveNotePos(qFloor(event->position().y()));
         }
     }
 }

@@ -69,13 +69,13 @@ void TaddNoteItem::setScoreObject(TscoreObject *sc)
 
 void TaddNoteItem::hoverEnterEvent(QHoverEvent *event)
 {
-    if (event->pos().y() > 1.0) {
+    if (event->position().y() > 1.0) {
         m_hideTimer->stop();
         m_active = true;
         m_hovered = true;
-        int yy = qFloor(event->pos().y());
+        int yy = qFloor(event->position().y());
         if (yy != static_cast<int>(m_yPos)) {
-            m_yPos = m_scoreObject->clefType() == Tclef::NoClef ? m_scoreObject->upperLine() + 7.0 : qFloor(event->pos().y());
+            m_yPos = m_scoreObject->clefType() == Tclef::NoClef ? m_scoreObject->upperLine() + 7.0 : qFloor(event->position().y());
             emit activeChanged();
             emit yPosChanged();
         }
@@ -90,7 +90,7 @@ void TaddNoteItem::hoverLeaveEvent(QHoverEvent *)
 
 void TaddNoteItem::hoverMoveEvent(QHoverEvent *event)
 {
-    int yy = qFloor(event->pos().y());
+    int yy = qFloor(event->position().y());
     if (yy > 1 && yy != static_cast<int>(m_yPos)) {
         if (!m_active) { // sometimes hover enter seems to be omitted - fix that then
             m_active = true;

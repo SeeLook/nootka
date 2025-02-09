@@ -422,7 +422,7 @@ void TguitarBg::pressedAt(qreal px, qreal py)
 {
     paintFingerAtPoint(QPointF(px, py).toPoint());
     // skip press point set - not used in that event handler
-    auto me = new QMouseEvent(QEvent::MouseButtonPress, QPointF(), Qt::LeftButton, Qt::LeftButton, Qt::NoModifier);
+    auto me = new QMouseEvent(QEvent::MouseButtonPress, QPointF(), QPointF(), Qt::LeftButton, Qt::LeftButton, Qt::NoModifier);
     mouseReleaseEvent(me);
 }
 
@@ -494,7 +494,7 @@ void TguitarBg::hoverMoveEvent(QHoverEvent *event)
     if (!active())
         hoverEnterEvent(nullptr);
 
-    paintFingerAtPoint(event->pos());
+    paintFingerAtPoint(event->position().toPoint());
 }
 
 void TguitarBg::mousePressEvent(QMouseEvent *event)

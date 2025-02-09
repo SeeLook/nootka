@@ -364,14 +364,14 @@ void TlinChartDelegate::setProgressHoverred(bool ph)
 
 void TlinChartDelegate::hoverEnterEvent(QHoverEvent *e)
 {
-    if ((e->posF().y() > m_prevAverY && e->posF().y() < m_thisAverY) || (e->posF().y() < m_prevAverY && e->posF().y() > m_thisAverY))
+    if ((e->position().y() > m_prevAverY && e->position().y() < m_thisAverY) || (e->position().y() < m_prevAverY && e->position().y() > m_thisAverY))
         setProgressHoverred(true);
 }
 
 void TlinChartDelegate::hoverMoveEvent(QHoverEvent *e)
 {
     if (m_prevAverY) {
-        if ((e->posF().y() > m_prevAverY && e->posF().y() < m_thisAverY) || (e->posF().y() < m_prevAverY && e->posF().y() > m_thisAverY))
+        if ((e->position().y() > m_prevAverY && e->position().y() < m_thisAverY) || (e->position().y() < m_prevAverY && e->position().y() > m_thisAverY))
             setProgressHoverred(true);
         else
             setProgressHoverred(false);
