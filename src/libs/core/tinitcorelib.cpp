@@ -86,11 +86,11 @@ void prepareTranslations(QGuiApplication *a, QTranslator &qt, QTranslator &noo)
     QLocale loc(GLOB->lang.isEmpty() ? QLocale::system().language() : QLocale(GLOB->lang).language());
 #else
     QLocale loc(QLocale(GLOB->lang.isEmpty() ? qgetenv("LANG") : GLOB->lang).language(),
-                QLocale(GLOB->lang.isEmpty() ? qgetenv("LANG") : GLOB->lang).country());
+                QLocale(GLOB->lang.isEmpty() ? qgetenv("LANG") : GLOB->lang).territory());
 #endif
     QLocale::setDefault(loc);
 
-    QString translationsPath = QLibraryInfo::location(QLibraryInfo::TranslationsPath);
+    QString translationsPath = QLibraryInfo::path(QLibraryInfo::TranslationsPath);
 #if !defined(Q_OS_LINUX) || defined(Q_OS_ANDROID)
     translationsPath = Tpath::lang();
 #endif
@@ -98,8 +98,8 @@ void prepareTranslations(QGuiApplication *a, QTranslator &qt, QTranslator &noo)
     if (qt.load(loc, QStringLiteral("qtbase_"), QString(), translationsPath))
         a->installTranslator(&qt);
 
-    noo.load(loc, QStringLiteral("nootka_"), QString(), Tpath::lang());
-    a->installTranslator(&noo);
+    if (noo.load(loc, QStringLiteral("nootka_"), QString(), Tpath::lang()))
+        a->installTranslator(&noo);
 
     if (GLOB->isFirstRun) {
         GLOB->setSeventhIsB(qTR("Notation", "b").toLower() == QLatin1String("b"));
