@@ -321,7 +321,7 @@ Tlevel::EerrorType Tlevel::loadFromXml(QXmlStreamReader &xml)
             while (xml.readNextStartElement()) {
                 if (xml.name() == QLatin1String("melodyLength"))
                     melodyLen = qBound(1, QVariant(xml.readElementText()).toInt(), 100);
-                else if (xml.name() == ("endsOnTonic"))
+                else if (xml.name() == QLatin1String("endsOnTonic"))
                     endsOnTonic = QVariant(xml.readElementText()).toBool();
                 else if (xml.name() == QLatin1String("requireInTempo"))
                     requireInTempo = QVariant(xml.readElementText()).toBool();

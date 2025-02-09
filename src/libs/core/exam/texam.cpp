@@ -397,7 +397,7 @@ bool Texam::loadFromXml(QXmlStreamReader &xml)
         } else if (xml.name() == QLatin1String("black")) {
             m_blackNumbers.clear();
             while (xml.readNextStartElement()) {
-                if (xml.name() == "n")
+                if (xml.name() == QLatin1String("n"))
                     m_blackNumbers << xml.readElementText().toInt();
                 else
                     Tlevel::skipCurrentXmlKey(xml);
