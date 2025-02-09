@@ -276,7 +276,7 @@ Flickable {
             description: qsTr("Choose which accidentals will be shown on the staff.")
 
             ButtonGroup {
-                buttons: radioRow.children
+                id: accidButtGr
             }
 
             Row {
@@ -292,6 +292,7 @@ Flickable {
                 TradioButton {
                     id: prefSharpRadio
 
+                    ButtonGroup.group: accidButtGr
                     text: qsTr("# - sharps")
                     checked: !GLOB.preferFlats
                 }
@@ -299,6 +300,7 @@ Flickable {
                 TradioButton {
                     id: prefFlatRadio
 
+                    ButtonGroup.group: accidButtGr
                     text: qsTr("b - flats")
                     checked: GLOB.preferFlats
                 }

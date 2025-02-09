@@ -41,7 +41,7 @@ Item {
         id: styleGr
 
         buttons: styleColumn.children
-        onClicked: style = button.style
+        onClicked: button => { style = button.style }
     }
 
     Column {
