@@ -29,7 +29,7 @@ Item {
         verticalItemAlignment: Grid.AlignVCenter
 
         ButtonGroup {
-            buttons: butRow.children
+            id: bhGr
         }
 
         Row {
@@ -47,10 +47,12 @@ Item {
             TradioButton {
                 id: bButt
 
+                ButtonGroup.group: bhGr
                 text: "B"
             }
 
             TradioButton {
+                ButtonGroup.group: bhGr
                 text: "H"
                 checked: !bButt.checked
             }

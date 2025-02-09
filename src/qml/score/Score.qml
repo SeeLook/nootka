@@ -87,7 +87,7 @@ Flickable {
             score.lastStaff = staves[staves.length - 1];
         }
         onStavesHeightChanged: score.contentHeight = Math.max(stavesHeight, score.height)
-        onStaffDestroying: {
+        onStaffDestroying: staffNr => {
             staves.splice(staffNr, 1);
             lastStaff = staves[staves.length - 1];
         }
