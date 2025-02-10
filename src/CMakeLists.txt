@@ -62,10 +62,10 @@ option (WITH_STATIC_LIB "Link Nootka libraries statically - used for AppImage" O
 
 qt_add_executable(nootka WIN32)
 
-add_subdirectory( core )     # libNootkaCore
-add_subdirectory( libs/sound )    # libNootkaSound
+add_subdirectory( core )
+add_subdirectory( sound )
 
-include_directories( core libs/sound ) # libs/main
+include_directories( core sound )
 
 # nootka executable
 set(NOOTKA_SRC
