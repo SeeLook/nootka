@@ -376,16 +376,16 @@ NOOTKACORE_EXPORT bool getNoteFromStream(QDataStream &in, Tnote &n);
 NOOTKACORE_EXPORT QDataStream &operator<<(QDataStream &out, const Tnote &n);
 NOOTKACORE_EXPORT QDataStream &operator>>(QDataStream &in, Tnote &n);
 
-class TnoteQML: public Tnote
+class TnoteQML : public Tnote
 {
     Q_GADGET
 };
 
 namespace TnoteQMLForeign
 {
-    Q_NAMESPACE
-    QML_NAMED_ELEMENT(Tnote)
-    QML_FOREIGN_NAMESPACE(TnoteQML)
+Q_NAMESPACE
+QML_NAMED_ELEMENT(Tnote)
+QML_FOREIGN_NAMESPACE(TnoteQML)
 }
 
 #endif

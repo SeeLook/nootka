@@ -296,16 +296,16 @@ Q_DECLARE_METATYPE(Trhythm)
 NOOTKACORE_EXPORT QDataStream &operator<<(QDataStream &out, const Trhythm &r);
 NOOTKACORE_EXPORT QDataStream &operator>>(QDataStream &in, Trhythm &r);
 
-class TrhythmQML: public Trhythm
+class TrhythmQML : public Trhythm
 {
     Q_GADGET
 };
 
 namespace TrhythmQMLForeign
 {
-    Q_NAMESPACE
-    QML_NAMED_ELEMENT(Trhythm)
-    QML_FOREIGN_NAMESPACE(TrhythmQML)
+Q_NAMESPACE
+QML_NAMED_ELEMENT(Trhythm)
+QML_FOREIGN_NAMESPACE(TrhythmQML)
 }
 
 #endif // TRHYTHM_H

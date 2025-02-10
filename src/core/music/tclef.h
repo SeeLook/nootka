@@ -19,8 +19,8 @@
 #ifndef TCLEF_H
 #define TCLEF_H
 
-#include <nootkacoreglobal.h>
 #include <QtQml/qqmlengine.h>
+#include <nootkacoreglobal.h>
 
 class QXmlStreamReader;
 class QXmlStreamWriter;
@@ -86,15 +86,15 @@ private:
 
 Q_DECLARE_METATYPE(Tclef)
 
-class TclefQML: public Tclef
+class TclefQML : public Tclef
 {
     Q_GADGET
 };
 
 namespace TclefQMLForeign
 {
-    Q_NAMESPACE
-    QML_NAMED_ELEMENT(Tclef)
-    QML_FOREIGN_NAMESPACE(TclefQML)
+Q_NAMESPACE
+QML_NAMED_ELEMENT(Tclef)
+QML_FOREIGN_NAMESPACE(TclefQML)
 }
 #endif // TCLEF_H

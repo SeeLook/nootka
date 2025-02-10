@@ -19,8 +19,8 @@
 #ifndef TMETER_H
 #define TMETER_H
 
-#include <QtQml/qqmlengine.h>
 #include <QtCore/qxmlstream.h>
+#include <QtQml/qqmlengine.h>
 #include <nootkacoreglobal.h>
 
 /**
@@ -135,16 +135,16 @@ private:
     Emeter m_meter;
 };
 
-class TmeterQML: public Tmeter
+class TmeterQML : public Tmeter
 {
     Q_GADGET
 };
 
 namespace TmeterQMLForeign
 {
-    Q_NAMESPACE
-    QML_NAMED_ELEMENT(Tmeter)
-    QML_FOREIGN_NAMESPACE(TmeterQML)
+Q_NAMESPACE
+QML_NAMED_ELEMENT(Tmeter)
+QML_FOREIGN_NAMESPACE(TmeterQML)
 }
 
 #endif // TMETER_H

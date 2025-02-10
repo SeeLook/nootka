@@ -19,10 +19,8 @@
 #ifndef TZIP_H
 #define TZIP_H
 
-
 #include "nootkacoreglobal.h"
 #include <QtCore/qstring.h>
-
 
 // class zipFile;
 
@@ -32,27 +30,26 @@
 class NOOTKACORE_EXPORT Tzip
 {
 public:
+    /**
+     * Reads music XML data from @p zipFile (full path)
+     * into @p xmlData @p QByteArray
+     */
+    static void getXmlFromZip(const QString &zipFile, QByteArray *xmlData);
 
-      /**
-       * Reads music XML data from @p zipFile (full path)
-       * into @p xmlData @p QByteArray
-       */
-  static void getXmlFromZip(const QString& zipFile, QByteArray* xmlData);
-
-      /**
-       * Creates *,mxl file (compressed musicXML) with @p xmlData.
-       * Returns @p TRUE when success.
-       */
-  static bool zipMusicXml(const QString& zipFile, QByteArray* xmlData);
+    /**
+     * Creates *,mxl file (compressed musicXML) with @p xmlData.
+     * Returns @p TRUE when success.
+     */
+    static bool zipMusicXml(const QString &zipFile, QByteArray *xmlData);
 
 private:
-      /**
-       * Common routine that zips @p buff under @p zFilename name
-       * inside @p zFile zip file.
-       * If @p zFilename contains '/' i.e. 'META-INF/container.xml'
-       * file 'container.xml' is created inside 'META-INF' directory of the zip file.
-       */
-  static bool writeBuff(void* zFile, const char *zFilename, const char *buff, size_t buffsize);
+    /**
+     * Common routine that zips @p buff under @p zFilename name
+     * inside @p zFile zip file.
+     * If @p zFilename contains '/' i.e. 'META-INF/container.xml'
+     * file 'container.xml' is created inside 'META-INF' directory of the zip file.
+     */
+    static bool writeBuff(void *zFile, const char *zFilename, const char *buff, size_t buffsize);
 };
 
 #endif // TZIP_H

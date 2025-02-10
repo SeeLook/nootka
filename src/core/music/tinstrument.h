@@ -150,16 +150,16 @@ private:
     Etype m_type;
 };
 
-class TinstrumentQML: public Tinstrument
+class TinstrumentQML : public Tinstrument
 {
     Q_GADGET
 };
 
 namespace TinstrumentQMLForeign
 {
-    Q_NAMESPACE
-    QML_NAMED_ELEMENT(Tinstrument)
-    QML_FOREIGN_NAMESPACE(TinstrumentQML)
+Q_NAMESPACE
+QML_NAMED_ELEMENT(Tinstrument)
+QML_FOREIGN_NAMESPACE(TinstrumentQML)
 }
 
 #endif // TINSTRUMENT_H

@@ -62,10 +62,10 @@ option (WITH_STATIC_LIB "Link Nootka libraries statically - used for AppImage" O
 
 qt_add_executable(nootka WIN32)
 
-add_subdirectory( libs/core )     # libNootkaCore
+add_subdirectory( core )     # libNootkaCore
 add_subdirectory( libs/sound )    # libNootkaSound
 
-include_directories( libs/core libs/sound ) # libs/main
+include_directories( core libs/sound ) # libs/main
 
 # nootka executable
 set(NOOTKA_SRC
@@ -147,22 +147,22 @@ endif(MINGW)
 
 qt_add_resources(NOOTKA_SRC nootka.qrc)
 
-include_directories( libs/core/music )
+include_directories( core/music )
 qt_add_qml_module(nootka
     URI "Nootka.Music"
     SOURCES
-        libs/core/music/tnote.h
-        libs/core/music/tnote.cpp
-        libs/core/music/trhythm.h
-        libs/core/music/trhythm.cpp
-        libs/core/music/tclef.h
-        libs/core/music/tclef.cpp
-        libs/core/music/tmeter.h
-        libs/core/music/tmeter.cpp
-        libs/core/music/ttune.h
-        libs/core/music/ttune.cpp
-        libs/core/music/tinstrument.h
-        libs/core/music/tinstrument.cpp
+        core/music/tnote.h
+        core/music/tnote.cpp
+        core/music/trhythm.h
+        core/music/trhythm.cpp
+        core/music/tclef.h
+        core/music/tclef.cpp
+        core/music/tmeter.h
+        core/music/tmeter.cpp
+        core/music/ttune.h
+        core/music/ttune.cpp
+        core/music/tinstrument.h
+        core/music/tinstrument.cpp
 )
 
 target_sources(nootka PUBLIC

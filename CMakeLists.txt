@@ -24,7 +24,7 @@ set(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/src)
 set(LIBRARY_OUTPUT_PATH ${PROJECT_BINARY_DIR}/src)
 
 if (UNIX AND NOT APPLE) # config with version number is generated once on developer platform
-  configure_file(${CMAKE_SOURCE_DIR}/src/nootkaconfig.h.in ${CMAKE_SOURCE_DIR}/src/libs/core/nootkaconfig.h)
+  configure_file(${CMAKE_SOURCE_DIR}/src/nootkaconfig.h.in ${CMAKE_SOURCE_DIR}/src/core/nootkaconfig.h)
 endif (UNIX AND NOT APPLE)
 
 if (APPLE)
