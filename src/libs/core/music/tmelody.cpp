@@ -104,7 +104,7 @@ void Tmelody::addNote(const Tchunk &n)
         p_measures << Tmeasure(p_measures.count() + 1, m_meter->meter());
 
     lastMeasure().addNote(n);
-    m_notes << &lastMeasure().lastNote();
+    m_notes << lastMeasure().lastNote();
 }
 
 void Tmelody::clear(bool withCredits, bool withKey)
@@ -142,7 +142,7 @@ void Tmelody::swapWithNotes(int noteNr, const QList<Tchunk> &notes)
     if (barToSwapIn)
         barToSwapIn->swapWithNotes(noteIdInBar, notes);
     for (int n = 1; n < notes.count(); ++n) {
-        m_notes.insert(noteNr + n, &barToSwapIn->note(noteIdInBar + n));
+        m_notes.insert(noteNr + n, barToSwapIn->note(noteIdInBar + n));
     }
 }
 
@@ -333,7 +333,7 @@ bool Tmelody::fromXml(QXmlStreamReader &xml, bool madeWithNootka, int partId)
                             if (prevTie > -1) {
                                 // check and fix tie, Nootka supports them only between the same notes
                                 // scoring app may set tie between different ones, but seems like in such case there is no 'stop' tag used (musescore)
-                                Tnote &prevNote = m_notes[prevTie]->p();
+                                Tnote &prevNote = m_notes[prevTie].p();
                                 short prevChromatic = prevNote.chromatic(), currChromatic = ch.p().chromatic();
                                 if ((prevChromatic == currChromatic && ch.p().rtm.tie() == Trhythm::e_noTie) || prevChromatic != currChromatic) {
                                     if (prevNote.rtm.tie() == Trhythm::e_tieCont)
@@ -686,7 +686,7 @@ void Tmelody::transpose(int semis, bool outScaleToRest, const Tnote &loNote, con
     auto hi = doInScaleCheck ? hiNote.chromatic() : 0;
 
     for (int n = 0; n < length(); ++n) {
-        Tnote &noteSeg = m_notes[n]->p();
+        Tnote &noteSeg = m_notes[n].p();
         int transOff = 0;
         Trhythm transRtm(noteSeg.rtm);
         auto transChrom = noteSeg.chromatic() + semis;
@@ -810,5 +810,5 @@ bool Tmelody::processXMLData(QXmlStreamReader &xml)
 void Tmelody::prepend(const Tchunk &n)
 {
     p_measures.first().prepend(n);
-    m_notes.prepend(&p_measures.first().note(0));
+    m_notes.prepend(p_measures.first().note(0));
 }

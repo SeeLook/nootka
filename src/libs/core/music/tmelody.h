@@ -75,8 +75,8 @@ public:
     /**
      * A pointer to note @p index
      */
-    Tchunk *note(int index) { return m_notes[index]; }
-    Tchunk chunk(int index) const { return *m_notes[index]; }
+    Tchunk *note(int index) { return &m_notes[index]; }
+    Tchunk chunk(int index) const { return m_notes[index]; }
 
     Tmeasure &measure(int nr) { return p_measures[nr]; }
     Tmeasure &lastMeasure() { return p_measures.last(); }
@@ -178,7 +178,7 @@ protected:
 private:
     QString m_title;
     QString m_composer;
-    QList<Tchunk *> m_notes; /**< List of pointers to ordered notes */
+    QVector<Tchunk> m_notes; /**< List of pointers to ordered notes */
     int m_tempo;
     Tmeter::EbeatUnit m_beat = Tmeter::BeatQuarter;
     TkeySignature m_key;
