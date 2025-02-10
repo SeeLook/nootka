@@ -57,7 +57,7 @@ void Trhythm::initialize()
     }
     //   for (quint8 r = 0; r <= RVALUE; ++r) {
     //     Trhythm rm(r);
-    //     if (rm.rhythm() != Trhythm::e_none)
+    //     if (rm.rhythm() != Trhythm::NoRhythm)
     //       qDebug() << r << rm.string();
     //   }
 }

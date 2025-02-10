@@ -69,6 +69,9 @@ TnootkaQML::TnootkaQML(QObject *parent)
     }
     m_instance = this;
 
+    qRegisterMetaType<Trhythm>();
+    qRegisterMetaType<Tmeter>();
+    qRegisterMetaType<Tclef>();
     qRegisterMetaType<Ttune>();
     qmlRegisterType<TscoreObject>("Score", 1, 0, "TscoreObject");
     qmlRegisterType<TstaffItem>("Score", 1, 0, "TstaffItem");

@@ -365,6 +365,8 @@ private:
     static std::string m_solmizationRu[7];
 };
 
+Q_DECLARE_METATYPE(Tnote)
+
 /**
  * This function is substitute of >> operator for @p Tnote.
  * It checks is Tnote valid, and return Boolean about it.

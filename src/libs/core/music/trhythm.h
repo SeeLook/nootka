@@ -291,6 +291,8 @@ private:
     quint8 m_prefs = 0;
 };
 
+Q_DECLARE_METATYPE(Trhythm)
+
 NOOTKACORE_EXPORT QDataStream &operator<<(QDataStream &out, const Trhythm &r);
 NOOTKACORE_EXPORT QDataStream &operator>>(QDataStream &in, Trhythm &r);
 

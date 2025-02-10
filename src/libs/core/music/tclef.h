@@ -84,6 +84,8 @@ private:
     EclefType m_type;
 };
 
+Q_DECLARE_METATYPE(Tclef)
+
 class TclefQML: public Tclef
 {
     Q_GADGET

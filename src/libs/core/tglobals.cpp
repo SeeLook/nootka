@@ -89,6 +89,8 @@ Tglobals::Tglobals(QObject *parent)
 {
     version = NOOTKA_VERSION;
 
+    qRegisterMetaType<Tnote>("Tnote");
+
     QCoreApplication::setOrganizationName(QStringLiteral("Nootka"));
     QCoreApplication::setOrganizationDomain(QStringLiteral("nootka.sf.net"));
     QCoreApplication::setApplicationName(QStringLiteral("Nootka"));
