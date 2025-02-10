@@ -525,6 +525,7 @@ void TnoteItem::setBowing(EbowDirection bowDir)
         m_bowing->setX((width() - m_bowing->width()) / 2.0);
         m_bowing->setY(bowY);
         m_bowing->setVisible(true);
+        m_bowing->setProperty("color", qApp->palette().text().color());
     } else {
         if (m_bowing)
             m_bowing->setVisible(false);
