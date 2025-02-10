@@ -77,3 +77,4 @@ Thumbs.db
 *local.properties
 *CMakeLists.txt.user
 *android.iml
+*qmlls.ini
