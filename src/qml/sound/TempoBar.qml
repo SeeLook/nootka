@@ -48,7 +48,7 @@ Item {
                     }
                     tMenu.open();
                 }
-                onWheel: {
+                onWheel: wheel => {
                     if (!SOUND.metroRunning) {
                         if (wheel.angleDelta.y > 0)
                             SOUND.tempo = SOUND.tempo + (wheel.modifiers & Qt.ControlModifier ? 10 : 1);
@@ -210,11 +210,10 @@ Item {
 
     Connections {
         target: SOUND
-        function onCountdownPrepare() : void {
+        function onCountdownPrepare(tickCount) : void {
             if (SOUND.tickBeforePlay && !GLOB.singleNoteMode) {
                 if (!preCountItem) {
-                    var d = Qt.createComponent("qrc:/sound/CountdownItem.qml");
-                    preCountItem = d.createObject(score);
+                    preCountItem = Qt.createComponent("qrc:/sound/CountdownItem.qml").createObject(score);
                 }
                 preCountItem.tickCount = tickCount;
                 preCountItem.counter = 1;

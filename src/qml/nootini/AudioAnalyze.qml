@@ -48,7 +48,7 @@ TaudioAnalyzeItem {
 
         MouseArea {
             anchors.fill: parent
-            onWheel: {
+            onWheel: wheel => {
                 if (wheel.modifiers & Qt.ControlModifier) {
                     if (wheel.angleDelta.y > 0)
                         sc *= 1.0625;

@@ -95,7 +95,7 @@ Popup {
                 MouseArea {
                     anchors.fill: parent
                     z: -1
-                    onWheel: {
+                    onWheel: wheel => {
                         var ci = buTumb.currentIndex;
                         if (wheel.angleDelta.y > 0)
                             ci--;
@@ -282,7 +282,7 @@ Popup {
             enabled: !executor
 
             ButtonGroup {
-                buttons: radioRow.children
+                id: quantGr
             }
 
             MouseArea {
@@ -321,6 +321,7 @@ Popup {
                     text: "G"
                     textScale: 2
                     checked: SOUND.quantization === 6
+                    ButtonGroup.group: quantGr
                     onClicked: SOUND.quantization = 6
                     onHoveredChanged: NOO.setStatusTip(hovered ? quantTip : "", Item.TopLeft)
 
@@ -336,6 +337,7 @@ Popup {
                     text: "F"
                     textScale: 2
                     checked: SOUND.quantization === 12
+                    ButtonGroup.group: quantGr
                     onClicked: SOUND.quantization = 12
                     onHoveredChanged: NOO.setStatusTip(hovered ? quantTip : "", Item.TopLeft)
 

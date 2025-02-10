@@ -16,7 +16,7 @@ Item {
     readonly property var flatPos: [4, 1, 5, 2, 6, 3, 7]
 
     function accidOffset(c) {
-        var accidOff = 1;
+        let accidOff = 1;
         switch (c) {
         case Tclef.Bass_F:
         case Tclef.Bass_F_8down:
@@ -134,7 +134,7 @@ Item {
                 else
                     keyDown();
             }
-            onWheel: {
+            onWheel: wheel => {
                 if (wheel.angleDelta.y > 0)
                     deltaUp();
                 else if (wheel.angleDelta.y < 0)
