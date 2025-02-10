@@ -118,7 +118,7 @@ void TmelGenItem::generate()
     int meter = MAIN_SCORE->meter();
     TrhythmList rhythms = getRandomRhythm(meter, m_barNumber, m_rtmSelector->basicMask(), m_rtmSelector->dotsMask(), m_rtmDiversity);
     if (meter > 0 && rhythms.isEmpty()) {
-        qDebug() << "[TmelGenItem] no rhythms from current parameters. Skipping melody generate!";
+        qDebug() << "[TmelGenItem]" << "no rhythms from current parameters. Skipping melody generate!";
         return;
     }
 

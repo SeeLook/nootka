@@ -189,11 +189,11 @@ TrhythmList getRandomRhythm(int meter, int barCount, quint32 basicMask, quint32 
     }
 
     if (meterHasDuple && dupleList.isEmpty()) {
-        qDebug() << "[getRandomRhythm] FIXME! Melody rhythm needs rhythm group which is not set! Added quarter to save the situation.";
+        qDebug() << "[getRandomRhythm]" << "FIXME! Melody rhythm needs rhythm group which is not set! Added quarter to save the situation.";
         dupleList << TrtmGroup(TrtmGroup::Gr_4);
     }
     if (meterHasTriple && tripleList.isEmpty()) {
-        qDebug() << "[getRandomRhythm] FIXME! Melody rhythm needs rhythm group which is not set! Added quarter with dot to save the situation.";
+        qDebug() << "[getRandomRhythm]" << "FIXME! Melody rhythm needs rhythm group which is not set! Added quarter with dot to save the situation.";
         tripleList << TrtmGroup(TrtmGroup::Gr_4dot);
     }
 
@@ -272,6 +272,6 @@ bool mergeRhythmAndMelody(const TrhythmList &rList, Tmelody *melody)
         }
         return true;
     } else
-        qDebug() << "[Random melody] Can't merge melody and rhythm due to mismatch note numbers.";
+        qDebug() << "[Random melody]" << "Can't merge melody and rhythm due to mismatch note number!";
     return false;
 }
