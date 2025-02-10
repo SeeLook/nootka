@@ -89,8 +89,9 @@ void TbeamObject::addNote(TnotePair *np)
     else
         qDebug() << "     [BEAM] note" << np->index() << "has already a beam";
 
-    if (m_notes.count() > 1)
+    if (m_notes.count() > 1) {
         m_notes.last()->note()->rtm.setBeam(Trhythm::e_beamCont); // no need to be updated
+    }
     if (m_notes.isEmpty())
         np->note()->rtm.setBeam(Trhythm::e_beamStart);
     else
@@ -100,7 +101,7 @@ void TbeamObject::addNote(TnotePair *np)
     m_notes << np;
 
     if (np->note()->rhythm() == Trhythm::Sixteenth) {
-        Tnote *beforeLastNote = m_notes.count() > 1 ? m_notes[m_notes.count() - 2]->note() : nullptr;
+        const Tnote *beforeLastNote = m_notes.count() > 1 ? m_notes[m_notes.count() - 2]->note() : nullptr;
         if (m_16beams.isEmpty() || (beforeLastNote && beforeLastNote->rhythm() != Trhythm::Sixteenth)) {
             // is first in beam or previous note was not a sixteenth
             m_16beams << T16beam(m_notes.count() - 1); // then create new beam segment

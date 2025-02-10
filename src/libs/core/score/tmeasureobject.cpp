@@ -109,7 +109,7 @@ void TmeasureObject::appendNewNotes(int segmentId, int count)
     for (int n = segmentId; n < segmentId + count; ++n)
         m_notes.append(m_score->noteSegment(n));
     updateRhythmicGroups();
-    int grWithBeam = beamGroup(segmentId);
+    const int grWithBeam = beamGroup(segmentId);
     for (int n = segmentId; n < segmentId + count; ++n) {
         auto np = m_score->noteSegment(n);
         if (np->item() == nullptr)
@@ -436,13 +436,13 @@ void TmeasureObject::changeNoteDuration(TnotePair *np, const Tnote &newNote)
                 m_score->insertSilently(np->index() + r, Tnote(newNote, thisBarRtms[r]), this);
             }
         }
-        np->setNote(nn);
+        np->setPairNotes(nn);
 
         update(np->rhythmGroup());
         checkBarLine();
     } else { // measure duration is less than meter - take notes from the next measure
         m_free += prevDur - newDur;
-        np->setNote(nn);
+        np->setPairNotes(nn);
         fill(); // it updates measure
     }
     shiftReleased(notesToOut);
@@ -523,7 +523,7 @@ int TmeasureObject::releaseAtEnd(int dur, Tpairs &notesToOut, int endNote)
                     rList[r].setTie(Trhythm::e_tieCont);
                 m_score->insertSilently(lastNote->index() + r, Tnote(*lastNote->note(), rList[r]), this);
             }
-            lastNote->setNote(Tnote(*lastNote->note(), rList.first()));
+            lastNote->setPairNotes(Tnote(*lastNote->note(), rList.first()));
             // remaining part of the note that goes to next measure
             auto rtmToNext = Trhythm::resolve(dur);
             int indexToInsert = rtmToNext.count() > 1 ? 0 : notesToOut.count();
@@ -563,7 +563,7 @@ void TmeasureObject::releaseAtStart(int dur, Tpairs &notesToOut)
             firstTie = firstNote->note()->rtm.tie();
             if (!firstNote->note()->isRest())
                 rList.first().setTie(firstTie > Trhythm::e_tieStart ? Trhythm::e_tieCont : Trhythm::e_tieEnd);
-            firstNote->setNote(Tnote(*firstNote->note(), rList.first()));
+            firstNote->setPairNotes(Tnote(*firstNote->note(), rList.first()));
             for (int r = 1; r < rList.count(); ++r) {
                 if (!firstNote->note()->isRest())
                     rList[r].setTie(Trhythm::e_tieCont);

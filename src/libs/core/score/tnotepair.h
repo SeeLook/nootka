@@ -19,10 +19,10 @@
 #ifndef TNOTEPAIR_H
 #define TNOTEPAIR_H
 
+#include "music/tnote.h"
 #include "music/ttechnical.h"
 #include <QtCore/qobject.h>
 
-class Tnote;
 class TnoteItem;
 class TbeamObject;
 
@@ -40,10 +40,10 @@ class TnotePair
     friend class TnoteItem;
 
 public:
-    TnotePair(int index = -1, Tnote *n = nullptr, TnoteItem *ob = nullptr);
+    TnotePair(int index = -1, const Tnote &n = Tnote(), TnoteItem *ob = nullptr);
     ~TnotePair();
 
-    Tnote *note() { return m_note; }
+    Tnote *note() { return &m_note; }
     TnoteItem *item() { return m_noteItem; }
 
     void setNoteItem(TnoteItem *ob);
@@ -51,12 +51,12 @@ public:
     /**
      * Sets note to @p n for both @p note() and then @p item()->setNote()
      */
-    void setNote(const Tnote &n);
+    void setPairNotes(const Tnote &n);
 
     /**
      * Sets note pointer to another @p Tnote, doesn't update note of the @p item()
      */
-    void setNote(Tnote *n) { m_note = n; }
+    void setWrapperNote(const Tnote &n);
 
     /**
      * Bowing, fingering, string number and etc...
@@ -69,8 +69,8 @@ public:
     /**
      * Number of rhythmical group in the measure, -1 (undefined) by default
      */
-    qint8 rhythmGroup() { return m_group; }
-    void setRhythmGroup(qint8 g) { m_group = g; }
+    qint8 rhythmGroup() const { return m_group; }
+    void setRhythmGroup(qint8 g);
 
     /**
      * Number of note in the score
@@ -87,8 +87,8 @@ public:
     enum Euntie { e_untieNext, e_untiePrev };
     Q_ENUM(Euntie)
 
-    int changes() { return m_changes; }
-    void addChange(Echanges ch) { m_changes |= ch; }
+    int changes() const { return m_changes; }
+    void addChange(Echanges ch);
 
     /**
      * Approves @p changes() (if any) to note @p item()
@@ -121,7 +121,7 @@ protected:
     void flush();
 
 private:
-    Tnote *m_note;
+    Tnote m_note;
     TnoteItem *m_noteItem;
     qint8 m_group = -1;
     quint16 m_index;

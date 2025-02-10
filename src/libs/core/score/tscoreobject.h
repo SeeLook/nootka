@@ -650,7 +650,7 @@ private:
     /**
      * Returns @p TnotePair - a segment that can be either created or taken from @p m_spareSegments
      */
-    TnotePair *getSegment(int noteNr, Tnote *n);
+    TnotePair *getSegment(int noteNr, const Tnote &n);
 
     /**
      * Returns @p TmeasureObject - a measure that can be either created or taken from @p m_spareMeasures

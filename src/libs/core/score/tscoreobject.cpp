@@ -109,7 +109,7 @@ void TscoreObject::setClefType(Tclef::EclefType ct)
                     Tnote newNote(Tnote(), noteSeg->note()->rtm);
                     newNote.rtm.setStemDown(false);
                     noteSeg->item()->setStemHeight(STEM_HEIGHT);
-                    noteSeg->setNote(newNote);
+                    noteSeg->setPairNotes(newNote);
                 } else {
                     Tnote newNote(*noteSeg->note());
                     if (oldClef == Tclef::NoClef) {
@@ -131,7 +131,7 @@ void TscoreObject::setClefType(Tclef::EclefType ct)
                             fixBeam = true;
                     }
 
-                    noteSeg->setNote(newNote);
+                    noteSeg->setPairNotes(newNote);
 
                     if (pianoChanged) {
                         int nextRtmGr = (n == notesCount() - 1 ? -1 : m_segments[n + 1]->rhythmGroup());
@@ -241,7 +241,7 @@ void solveList(const Tnote &n, int dur, QList<Tnote> &outList)
 void TscoreObject::addNote(const Tnote &newNote, bool fromQML)
 {
     if (m_singleNote) {
-        qDebug() << "[TscoreObject] FIXME! Trying to add note in single mode";
+        qDebug() << "[TscoreObject]" << "FIXME! Trying to add note in single mode";
         return;
     }
 
@@ -262,7 +262,7 @@ void TscoreObject::addNote(const Tnote &newNote, bool fromQML)
         QList<Tnote> notesToCurrent;
         solveList(n, lastMeasure->free(), notesToCurrent); // solve free duration in current measure
         if (notesToCurrent.isEmpty())
-            qDebug() << "[TscoreObject] can't resolve duration of" << lastMeasure->free();
+            qDebug() << "[TscoreObject]" << "can't resolve duration of" << lastMeasure->free();
         else {
             if (!n.isRest()) {
                 notesToCurrent.first().rtm.setTie(newNote.rtm.tie() > Trhythm::e_tieStart ? Trhythm::e_tieCont : Trhythm::e_tieStart);
@@ -295,8 +295,8 @@ void TscoreObject::addNote(const Tnote &newNote, bool fromQML)
         }
     } else { // just add new note to the last measure
         m_notes << n;
-        int lastNoteId = m_segments.count();
-        m_segments << getSegment(lastNoteId, &m_notes.last());
+        const int lastNoteId = m_segments.count();
+        m_segments << getSegment(lastNoteId, n);
         lastMeasure->appendNewNotes(lastNoteId, 1);
     }
     emitLastNote();
@@ -352,7 +352,7 @@ void TscoreObject::setNote(TnoteItem *no, const Tnote &n)
                 removeLastMeasure();
             adjustScoreWidth();
         } else {
-            no->wrapper()->setNote(newNote);
+            no->wrapper()->setPairNotes(newNote);
             // When note or alter are different - check accidentals in whole measure and fit staff if necessary
             if (!notesForAlterCheck.isNull() || oldNote.note() != newNote.note() || oldNote.alter() != newNote.alter()) {
                 if (notesForAlterCheck.isNull())
@@ -395,13 +395,13 @@ void TscoreObject::setNote(TnoteItem *no, const Tnote &n)
             ++it;
             if (it != enharmList.end()) {
                 note(1)->setVisible(true);
-                m_segments[1]->setNote(*(it));
+                m_segments[1]->setPairNotes(*(it));
             } else
                 note(1)->setVisible(false);
             ++it;
             if (it != enharmList.end()) {
                 note(2)->setVisible(true);
-                m_segments[2]->setNote(*(it));
+                m_segments[2]->setPairNotes(*(it));
             } else
                 note(2)->setVisible(false);
         }
@@ -779,7 +779,7 @@ void TscoreObject::transpose(int semis, bool outScaleToRest, const Tnote &loNote
             }
         }
 
-        noteSeg->setNote(transposed);
+        noteSeg->setPairNotes(transposed);
 
         if (noteSeg->beam() && !transRtm.isRest())
             fixBeam = true;
@@ -1323,17 +1323,17 @@ void TscoreObject::checkTieOfSelected()
         if (m_selectedItem->note()->rtm.tie() > Trhythm::e_tieStart) { // disconnect
             prevNote->disconnectTie(TnotePair::e_untiePrev);
             n.rtm.setTie(n.rtm.tie() == Trhythm::e_tieEnd ? Trhythm::e_noTie : Trhythm::e_tieStart);
-            m_selectedItem->wrapper()->setNote(n);
+            m_selectedItem->wrapper()->setPairNotes(n);
             emit m_selectedItem->hasTieChanged();
             if (m_selectedItem->staff()->firstNote()->item() == m_selectedItem)
                 m_selectedItem->staff()->deleteExtraTie();
         } else {
             if (!m_selectedItem->note()->isRest() && m_selectedItem->note()->chromatic() == prevNote->note()->chromatic()) {
                 n.rtm.setTie(n.rtm.tie() == Trhythm::e_noTie ? Trhythm::e_tieEnd : Trhythm::e_tieCont);
-                m_selectedItem->wrapper()->setNote(n);
+                m_selectedItem->wrapper()->setPairNotes(n);
                 auto pn = *prevNote->note();
                 pn.rtm.setTie(pn.rtm.tie() == Trhythm::e_noTie ? Trhythm::e_tieStart : Trhythm::e_tieCont);
-                prevNote->setNote(pn);
+                prevNote->setPairNotes(pn);
                 emit m_selectedItem->hasTieChanged();
                 if (m_selectedItem->staff()->firstNote()->item() == m_selectedItem)
                     m_selectedItem->staff()->createExtraTie(m_selectedItem);
@@ -1499,7 +1499,7 @@ TmeasureObject *TscoreObject::addMeasure()
 {
     auto lastM = m_measures.last();
     if (lastM->free())
-        qDebug() << "[TscoreObject] FIXME!!! Last measure is not full but the new one is going to be added";
+        qDebug() << "[TscoreObject]" << "FIXME!!! Last measure is not full but the new one is going to be added";
     lastM = getMeasure(m_measures.count());
     m_measures << lastM;
     lastStaff()->appendMeasure(lastM);
@@ -1509,7 +1509,7 @@ TmeasureObject *TscoreObject::addMeasure()
 TnotePair *TscoreObject::insertSilently(int id, const Tnote &n, TmeasureObject *m)
 {
     m_notes.insert(id, n);
-    auto np = getSegment(id, &m_notes[id]);
+    auto np = getSegment(id, m_notes[id]);
     m_segments.insert(id, np);
     for (int s = id + 1; s < m_segments.count(); ++s)
         m_segments[s]->setIndex(s);
@@ -1526,7 +1526,7 @@ void TscoreObject::appendToNoteList(QList<Tnote> &l)
 {
     for (Tnote &n : l) {
         m_notes << n;
-        m_segments << getSegment(m_segments.count(), &m_notes.last());
+        m_segments << getSegment(m_segments.count(), m_notes.last());
     }
 }
 
@@ -1551,13 +1551,13 @@ void TscoreObject::updateClefOffset()
     }
 }
 
-TnotePair *TscoreObject::getSegment(int noteNr, Tnote *n)
+TnotePair *TscoreObject::getSegment(int noteNr, const Tnote &n)
 {
-    if (m_spareSegments.isEmpty())
+    if (m_spareSegments.isEmpty()) {
         return new TnotePair(noteNr, n);
-    else {
+    } else {
         auto np = m_spareSegments.takeLast();
-        np->setNote(n);
+        np->setWrapperNote(n);
         np->setIndex(noteNr);
         return np;
     }

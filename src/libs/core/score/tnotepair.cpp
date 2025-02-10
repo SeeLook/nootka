@@ -17,12 +17,11 @@
  ***************************************************************************/
 
 #include "tnotepair.h"
-#include "music/tnote.h"
 #include "tbeamobject.h"
 #include "tnoteitem.h"
 #include "tstaffitem.h"
 
-TnotePair::TnotePair(int index, Tnote *n, TnoteItem *ob)
+TnotePair::TnotePair(int index, const Tnote &n, TnoteItem *ob)
     : m_note(n)
     , m_noteItem(ob)
     , m_index(static_cast<quint16>(index))
@@ -52,10 +51,20 @@ void TnotePair::setNoteItem(TnoteItem *ob)
     m_noteItem = ob;
 }
 
-void TnotePair::setNote(const Tnote &n)
+void TnotePair::setPairNotes(const Tnote &n)
 {
-    *m_note = n;
+    m_note = n;
     m_noteItem->setNote(n);
+}
+
+void TnotePair::setWrapperNote(const Tnote &n)
+{
+    m_note = n;
+}
+
+void TnotePair::setRhythmGroup(qint8 g)
+{
+    m_group = g;
 }
 
 void TnotePair::setTechnical(quint32 tech)
@@ -70,11 +79,16 @@ void TnotePair::setTechnical(quint32 tech)
     }
 }
 
+void TnotePair::addChange(Echanges ch)
+{
+    m_changes |= ch;
+}
+
 void TnotePair::approve()
 {
     if (m_changes) {
         if (m_changes & e_beamChanged || m_changes & e_stemDirChanged)
-            m_noteItem->setNote(*m_note);
+            m_noteItem->setNote(m_note);
         m_changes = 0;
     }
 }
@@ -100,10 +114,10 @@ void TnotePair::disconnectTie(Euntie untie)
 {
     Trhythm::Etie t;
     if (untie == e_untieNext)
-        t = m_note->rtm.tie() == Trhythm::e_tieCont ? Trhythm::e_tieStart : Trhythm::e_noTie;
+        t = m_note.rtm.tie() == Trhythm::e_tieCont ? Trhythm::e_tieStart : Trhythm::e_noTie;
     else // e_untiePrev
-        t = m_note->rtm.tie() == Trhythm::e_tieCont ? Trhythm::e_tieEnd : Trhythm::e_noTie;
-    m_note->rtm.setTie(t);
+        t = m_note.rtm.tie() == Trhythm::e_tieCont ? Trhythm::e_tieEnd : Trhythm::e_noTie;
+    m_note.rtm.setTie(t);
     m_noteItem->note()->rtm.setTie(t);
     m_noteItem->checkTie();
     if (this == m_noteItem->staff()->firstNote() && (t == Trhythm::e_noTie || t == Trhythm::e_tieStart))

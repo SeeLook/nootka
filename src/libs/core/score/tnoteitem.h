@@ -19,7 +19,7 @@
 #ifndef TNOTEITEM_H
 #define TNOTEITEM_H
 
-#include "music/trhythm.h"
+#include "music/tnote.h"
 #include "nootkacoreglobal.h"
 #include <QtCore/qelapsedtimer.h>
 #include <QtQuick/qquickitem.h>
@@ -65,7 +65,7 @@ public:
     TmeasureObject *measure() { return m_measure; }
     void setMeasure(TmeasureObject *m);
 
-    Tnote *note() { return m_note; }
+    Tnote *note() { return &m_note; }
     void setNote(const Tnote &n);
 
     quint32 technical() const;
@@ -221,7 +221,7 @@ private:
     TstaffItem *m_staff;
     TnotePair *m_wrapper;
     TmeasureObject *m_measure;
-    Tnote *m_note;
+    Tnote m_note;
     qreal m_notePosY;
     QQuickItem *m_head, *m_alter, *m_stem, *m_flag;
     QVector<QQuickItem *> m_upLines, m_loLines, m_underLoLines;
