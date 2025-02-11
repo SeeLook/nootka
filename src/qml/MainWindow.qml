@@ -178,7 +178,7 @@ ApplicationWindow {
                     examResults.destroy();
             }
         }
-        function onWantOpenFile() : void {
+        function onWantOpenFile(fileName: string) : void {
             showDialog(Nootka.NoDialog);
             dialogLoader.openFile(fileName);
         }

@@ -108,7 +108,7 @@ Dialog {
             nootkaWindow.executor.init(1, examFile);
             close();
         }
-        onOpenLevel: {
+        onOpenLevel: levelFile => {
             page = Nootka.LevelCreator;
             currentDialog.openLevel(levelFile);
         }
