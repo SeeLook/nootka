@@ -736,14 +736,14 @@ void TnoteItem::hoverMoveEvent(QHoverEvent *event)
 void TnoteItem::mousePressEvent(QMouseEvent *event)
 {
     if (!m_staff->score()->readOnly() && (m_staff->score()->singleNote() || m_staff->score()->editMode())) {
-        if (event->button() == Qt::LeftButton && event->pos().y() > 2.0 && event->pos().y() < height()) {
+        if (event->button() == Qt::LeftButton && event->position().y() > 2.0 && event->position().y() < height()) {
             setKeepMouseGrab(true);
             m_measure->score()->setPressedNote(this);
             if (m_measure->score()->activeNote() != this) {
                 m_measure->score()->changeActiveNote(this);
-                m_measure->score()->setActiveNotePos(qFloor(event->pos().y()));
+                m_measure->score()->setActiveNotePos(qFloor(event->position().y()));
             } else if (m_staff->score()->singleNote())
-                m_measure->score()->setActiveNotePos(qFloor(event->pos().y()));
+                m_measure->score()->setActiveNotePos(qFloor(event->position().y()));
 
             if (!m_measure->score()->hoveredNote()) {
                 m_measure->score()->touchHideTimer()->stop();
@@ -768,7 +768,7 @@ void TnoteItem::mouseReleaseEvent(QMouseEvent *event)
             if (event->button() == Qt::LeftButton) {
                 if (keepMouseGrab())
                     setKeepMouseGrab(false);
-                if (event->pos().y() > 2.0 && event->pos().y() < height()) {
+                if (event->position().y() > 2.0 && event->position().y() < height()) {
                     if (m_measure->score()->hoveredNote()) { // mouse
                         if (m_measure->score()->hoveredNote() == this)
                             m_measure->score()->noteClicked(m_measure->score()->activeYpos());
