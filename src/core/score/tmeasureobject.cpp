@@ -606,7 +606,7 @@ void TmeasureObject::releaseAtStart(int dur, Tpairs &notesToOut)
 
 void TmeasureObject::insertSilently(int id, TnotePair *np)
 {
-    m_notes.insert(id, np);
+    m_notes.insert(qBound(0, id, m_notes.size()), np);
     if (np->item() == nullptr)
         np->setNoteItem(new TnoteItem(m_staff, np));
     else if (m_staff != np->item()->staff())
