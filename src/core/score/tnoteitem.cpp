@@ -485,6 +485,7 @@ void TnoteItem::setStringNumber(int strNr)
     }
     if (strNr > 0 && strNr < 7) {
         m_stringNumber->setProperty("text", QString::number(strNr));
+        m_stringNumber->setProperty("color", qApp->palette().text());
         m_stringNumber->setX((width() - m_stringNumber->width()) / 2.0);
         // TODO set Y position
         m_stringNumber->setVisible(true);
