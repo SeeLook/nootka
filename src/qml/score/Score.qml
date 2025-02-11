@@ -43,26 +43,26 @@ Flickable {
     property var cursor: null
     property var scoreToobox: null
 
-    function ensureVisible(yy, hh) {
+    function ensureVisible(yy: real, hh: real) : void {
         if (contentY >= yy)
             contentY = yy;
         else if (contentY + height <= yy + hh)
             contentY = yy + hh - height;
     }
 
-    function addNote(n) {
+    function addNote(n: tnote) : void {
         scoreObj.addNote(n, true);
     }
 
-    function setNote(noteItem, note) {
+    function setNote(noteItem: TnoteItem, note: tnote) : void {
         scoreObj.setNote(noteItem, note);
     }
 
-    function clearScore() {
+    function clearScore() : void {
         scoreObj.clearScore();
     }
 
-    function deleteLast() {
+    function deleteLast() : void {
         scoreObj.deleteLastNote();
     }
 
