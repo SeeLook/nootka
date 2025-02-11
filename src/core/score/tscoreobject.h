@@ -640,6 +640,14 @@ protected:
      */
     TnotePair *insertSilently(int id, const Tnote &n, TmeasureObject *m = nullptr);
 
+    /**
+     * Looks for index of @p segment in @p m_segments
+     * and sets @p m_notes list if that index to @p n note.
+     * It is required due to @p TnotePair keeps note
+     * independently from @p m_notes
+     */
+    void updateNoteInList(TnotePair *segment, const Tnote &n);
+
 private:
     /**
      * Appends notes to @p m_notes list, creates corresponding @p TnotePair

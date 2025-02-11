@@ -110,6 +110,7 @@ void TscoreObject::setClefType(Tclef::EclefType ct)
                     newNote.rtm.setStemDown(false);
                     noteSeg->item()->setStemHeight(STEM_HEIGHT);
                     noteSeg->setPairNotes(newNote);
+                    updateNoteInList(noteSeg, newNote);
                 } else {
                     Tnote newNote(*noteSeg->note());
                     if (oldClef == Tclef::NoClef) {
@@ -132,6 +133,7 @@ void TscoreObject::setClefType(Tclef::EclefType ct)
                     }
 
                     noteSeg->setPairNotes(newNote);
+                    updateNoteInList(noteSeg, newNote);
 
                     if (pianoChanged) {
                         int nextRtmGr = (n == notesCount() - 1 ? -1 : m_segments[n + 1]->rhythmGroup());
@@ -355,6 +357,7 @@ void TscoreObject::setNote(TnoteItem *no, const Tnote &n)
         adjustScoreWidth();
     } else {
         no->wrapper()->setPairNotes(newNote);
+        updateNoteInList(no->wrapper(), newNote);
         // When note or alter are different - check accidentals in whole measure and fit staff if necessary
         if (!notesForAlterCheck.isNull() || oldNote.note() != newNote.note() || oldNote.alter() != newNote.alter()) {
             if (notesForAlterCheck.isNull())
@@ -398,12 +401,14 @@ void TscoreObject::setNote(TnoteItem *no, const Tnote &n)
         if (it != enharmList.end()) {
             note(1)->setVisible(true);
             m_segments[1]->setPairNotes(*(it));
+            updateNoteInList(m_segments[1], *(it));
         } else
             note(1)->setVisible(false);
         ++it;
         if (it != enharmList.end()) {
             note(2)->setVisible(true);
             m_segments[2]->setPairNotes(*(it));
+            updateNoteInList(m_segments[2], *(it));
         } else
             note(2)->setVisible(false);
     }
@@ -781,6 +786,7 @@ void TscoreObject::transpose(int semis, bool outScaleToRest, const Tnote &loNote
         }
 
         noteSeg->setPairNotes(transposed);
+        updateNoteInList(noteSeg, transposed);
 
         if (noteSeg->beam() && !transRtm.isRest())
             fixBeam = true;
@@ -1325,6 +1331,7 @@ void TscoreObject::checkTieOfSelected()
             prevNote->disconnectTie(TnotePair::e_untiePrev);
             n.rtm.setTie(n.rtm.tie() == Trhythm::e_tieEnd ? Trhythm::e_noTie : Trhythm::e_tieStart);
             m_selectedItem->wrapper()->setPairNotes(n);
+            updateNoteInList(m_selectedItem->wrapper(), n);
             emit m_selectedItem->hasTieChanged();
             if (m_selectedItem->staff()->firstNote()->item() == m_selectedItem)
                 m_selectedItem->staff()->deleteExtraTie();
@@ -1332,9 +1339,11 @@ void TscoreObject::checkTieOfSelected()
             if (!m_selectedItem->note()->isRest() && m_selectedItem->note()->chromatic() == prevNote->note()->chromatic()) {
                 n.rtm.setTie(n.rtm.tie() == Trhythm::e_noTie ? Trhythm::e_tieEnd : Trhythm::e_tieCont);
                 m_selectedItem->wrapper()->setPairNotes(n);
+                updateNoteInList(m_selectedItem->wrapper(), n);
                 auto pn = *prevNote->note();
                 pn.rtm.setTie(pn.rtm.tie() == Trhythm::e_noTie ? Trhythm::e_tieStart : Trhythm::e_tieCont);
                 prevNote->setPairNotes(pn);
+                updateNoteInList(prevNote, pn);
                 emit m_selectedItem->hasTieChanged();
                 if (m_selectedItem->staff()->firstNote()->item() == m_selectedItem)
                     m_selectedItem->staff()->createExtraTie(m_selectedItem);
@@ -1688,6 +1697,18 @@ bool TscoreObject::removeLastMeasure()
         m_spareMeasures.last()->flush();
     }
     return adjust;
+}
+
+void TscoreObject::updateNoteInList(TnotePair *segment, const Tnote &n)
+{
+    int cnt = 0;
+    for (auto *const s : std::as_const(m_segments)) {
+        if (s == segment) {
+            m_notes[cnt] = n;
+            break;
+        }
+        cnt++;
+    }
 }
 
 // Tnote dummyNote;

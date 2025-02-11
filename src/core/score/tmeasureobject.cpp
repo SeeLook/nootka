@@ -437,12 +437,14 @@ void TmeasureObject::changeNoteDuration(TnotePair *np, const Tnote &newNote)
             }
         }
         np->setPairNotes(nn);
+        score()->updateNoteInList(np, nn);
 
         update(np->rhythmGroup());
         checkBarLine();
     } else { // measure duration is less than meter - take notes from the next measure
         m_free += prevDur - newDur;
         np->setPairNotes(nn);
+        score()->updateNoteInList(np, nn);
         fill(); // it updates measure
     }
     shiftReleased(notesToOut);
@@ -523,7 +525,9 @@ int TmeasureObject::releaseAtEnd(int dur, Tpairs &notesToOut, int endNote)
                     rList[r].setTie(Trhythm::e_tieCont);
                 m_score->insertSilently(lastNote->index() + r, Tnote(*lastNote->note(), rList[r]), this);
             }
-            lastNote->setPairNotes(Tnote(*lastNote->note(), rList.first()));
+            Tnote n(Tnote(*lastNote->note(), rList.first()));
+            lastNote->setPairNotes(n);
+            score()->updateNoteInList(lastNote, n);
             // remaining part of the note that goes to next measure
             auto rtmToNext = Trhythm::resolve(dur);
             int indexToInsert = rtmToNext.count() > 1 ? 0 : notesToOut.count();
@@ -563,7 +567,9 @@ void TmeasureObject::releaseAtStart(int dur, Tpairs &notesToOut)
             firstTie = firstNote->note()->rtm.tie();
             if (!firstNote->note()->isRest())
                 rList.first().setTie(firstTie > Trhythm::e_tieStart ? Trhythm::e_tieCont : Trhythm::e_tieEnd);
-            firstNote->setPairNotes(Tnote(*firstNote->note(), rList.first()));
+            Tnote n(Tnote(*firstNote->note(), rList.first()));
+            firstNote->setPairNotes(n);
+            score()->updateNoteInList(firstNote, n);
             for (int r = 1; r < rList.count(); ++r) {
                 if (!firstNote->note()->isRest())
                     rList[r].setTie(Trhythm::e_tieCont);
