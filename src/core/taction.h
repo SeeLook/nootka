@@ -19,9 +19,10 @@
 #ifndef TACTION_H
 #define TACTION_H
 
+#include "nootkacoreglobal.h"
 #include <QtCore/qobject.h>
 #include <QtGui/qcolor.h>
-#include <nootkacoreglobal.h>
+#include <QtQml/qqmlregistration.h>
 
 class QQmlComponent;
 
@@ -35,6 +36,7 @@ class QQmlComponent;
 class NOOTKACORE_EXPORT Taction : public QObject
 {
     Q_OBJECT
+    QML_ELEMENT
 
     Q_PROPERTY(QString icon READ icon WRITE setIconTag NOTIFY iconChanged)
     Q_PROPERTY(QString text READ text WRITE setText NOTIFY textChanged)

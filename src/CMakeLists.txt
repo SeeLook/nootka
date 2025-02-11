@@ -152,6 +152,9 @@ include_directories( core/music core/score )
 qt_add_qml_module(nootka
     URI "Nootka.Music"
     SOURCES
+        core/taction.cpp
+        core/taction.h
+
         core/music/tnote.h
         core/music/tnote.cpp
         core/music/trhythm.h
@@ -185,6 +188,8 @@ qt_add_qml_module(nootka
         core/score/tmelodypreview.h
         core/score/tdummychord.cpp
         core/score/tdummychord.h
+    DEPENDENCIES
+        QtQuick
 )
 
 # qmlRegisterUncreatableType<TmelodyPart>("Score", 1, 0, "TmelodyPart", QStringLiteral("You cannot create an instance of the TcommonInstrument."));

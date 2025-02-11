@@ -3,6 +3,7 @@
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import Nootka 1.0
+import Nootka.Music
 import Qt5Compat.GraphicalEffects
 import QtQuick 2.12
 import QtQuick.Controls 2.12

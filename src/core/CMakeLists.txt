@@ -49,7 +49,7 @@ set(LIB_NOOTKACORE_SRC
   tpath.cpp
   tmtr.cpp
   tnootkaqml.cpp
-  taction.cpp
+  # taction.cpp
   tnoofont.cpp
 
   minizip/tzip.cpp
