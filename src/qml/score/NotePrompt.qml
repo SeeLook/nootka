@@ -4,7 +4,6 @@
 
 import Nootka 1.0
 import QtQuick 2.12
-import Score 1.0
 
 Text {
     parent: scoreObj.note(0)

@@ -4,7 +4,7 @@
 
 import Nootka 1.0
 import QtQuick 2.12
-import Score 1.0
+import Nootka.Music
 
 /**
  * Control displaying prompt for adding note or note cursor when hovered/pressed

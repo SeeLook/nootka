@@ -147,7 +147,7 @@ endif(MINGW)
 
 qt_add_resources(NOOTKA_SRC nootka.qrc)
 
-include_directories( core/music )
+include_directories( core/music core/score )
 qt_add_qml_module(nootka
     URI "Nootka.Music"
     SOURCES
@@ -163,7 +163,30 @@ qt_add_qml_module(nootka
         core/music/ttune.cpp
         core/music/tinstrument.h
         core/music/tinstrument.cpp
+
+        core/score/tscoreobject.cpp
+        core/score/tscoreobject.h
+        core/score/tstaffitem.cpp
+        core/score/tstaffitem.h
+        core/score/tmeasureobject.cpp
+        core/score/tmeasureobject.h
+        core/score/tnoteitem.cpp
+        core/score/tnoteitem.h
+        core/score/tnotepair.cpp
+        core/score/tnotepair.h
+        core/score/tbeamobject.cpp
+        core/score/tbeamobject.h
+        core/score/tstafflines.cpp
+        core/score/tstafflines.h
+        core/score/taddnoteitem.cpp
+        core/score/taddnoteitem.h
+        core/score/tmelodypreview.cpp
+        core/score/tmelodypreview.h
+        core/score/tdummychord.cpp
+        core/score/tdummychord.h
 )
+
+# qmlRegisterUncreatableType<TmelodyPart>("Score", 1, 0, "TmelodyPart", QStringLiteral("You cannot create an instance of the TcommonInstrument."));
 
 target_sources(nootka PUBLIC
     ${NOOTKA_SRC}

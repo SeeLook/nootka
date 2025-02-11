@@ -70,6 +70,7 @@ class QQuickItem;
 class NOOTKACORE_EXPORT TscoreObject : public QObject
 {
     Q_OBJECT
+    QML_ELEMENT
 
     /* Musical parameters */
     Q_PROPERTY(int meter READ meterToInt WRITE setMeter NOTIFY meterChanged)

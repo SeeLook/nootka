@@ -35,6 +35,7 @@ class QTimer;
 class NOOTKACORE_EXPORT TaddNoteItem : public QQuickItem
 {
     Q_OBJECT
+    QML_ELEMENT
 
     Q_PROPERTY(TscoreObject *scoreObject READ scoreObject WRITE setScoreObject)
     Q_PROPERTY(bool active READ active WRITE setActive NOTIFY activeChanged)

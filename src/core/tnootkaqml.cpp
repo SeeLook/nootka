@@ -27,14 +27,9 @@
 #include "music/ttuneobject.h"
 #include "nootkaconfig.h"
 #include "qtr.h"
-#include "score/taddnoteitem.h"
-#include "score/tdummychord.h"
-#include "score/tmelodypreview.h"
 #include "score/tnoteitem.h"
 #include "score/tnotepair.h"
 #include "score/tscoreobject.h"
-#include "score/tstaffitem.h"
-#include "score/tstafflines.h"
 #include "taction.h"
 #include "tcolor.h"
 #include "tglobals.h"
@@ -73,14 +68,7 @@ TnootkaQML::TnootkaQML(QObject *parent)
     qRegisterMetaType<Tmeter>();
     qRegisterMetaType<Tclef>();
     qRegisterMetaType<Ttune>();
-    qmlRegisterType<TscoreObject>("Score", 1, 0, "TscoreObject");
-    qmlRegisterType<TstaffItem>("Score", 1, 0, "TstaffItem");
-    qmlRegisterType<TnoteItem>("Score", 1, 0, "TnoteItem");
-    qmlRegisterType<TstaffLines>("Score", 1, 0, "TstaffLines");
-    qmlRegisterType<TaddNoteItem>("Score", 1, 0, "TaddNoteItem");
-    qmlRegisterType<TmelodyPreview>("Score", 1, 0, "TmelodyPreview");
     qmlRegisterUncreatableType<TmelodyPart>("Score", 1, 0, "TmelodyPart", QStringLiteral("You cannot create an instance of the TcommonInstrument."));
-    qmlRegisterType<TdummyChord>("Score", 1, 0, "TdummyChord");
 
     qmlRegisterUncreatableType<TcommonInstrument>("Nootka",
                                                   1,

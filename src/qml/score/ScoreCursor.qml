@@ -3,7 +3,7 @@
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.12
-import Score 1.0
+import Nootka.Music
 
 NoteCursor {
     // private

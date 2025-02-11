@@ -36,6 +36,7 @@ class Tnote;
 class NOOTKACORE_EXPORT TstaffItem : public QQuickItem
 {
     Q_OBJECT
+    QML_ELEMENT
 
     Q_PROPERTY(TscoreObject *scoreObject READ score WRITE setScore)
     Q_PROPERTY(qreal upperLine READ upperLine WRITE setUpperLine NOTIFY upperLineChanged)

@@ -39,6 +39,7 @@ class TnoteItem;
 class NOOTKACORE_EXPORT TdummyChord : public QQuickItem
 {
     Q_OBJECT
+    QML_ELEMENT
 
     Q_PROPERTY(QString noteHead READ noteHead NOTIFY chordChanged)
     Q_PROPERTY(int chordModel READ chordModel NOTIFY chordChanged)

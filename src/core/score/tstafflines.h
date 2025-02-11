@@ -28,6 +28,7 @@
 class NOOTKACORE_EXPORT TstaffLines : public QQuickPaintedItem
 {
     Q_OBJECT
+    QML_ELEMENT
 
     Q_PROPERTY(qreal staffScale READ staffScale WRITE setStaffScale)
 

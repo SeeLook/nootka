@@ -4,7 +4,7 @@
 
 import "../"
 import QtQuick 2.12
-import Score 1.0
+import Nootka.Music
 
 ControlBase {
     id: delControl

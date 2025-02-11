@@ -41,6 +41,7 @@ class Tnote;
 class NOOTKACORE_EXPORT TnoteItem : public QQuickItem
 {
     Q_OBJECT
+    QML_ELEMENT
 
     Q_PROPERTY(qreal notePosY READ notePosY NOTIFY notePosYchanged)
     Q_PROPERTY(qreal alterWidth READ alterWidth NOTIFY alterWidthChanged)

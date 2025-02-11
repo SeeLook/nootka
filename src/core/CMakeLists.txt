@@ -74,16 +74,16 @@ set(LIB_NOOTKACORE_SRC
   music/trtmgroup.cpp
   music/timportscore.cpp
 
-  score/tscoreobject.cpp
-  score/tstaffitem.cpp
-  score/tmeasureobject.cpp
-  score/tnoteitem.cpp
-  score/tnotepair.cpp
-  score/tbeamobject.cpp
-  score/tstafflines.cpp
-  score/taddnoteitem.cpp
-  score/tmelodypreview.cpp
-  score/tdummychord.cpp
+  # score/tscoreobject.cpp
+  # score/tstaffitem.cpp
+  # score/tmeasureobject.cpp
+  # score/tnoteitem.cpp
+  # score/tnotepair.cpp
+  # score/tbeamobject.cpp
+  # score/tstafflines.cpp
+  # score/taddnoteitem.cpp
+  # score/tmelodypreview.cpp
+  # score/tdummychord.cpp
 
   instruments/tcommoninstrument.cpp
   instruments/tguitarbg.cpp
