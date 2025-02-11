@@ -307,104 +307,105 @@ void TscoreObject::addNote(const Tnote &newNote, bool fromQML)
 
 void TscoreObject::setNote(TnoteItem *no, const Tnote &n)
 {
-    if (no) {
-        if (m_allowAdding && m_meter->meter() != Tmeter::NoMeter && no == lastNote() && no->note()->rtm != n.rtm) {
-            deleteLastNote();
-            addNote(n);
-            emitLastNote();
-            return;
-        }
+    if (!no)
+        return;
 
-        int durDiff = no->note()->duration() - n.duration();
+    if (m_allowAdding && m_meter->meter() != Tmeter::NoMeter && no == lastNote() && no->note()->rtm != n.rtm) {
+        deleteLastNote();
+        addNote(n);
+        emitLastNote();
+        return;
+    }
 
-        auto oldNote = *no->wrapper()->note();
-        auto newNote = n;
-        if (!durDiff) {
-            newNote.rtm.setBeam(oldNote.rtm.beam());
-            newNote.rtm.setTie(oldNote.rtm.tie());
-        }
-        fitToRange(newNote);
-        bool fitStaff = false;
-        // disconnect tie (if any) if note pitch changed
-        QPoint notesForAlterCheck; // x is first note and y is the last note to check
-        if (oldNote.rtm.tie() && newNote.chromatic() != oldNote.chromatic()) {
-            // alters of notes has to be checked due to note changed
-            // and all measures contained note with the tie are affected. Find them then
-            notesForAlterCheck = tieRange(no);
-            notesForAlterCheck.setX(m_segments[notesForAlterCheck.x()]->item()->measure()->firstNoteId());
-            notesForAlterCheck.setY(m_segments[notesForAlterCheck.y()]->item()->measure()->lastNoteId());
-            if (oldNote.rtm.tie() == Trhythm::e_tieStart) {
+    int durDiff = no->note()->duration() - n.duration();
+
+    auto oldNote = *no->wrapper()->note();
+    auto newNote = n;
+    if (!durDiff) {
+        newNote.rtm.setBeam(oldNote.rtm.beam());
+        newNote.rtm.setTie(oldNote.rtm.tie());
+    }
+    fitToRange(newNote);
+    bool fitStaff = false;
+    // disconnect tie (if any) if note pitch changed
+    QPoint notesForAlterCheck; // x is first note and y is the last note to check
+    if (oldNote.rtm.tie() && newNote.chromatic() != oldNote.chromatic()) {
+        // alters of notes has to be checked due to note changed
+        // and all measures contained note with the tie are affected. Find them then
+        notesForAlterCheck = tieRange(no);
+        notesForAlterCheck.setX(m_segments[notesForAlterCheck.x()]->item()->measure()->firstNoteId());
+        notesForAlterCheck.setY(m_segments[notesForAlterCheck.y()]->item()->measure()->lastNoteId());
+        if (oldNote.rtm.tie() == Trhythm::e_tieStart) {
+            m_segments[no->index() + 1]->disconnectTie(TnotePair::e_untieNext);
+        } else { // tie continue or end
+            if (oldNote.rtm.tie() == Trhythm::e_tieCont)
                 m_segments[no->index() + 1]->disconnectTie(TnotePair::e_untieNext);
-            } else { // tie continue or end
-                if (oldNote.rtm.tie() == Trhythm::e_tieCont)
-                    m_segments[no->index() + 1]->disconnectTie(TnotePair::e_untieNext);
-                m_segments[no->index() - 1]->disconnectTie(TnotePair::e_untiePrev);
-            }
-            newNote.rtm.setTie(Trhythm::e_noTie);
-            if (no->wrapper() == no->staff()->firstNote())
-                no->staff()->deleteExtraTie();
-            fitStaff = true;
+            m_segments[no->index() - 1]->disconnectTie(TnotePair::e_untiePrev);
         }
+        newNote.rtm.setTie(Trhythm::e_noTie);
+        if (no->wrapper() == no->staff()->firstNote())
+            no->staff()->deleteExtraTie();
+        fitStaff = true;
+    }
 
-        if (durDiff) {
-            no->measure()->changeNoteDuration(no->wrapper(), newNote);
-            if (lastMeasure()->isEmpty())
-                removeLastMeasure();
-            adjustScoreWidth();
-        } else {
-            no->wrapper()->setPairNotes(newNote);
-            // When note or alter are different - check accidentals in whole measure and fit staff if necessary
-            if (!notesForAlterCheck.isNull() || oldNote.note() != newNote.note() || oldNote.alter() != newNote.alter()) {
-                if (notesForAlterCheck.isNull())
-                    notesForAlterCheck = QPoint(no->measure()->firstNoteId(), no->measure()->lastNoteId());
-                auto measureToRefresh = m_segments[notesForAlterCheck.x()]->item()->measure();
-                for (int n = notesForAlterCheck.x(); n <= notesForAlterCheck.y(); ++n) {
-                    if (m_segments[n]->note()->note() == oldNote.note() || m_segments[n]->note()->note() == newNote.note()) {
-                        fitStaff = true;
-                        m_segments[n]->item()->updateAlter();
-                    }
-                    // Update measure sums (notes width)
-                    if (m_segments[n]->item()->measure() != measureToRefresh) {
-                        measureToRefresh->refresh();
-                        measureToRefresh = m_segments[n]->item()->measure();
-                    }
+    if (durDiff) {
+        no->measure()->changeNoteDuration(no->wrapper(), newNote);
+        if (lastMeasure()->isEmpty())
+            removeLastMeasure();
+        adjustScoreWidth();
+    } else {
+        no->wrapper()->setPairNotes(newNote);
+        // When note or alter are different - check accidentals in whole measure and fit staff if necessary
+        if (!notesForAlterCheck.isNull() || oldNote.note() != newNote.note() || oldNote.alter() != newNote.alter()) {
+            if (notesForAlterCheck.isNull())
+                notesForAlterCheck = QPoint(no->measure()->firstNoteId(), no->measure()->lastNoteId());
+            auto measureToRefresh = m_segments[notesForAlterCheck.x()]->item()->measure();
+            for (int n = notesForAlterCheck.x(); n <= notesForAlterCheck.y(); ++n) {
+                if (m_segments[n]->note()->note() == oldNote.note() || m_segments[n]->note()->note() == newNote.note()) {
+                    fitStaff = true;
+                    m_segments[n]->item()->updateAlter();
                 }
-                measureToRefresh->refresh();
+                // Update measure sums (notes width)
+                if (m_segments[n]->item()->measure() != measureToRefresh) {
+                    measureToRefresh->refresh();
+                    measureToRefresh = m_segments[n]->item()->measure();
+                }
             }
-            // update note range on current staff
-            if (oldNote.note() != newNote.note() || oldNote.octave() != newNote.octave())
-                no->staff()->checkNotesRange();
-            // If there is a beam - prepare it again then draw
-            if (no->wrapper()->beam()) {
-                no->wrapper()->beam()->prepareBeam();
-                if (!fitStaff)
-                    no->wrapper()->beam()->drawBeam();
-            }
-            if (fitStaff) {
-                m_segments[notesForAlterCheck.x()]->item()->staff()->fit();
-                if (m_segments[notesForAlterCheck.y()]->item()->staff() != m_segments[notesForAlterCheck.x()]->item()->staff())
-                    m_segments[notesForAlterCheck.y()]->item()->staff()->fit();
-            }
+            measureToRefresh->refresh();
         }
+        // update note range on current staff
+        if (oldNote.note() != newNote.note() || oldNote.octave() != newNote.octave())
+            no->staff()->checkNotesRange();
+        // If there is a beam - prepare it again then draw
+        if (no->wrapper()->beam()) {
+            no->wrapper()->beam()->prepareBeam();
+            if (!fitStaff)
+                no->wrapper()->beam()->drawBeam();
+        }
+        if (fitStaff) {
+            m_segments[notesForAlterCheck.x()]->item()->staff()->fit();
+            if (m_segments[notesForAlterCheck.y()]->item()->staff() != m_segments[notesForAlterCheck.x()]->item()->staff())
+                m_segments[notesForAlterCheck.y()]->item()->staff()->fit();
+        }
+    }
 
-        if (no == m_selectedItem)
-            emit selectedNoteChanged();
-        if (m_singleNote && m_enharmNotesEnabled && n.isValid()) {
-            TnotesList enharmList = newNote.getTheSameNotes(m_enableDoubleAccids);
-            TnotesList::iterator it = enharmList.begin();
-            ++it;
-            if (it != enharmList.end()) {
-                note(1)->setVisible(true);
-                m_segments[1]->setPairNotes(*(it));
-            } else
-                note(1)->setVisible(false);
-            ++it;
-            if (it != enharmList.end()) {
-                note(2)->setVisible(true);
-                m_segments[2]->setPairNotes(*(it));
-            } else
-                note(2)->setVisible(false);
-        }
+    if (no == m_selectedItem)
+        emit selectedNoteChanged();
+    if (m_singleNote && m_enharmNotesEnabled && n.isValid()) {
+        TnotesList enharmList = newNote.getTheSameNotes(m_enableDoubleAccids);
+        TnotesList::iterator it = enharmList.begin();
+        ++it;
+        if (it != enharmList.end()) {
+            note(1)->setVisible(true);
+            m_segments[1]->setPairNotes(*(it));
+        } else
+            note(1)->setVisible(false);
+        ++it;
+        if (it != enharmList.end()) {
+            note(2)->setVisible(true);
+            m_segments[2]->setPairNotes(*(it));
+        } else
+            note(2)->setVisible(false);
     }
 }
 
