@@ -33,7 +33,7 @@ Item {
 
         scale: 1.2
         text: headText
-        y: yPos - 15
+        y: yPos - 14
         color: noteCursor.color
         x: score.singleNote ? 1.5 : 0
 

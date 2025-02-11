@@ -32,7 +32,7 @@ Item {
             accidOff = 3;
             break;
         }
-        return accidOff;
+        return accidOff - 1;
     }
 
     function keyUp() {
@@ -85,7 +85,10 @@ Item {
                 color: activPal.text
                 text: score.keySignature < 0 ? "\ue260" : (score.keySignature > 0 ? "\ue262" : "") // flat or sharp symbols
                 x: index * 1.8
-                y: parent.y + (score.keySignature < 0 ? flatPos[index] : sharpPos[index]) - accidOffset(score.clef) + (score.clef === Tclef.Tenor_C && score.keySignature > 0 && (index === 0 || index === 2) ? 7 : 0)
+                y: parent.y + (score.keySignature < 0
+                                ? flatPos[index]
+                                : sharpPos[index]) - accidOffset(score.clef)
+                                                    + (score.clef === Tclef.Tenor_C && score.keySignature > 0 && (index === 0 || index === 2) ? 7 : 0)
                 opacity: index < Math.abs(score.keySignature) ? 1 : 0
 
                 font {

@@ -76,7 +76,7 @@ TstaffItem {
 
         Text {
             text: "\ue003"
-            y: -14
+            y: -13
             x: 3.1
             color: activPal.text
 
@@ -84,9 +84,7 @@ TstaffItem {
                 family: "scorek"
                 pixelSize: 21
             }
-
         }
-
     }
 
     Clef {

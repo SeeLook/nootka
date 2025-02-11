@@ -18,22 +18,22 @@ Text {
         switch (score.clef) {
         case Tclef.Treble_G:
         case Tclef.Treble_G_8down:
-            y = 5;
+            y = 6;
             break;
         case Tclef.Bass_F:
         case Tclef.Bass_F_8down:
         case Tclef.Tenor_C:
-            y = 1;
+            y = 2;
             break;
         case Tclef.Alto_C:
-            y = 3;
+            y = 4;
             break;
         case Tclef.PianoStaffClefs:
-            y = 3;
+            y = 4;
             x = 3;
             break;
         case Tclef.NoClef:
-            y = 3;
+            y = 4;
             x = 2;
             break;
         }
@@ -41,7 +41,7 @@ Text {
 
     width: 5.5
     x: 0.5
-    y: 5
+    y: 4
     text: NOO.clef(score.clef).glyph()
     color: clefArea.containsMouse && (GLOB.singleNoteMode || scoreObj.editMode) ? GLOB.noteCursorColor : activPal.text
     Component.onCompleted: getPos()
@@ -84,14 +84,14 @@ Text {
             font: clef.font
             text: "\ue062"
             color: clef.color
-            y: clef.y + 15
+            y: clef.y + 16
         }
 
     }
 
     Connections {
         target: score
-        function onClefChanged() : void { getPos() }
+        function onClefChanged() : void { getPos(); }
     }
 
 }

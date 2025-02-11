@@ -227,7 +227,7 @@ void TnoteItem::setNote(const Tnote &n)
     if (oldNotePos != static_cast<int>(m_notePosY)) {
         if (m_notePosY) {
             m_head->setVisible(true);
-            m_head->setY(m_notePosY - 15.0);
+            m_head->setY(m_notePosY - 14.0);
         } else
             m_head->setVisible(false);
 
