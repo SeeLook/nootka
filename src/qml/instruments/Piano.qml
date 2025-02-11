@@ -21,7 +21,9 @@ TpianoBg {
 
     width: Math.max(nootkaWindow.width, GLOB.instrument.getItemHeight(nootkaWindow.shortEdge) * 6.7)
     height: GLOB.instrument.getItemHeight(nootkaWindow.shortEdge)
-    onWantKeyToSelect: selectKey(k > -1 ? (isWhite ? whiteRep.itemAt(k) : whiteRep.itemAt(k).black) : null)
+    onWantKeyToSelect: (k, isWhite) => {
+        selectKey(k > -1 ? (isWhite ? whiteRep.itemAt(k) : whiteRep.itemAt(k).black) : null);
+    }
     transformOrigin: Item.TopLeft
     onCorrectInstrument: {
         if (!correctAnim)
@@ -87,8 +89,8 @@ TpianoBg {
 
                 PianoKeyWhite {
                     nr: index
-                    onEntered: activeKey = key
-                    onClicked: selectedKey = key
+                    onEntered: key => { activeKey = key; }
+                    onClicked: key => { selectedKey = key; }
                 }
 
             }
