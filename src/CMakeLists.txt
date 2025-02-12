@@ -151,6 +151,8 @@ qt_add_resources(NOOTKA_SRC nootka.qrc)
 include_directories( core/music core/score )
 qt_add_qml_module(nootka
     URI "Nootka.Music"
+    OUTPUT_DIRECTORY
+        "${CMAKE_BINARY_DIR}/src"
     SOURCES
         core/taction.cpp
         core/taction.h
