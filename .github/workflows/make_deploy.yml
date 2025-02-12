@@ -13,7 +13,7 @@ env:
   EXECUTABLE: "nootka"
   APPLICATION: "Nootka"
   UNIXNAME: "nootka"
-  QML_DIR: "../../src/qml"
+  QML_DIR: "../src/qml"
   PUBLISHER: "Seelook"
   DESCRIPTION: "Application to learn how to play from sheet music"
   QT_MODULES: qt5compat
@@ -60,8 +60,8 @@ jobs:
         export PATH=/home/runner/work/${{env.EXECUTABLE}}/Qt/${{env.QT_VERSION_LINUX}}/gcc_64/libexec:$PATH
         mkdir build
         cd build
-        mkdir install
-        cmake -G Ninja -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=install/usr -DQT_QMAKE_EXECUTABLE=/home/runner/work/${{env.EXECUTABLE}}/Qt/${{env.QT_VERSION_LINUX}}/gcc_64/bin/qmake ../
+        mkdir AppDir
+        cmake -G Ninja -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=AppDir -DQT_QMAKE_EXECUTABLE=/home/runner/work/${{env.EXECUTABLE}}/Qt/${{env.QT_VERSION_LINUX}}/gcc_64/bin/qmake ../
 
     - name: '🚧 Build application'
       run: |
@@ -71,7 +71,7 @@ jobs:
 
     - name: '📦 Create AppImage'
       run: |
-        cd "build/install"
+        cd "build"
         wget https://github.com/dantti/linuxdeploy/releases/download/continuous/linuxdeploy-x86_64.AppImage
         wget https://github.com/dantti/linuxdeploy-plugin-qt/releases/download/continuous/linuxdeploy-plugin-qt-x86_64.AppImage
         chmod +x linuxdeploy-x86_64.AppImage
@@ -81,13 +81,12 @@ jobs:
         export QMAKE=/home/runner/work/${{env.EXECUTABLE}}/Qt/${{env.QT_VERSION_LINUX}}/gcc_64/bin/qmake
         export PATH=/home/runner/work/${{env.EXECUTABLE}}/Qt/${{env.QT_VERSION_LINUX}}/gcc_64/libexec:$PATH
 
-        ./linuxdeploy-x86_64.AppImage --appdir AppDir -e usr/bin/${{env.UNIXNAME}} -i ../../picts/${{env.UNIXNAME}}.png -d ../../mime/${{env.UNIXNAME}}.desktop --plugin qt --output appimage
+        ./linuxdeploy-x86_64.AppImage --appdir AppDir -e usr/bin/${{env.UNIXNAME}} -i ../picts/${{env.UNIXNAME}}.png -d ../mime/${{env.UNIXNAME}}.desktop --plugin qt --output appimage
 
         rm linuxdeploy-x86_64.AppImage
         rm linuxdeploy-plugin-qt-x86_64.AppImage
 
-        mv *.AppImage ../../${{env.EXECUTABLE}}-${{ env.NOOTKA_VERSION }}-b${{ env.NOOTKA_COM_CNT }}-Linux-x86_64.AppImage
-        ls ../../
+        mv *.AppImage ../${{env.EXECUTABLE}}-${{ env.NOOTKA_VERSION }}-b${{ env.NOOTKA_COM_CNT }}-Linux-x86_64.AppImage
 
     - name: '📤 Upload artifact: AppImage'
       uses: actions/upload-artifact@v4
