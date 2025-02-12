@@ -1,0 +1,98 @@
+name: Deploying
+
+on:
+  push:
+    paths-ignore:
+    - '**.md'
+
+env:
+  # VERSION: "3.0.6"
+  QT_VERSION_LINUX: 6.8.2
+  # QT_VERSION_MACOS: 6.8.1
+  # QT_VERSION_WINDOWS: 6.8.1
+  EXECUTABLE: "Nootka"
+  APPLICATION: "Nootka"
+  UNIXNAME: "nootka"
+  QML_DIR: "../../src/qml"
+  PUBLISHER: "Tom Seelook"
+  DESCRIPTION: "Application to learn how to play from sheet music"
+  QT_MODULES: qtcore5compat qtconnectivity
+
+jobs:
+  build-linux-x86_64:
+    runs-on: ubuntu-22.04
+    name: 'Linux (x86_64)'
+    steps:
+    - name: 'Checkout'
+      uses: actions/checkout@v4
+      with:
+          fetch-depth: 0
+
+    - name: Set variables
+      run: |
+        VER=$(cat src/libs/core/nootkaconfig.h | awk -F" " '{ print $3 }' | sed 's/\"//g')
+        echo "NOOTKA_VERSION=$VER" >> $GITHUB_ENV
+        CNT=$(git rev-list HEAD --count)
+        echo "NOOTKA_COM_CNT=$CNT" >> $GITHUB_ENV
+
+    - name: 'Install Qt'
+      uses: jurplel/install-qt-action@v4
+      with:
+        version: ${{env.QT_VERSION_LINUX}}
+        modules: ${{env.QT_MODULES}}
+        cache: true
+        install-deps: 'true'
+
+    - name: 'Install dependencies'
+      run: |
+        which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )
+        eval $(ssh-agent -s)
+        echo "$SSH_KEY_PRIVATE" | tr -d '\r' | ssh-add -
+        mkdir -p ~/.ssh
+        chmod 700 ~/.ssh
+        ssh-keyscan "$SSH_HOST" >> ~/.ssh/known_hosts
+        chmod 644 ~/.ssh/known_hosts
+        sudo apt-get update
+        apt-get install -y mesa-common-dev libsoundtouch-dev libfftw3-dev libasound2-dev libogg-dev libvorbis-dev libpulse-dev libjack-dev rsync
+        sudo apt-get install -y libgl1-mesa-dev libxkbcommon-x11-0 rpm libfuse2 fakeroot
+
+    - name: 'Install CMake'
+      uses: lukka/get-cmake@latest
+      with:
+        useLocalCache: true
+
+    - name: 'Configure with CMake'
+      run: |
+        mkdir build
+        cd build
+        cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr
+
+    - name: 'Build application'
+      run: |
+        cd build
+        cmake --build . --config Release -j 16
+
+    - name: 'Create AppImage'
+      run: |
+        cd "build/src"
+        wget https://github.com/dantti/linuxdeploy/releases/download/continuous/linuxdeploy-x86_64.AppImage
+        wget https://github.com/dantti/linuxdeploy-plugin-qt/releases/download/continuous/linuxdeploy-plugin-qt-x86_64.AppImage
+        chmod +x linuxdeploy-x86_64.AppImage
+        chmod +x linuxdeploy-plugin-qt-x86_64.AppImage
+
+        export QML_SOURCES_PATHS="${{env.QML_DIR}}"
+        export QMAKE=/home/runner/work/${{env.EXECUTABLE}}/Qt/${{env.QT_VERSION_LINUX}}/gcc_64/bin/qmake
+        export PATH=/home/runner/work/${{env.EXECUTABLE}}/Qt/${{env.QT_VERSION_LINUX}}/gcc_64/libexec:$PATH
+
+        ./linuxdeploy-x86_64.AppImage --appdir AppDir -e ${{env.UNIXNAME}} -i ../../picts/${{env.UNIXNAME}}.png -d ../../mime/${{env.UNIXNAME}}.desktop --plugin qt --output appimage
+
+        rm linuxdeploy-x86_64.AppImage
+        rm linuxdeploy-plugin-qt-x86_64.AppImage
+
+        mv *.AppImage ../../${{env.EXECUTABLE}}-${{env.VERSION}}-Linux-x86_64.AppImage
+
+    - name: 'Upload artifact: AppImage'
+      uses: actions/upload-artifact@v4
+      with:
+        name: ${{env.EXECUTABLE}}-${{env.VERSION}}-Linux-x86_64.AppImage
+        path: ${{env.EXECUTABLE}}-${{env.VERSION}}-Linux-x86_64.AppImage
