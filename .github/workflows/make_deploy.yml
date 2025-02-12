@@ -16,7 +16,7 @@ env:
   QML_DIR: "../../src/qml"
   PUBLISHER: "Tom Seelook"
   DESCRIPTION: "Application to learn how to play from sheet music"
-  QT_MODULES: qtcore5compat qtconnectivity
+  QT_MODULES: qt5compat
 
 jobs:
   build-linux-x86_64:
