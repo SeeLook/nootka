@@ -10,20 +10,20 @@ env:
   QT_VERSION_LINUX: 6.8.2
   # QT_VERSION_MACOS: 6.8.1
   # QT_VERSION_WINDOWS: 6.8.1
-  EXECUTABLE: "Nootka"
+  EXECUTABLE: "nootka"
   APPLICATION: "Nootka"
   UNIXNAME: "nootka"
   QML_DIR: "../../src/qml"
-  PUBLISHER: "Tom Seelook"
+  PUBLISHER: "Seelook"
   DESCRIPTION: "Application to learn how to play from sheet music"
   QT_MODULES: qt5compat
 
 jobs:
   build-linux-x86_64:
     runs-on: ubuntu-22.04
-    name: 'Linux (x86_64)'
+    name: '🐧 Linux (x86_64)'
     steps:
-    - name: 'Checkout'
+    - name: '🧰 Checkout'
       uses: actions/checkout@v4
       with:
           fetch-depth: 0
@@ -35,7 +35,7 @@ jobs:
         CNT=$(git rev-list HEAD --count)
         echo "NOOTKA_COM_CNT=$CNT" >> $GITHUB_ENV
 
-    - name: 'Install Qt'
+    - name: '⚙️ Install Qt'
       uses: jurplel/install-qt-action@v4
       with:
         version: ${{env.QT_VERSION_LINUX}}
@@ -43,18 +43,18 @@ jobs:
         cache: true
         install-deps: 'true'
 
-    - name: 'Install dependencies'
+    - name: '⚙️ Install dependencies'
       run: |
         sudo apt-get update
         sudo apt-get install -y mesa-common-dev libsoundtouch-dev libfftw3-dev libasound2-dev libogg-dev libvorbis-dev libpulse-dev libjack-dev rsync git ninja-build
         sudo apt-get install -y libgl1-mesa-dev libxkbcommon-x11-0 rpm libfuse2 fakeroot
 
-    - name: 'Install CMake'
+    - name: '⚙️ Install CMake'
       uses: lukka/get-cmake@latest
       with:
         useLocalCache: true
 
-    - name: 'Configure with CMake'
+    - name: '🚧 Configure with CMake'
       run: |
         export QMAKE=/home/runner/work/${{env.EXECUTABLE}}/Qt/${{env.QT_VERSION_LINUX}}/gcc_64/bin/qmake
         export PATH=/home/runner/work/${{env.EXECUTABLE}}/Qt/${{env.QT_VERSION_LINUX}}/gcc_64/libexec:$PATH
@@ -62,12 +62,12 @@ jobs:
         cd build
         cmake -G Ninja -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr -DQT_QMAKE_EXECUTABLE=/home/runner/work/${{env.EXECUTABLE}}/Qt/${{env.QT_VERSION_LINUX}}/gcc_64/bin/qmake ../
 
-    - name: 'Build application'
+    - name: '🚧 Build application'
       run: |
         cd build
         cmake --build . --config Release -j 16
 
-    - name: 'Create AppImage'
+    - name: '📦 Create AppImage'
       run: |
         cd "build/src"
         wget https://github.com/dantti/linuxdeploy/releases/download/continuous/linuxdeploy-x86_64.AppImage
@@ -86,7 +86,7 @@ jobs:
 
         mv *.AppImage ../../${{env.EXECUTABLE}}-${{ env.NOOTKA_VERSION }}-b${{ env.NOOTKA_COM_CNT }}-Linux-x86_64.AppImage
 
-    - name: 'Upload artifact: AppImage'
+    - name: '📤 Upload artifact: AppImage'
       uses: actions/upload-artifact@v4
       with:
         name: ${{env.EXECUTABLE}}-${{env.VERSION}}-Linux-x86_64.AppImage
