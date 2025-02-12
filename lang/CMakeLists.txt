@@ -10,7 +10,7 @@ list(APPEND TR_SOURCES "qtbase_pt.ts")
 
 #list(REMOVE_ITEM ${TR_SOURCES} "if_any")
 
-qt6_add_translations(nootka
+qt_add_translations(nootka
     TS_FILES ${TR_SOURCES}
     QM_FILES_OUTPUT_VARIABLE QM_FILES
 )
