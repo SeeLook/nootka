@@ -61,7 +61,7 @@ jobs:
         mkdir build
         cd build
         mkdir AppDir
-        cmake -G Ninja -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=AppDir -DQT_QMAKE_EXECUTABLE=/home/runner/work/${{env.EXECUTABLE}}/Qt/${{env.QT_VERSION_LINUX}}/gcc_64/bin/qmake ../
+        cmake -G Ninja -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=AppDir/usr -DQT_QMAKE_EXECUTABLE=/home/runner/work/${{env.EXECUTABLE}}/Qt/${{env.QT_VERSION_LINUX}}/gcc_64/bin/qmake ../
 
     - name: '🚧 Build application'
       run: |
@@ -81,7 +81,7 @@ jobs:
         export QMAKE=/home/runner/work/${{env.EXECUTABLE}}/Qt/${{env.QT_VERSION_LINUX}}/gcc_64/bin/qmake
         export PATH=/home/runner/work/${{env.EXECUTABLE}}/Qt/${{env.QT_VERSION_LINUX}}/gcc_64/libexec:$PATH
 
-        ./linuxdeploy-x86_64.AppImage --appdir AppDir -e bin/${{env.UNIXNAME}} -i ../picts/${{env.UNIXNAME}}.png -d ../mime/${{env.UNIXNAME}}.desktop --plugin qt --output appimage
+        ./linuxdeploy-x86_64.AppImage -e AppDir/usr/bin/${{env.UNIXNAME}} -i ../picts/${{env.UNIXNAME}}.png -d ../mime/${{env.UNIXNAME}}.desktop --plugin qt --output appimage
 
         rm linuxdeploy-x86_64.AppImage
         rm linuxdeploy-plugin-qt-x86_64.AppImage
