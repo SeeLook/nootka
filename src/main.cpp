@@ -16,17 +16,17 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
+#include "core/tglobals.h"
+#include "core/tinitcorelib.h"
+#include "core/tmtr.h"
+#include "core/tnootkaqml.h"
+#include "core/tpath.h"
 #include "dialogs/tdialogloaderobject.h"
 #include "help/tmainhelp.h"
 #include "main/tgotit.h"
 #include "main/tmainscoreobject.h"
 #include "main/tnameitem.h"
-#include <tglobals.h>
-#include <tinitcorelib.h>
-#include <tmtr.h>
-#include <tnootkaqml.h>
-#include <tpath.h>
-#include <tsound.h>
+#include "sound/tsound.h"
 
 #if defined(Q_OS_ANDROID)
 #include "mobile/tmobilemenu.h"
