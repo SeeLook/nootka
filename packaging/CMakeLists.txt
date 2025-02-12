@@ -100,8 +100,8 @@ message(STATUS "
   ")
 
 
-find_package(Qt5Core)
-get_target_property(QtCore_location_Release Qt5::Core LOCATION_Release)
+find_package(Qt6Core)
+get_target_property(QtCore_location_Release Qt6::Core LOCATION_Release)
 get_filename_component(QT_BINARY_DIR "${QtCore_location_Release}" DIRECTORY)
 
 if(WIN32)
@@ -121,11 +121,11 @@ if(WIN32)
   add_custom_target(runinplace
     COMMAND echo
     COMMAND echo Copying libraries...
-    COMMAND ${CMAKE_COMMAND} -E copy_if_different ${QT_BINARY_DIR}/Qt5Core.dll ${CMAKE_BINARY_DIR}/src/.
-    COMMAND ${CMAKE_COMMAND} -E copy_if_different ${QT_BINARY_DIR}/Qt5Gui.dll ${CMAKE_BINARY_DIR}/src/.
-    COMMAND ${CMAKE_COMMAND} -E copy_if_different ${QT_BINARY_DIR}/Qt5Widgets.dll ${CMAKE_BINARY_DIR}/src/.
-    COMMAND ${CMAKE_COMMAND} -E copy_if_different ${QT_BINARY_DIR}/Qt5Network.dll ${CMAKE_BINARY_DIR}/src/.
-    COMMAND ${CMAKE_COMMAND} -E copy_if_different ${QT_BINARY_DIR}/Qt5PrintSupport.dll ${CMAKE_BINARY_DIR}/src/.
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different ${QT_BINARY_DIR}/Qt6Core.dll ${CMAKE_BINARY_DIR}/src/.
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different ${QT_BINARY_DIR}/Qt6Gui.dll ${CMAKE_BINARY_DIR}/src/.
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different ${QT_BINARY_DIR}/Qt6Widgets.dll ${CMAKE_BINARY_DIR}/src/.
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different ${QT_BINARY_DIR}/Qt6Network.dll ${CMAKE_BINARY_DIR}/src/.
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different ${QT_BINARY_DIR}/Qt6PrintSupport.dll ${CMAKE_BINARY_DIR}/src/.
     COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_BINARY_DIR}/src/plugins/platforms
     COMMAND ${CMAKE_COMMAND} -E copy_if_different ${QT_BINARY_DIR}/../plugins/platforms/qwindows.dll ${CMAKE_BINARY_DIR}/src/plugins/platforms/.
 
