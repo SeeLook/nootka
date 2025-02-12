@@ -94,11 +94,11 @@ jobs:
         path: ${{env.EXECUTABLE}}-${{ env.NOOTKA_VERSION }}-b${{ env.NOOTKA_COM_CNT }}-Linux-x86_64.AppImage
 
     - name: '📤 Upload AppImage to SF'
-        uses: burnett01/rsync-deployments@5.0
-        with:
-          switches: -avzr --delete
-          path: ${{env.EXECUTABLE}}-${{ env.NOOTKA_VERSION }}-b${{ env.NOOTKA_COM_CNT }}-Linux-x86_64.AppImage
-          remote_path: ${{ secrets.REMOTE_PATH }}
-          remote_host: ${{ secrets.SSH_HOST  }}
-          remote_user: ${{ secrets.SSH_USER }}
-          remote_key: ${{ secrets.SSH_PRIVATE_KEY }}
+      uses: burnett01/rsync-deployments@5.0
+      with:
+        switches: -avzr --delete
+        path: ${{env.EXECUTABLE}}-${{ env.NOOTKA_VERSION }}-b${{ env.NOOTKA_COM_CNT }}-Linux-x86_64.AppImage
+        remote_path: ${{ secrets.REMOTE_PATH }}
+        remote_host: ${{ secrets.SSH_HOST  }}
+        remote_user: ${{ secrets.SSH_USER }}
+        remote_key: ${{ secrets.SSH_PRIVATE_KEY }}
