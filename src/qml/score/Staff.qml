@@ -2,6 +2,8 @@
  * Copyright (C) 2017-2021 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
+pragma ComponentBehavior: Bound
+
 import Nootka 1.0
 import Nootka.Music
 import QtQuick 2.12
@@ -11,6 +13,7 @@ import Score 1.0
 TstaffItem {
     id: staff
 
+    required property var score
     property alias clef: clef
     property real linesCount: score.clef === Tclef.PianoStaffClefs ? 49 : 38
     property var keySignItem: null
@@ -37,7 +40,7 @@ TstaffItem {
                                         Math.max(Screen.height / 4, Screen.pixelDensity * (NOO.isAndroid() ? 50 : 70))) / linesCount) * score.scaleFactor
     width: score.width / scale
     transformOrigin: Item.TopLeft
-    scoreObject: scoreObj
+    scoreObject: score.scoreObj
     notesIndent: firstNoteX
     upperLine: score.clef === Tclef.PianoStaffClefs ? 14 : 16
     Component.onCompleted: checkIsKeyEnabled()
@@ -45,30 +48,30 @@ TstaffItem {
     TstaffLines {
         id: upperStaff
 
-        x: score.clef === Tclef.PianoStaffClefs ? 3 : 0.5
-        width: staff.width - (score.clef === Tclef.PianoStaffClefs ? 3.5 : 1)
-        y: upperLine - 0.1
+        x: staff.score.clef === Tclef.PianoStaffClefs ? 3 : 0.5
+        width: staff.width - (staff.score.clef === Tclef.PianoStaffClefs ? 3.5 : 1)
+        y: staff.upperLine - 0.1
         staffScale: staff.scale
     }
 
     Loader {
-        sourceComponent: score.clef === Tclef.PianoStaffClefs ? lowerStaff : null
+        sourceComponent: staff.score.clef === Tclef.PianoStaffClefs ? lowerStaff : null
     }
 
     Component {
         id: lowerStaff
 
         TstaffLines {
-            x: score.clef === Tclef.PianoStaffClefs ? 3 : 0.5
-            width: staff.width - (score.clef === Tclef.PianoStaffClefs ? 3.5 : 1)
-            y: upperLine - 0.1 + 22
+            x: staff.score.clef === Tclef.PianoStaffClefs ? 3 : 0.5
+            width: staff.width - (staff.score.clef === Tclef.PianoStaffClefs ? 3.5 : 1)
+            y: staff.upperLine - 0.1 + 22
             staffScale: staff.scale
         }
 
     }
 
     Loader {
-        sourceComponent: score.clef === Tclef.PianoStaffClefs ? brace : null
+        sourceComponent: staff.score.clef === Tclef.PianoStaffClefs ? brace : null
     }
 
     Component {
@@ -92,22 +95,25 @@ TstaffItem {
     }
 
     Connections {
-        target: score
-        function onEnableKeySignChanged() : void { checkIsKeyEnabled() }
+        target: staff.score
+        function onEnableKeySignChanged() : void { staff.checkIsKeyEnabled(); }
     }
 
     // measure number
     Text {
-        x: score.clef === Tclef.PianoStaffClefs ? 0.8 : 0.5
-        y: upperLine - (score.clef === Tclef.Treble_G || score.clef === Tclef.Treble_G_8down || score.clef === Tclef.Tenor_C || score.clef === Tclef.PianoStaffClefs ? 8 : 5)
-        text: firstMeasureNr + 1
-        visible: number > 0 && firstMeasureNr > 0
+        x: staff.score.clef === Tclef.PianoStaffClefs ? 0.8 : 0.5
+        y: staff.upperLine
+            - (staff.score.clef === Tclef.Treble_G || score.clef === Tclef.Treble_G_8down
+                || score.clef === Tclef.Tenor_C || score.clef === Tclef.PianoStaffClefs
+                ? 8 : 5)
+        text: staff.firstMeasureNr + 1
+        visible: staff.number > 0 && staff.firstMeasureNr > 0
         scale: 0.4
         transformOrigin: Item.TopLeft
         color: activPal.text
 
         font {
-            pixelSize: score.clef === Tclef.PianoStaffClefs ? 7 : 5
+            pixelSize: staff.score.clef === Tclef.PianoStaffClefs ? 7 : 5
             family: "Scorek"
         }
 

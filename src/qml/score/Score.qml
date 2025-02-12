@@ -79,46 +79,45 @@ Flickable {
     TscoreObject {
         id: scoreObj
 
-        width: score.width / scale
+        width: score.width / score.scale
         enableDoubleAccidentals: score.enableDoubleAccids
-        onClicked: currentNote = scoreObj.activeNote
+        onClicked: score.currentNote = scoreObj.activeNote
         onStaffCreate: {
-            staves.push(Qt.createComponent("qrc:/score/Staff.qml").createObject(score.contentItem));
-            score.lastStaff = staves[staves.length - 1];
+            score.staves.push(Qt.createComponent("qrc:/score/Staff.qml").createObject(score.contentItem, { score: score }));
+            score.lastStaff = score.staves[score.staves.length - 1];
         }
         onStavesHeightChanged: score.contentHeight = Math.max(stavesHeight, score.height)
         onStaffDestroying: staffNr => {
-            staves.splice(staffNr, 1);
-            lastStaff = staves[staves.length - 1];
+            score.staves.splice(staffNr, 1);
+            lastStaff = score.staves[score.staves.length - 1];
         }
         onNoteWasAdded: {
-            if (staves.length > 1)
+            if (score.staves.length > 1)
                 ensureVisible(lastNote.staffItem.y, lastNote.staffItem.height * scale);
 
         }
         onAllowAddingChanged: {
             if (allowAdding) {
-                if (!delControl)
-                    delControl = Qt.createComponent("qrc:/score/DelControl.qml").createObject(contentItem);
-                if (!noteAdd)
-                    noteAdd = Qt.createComponent("qrc:/score/NoteAdd.qml").createObject(contentItem);
-                if (!scoreToobox)
-                    scoreToobox = Qt.createComponent("qrc:/score/ScoreToolbox.qml").createObject(score);
-
+                if (!score.delControl)
+                    score.delControl = Qt.createComponent("qrc:/score/DelControl.qml").createObject(score.contentItem);
+                if (!score.noteAdd)
+                    score.noteAdd = Qt.createComponent("qrc:/score/NoteAdd.qml").createObject(score.contentItem);
+                if (!score.scoreToobox)
+                    score.scoreToobox = Qt.createComponent("qrc:/score/ScoreToolbox.qml").createObject(score);
             }
         }
         onActiveNoteChanged: {
-            if (!cursor) {
-                cursor = Qt.createComponent("qrc:/score/ScoreCursor.qml").createObject(contentItem);
-                cursor.parent = Qt.binding(function() {
+            if (!score.cursor) {
+                score.cursor = Qt.createComponent("qrc:/score/ScoreCursor.qml").createObject(score.contentItem);
+                score.cursor.parent = Qt.binding(function() {
                     return scoreObj.activeNote;
                 });
             }
-            if (!scoreToobox && !readOnly)
-                scoreToobox = Qt.createComponent("qrc:/score/ScoreToolbox.qml").createObject(score);
+            if (!score.scoreToobox && !score.readOnly)
+                score.scoreToobox = Qt.createComponent("qrc:/score/ScoreToolbox.qml").createObject(score);
 
         }
-        onScoreWasCleared: ensureVisible(0, 0)
+        onScoreWasCleared: score.ensureVisible(0, 0)
     }
 
     // entire score background
@@ -136,6 +135,7 @@ Flickable {
     Staff {
         id: staff0
 
+        score: score
         meter: Meter {
             parent: staff0
         }
@@ -165,7 +165,6 @@ Flickable {
             }
 
         }
-
     }
 
     ScrollBar.vertical: ScrollBar {
