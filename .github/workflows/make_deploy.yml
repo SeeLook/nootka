@@ -30,7 +30,7 @@ jobs:
 
     - name: Set variables
       run: |
-        VER=$(cat src/libs/core/nootkaconfig.h | awk -F" " '{ print $3 }' | sed 's/\"//g')
+        VER=$(cat src/core/nootkaconfig.h | awk -F" " '{ print $3 }' | sed 's/\"//g')
         echo "NOOTKA_VERSION=$VER" >> $GITHUB_ENV
         CNT=$(git rev-list HEAD --count)
         echo "NOOTKA_COM_CNT=$CNT" >> $GITHUB_ENV
@@ -46,7 +46,7 @@ jobs:
     - name: 'Install dependencies'
       run: |
         sudo apt-get update
-        sudo apt-get install -y mesa-common-dev libsoundtouch-dev libfftw3-dev libasound2-dev libogg-dev libvorbis-dev libpulse-dev libjack-dev rsync git
+        sudo apt-get install -y mesa-common-dev libsoundtouch-dev libfftw3-dev libasound2-dev libogg-dev libvorbis-dev libpulse-dev libjack-dev rsync git ninja-build
         sudo apt-get install -y libgl1-mesa-dev libxkbcommon-x11-0 rpm libfuse2 fakeroot
 
     - name: 'Install CMake'
@@ -60,7 +60,7 @@ jobs:
         export PATH=/home/runner/work/${{env.EXECUTABLE}}/Qt/${{env.QT_VERSION_LINUX}}/gcc_64/libexec:$PATH
         mkdir build
         cd build
-        cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr -DQT_QMAKE_EXECUTABLE=/home/runner/work/${{env.EXECUTABLE}}/Qt/${{env.QT_VERSION_LINUX}}/gcc_64/bin/qmake ../
+        cmake -G Ninja -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr -DQT_QMAKE_EXECUTABLE=/home/runner/work/${{env.EXECUTABLE}}/Qt/${{env.QT_VERSION_LINUX}}/gcc_64/bin/qmake ../
 
     - name: 'Build application'
       run: |
