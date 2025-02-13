@@ -76,6 +76,7 @@ TmelodyListView {
             visible: !melView.visible
             y: NOO.factor() * 2
             width: melListView.width - NOO.factor() * 4
+            color: activPal.text
             // TODO: Remove 2nd sentence from translations and here
             text: qsTr("Add here melodies from Music XML files.\nBut better keep them short, so divide them first in some external software.").split(".")[0] + "."
             horizontalAlignment: Text.AlignHCenter
