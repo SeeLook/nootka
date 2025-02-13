@@ -12,16 +12,16 @@ set(CMAKE_AUTOMOC ON)
 set(QT_QML_GENERATE_QMLLS_INI ON)
 
 if(UNIX AND NOT APPLE)
-  if (PACKAGE_ARCHITECTURE MATCHES "arm" OR PACKAGE_ARCHITECTURE MATCHES "aarch64")
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsigned-char")
-    message("Set additional flag -fsigned-char for ${PACKAGE_ARCHITECTURE} arch")
-  endif(PACKAGE_ARCHITECTURE MATCHES "arm" OR PACKAGE_ARCHITECTURE MATCHES "aarch64")
+    if (PACKAGE_ARCHITECTURE MATCHES "arm" OR PACKAGE_ARCHITECTURE MATCHES "aarch64")
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsigned-char")
+        message("Set additional flag -fsigned-char for ${PACKAGE_ARCHITECTURE} arch")
+    endif(PACKAGE_ARCHITECTURE MATCHES "arm" OR PACKAGE_ARCHITECTURE MATCHES "aarch64")
 endif(UNIX AND NOT APPLE)
 
 if (APPLE) # Mac RPath
-  set(CMAKE_MACOSX_RPATH 1)
-  set(CMAKE_INSTALL_RPATH "@loader_path/../Frameworks")
-  set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
+    set(CMAKE_MACOSX_RPATH 1)
+    set(CMAKE_INSTALL_RPATH "@loader_path/../Frameworks")
+    set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
 endif (APPLE)
 
 if (CMAKE_BUILD_TYPE MATCHES Debug)
@@ -37,70 +37,69 @@ include_directories(core sound)
 
 # nootka executable
 set(NOOTKA_SRC
-  main.cpp
-  main/tnameitem.cpp
+    main.cpp
+    main/tnameitem.cpp
 
-  main/texamexecutor.cpp
-  main/texecutorsupply.cpp
-  main/tglobalexamstore.cpp
-  main/texercises.cpp
-  main/tequalrand.cpp
-  main/texammelody.cpp
-  main/trandmelody.cpp
-  main/texamview.cpp
-  main/tpenalty.cpp
-  main/ttiphandler.cpp
-  main/tmainscoreobject.cpp
-  main/texamsummary.cpp
-  main/tstartexamitem.cpp
-  main/tnootkacertificate.cpp
-  main/tpiechartitem.cpp
-  main/tnotetoplay.cpp
-  main/tgotit.cpp
+    main/texamexecutor.cpp
+    main/texecutorsupply.cpp
+    main/tglobalexamstore.cpp
+    main/texercises.cpp
+    main/tequalrand.cpp
+    main/texammelody.cpp
+    main/trandmelody.cpp
+    main/texamview.cpp
+    main/tpenalty.cpp
+    main/ttiphandler.cpp
+    main/tmainscoreobject.cpp
+    main/texamsummary.cpp
+    main/tstartexamitem.cpp
+    main/tnootkacertificate.cpp
+    main/tpiechartitem.cpp
+    main/tnotetoplay.cpp
+    main/tgotit.cpp
 
-  dialogs/tdialogloaderobject.cpp
-  dialogs/tlevelcreatoritem.cpp
-  dialogs/tlevelpreviewitem.cpp
-  dialogs/tlevelsdefs.cpp
-  dialogs/tlevelselector.cpp
-  dialogs/tmelodylistview.cpp
-  dialogs/tmelodywrapper.cpp
-  dialogs/ttunerdialogitem.cpp
-  dialogs/trtmselectoritem.cpp
-  dialogs/tmelgenitem.cpp
-  dialogs/tmelodyimportitem.cpp
+    dialogs/tdialogloaderobject.cpp
+    dialogs/tlevelcreatoritem.cpp
+    dialogs/tlevelpreviewitem.cpp
+    dialogs/tlevelsdefs.cpp
+    dialogs/tlevelselector.cpp
+    dialogs/tmelodylistview.cpp
+    dialogs/tmelodywrapper.cpp
+    dialogs/ttunerdialogitem.cpp
+    dialogs/trtmselectoritem.cpp
+    dialogs/tmelgenitem.cpp
+    dialogs/tmelodyimportitem.cpp
 
-  help/texamhelp.cpp
-  help/tmainhelp.cpp
+    help/texamhelp.cpp
+    help/tmainhelp.cpp
 
-  charts/tgroupedqaunit.cpp
-  charts/sorting.cpp
-  charts/tchart.cpp
-  charts/tmainchart.cpp
-  charts/tlinearchart.cpp
-  charts/tchartitem.cpp
-  charts/tcharttipitem.cpp
-  charts/tbarchart.cpp
-  charts/tlinchartdelegate.cpp
-  charts/tbarchartdelegate.cpp
+    charts/tgroupedqaunit.cpp
+    charts/sorting.cpp
+    charts/tchart.cpp
+    charts/tmainchart.cpp
+    charts/tlinearchart.cpp
+    charts/tchartitem.cpp
+    charts/tcharttipitem.cpp
+    charts/tbarchart.cpp
+    charts/tlinchartdelegate.cpp
+    charts/tbarchartdelegate.cpp
 
-  nootini/taudioanalyzeitem.cpp
+    nootini/taudioanalyzeitem.cpp
 )
 
 option(ENABLE_UPDATER "Enable online checking for new Nootka versions" ON)
 
 if(ENABLE_UPDATER)
-  message(STATUS "check for updates\t\t TRUE")
-  find_package(Qt6Network)
-  list(APPEND NOOTKA_SRC
-    updater/tupdatechecker.cpp
-    updater/updatefunctions.cpp
-    updater/tupdateitem.cpp
-  )
-
-else(ENABLE_UPDATER)
+    message(STATUS "check for updates\t\t TRUE")
+    find_package(Qt6Network)
+    list(APPEND NOOTKA_SRC
+        updater/tupdatechecker.cpp
+        updater/updatefunctions.cpp
+        updater/tupdateitem.cpp
+    )
+else()
     message(STATUS "check for updates\t\t FALSE")
-endif(ENABLE_UPDATER)
+endif()
 
 if(MINGW)
     add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/nootico.o
@@ -108,8 +107,7 @@ if(MINGW)
                             -o ${CMAKE_CURRENT_BINARY_DIR}/nootico.o )
     set(NOOTKA_SRCS ${NOOTKA_SRCS} ${CMAKE_CURRENT_BINARY_DIR}/nootico.o)
     set(NOOTKA_EXE_ICON nootico.o)
-endif(MINGW)
-
+endif()
 
 qt_add_resources(NOOTKA_SRC nootka.qrc)
 
