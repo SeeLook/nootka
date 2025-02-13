@@ -18,36 +18,6 @@ if(UNIX AND NOT APPLE)
   endif(PACKAGE_ARCHITECTURE MATCHES "arm" OR PACKAGE_ARCHITECTURE MATCHES "aarch64")
 endif(UNIX AND NOT APPLE)
 
-
-if(UNIX AND NOT APPLE)
-  set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,-z,relro")
-  set(CMAKE_MODULE_LINKER_FLAGS "${CMAKE_MODULE_LINKER_FLAGS} -Wl,-z,relro")
-  set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -Wl,-z,relro")
-# rpath rules
-  option(OBS_SUSE_QUIRKS "Must be ON for Suse machines in Open Build Services" OFF)
-
-  if (NOT WITH_STATIC_LIB) # no rpaths when Nootka libraries are linked statically
-    set(NOOTKA_LIB_PATH "${CMAKE_INSTALL_PREFIX}/lib/nootka")
-    set(CMAKE_SKIP_BUILD_RPATH  FALSE) # use, i.e. don't skip the full RPATH for the build tree
-    if(OBS_SUSE_QUIRKS)
-      set(CMAKE_BUILD_WITH_INSTALL_RPATH TRUE)
-      message("Build for Suse OBS")
-    else(OBS_SUSE_QUIRKS)
-      set(CMAKE_BUILD_WITH_INSTALL_RPATH FALSE) # when building, don't use the install RPATH already (but later on when installing)
-    endif(OBS_SUSE_QUIRKS)
-    set(CMAKE_INSTALL_RPATH "${NOOTKA_LIB_PATH}")
-    # add the automatically determined parts of the RPATH
-    # which point to directories outside the build tree to the install RPATH
-    set(CMAKE_INSTALL_RPATH_USE_LINK_PATH FALSE)
-
-    # the RPATH to be used when installing, but only if it's not a system directory
-    list(FIND CMAKE_PLATFORM_IMPLICIT_LINK_DIRECTORIES "${NOOTKA_LIB_PATH}" isSystemDir)
-    if("${isSystemDir}" STREQUAL "-1")
-      set(CMAKE_INSTALL_RPATH "${NOOTKA_LIB_PATH}")
-    endif("${isSystemDir}" STREQUAL "-1")
-  endif (NOT WITH_STATIC_LIB)
-endif(UNIX AND NOT APPLE)
-
 if (APPLE) # Mac RPath
   set(CMAKE_MACOSX_RPATH 1)
   set(CMAKE_INSTALL_RPATH "@loader_path/../Frameworks")
@@ -55,18 +25,15 @@ if (APPLE) # Mac RPath
 endif (APPLE)
 
 if (CMAKE_BUILD_TYPE MATCHES Debug)
-  add_definitions(-DQT_QML_DEBUG)
+    add_definitions(-DQT_QML_DEBUG)
 endif ()
-
-
-option (WITH_STATIC_LIB "Link Nootka libraries statically - used for AppImage" OFF)
 
 qt_add_executable(nootka WIN32)
 
-add_subdirectory( core )
-add_subdirectory( sound )
+add_subdirectory(core)
+add_subdirectory(sound)
 
-include_directories( core sound )
+include_directories(core sound)
 
 # nootka executable
 set(NOOTKA_SRC
@@ -120,9 +87,7 @@ set(NOOTKA_SRC
   nootini/taudioanalyzeitem.cpp
 )
 
-
 option(ENABLE_UPDATER "Enable online checking for new Nootka versions" ON)
-
 
 if(ENABLE_UPDATER)
   message(STATUS "check for updates\t\t TRUE")
@@ -151,8 +116,6 @@ qt_add_resources(NOOTKA_SRC nootka.qrc)
 include_directories( core/music core/score )
 qt_add_qml_module(nootka
     URI "Nootka.Music"
-    OUTPUT_DIRECTORY
-        "${CMAKE_BINARY_DIR}/src"
     SOURCES
         core/taction.cpp
         core/taction.h
@@ -211,17 +174,17 @@ target_link_libraries(nootka PUBLIC
     Qt6::Core5Compat
 )
 
-if(UNIX AND NOT APPLE)   # Linux path for Nootka binary
-  install(TARGETS nootka DESTINATION bin)
-else(UNIX AND NOT APPLE)
-  if(WIN32)       # Windows
-    install(TARGETS nootka DESTINATION .)
-  else(WIN32)       # MacOs
-    install(TARGETS nootka DESTINATION "${CMAKE_INSTALL_PREFIX}/nootka.app/Contents/MacOs")
-    install( CODE "
-    execute_process(COMMAND echo copying info.plist )
-    execute_process(COMMAND sh ${CMAKE_SOURCE_DIR}/packaging/mac/grabInfo.sh ${Nootka_VERSION_FULL} ${CMAKE_SOURCE_DIR} ${CMAKE_INSTALL_PREFIX} )"
-    )
-  endif(WIN32)
-endif(UNIX AND NOT APPLE)
+if(UNIX AND NOT APPLE) # Linux path for Nootka binary
+    install(TARGETS nootka DESTINATION bin)
+else()
+    if(WIN32) # Windows
+        install(TARGETS nootka DESTINATION .)
+    else() # MacOs
+        install(TARGETS nootka DESTINATION "${CMAKE_INSTALL_PREFIX}/nootka.app/Contents/MacOs")
+        install(CODE "
+            execute_process(COMMAND echo copying info.plist )
+            execute_process(COMMAND sh ${CMAKE_SOURCE_DIR}/packaging/mac/grabInfo.sh ${Nootka_VERSION_FULL} ${CMAKE_SOURCE_DIR} ${CMAKE_INSTALL_PREFIX} )"
+        )
+    endif()
+endif()
 
