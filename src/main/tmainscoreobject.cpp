@@ -785,6 +785,7 @@ void TmainScoreObject::checkExtraStaves()
     }
 }
 
+#if !defined(Q_OS_ANDROID)
 bool TmainScoreObject::eventFilter(QObject *obj, QEvent *event)
 {
     if (obj == qApp && event->type() == QEvent::ApplicationPaletteChange) {
@@ -793,3 +794,4 @@ bool TmainScoreObject::eventFilter(QObject *obj, QEvent *event)
     }
     return QObject::eventFilter(obj, event);
 }
+#endif

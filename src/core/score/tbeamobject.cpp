@@ -301,6 +301,7 @@ void TbeamObject::deleteBeam()
     m_measure = nullptr;
 }
 
+#if !defined(Q_OS_ANDROID)
 bool TbeamObject::eventFilter(QObject *obj, QEvent *event)
 {
     if (obj == qApp && event->type() == QEvent::ApplicationPaletteChange) {
@@ -308,6 +309,7 @@ bool TbeamObject::eventFilter(QObject *obj, QEvent *event)
     }
     return QObject::eventFilter(obj, event);
 }
+#endif
 
 void TbeamObject::resetBeam(TnotePair *noteToRemove)
 {

@@ -623,6 +623,7 @@ void TmeasureObject::insertSilently(int id, TnotePair *np)
         np->item()->setNoteNameVisible(true);
 }
 
+#if !defined(Q_OS_ANDROID)
 bool TmeasureObject::eventFilter(QObject *obj, QEvent *event)
 {
     if (obj == qApp && event->type() == QEvent::ApplicationPaletteChange) {
@@ -631,6 +632,7 @@ bool TmeasureObject::eventFilter(QObject *obj, QEvent *event)
     }
     return QObject::eventFilter(obj, event);
 }
+#endif
 // #################################################################################################
 // ###################              PRIVATE             ############################################
 // #################################################################################################

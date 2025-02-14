@@ -942,6 +942,7 @@ void TnoteItem::checkAddLinesVisibility()
     }
 }
 
+#if !defined(Q_OS_ANDROID)
 bool TnoteItem::eventFilter(QObject *obj, QEvent *event)
 {
     if (obj == qApp && event->type() == QEvent::ApplicationPaletteChange) {
@@ -949,3 +950,4 @@ bool TnoteItem::eventFilter(QObject *obj, QEvent *event)
     }
     return QObject::eventFilter(obj, event);
 }
+#endif

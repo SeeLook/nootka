@@ -271,6 +271,7 @@ void TnameItem::finishCorrectAnim()
     emit correctionFinished();
 }
 
+#if !defined(Q_OS_ANDROID)
 bool TnameItem::eventFilter(QObject *obj, QEvent *event)
 {
     if (obj == qApp && event->type() == QEvent::ApplicationPaletteChange) {
@@ -279,6 +280,7 @@ bool TnameItem::eventFilter(QObject *obj, QEvent *event)
     }
     return QObject::eventFilter(obj, event);
 }
+#endif
 
 void TnameItem::changeNameBgColor(const QColor &c)
 {

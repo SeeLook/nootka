@@ -908,6 +908,7 @@ QList<Tnote> &TnootkaQML::scoreNoteList() const
     return m_scoreObject->noteList();
 }
 
+#if !defined(Q_OS_ANDROID)
 bool TnootkaQML::eventFilter(QObject *obj, QEvent *event)
 {
     if (obj == qApp && event->type() == QEvent::ApplicationPaletteChange) {
@@ -916,3 +917,4 @@ bool TnootkaQML::eventFilter(QObject *obj, QEvent *event)
     }
     return QObject::eventFilter(obj, event);
 }
+#endif

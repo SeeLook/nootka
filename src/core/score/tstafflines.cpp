@@ -68,6 +68,7 @@ void TstaffLines::geometryChange(const QRectF &newGeometry, const QRectF &oldGeo
     }
 }
 
+#if !defined(Q_OS_ANDROID)
 bool TstaffLines::eventFilter(QObject *obj, QEvent *event)
 {
     if (obj == qApp && event->type() == QEvent::ApplicationPaletteChange) {
@@ -75,3 +76,4 @@ bool TstaffLines::eventFilter(QObject *obj, QEvent *event)
     }
     return QObject::eventFilter(obj, event);
 }
+#endif
