@@ -26,6 +26,7 @@
 #include <QtCore/qthread.h>
 #include <QtGui/qevent.h>
 #include <QtMultimedia/qaudioinput.h>
+#include <QtMultimedia/qmediadevices.h>
 #include <QtWidgets/qapplication.h>
 
 #include <QtCore/qdebug.h>
@@ -36,9 +37,9 @@
 QStringList TaudioIN::getAudioDevicesList()
 {
     QStringList devNamesList;
-    QList<QAudioDeviceInfo> devList = QAudioDeviceInfo::availableDevices(QAudio::AudioInput);
-    for (int i = 0; i < devList.size(); ++i)
-        devNamesList << devList[i].deviceName();
+    auto devList = QMediaDevices::audioInputs();
+    for (auto const &d : devList)
+        devNamesList << d.description();
     return devNamesList;
 }
 
@@ -48,8 +49,6 @@ QString TaudioIN::m_deviceName = QStringLiteral("anything");
 TaudioIN::TaudioIN(TaudioParams *params, QObject *parent)
     : TcommonListener(params, parent)
     , m_audioParams(params)
-    , m_audioIN(nullptr)
-    , m_inBuffer(nullptr)
 {
     if (m_instance) {
         qDebug() << "Nothing of this kind... TaudioIN already exist!";
@@ -67,9 +66,9 @@ TaudioIN::~TaudioIN()
 {
     stopListening();
     delete m_touchHandler;
-    if (m_audioIN) {
-        m_audioIN->blockSignals(true); // otherwise stop() will activate it again
-        m_audioIN->stop();
+    if (m_mediaIN) {
+        m_mediaIN->blockSignals(true); // otherwise stop() will activate it again
+        m_mediaIN->stop();
     }
 
     m_audioParams->INdevName = m_deviceName; // store device name at the app exit
@@ -90,18 +89,18 @@ void TaudioIN::updateAudioParams()
 
 void TaudioIN::stopDevice()
 {
-    if (m_audioIN) {
-        disconnect(m_audioIN, &QAudioInput::stateChanged, this, &TaudioIN::stateChangedSlot);
-        m_audioIN->stop();
+    if (m_mediaIN) {
+        disconnect(m_mediaIN, &QMediaRecorder::recorderStateChanged, this, &TaudioIN::stateChangedSlot);
+        m_mediaIN->stop();
     } else
         qDebug() << "[tqtaudioin] Input device doesn't exist! Nothing to stop!";
 }
 
 void TaudioIN::startDevice()
 {
-    if (m_audioIN) {
-        m_audioIN->start(m_inBuffer);
-        connect(m_audioIN, &QAudioInput::stateChanged, this, &TaudioIN::stateChangedSlot, Qt::UniqueConnection);
+    if (m_mediaIN) {
+        m_mediaIN->record();
+        connect(m_mediaIN, &QMediaRecorder::recorderStateChanged, this, &TaudioIN::stateChangedSlot, Qt::UniqueConnection);
     } else
         qDebug() << "[tqtaudioin] Input device doesn't exist! Nothing to start!";
 }
@@ -109,7 +108,7 @@ void TaudioIN::startDevice()
 void TaudioIN::startListening()
 {
     m_touchHandler->skip();
-    if (m_audioIN && m_audioIN->state() == QAudio::StoppedState)
+    if (m_mediaIN && m_mediaIN->recorderState() == QMediaRecorder::RecordingState)
         startDevice();
     if (detectingState() == e_stopped) {
         resetVolume();
@@ -135,18 +134,18 @@ void TaudioIN::stopListening()
 // ###################              PRIVATE             ############################################
 // #################################################################################################
 
-void TaudioIN::stateChangedSlot(QAudio::State s)
+void TaudioIN::stateChangedSlot(QMediaRecorder::RecorderState s)
 {
-    if (s != QAudio::ActiveState) {
+    if (s != QMediaRecorder::RecordingState) {
         qDebug() << "[TaudioIN] input device is not active, trying to activate";
-        if (m_audioIN->error() != QAudio::NoError)
-            qDebug() << "[TaudioIN] error occurred" << m_audioIN->error();
+        if (m_mediaIN->error() != QMediaRecorder::NoError)
+            qDebug() << "[TaudioIN] error occurred" << m_mediaIN->error();
         m_audioIN->blockSignals(true);
         QTimer::singleShot(100, this, [=] {
-            if (m_audioIN->state() != QAudio::StoppedState)
-                m_audioIN->stop();
-            m_audioIN->start(m_inBuffer);
-            m_audioIN->blockSignals(false);
+            if (m_mediaIN->recorderState() != QMediaRecorder::StoppedState)
+                m_mediaIN->stop();
+            m_mediaIN->record();
+            m_mediaIN->blockSignals(false);
             qDebug() << "[TaudioIN] input device started again";
         });
     }
@@ -154,36 +153,36 @@ void TaudioIN::stateChangedSlot(QAudio::State s)
 
 void TaudioIN::createInputDevice()
 {
-    m_deviceInfo = QAudioDeviceInfo::defaultInputDevice();
-    QList<QAudioDeviceInfo> devList = QAudioDeviceInfo::availableDevices(QAudio::AudioInput);
-    for (int i = 0; i < devList.size(); ++i) { // find device with name or keep default one
-        if (devList[i].deviceName() == m_audioParams->INdevName) {
-            m_deviceInfo = devList[i];
-            break;
-        }
-    }
-    m_deviceName = m_deviceInfo.deviceName();
+    m_deviceInfo = QMediaDevices::defaultAudioInput();
+    // QList<QAudioDeviceInfo> devList = QAudioDeviceInfo::availableDevices(QAudio::AudioInput);
+    // for (int i = 0; i < devList.size(); ++i) { // find device with name or keep default one
+    //     if (devList[i].deviceName() == m_audioParams->INdevName) {
+    //         m_deviceInfo = devList[i];
+    //         break;
+    //     }
+    // }
+    m_deviceName = m_deviceInfo.description();
     qDebug() << "IN:" << m_deviceName;
     QAudioFormat format;
     format.setChannelCount(1);
     format.setSampleRate(48000);
-    format.setSampleType(QAudioFormat::SignedInt);
-    format.setSampleSize(16);
-    format.setCodec("audio/pcm");
-    format.setByteOrder(QAudioFormat::LittleEndian);
-    if (!m_deviceInfo.isFormatSupported(format)) {
-        qDebug() << "[TaudioIN] Format 48000/16 mono is not supported";
-        format = m_deviceInfo.nearestFormat(format);
-        qDebug() << "[TaudioIN] Format is" << format.sampleRate() << format.channelCount() << format.sampleSize();
-    }
+    // format.setSampleType(QAudioFormat::SignedInt);
+    // format.setSampleSize(16);
+    // format.setCodec("audio/pcm");
+    // format.setByteOrder(QAudioFormat::LittleEndian);
+    // if (!m_deviceInfo.isFormatSupported(format)) {
+    //     qDebug() << "[TaudioIN] Format 48000/16 mono is not supported";
+    //     format = m_deviceInfo.nearestFormat(format);
+    //     qDebug() << "[TaudioIN] Format is" << format.sampleRate() << format.channelCount() << format.sampleSize();
+    // }
 
     if (m_audioIN) {
         delete m_audioIN;
         m_inBuffer->close();
     }
-    m_audioIN = new QAudioInput(m_deviceInfo, format, this);
-    finder()->setSampleRate(m_audioIN->format().sampleRate()); // framesPerChunk is determined here
-    m_audioIN->setBufferSize(1024); // about 11ms
+    m_audioIN = new QAudioInput(this);
+    finder()->setSampleRate(48000); // framesPerChunk is determined here
+    // m_audioIN->setBufferSize(1024); // about 11ms
 
     m_inBuffer->open(QIODevice::WriteOnly);
     m_inBuffer->setBufferSize(0); // respect amount of data send by input device, otherwise it will be overwritten

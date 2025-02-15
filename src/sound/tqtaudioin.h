@@ -22,7 +22,8 @@
 #include "tcommonlistener.h"
 #include <QtCore/qiodevice.h>
 #include <QtCore/qtimer.h>
-#include <QtMultimedia/qaudiodeviceinfo.h>
+#include <QtMultimedia/qaudiodevice.h>
+#include <QtMultimedia/qmediarecorder.h>
 
 class QAudioInput;
 class QIODevice;
@@ -94,7 +95,7 @@ public slots:
 
 protected slots:
     void bufferReady(const char *data, qint64 &dataLenght);
-    void stateChangedSlot(QAudio::State s);
+    void stateChangedSlot(QMediaRecorder::RecorderState s);
 
 private:
     /**
@@ -106,9 +107,10 @@ private:
     static TaudioIN *m_instance;
     static QString m_deviceName;
     TaudioParams *m_audioParams;
-    QAudioInput *m_audioIN;
-    QAudioDeviceInfo m_deviceInfo;
-    TaudioBuffer *m_inBuffer;
+    QAudioInput *m_audioIN = nullptr;
+    QAudioDevice m_deviceInfo;
+    TaudioBuffer *m_inBuffer = nullptr;
+    QMediaRecorder *m_mediaIN = nullptr;
     TtouchHandler *m_touchHandler;
 };
 

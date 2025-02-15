@@ -23,7 +23,8 @@
 #include "tabstractplayer.h"
 #include <QtCore/qstringlist.h>
 #include <QtMultimedia/qaudio.h>
-#include <QtMultimedia/qaudiodeviceinfo.h>
+#include <QtMultimedia/qaudiodevice.h>
+#include <QtMultimedia/qmediaplayer.h>
 
 class ToggScale;
 class TaudioParams;
@@ -72,7 +73,7 @@ private:
     void outCallBack(char *data, qint64 maxLen, qint64 &wasRead);
     //   void updateSlot() { setAudioOutParams(); }
     void playingFinishedSlot();
-    void stateChangedSlot(QAudio::State state);
+    void stateChangedSlot(QMediaPlayer::PlaybackState state);
     void startPlayingSlot();
 
 private:
@@ -81,9 +82,10 @@ private:
     int m_bufferFrames, m_sampleRate;
     bool m_callBackIsBussy;
     TaudioParams *m_audioParams;
-    QAudioOutput *m_audioOUT;
+    QAudioOutput *m_audioOUT = nullptr;
+    QMediaPlayer *m_mediaOUT = nullptr;
     TaudioBuffer *m_buffer;
-    QAudioDeviceInfo m_deviceInfo;
+    QAudioDevice m_deviceInfo;
 };
 
 #endif // TRTAUDIOOUT_H

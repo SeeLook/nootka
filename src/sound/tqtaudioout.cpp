@@ -18,7 +18,7 @@
 
 #include "tqtaudioout.h"
 #include "taudiobuffer.h"
-#include "taudioobject.h"
+// #include "taudioobject.h"
 #include "toggscale.h"
 #include <taudioparams.h>
 #include <tglobals.h>
@@ -27,6 +27,7 @@
 #include <QtCore/qthread.h>
 #include <QtCore/qtimer.h>
 #include <QtMultimedia/qaudiooutput.h>
+#include <QtMultimedia/qmediadevices.h>
 
 #define CROSS_SMP (2200) // 50ms
 #define INVALID_NOTE_NR (-100)
@@ -36,9 +37,9 @@
 QStringList TaudioOUT::getAudioDevicesList()
 {
     QStringList devNamesList;
-    QList<QAudioDeviceInfo> devList = QAudioDeviceInfo::availableDevices(QAudio::AudioOutput);
-    for (int i = 0; i < devList.size(); ++i)
-        devNamesList << devList[i].deviceName();
+    auto devList = QMediaDevices::audioOutputs();
+    for (const auto &outDev : devList)
+        devNamesList << outDev.description();
     return devNamesList;
 }
 
@@ -108,44 +109,51 @@ void TaudioOUT::setAudioOutParams()
 
 void TaudioOUT::createOutputDevice()
 {
-    m_deviceInfo = QAudioDeviceInfo::defaultOutputDevice();
-    auto devList = QAudioDeviceInfo::availableDevices(QAudio::AudioOutput);
-    for (int i = 0; i < devList.size(); ++i) { // find device with name or keep default one
-        if (devList[i].deviceName() == m_audioParams->OUTdevName) {
-            m_deviceInfo = devList[i];
-            break;
-        }
-    }
-    m_devName = m_deviceInfo.deviceName();
+    m_deviceInfo = QMediaDevices::defaultAudioOutput(); // QAudioDeviceInfo::defaultOutputDevice();
+    // auto devList = QAudioDeviceInfo::availableDevices(QAudio::AudioOutput);
+    // for (int i = 0; i < devList.size(); ++i) { // find device with name or keep default one
+    //     if (devList[i].deviceName() == m_audioParams->OUTdevName) {
+    //         m_deviceInfo = devList[i];
+    //         break;
+    //     }
+    // }
+    m_devName = m_deviceInfo.description();
     QAudioFormat format;
     format.setChannelCount(1); // Mono
     format.setSampleRate(m_sampleRate);
-    format.setSampleType(QAudioFormat::SignedInt);
-    format.setSampleSize(16);
-    format.setCodec("audio/pcm");
-    format.setByteOrder(QAudioFormat::LittleEndian);
-    if (!m_deviceInfo.isFormatSupported(format)) {
-        qDebug() << "Output Format 44100/16 stereo is not supported";
-        format = m_deviceInfo.nearestFormat(format);
-        qDebug() << "Format is" << format.sampleRate() << format.channelCount() << format.sampleSize();
-    }
-    m_sampleRate = format.sampleRate();
+    format.setSampleFormat(QAudioFormat::Int16);
+    // format.setSampleSize(16);
+    // format.setCodec("audio/pcm");
+    // format.setByteOrder(QAudioFormat::LittleEndian);
+    // if (!m_deviceInfo.isFormatSupported(format)) {
+    //     qDebug() << "Output Format 44100/16 stereo is not supported";
+    //     format = m_deviceInfo.nearestFormat(format);
+    //     qDebug() << "Format is" << format.sampleRate() << format.channelCount() << format.sampleSize();
+    // }
+    // m_sampleRate = format.sampleRate();
 
     if (m_audioOUT) {
         delete m_audioOUT;
         delete m_buffer;
     }
-    m_audioOUT = new QAudioOutput(m_deviceInfo, format, this);
-    m_audioOUT->setBufferSize(m_bufferFrames * 2);
+    m_audioOUT = new QAudioOutput(this);
+    m_audioOUT->setDevice(m_deviceInfo);
+    m_mediaOUT = new QMediaPlayer(this);
+    m_mediaOUT->setAudioOutput(m_audioOUT);
+
+    // m_audioOUT = new QAudioOutput(m_deviceInfo, format, this);
+    // m_audioOUT->setBufferSize(m_bufferFrames * 2);
 
     m_buffer = new TaudioBuffer(this);
     m_buffer->open(QIODevice::ReadOnly);
-    m_buffer->setBufferSize(m_audioOUT->bufferSize());
+    // m_buffer->setBufferSize(m_audioOUT->bufferSize());
+    m_buffer->setBufferSize(m_bufferFrames * 2);
+    m_mediaOUT->setSourceDevice(m_buffer);
 
-    qDebug() << "OUT:" << m_deviceInfo.deviceName() << m_audioOUT->format().sampleRate();
+    qDebug() << "OUT:" << m_deviceInfo.description(); // << m_audioOUT->format().sampleRate();
 
     connect(m_buffer, &TaudioBuffer::feedAudio, this, &TaudioOUT::outCallBack, Qt::DirectConnection);
-    connect(m_audioOUT, &QAudioOutput::stateChanged, this, &TaudioOUT::stateChangedSlot);
+    // connect(m_mediaOUT, &QMediaPlayer::mediaStatusChanged, this, &TaudioOUT::stateChangedSlot);
 }
 
 #include <QtCore/qelapsedtimer.h>
@@ -187,9 +195,9 @@ void TaudioOUT::startPlaying()
 
 void TaudioOUT::startPlayingSlot()
 {
-    if (m_audioOUT->state() != QAudio::ActiveState) {
+    if (m_mediaOUT->playbackState() != QMediaPlayer::PlayingState) {
         qDebug() << "preparation time" << pt.elapsed();
-        m_audioOUT->start(m_buffer);
+        m_mediaOUT->play();
     }
 }
 
@@ -300,15 +308,15 @@ void TaudioOUT::outCallBack(char *data, qint64 maxLen, qint64 &wasRead)
     }
 }
 
-void TaudioOUT::stateChangedSlot(QAudio::State state)
+void TaudioOUT::stateChangedSlot(QMediaPlayer::PlaybackState state)
 {
     //   qDebug() << "[TaudioOUT]" << state;
-    p_isPlaying = (state == QAudio::ActiveState);
-    if (state == QAudio::ActiveState)
+    p_isPlaying = (state == QMediaPlayer::PlayingState);
+    if (state == QMediaPlayer::PlayingState)
         emit playingStarted();
-    else if (state == QAudio::StoppedState)
+    else if (state == QMediaPlayer::StoppedState)
         emit playingFinished();
-    else if (state == QAudio::IdleState)
+    else if (state == QMediaPlayer::PausedState)
         stop();
     //     playingFinishedSlot();
 }
@@ -316,7 +324,7 @@ void TaudioOUT::stateChangedSlot(QAudio::State state)
 void TaudioOUT::playingFinishedSlot()
 {
     //   qDebug() << "stop playing";
-    m_audioOUT->stop();
+    m_mediaOUT->stop();
     //   if (p_doEmit)
     //     emit playingFinished();
     p_doEmit = false; // emit once per play/stop cycle
