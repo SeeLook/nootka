@@ -75,7 +75,7 @@ ApplicationWindow {
     visible: true
     title: "Nootka"
     color: activPal.window
-    visibility: NOO.isAndroid() && GLOB.fullScreen() ? "FullScreen" : "AutomaticVisibility"
+    visibility: NOO.isAndroid() && GLOB.fullScreen() ? ApplicationWindow.FullScreen : ApplicationWindow.AutomaticVisibility
     width: GLOB.geometry.width
     height: GLOB.geometry.height
     x: GLOB.geometry.x
