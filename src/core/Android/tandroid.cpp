@@ -17,8 +17,6 @@
  ***************************************************************************/
 
 #include "tandroid.h"
-#include <QtAndroidExtras/qandroidfunctions.h>
-#include <QtAndroidExtras/qandroidjnienvironment.h>
 #include <QtCore/qdatetime.h>
 #include <QtCore/qfileinfo.h>
 #include <QtCore/qstandardpaths.h>
@@ -27,12 +25,14 @@
 
 #include <QtCore/qdebug.h>
 
+using namespace QNativeInterface;
+
 void Tandroid::keepScreenOn(bool on)
 {
-    QtAndroid::runOnAndroidThread([on] {
-        QAndroidJniObject activity = QtAndroid::androidActivity();
+    QAndroidApplication::runOnAndroidMainThread([on] {
+        auto activity = QJniObject(QAndroidApplication::context());
         if (activity.isValid()) {
-            QAndroidJniObject window = activity.callObjectMethod("getWindow", "()Landroid/view/Window;");
+            auto window = activity.callObjectMethod("getWindow", "()Landroid/view/Window;");
 
             if (window.isValid()) {
                 const int FLAG_KEEP_SCREEN_ON = 128;
@@ -42,47 +42,45 @@ void Tandroid::keepScreenOn(bool on)
                     window.callMethod<void>("clearFlags", "(I)V", FLAG_KEEP_SCREEN_ON);
             }
         }
-        QAndroidJniEnvironment env;
-        if (env->ExceptionCheck())
-            env->ExceptionClear();
+        QJniEnvironment env;
+        env.checkAndClearExceptions();
     });
 }
 
 void Tandroid::disableRotation(bool disRot)
 {
     int orientation = disRot ? 0 : 10; // SCREEN_ORIENTATION_LANDSCAPE or SCREEN_ORIENTATION_FULL_SENSOR
-    QtAndroid::runOnAndroidThread([orientation] {
-        QAndroidJniObject activity = QtAndroid::androidActivity();
+    QAndroidApplication::runOnAndroidMainThread([orientation] {
+        auto activity = QJniObject(QAndroidApplication::context());
         if (activity.isValid())
             activity.callMethod<void>("setRequestedOrientation", "(I)V", orientation);
-        QAndroidJniEnvironment env;
-        if (env->ExceptionCheck())
-            env->ExceptionClear();
+        QJniEnvironment env;
+        env.checkAndClearExceptions();
     });
 }
 
 int Tandroid::getAPIlevelNr()
 {
-    return QtAndroid::androidSdkVersion();
+    return QAndroidApplication::sdkVersion();
 }
 
 bool Tandroid::hasWriteAccess()
 {
-    if (QtAndroid::androidSdkVersion() < 23)
-        return true;
-    else
-        return QtAndroid::checkPermission(QStringLiteral("android.permission.WRITE_EXTERNAL_STORAGE")) == QtAndroid::PermissionResult::Granted;
+    // if (QAndroidApplication::sdkVersion() < 23) // TODO
+    return false; // true;
+    // else
+    // return QtAndroid::checkPermission(QStringLiteral("android.permission.WRITE_EXTERNAL_STORAGE")) == QtAndroid::PermissionResult::Granted;
 }
 
 void Tandroid::askForWriteAcces()
 {
-    if (QtAndroid::androidSdkVersion() >= 23) {
-        const QString writeID("android.permission.WRITE_EXTERNAL_STORAGE");
-        if (QtAndroid::checkPermission(writeID) != QtAndroid::PermissionResult::Granted) {
-            auto perms = QtAndroid::requestPermissionsSync(QStringList() << writeID);
-            qDebug() << writeID << (perms[writeID] == QtAndroid::PermissionResult::Granted);
-        }
-    }
+    // if (QtAndroid::androidSdkVersion() >= 23) {
+    //     const QString writeID("android.permission.WRITE_EXTERNAL_STORAGE");
+    //     if (QtAndroid::checkPermission(writeID) != QtAndroid::PermissionResult::Granted) {
+    //         auto perms = QtAndroid::requestPermissionsSync(QStringList() << writeID);
+    //         qDebug() << writeID << (perms[writeID] == QtAndroid::PermissionResult::Granted);
+    //     }
+    // }
 }
 
 QString Tandroid::getExternalPath()
@@ -113,67 +111,66 @@ QString Tandroid::getExternalPath()
 QString Tandroid::getRunArgument()
 {
     QString argument;
-    QAndroidJniObject activity = QtAndroid::androidActivity();
+    auto activity = QJniObject(QAndroidApplication::context());
     if (activity.isValid()) {
-        QAndroidJniObject intent = activity.callObjectMethod("getIntent", "()Landroid/content/Intent;");
+        QJniObject intent = activity.callObjectMethod("getIntent", "()Landroid/content/Intent;");
         if (intent.isValid()) {
-            QAndroidJniObject data = intent.callObjectMethod("getData", "()Landroid/net/Uri;");
+            QJniObject data = intent.callObjectMethod("getData", "()Landroid/net/Uri;");
             if (data.isValid()) {
-                QAndroidJniObject arg = data.callObjectMethod("getPath", "()Ljava/lang/String;");
+                QJniObject arg = data.callObjectMethod("getPath", "()Ljava/lang/String;");
                 if (arg.isValid())
                     argument = arg.toString();
             }
         }
     }
-    QAndroidJniEnvironment env;
-    if (env->ExceptionCheck())
-        env->ExceptionClear();
+    QJniEnvironment env;
+    env.checkAndClearExceptions();
     return argument;
 }
 
 void Tandroid::restartNootka()
 {
-    auto activity = QtAndroid::androidActivity();
-    auto packageManager = activity.callObjectMethod("getPackageManager", "()Landroid/content/pm/PackageManager;");
-    auto activityIntent = packageManager.callObjectMethod("getLaunchIntentForPackage",
-                                                          "(Ljava/lang/String;)Landroid/content/Intent;",
-                                                          activity.callObjectMethod("getPackageName", "()Ljava/lang/String;").object());
-    auto pendingIntent =
-        QAndroidJniObject::callStaticObjectMethod("android/app/PendingIntent",
-                                                  "getActivity",
-                                                  "(Landroid/content/Context;ILandroid/content/Intent;I)Landroid/app/PendingIntent;",
-                                                  activity.object(),
-                                                  jint(0),
-                                                  activityIntent.object(),
-                                                  QAndroidJniObject::getStaticField<jint>("android/content/Intent", "FLAG_ACTIVITY_CLEAR_TOP"));
-    auto alarmManager =
-        activity.callObjectMethod("getSystemService",
-                                  "(Ljava/lang/String;)Ljava/lang/Object;",
-                                  QAndroidJniObject::getStaticObjectField("android/content/Context", "ALARM_SERVICE", "Ljava/lang/String;").object());
-    alarmManager.callMethod<void>("set",
-                                  "(IJLandroid/app/PendingIntent;)V",
-                                  QAndroidJniObject::getStaticField<jint>("android/app/AlarmManager", "RTC"),
-                                  jlong(QDateTime::currentMSecsSinceEpoch() + 750),
-                                  pendingIntent.object());
-    QAndroidJniEnvironment env;
-    if (env->ExceptionCheck())
-        env->ExceptionClear();
-}
+    //     auto activity = QtAndroid::androidActivity();
+    //     auto packageManager = activity.callObjectMethod("getPackageManager", "()Landroid/content/pm/PackageManager;");
+    //     auto activityIntent = packageManager.callObjectMethod("getLaunchIntentForPackage",
+    //                                                           "(Ljava/lang/String;)Landroid/content/Intent;",
+    //                                                           activity.callObjectMethod("getPackageName", "()Ljava/lang/String;").object());
+    //     auto pendingIntent =
+    //         QAndroidJniObject::callStaticObjectMethod("android/app/PendingIntent",
+    //                                                   "getActivity",
+    //                                                   "(Landroid/content/Context;ILandroid/content/Intent;I)Landroid/app/PendingIntent;",
+    //                                                   activity.object(),
+    //                                                   jint(0),
+    //                                                   activityIntent.object(),
+    //                                                   QAndroidJniObject::getStaticField<jint>("android/content/Intent", "FLAG_ACTIVITY_CLEAR_TOP"));
+    //     auto alarmManager =
+    //         activity.callObjectMethod("getSystemService",
+    //                                   "(Ljava/lang/String;)Ljava/lang/Object;",
+    //                                   QAndroidJniObject::getStaticObjectField("android/content/Context", "ALARM_SERVICE", "Ljava/lang/String;").object());
+    //     alarmManager.callMethod<void>("set",
+    //                                   "(IJLandroid/app/PendingIntent;)V",
+    //                                   QAndroidJniObject::getStaticField<jint>("android/app/AlarmManager", "RTC"),
+    //                                   jlong(QDateTime::currentMSecsSinceEpoch() + 750),
+    //                                   pendingIntent.object());
+    //     QAndroidJniEnvironment env;
+    //     if (env->ExceptionCheck())
+    //         env->ExceptionClear();
+    // }
 
-void Tandroid::sendExam(const QString &title, const QString &message, const QString &filePath)
-{
-    QAndroidJniObject jTitle = QAndroidJniObject::fromString(title);
-    QAndroidJniObject jMessage = QAndroidJniObject::fromString(message);
-    QAndroidJniObject jFile = QAndroidJniObject::fromString(filePath);
-    QAndroidJniObject::callStaticMethod<void>("net/sf/nootka/TshareExam",
-                                              "send",
-                                              "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V",
-                                              jTitle.object<jstring>(),
-                                              jMessage.object<jstring>(),
-                                              jFile.object<jstring>());
-    QAndroidJniEnvironment env;
-    if (env->ExceptionCheck())
-        env->ExceptionClear();
+    // void Tandroid::sendExam(const QString &title, const QString &message, const QString &filePath)
+    // {
+    //     QAndroidJniObject jTitle = QAndroidJniObject::fromString(title);
+    //     QAndroidJniObject jMessage = QAndroidJniObject::fromString(message);
+    //     QAndroidJniObject jFile = QAndroidJniObject::fromString(filePath);
+    //     QAndroidJniObject::callStaticMethod<void>("net/sf/nootka/TshareExam",
+    //                                               "send",
+    //                                               "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V",
+    //                                               jTitle.object<jstring>(),
+    //                                               jMessage.object<jstring>(),
+    //                                               jFile.object<jstring>());
+    //     QAndroidJniEnvironment env;
+    //     if (env->ExceptionCheck())
+    //         env->ExceptionClear();
 }
 
 QString Tandroid::accountName()

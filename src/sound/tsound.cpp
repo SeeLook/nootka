@@ -20,8 +20,6 @@
 #if defined(Q_OS_ANDROID)
 #include "tqtaudioin.h"
 #include "tqtaudioout.h"
-#include <QtAndroidExtras/qandroidfunctions.h>
-#include <QtAndroidExtras/qandroidjnienvironment.h>
 #else
 //   #include "tmidiout.h"
 #include "tnotesbaritem.h"
@@ -536,17 +534,17 @@ void Tsound::setTunerMode(bool isTuner)
 #if defined(Q_OS_ANDROID)
 int Tsound::maxVolRange() const
 {
-    return QAndroidJniObject::callStaticMethod<jint>("net/sf/nootka/ToutVolume", "maxStreamVolume");
+    return QJniObject::callStaticMethod<jint>("net/sf/nootka/ToutVolume", "maxStreamVolume");
 }
 
 int Tsound::currentVol() const
 {
-    return QAndroidJniObject::callStaticMethod<jint>("net/sf/nootka/ToutVolume", "streamVolume");
+    return QJniObject::callStaticMethod<jint>("net/sf/nootka/ToutVolume", "streamVolume");
 }
 
 void Tsound::setVol(int v)
 {
-    QAndroidJniObject::callStaticMethod<void>("net/sf/nootka/ToutVolume", "setStreamVolume", "(I)V", v);
+    QJniObject::callStaticMethod<void>("net/sf/nootka/ToutVolume", "setStreamVolume", "(I)V", v);
 }
 
 void Tsound::setTouchHandling(bool th)
@@ -644,14 +642,14 @@ bool Tsound::eventFilter(QObject *watched, QEvent *event)
             if (m_volKeyTimer.elapsed() > 100) {
                 if (!m_tunerMode) {
                     if (playing()) {
-                        QAndroidJniObject::callStaticMethod<void>("net/sf/nootka/ToutVolume", "show");
+                        QJniObject::callStaticMethod<void>("net/sf/nootka/ToutVolume", "show");
                         if (ke->key() == Qt::Key_VolumeDown)
                             m_currVol--;
                         else
                             m_currVol++;
                         m_currVol = qBound(0, m_currVol, m_maxVol);
                         setVol(m_currVol);
-                        m_currVol = QAndroidJniObject::callStaticMethod<jint>("net/sf/nootka/ToutVolume", "streamVolume");
+                        m_currVol = QJniObject::callStaticMethod<jint>("net/sf/nootka/ToutVolume", "streamVolume");
                     } else if (!GLOB->isExam())
                         QTimer::singleShot(10, this, &Tsound::volumeKeyPressed);
                 } else {
