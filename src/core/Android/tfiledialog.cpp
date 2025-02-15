@@ -79,7 +79,7 @@ public:
         auto label = new QLabel(qTR("QFileDialog", "Create New Folder"), this);
         m_edit = new QLineEdit(this);
         m_edit->setPlaceholderText(qTR("QFileSystemModel", "Name"));
-        m_edit->setMinimumWidth(qMin<int>(Tmtr::longScreenSide() / 3, fontMetrics().width(QStringLiteral("w")) * 20));
+        m_edit->setMinimumWidth(qMin<int>(Tmtr::longScreenSide() / 3, fontMetrics().boundingRect(QStringLiteral("w")).width() * 20));
 
         QSize iconS(Tmtr::fingerPixels() * 0.7, Tmtr::fingerPixels() * 0.7);
         m_createButt =
@@ -280,7 +280,7 @@ TfileDialog::TfileDialog(const QString &directory, const QString &filter, Eaccep
     m_list->setModel(m_fileModel);
     m_list->setRootIndex(m_fileModel->index(m_fileModel->rootPath()));
 
-    m_fileModel->setIconProvider(new TiconProvider(m_fileModel->iconProvider()));
+    m_fileModel->setIconProvider(new TiconProvider(reinterpret_cast<QFileIconProvider *>(m_fileModel->iconProvider())));
 
     connect(m_menu, &QListWidget::itemClicked, this, &TfileDialog::menuClickedSlot);
     connect(m_list, &QListView::clicked, this, &TfileDialog::itemClickedSlot);
