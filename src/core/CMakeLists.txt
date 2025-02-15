@@ -38,6 +38,13 @@ if (NOT ZLIB_LIBRARY OR NOT ZLIB_INCLUDE_DIR)
   find_package(ZLIB REQUIRED)
 endif()
 
+if(ANDROID)
+    qt_add_resources(NOOTKA_SRC android.qrc)
+    target_compile_definitions(nootka PUBLIC
+        -DUSE_FILE32API  # for minizip, to link against zlib properly
+    )
+endif()
+
 set(LIB_NOOTKACORE_SRC
   tinitcorelib.cpp
   texamparams.h
@@ -104,9 +111,12 @@ set(LIB_NOOTKACORE_SRC
 )
 
 if (WIN32)
-  list(APPEND LIB_NOOTKACORE_SRC minizip/iowin32.c)
+    list(APPEND LIB_NOOTKACORE_SRC minizip/iowin32.c)
 endif()
 
+if (ANDROID)
+    list(APPEND LIB_NOOTKACORE_SRC Android/tandroid.cpp)
+endif()
 
 target_sources(nootka PUBLIC
     ${LIB_NOOTKACORE_SRC}

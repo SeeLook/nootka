@@ -5,9 +5,25 @@
 if(MINGW)
     set(CMAKE_FIND_LIBRARY_SUFFIXES ".dll")
 endif()
+
+if (ANDROID)
+    # arm64-v8a, armeabi-v7a, armeabi-v6, armeabi, mips, mips64, x86, x86_64
+    if (CMAKE_ANDROID_ARCH_ABI MATCHES "arm64")
+        set(ARCH_EXT arm64)
+    elseif(CMAKE_ANDROID_ARCH_ABI MATCHES "armeabi-v7a")
+        set(ARCH_EXT armv7)
+    else() # x86, x86_64
+        set(ARCH_EXT ${CMAKE_ANDROID_ARCH_ABI})
+    endif()
+endif()
 ###########################################################################
 ########   Looking for fftw3
 ###########################################################################
+if (ANDROID)
+    set(FFTW3_LIBRARIES "${CMAKE_CURRENT_SOURCE_DIR}/fftw/${ARCH_EXT}/libfftw3f.a")
+    set(FFTW3_INCLUDE_DIRS "${CMAKE_CURRENT_SOURCE_DIR}/fftw/")
+    message(STATUS "Fftw3 was Found in:\n${FFTW3_LIBRARIES}\nheaders are in: ${FFTW3_INCLUDE_DIRS}")
+endif()
 if(FFTW3_LIBRARIES AND FFTW3_INCLUDE_DIRS)
     set(FFTW3_FOUND TRUE)
 else()
@@ -54,106 +70,113 @@ else()
     endif()
 endif()
 
-include_directories(${FFTW3_INCLUDE_DIRS})
+target_include_directories(nootka PRIVATE ${FFTW3_INCLUDE_DIRS})
 
 ###########################################################################
 ########   Looking for Ogg Vorbis (ogg decoder)
 ###########################################################################
-if(VORBIS_LIBRARIES AND OGG_INCLUDE_DIRS AND VORBIS_INCLUDE_DIRS)
-    set(OGG_FOUND TRUE)
+if(ANDROID)
+    set(VORBIS_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR})
+    set(OGG_INCLUDE_DIR  ${CMAKE_CURRENT_SOURCE_DIR})
+    # On Android all vorbis/file/ogg are packed inside single static lib
+    set(OGG_LIB "${CMAKE_CURRENT_SOURCE_DIR}/ogg/${ARCH_EXT}/liboggstatic.a")
 else()
-    find_path(VORBIS_INCLUDE_DIR
-        NAMES
-            "vorbis/vorbisfile.h"
-        PATHS
-            /usr/include
-            /usr/local/include
-            /opt/local/include
-            /sw/include
-            ${CMAKE_SOURCE_DIR}/../libvorbis/include/
-            ${CMAKE_SOURCE_DIR}/libvorbis/include/
-            ${CMAKE_BINARY_DIR}/../libvorbis/include/
-            ${CMAKE_BINARY_DIR}/libvorbis/include/
-            /usr/x86_64-w64-mingw32/include/
-    )
-    find_path(OGG_INCLUDE_DIR
-        NAMES
-            "ogg/ogg.h"
-        PATHS
-            /usr/include
-            /usr/local/include
-            /opt/local/include
-            /sw/include
-            ${CMAKE_SOURCE_DIR}/libogg/include/
-            ${CMAKE_SOURCE_DIR}}/../libogg/include/
-            ${CMAKE_BINARY_DIR}/libogg/include/
-            ${CMAKE_BINARY_DIR}/../libogg/include/
-            /usr/x86_64-w64-mingw32/include/
-    )
-    get_filename_component(VORBIS_DIR "${VORBIS_LIBRARIES}" DIRECTORY)
-    if (MINGW)
-        set(CMAKE_FIND_LIBRARY_SUFFIXES ".dll")
-    endif()
-    message(STATUS "\n${VORBIS_DIR}")
-    find_library(VORBISFILE_LIB
-        NAMES
-            vorbisfile libvorbisfile
-        PATHS
-            ${VORBIS_DIR}
-            /usr/lib
-            /usr/lib64
-            /usr/local/lib
-            /opt/local/lib
-            /sw/lib
-            ${CMAKE_BINARY_DIR}}/libvorbis/
-            ${CMAKE_BINARY_DIR}/../libvorbis/
-            ${CMAKE_BINARY_DIR}}/../vorbis-tools/
-            ${CMAKE_BINARY_DIR}/vorbis-tools/
-    )
-    find_library(OGG_LIB
-        NAMES
-            ogg libogg
-        PATHS
-            ${VORBIS_DIR}
-            /usr/lib
-            /usr/lib64
-            /usr/local/lib
-            /opt/local/lib
-            /sw/lib
-            ${CMAKE_BINARY_DIR}}/libvorbis/
-            ${CMAKE_BINARY_DIR}/../libvorbis/
-            ${CMAKE_BINARY_DIR}}/vorbis-tools/
-            ${CMAKE_BINARY_DIR}/../vorbis-tools/
-    )
-    find_library(VORBIS_LIB
-        NAMES
-            vorbis libvorbis
-        PATHS
-            ${VORBIS_DIR}
-            /usr/lib
-            /usr/lib64
-            /usr/local/lib
-            /opt/local/lib
-            /sw/lib
-            ${CMAKE_BINARY_DIR}}/libvorbis/
-            ${CMAKE_BINARY_DIR}/../libvorbis/
-            ${CMAKE_BINARY_DIR}}/vorbis-tools/
-            ${CMAKE_BINARY_DIR}/../vorbis-tools/
-    )
-
-    message(STATUS "\n${VORBIS_LIB}\n${OGG_LIB}\n${VORBISFILE_LIB}")
-    set(VORBIS_INCLUDE_DIRS ${VORBIS_INCLUDE_DIR} )
-    set(OGG_INCLUDE_DIRS ${OGG_INCLUDE_DIR})
-    set(VORBIS_LIBRARIES ${VORBISFILE_LIB} CACHE STRING "Ogg vorbis library path")
-
-    if(VORBIS_INCLUDE_DIRS AND OGG_INCLUDE_DIRS AND VORBIS_LIBRARIES)
+    if(VORBIS_LIBRARIES AND OGG_INCLUDE_DIRS AND VORBIS_INCLUDE_DIRS)
         set(OGG_FOUND TRUE)
-    endif()
-
-    if(OGG_FOUND)
-        message(STATUS "Ogg Vorbis was Found in:\n${VORBIS_LIBRARIES}\nheaders are in: ${OGG_INCLUDE_DIRS} ${VORBIS_INCLUDE_DIRS}")
     else()
-        message(FATAL_ERROR "Could not find libvorbis\nTry call cmake with args:\n-DVORBIS_LIBRARIES =/path_to/libvorbisfile.so(dll) -DVORBIS_INCLUDE_DIRS=/path_to_dir_with/vorbis/vorbisfile.h\n-DOGG_INCLUDE_DIRS=/path_to_dir_with/ogg/ogg.h\nor put those files in build dir or source dir")
+        find_path(VORBIS_INCLUDE_DIR
+            NAMES
+                "vorbis/vorbisfile.h"
+            PATHS
+                /usr/include
+                /usr/local/include
+                /opt/local/include
+                /sw/include
+                ${CMAKE_SOURCE_DIR}/../libvorbis/include/
+                ${CMAKE_SOURCE_DIR}/libvorbis/include/
+                ${CMAKE_BINARY_DIR}/../libvorbis/include/
+                ${CMAKE_BINARY_DIR}/libvorbis/include/
+                /usr/x86_64-w64-mingw32/include/
+        )
+        find_path(OGG_INCLUDE_DIR
+            NAMES
+                "ogg/ogg.h"
+            PATHS
+                /usr/include
+                /usr/local/include
+                /opt/local/include
+                /sw/include
+                ${CMAKE_SOURCE_DIR}/libogg/include/
+                ${CMAKE_SOURCE_DIR}}/../libogg/include/
+                ${CMAKE_BINARY_DIR}/libogg/include/
+                ${CMAKE_BINARY_DIR}/../libogg/include/
+                /usr/x86_64-w64-mingw32/include/
+        )
+        get_filename_component(VORBIS_DIR "${VORBIS_LIBRARIES}" DIRECTORY)
+        if (MINGW)
+            set(CMAKE_FIND_LIBRARY_SUFFIXES ".dll")
+        endif()
+        message(STATUS "\n${VORBIS_DIR}")
+        find_library(VORBISFILE_LIB
+            NAMES
+                vorbisfile libvorbisfile
+            PATHS
+                ${VORBIS_DIR}
+                /usr/lib
+                /usr/lib64
+                /usr/local/lib
+                /opt/local/lib
+                /sw/lib
+                ${CMAKE_BINARY_DIR}}/libvorbis/
+                ${CMAKE_BINARY_DIR}/../libvorbis/
+                ${CMAKE_BINARY_DIR}}/../vorbis-tools/
+                ${CMAKE_BINARY_DIR}/vorbis-tools/
+        )
+        find_library(OGG_LIB
+            NAMES
+                ogg libogg
+            PATHS
+                ${VORBIS_DIR}
+                /usr/lib
+                /usr/lib64
+                /usr/local/lib
+                /opt/local/lib
+                /sw/lib
+                ${CMAKE_BINARY_DIR}}/libvorbis/
+                ${CMAKE_BINARY_DIR}/../libvorbis/
+                ${CMAKE_BINARY_DIR}}/vorbis-tools/
+                ${CMAKE_BINARY_DIR}/../vorbis-tools/
+        )
+        find_library(VORBIS_LIB
+            NAMES
+                vorbis libvorbis
+            PATHS
+                ${VORBIS_DIR}
+                /usr/lib
+                /usr/lib64
+                /usr/local/lib
+                /opt/local/lib
+                /sw/lib
+                ${CMAKE_BINARY_DIR}}/libvorbis/
+                ${CMAKE_BINARY_DIR}/../libvorbis/
+                ${CMAKE_BINARY_DIR}}/vorbis-tools/
+                ${CMAKE_BINARY_DIR}/../vorbis-tools/
+        )
+
+        message(STATUS "\n${VORBIS_LIB}\n${OGG_LIB}\n${VORBISFILE_LIB}")
+        set(VORBIS_INCLUDE_DIRS ${VORBIS_INCLUDE_DIR} )
+        set(OGG_INCLUDE_DIRS ${OGG_INCLUDE_DIR})
+        set(VORBIS_LIBRARIES ${VORBISFILE_LIB} CACHE STRING "Ogg vorbis library path")
+
+        if(VORBIS_INCLUDE_DIRS AND OGG_INCLUDE_DIRS AND VORBIS_LIBRARIES)
+            set(OGG_FOUND TRUE)
+        endif()
+
+        if(OGG_FOUND)
+            message(STATUS "Ogg Vorbis was Found in:\n${VORBIS_LIBRARIES}\nheaders are in: ${OGG_INCLUDE_DIRS} ${VORBIS_INCLUDE_DIRS}")
+        else()
+            message(FATAL_ERROR "Could not find libvorbis\nTry call cmake with args:\n-DVORBIS_LIBRARIES =/path_to/libvorbisfile.so(dll) -DVORBIS_INCLUDE_DIRS=/path_to_dir_with/vorbis/vorbisfile.h\n-DOGG_INCLUDE_DIRS=/path_to_dir_with/ogg/ogg.h\nor put those files in build dir or source dir")
+        endif()
     endif()
 endif()
 
@@ -163,7 +186,7 @@ include_directories(${VORBIS_INCLUDE_DIR})
 ###########################################################################
 ########   Looking for SoundTouch
 ###########################################################################
-if(UNIX)
+if(UNIX AND NOT ANDROID) # Linux and MacOs
     if(SOUNDTOUCH_LIBRARIES AND SOUNDTOUCH_INCLUDE_DIRS)
         set(SOUNDTOUCH_FOUND TRUE)
     else()
@@ -207,18 +230,18 @@ if(UNIX)
             )
         endiF()
     endif()
-endif (UNIX)
+endif()
 
 ###########################################################################
 #libraries and compiler definitions for RtMidi
 ###########################################################################
-if (APPLE)
+if(APPLE)
     find_library(CoreAudio_LIB NAMES CoreAudio)
     find_library(CoreMidi_LIB NAMES CoreMIDI)
     find_library(CoreFoundation_LIB NAMES CoreFoundation)
 endif (APPLE)
 
-IF(UNIX AND NOT APPLE)
+if(UNIX AND NOT APPLE AND NOT ANDROID)
     find_library(ALSA_LIBRARY
         NAMES
             asound
@@ -247,7 +270,7 @@ if(APPLE)
 endif()
 
 
-if(UNIX AND NOT APPLE)
+if(UNIX AND NOT APPLE AND NOT ANDROID)
   ##### PulseAudio ###########################################
     find_path(PULSE_INCLUDE_DIR
     NAMES
@@ -347,7 +370,6 @@ if(UNIX AND NOT APPLE)
     endif()
 endif()
 
-
 add_definitions(-DNOOTKASOUND_LIBRARY)
 
 if (WIN32)
@@ -358,14 +380,14 @@ endif(WIN32)
 set(LIB_NOOTKASOUND_SRC
     tabstractplayer.cpp
     tartiniparams.h
-    tmidiout.cpp
+    # tmidiout.cpp
     toggscale.cpp
     tpitchfinder.cpp
     taudioobject.h
-    trtaudio.cpp
+    # trtaudio.cpp
     tcommonlistener.cpp
-    trtaudioin.cpp
-    trtaudioout.cpp
+    # trtaudioin.cpp
+    # trtaudioout.cpp
     tsound.cpp
     ttickcolors.cpp
     tonsetlogic.cpp
@@ -389,7 +411,7 @@ set(LIB_NOOTKASOUND_SRC
     tartini/filters/IIR_Filter.cpp
 )
 
-IF(WIN32)
+if(WIN32)
     add_subdirectory(rt)
     link_directories( ${CMAKE_BINARY_DIR}/src )
     set(WIN_LIBS RtAudio)
@@ -409,10 +431,35 @@ IF(WIN32)
         stouch/InterpolateShannon.cpp
     )
 else()
-    list(APPEND LIB_NOOTKASOUND_SRC
-        rt/RtAudio.cpp
-        rt/RtMidi.cpp
-    )
+    if(ANDROID)
+        list(APPEND LIB_NOOTKASOUND_SRC
+            tqtaudioin.cpp
+            tqtaudioout.cpp
+            taudiobuffer.h
+
+            stouch/SoundTouch.cpp
+            stouch/TDStretch.cpp
+            stouch/RateTransposer.cpp
+            stouch/AAFilter.cpp
+            stouch/FIRFilter.cpp
+            stouch/FIFOSampleBuffer.cpp
+            stouch/cpu_detect_x86.cpp
+            stouch/sse_optimized.cpp
+            stouch/InterpolateCubic.cpp
+            stouch/InterpolateLinear.cpp
+            stouch/InterpolateShannon.cpp
+        )
+    else()
+        list(APPEND LIB_NOOTKASOUND_SRC
+            trtaudio.cpp
+            trtaudioin.cpp
+            trtaudioout.cpp
+            tmidiout.cpp
+
+            rt/RtAudio.cpp
+            rt/RtMidi.cpp
+        )
+    endif()
 endif()
 
 target_sources(nootka PUBLIC
