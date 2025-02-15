@@ -645,7 +645,7 @@
     </message>
     <message>
         <source>As you know, the same note can be played in several places on the fingerboard.&lt;br&gt;If checked, all of them will be shown.</source>
-        <translation>உங்களுக்குத் தெரியும், அதே குறிப்பை கைரேகையில் பல இடங்களில் விளையாடலாம். &lt;br&gt; சரிபார்க்கப்பட்டால், அவை அனைத்தும் காண்பிக்கப்படும்.</translation>
+        <translation>உங்களுக்குத் தெரியும், அதே குறிப்பை கைரேகையில் பல இடங்களில் விளையாடலாம். &lt;br&gt;சரிபார்க்கப்பட்டால், அவை அனைத்தும் காண்பிக்கப்படும்.</translation>
     </message>
     <message>
         <source>marked frets</source>
