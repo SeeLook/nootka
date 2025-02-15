@@ -18,40 +18,29 @@
 
 package net.sf.nootka;
 
-import org.qtproject.qt5.android.QtNative;
-import android.content.Context;
-import android.media.AudioManager;
+import org.qtproject.qt.android.QtNative;
+import java.lang.String;
+import android.widget.Toast;
 
+public class Ttoast
+{
+  private static String m_messageData = "";
 
-    /**
-     * Manages a volume level of Nootka output stream
-     */
-public class ToutVolume {
+    /** @p show() */
+  public static void show(String message) {
+    m_messageData = message;
 
-
-        /** Common method to get Android audio manager object */
-  private static AudioManager am() {
-    Context c = QtNative.activity().getApplicationContext();
-    return (AudioManager)c.getSystemService(c.AUDIO_SERVICE);
+    new Thread() {
+      public void run() {
+        QtNative.activity().runOnUiThread(new Runnable() {
+          public void run() {
+            Toast t = Toast.makeText(QtNative.activity(), m_messageData, Toast.LENGTH_LONG);
+//                   t.setGravity(Gravity.TOP|Gravity.CENTER_HORIZONTAL, 0, 0);
+            t.show();
+          }
+          });
+        }
+    }.start();
   }
 
-        /** Displays native Android out volume control */
-  public static void show() {
-    am().adjustStreamVolume(AudioManager.STREAM_MUSIC, AudioManager.ADJUST_SAME, AudioManager.FLAG_SHOW_UI);
-  }
-
-        /** Maximal value of volume (depends on device) */
-  public static int maxStreamVolume() {
-    return am().getStreamMaxVolume(AudioManager.STREAM_MUSIC);
-  }
-
-        /** Current volume */
-  public static int streamVolume() {
-    return am().getStreamVolume(AudioManager.STREAM_MUSIC);
-  }
-
-        /** Sets volume */
-  public static void setStreamVolume(int v) {
-    am().setStreamVolume(AudioManager.STREAM_MUSIC, v, 0);
-  }
 }

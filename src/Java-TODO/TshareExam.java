@@ -18,7 +18,7 @@
 
 package net.sf.nootka;
 
-import org.qtproject.qt5.android.QtNative;
+import org.qtproject.qt.android.QtNative;
 import java.lang.String;
 import android.content.Intent;
 import java.io.File;
@@ -33,7 +33,8 @@ import android.os.Build.VERSION_CODES;
  * There is appropriate information to use it during buid process in
  * src/android/build.gradle
  */
-import android.support.v4.content.FileProvider;
+// import android.support.v4.content.FileProvider;
+import androidx.core.content.FileProvider;
 
 
 public class TshareExam extends Activity
