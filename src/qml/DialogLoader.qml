@@ -6,31 +6,36 @@ import Nootka 1.0
 import Nootka.Dialogs 1.0
 import QtQuick 2.12
 import QtQuick.Controls 2.12
-import QtQuick.Dialogs 1.2 as Old
+import QtQuick.Dialogs
 import QtQuick.Window 2.12
 
-Old.Dialog {
+Dialog {
     id: dialLoader
 
+    property int stdButtons: DialogButtonBox.NoButton
     property int page: 0
-    property alias standardButtons: box.standardButtons
     property alias buttonBox: box
     property alias dialogObj: dialogObj
     property var currentDialog: null
+
+    signal apply()
+    signal help()
 
     function openFile(file) {
         dialogObj.openFile(file);
     }
 
-    width: nootkaWindow.width * (NOO.isAndroid() ? 1 : 0.9)
-    height: nootkaWindow.height * (NOO.isAndroid() ? 1 : 0.9)
+    width: nootkaWindow.width
+    height: nootkaWindow.height
+    padding: 0
+
     onPageChanged: {
         if (page > 0) {
             if (NOO.isAndroid())
                 mainMenu.drawer.interactive = false;
 
-            dialLoader.width = nootkaWindow.width * (NOO.isAndroid() ? 1 : 0.9);
-            dialLoader.height = nootkaWindow.height * (NOO.isAndroid() ? 1 : 0.9);
+            dialLoader.width = nootkaWindow.width
+            dialLoader.height = nootkaWindow.height
             open(); // do it it first, to initialize size at first time
             switch (page) {
             case Nootka.Settings:
@@ -57,7 +62,7 @@ Old.Dialog {
             case Nootka.Updater:
                 currentDialog = Qt.createComponent("qrc:/updater/TupdateSummary.qml").createObject(container);
                 dialLoader.title = currentDialog.titleText;
-                dialLoader.standardButtons = DialogButtonBox.Ok;
+                dialLoader.stdButtons = DialogButtonBox.Ok;
                 break;
             }
             SOUND.stopListen();
@@ -80,23 +85,19 @@ Old.Dialog {
     onApply: {
         if (currentDialog)
             currentDialog.apply();
-
         close();
     }
     onReset: {
         if (currentDialog)
             currentDialog.reset();
-
     }
     onAccepted: {
         if (currentDialog)
             currentDialog.accepted();
-
     }
     onHelp: {
         if (currentDialog)
             currentDialog.help();
-
     }
 
     TdialogObject {
@@ -107,7 +108,7 @@ Old.Dialog {
             nootkaWindow.executor.init(1, examFile);
             close();
         }
-        onOpenLevel: {
+        onOpenLevel: levelFile => {
             page = Nootka.LevelCreator;
             currentDialog.openLevel(levelFile);
         }
@@ -116,24 +117,27 @@ Old.Dialog {
     contentItem: Column {
         width: dialLoader.width
         height: dialLoader.height
+        spacing: NOO.factor() / 2
 
         Rectangle {
             id: container
 
             width: dialLoader.width
-            height: dialLoader.height - (box.visible ? box.height : 0)
+            height: dialLoader.height - (box.visible ? NOO.factor() * 4 : 0) - header.height
             color: activPal.window
         }
 
         DialogButtonBox {
             id: box
 
-            visible: standardButtons !== 0
+            z: 5
+            standardButtons: dialLoader.stdButtons
+            visible: dialLoader.stdButtons !== DialogButtonBox.NoButton
             width: dialLoader.width
-            height: NOO.factor() * 3
+            height: NOO.factor() * 3.5
             spacing: NOO.factor()
             alignment: Qt.AlignVCenter
-            onClicked: {
+            onClicked: button => {
                 switch (button.DialogButtonBox.buttonRole) {
                 case DialogButtonBox.AcceptRole:
                     dialLoader.accepted();

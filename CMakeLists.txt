@@ -2,7 +2,7 @@
 # MAIN CMAKE FILE FOR Nootka
 ########################################################################
 
-cmake_minimum_required(VERSION 3.1.0)
+cmake_minimum_required(VERSION 3.16.0)
 
 if (POLICY CMP0071)
   cmake_policy(SET CMP0071 NEW)
@@ -11,94 +11,92 @@ endif()
 project(nootka)
 
 set(Nootka_VERSION_MAJOR  "2")
-set(Nootka_VERSION_MINOR  "0")
-set(Nootka_VERSION_PATCH  "3-devel")
+set(Nootka_VERSION_MINOR  "1")
+set(Nootka_VERSION_PATCH  "7-devel")
 
+set(QT_DEFAULT_MAJOR_VERSION 6)
 
 set(Nootka_VERSION       "${Nootka_VERSION_MAJOR}.${Nootka_VERSION_MINOR}")
 set(Nootka_VERSION_FULL  "${Nootka_VERSION}.${Nootka_VERSION_PATCH}")
-message(STATUS "
-${PROJECT_NAME}-${Nootka_VERSION_FULL}
-" )
 
+message(STATUS "\n${PROJECT_NAME}-${Nootka_VERSION_FULL}\n")
 
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/src)
-set(LIBRARY_OUTPUT_PATH ${PROJECT_BINARY_DIR}/src)
 
-if (UNIX AND NOT APPLE) # config with version number is generated once on developer platform
-  configure_file(${CMAKE_SOURCE_DIR}/src/nootkaconfig.h.in ${CMAKE_SOURCE_DIR}/src/libs/core/nootkaconfig.h)
+if(UNIX AND NOT APPLE) # config with version number is generated once on developer platform
+    configure_file(${CMAKE_SOURCE_DIR}/src/nootkaconfig.h.in ${CMAKE_SOURCE_DIR}/src/core/nootkaconfig.h)
 endif (UNIX AND NOT APPLE)
 
-if (APPLE)
-  install( CODE "
-    execute_process(
-      COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_INSTALL_PREFIX}/nootka.app/Contents)
-    ")
-endif (APPLE)
+if(APPLE)
+    install(CODE "
+        execute_process(
+        COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_INSTALL_PREFIX}/nootka.app/Contents)
+        "
+    )
+endif ()
 
 ###########################################################################
 #INSTALLATION
 ###########################################################################
 if(WIN32)
-  set(PACKAGE_ARCHITECTURE x86)
-  option(COPY_GCC_LIBS "Copy compiler specific libraries during install target" ON)
+    set(PACKAGE_ARCHITECTURE x86)
+    option(COPY_GCC_LIBS "Copy compiler specific libraries during install target" ON)
 endif(WIN32)
 
-if(APPLE)
+if(APPLE) # TODO: Apple Silicon
   set(PACKAGE_ARCHITECTURE x86_64)
 endif(APPLE)
 
 if(NOT PACKAGE_ARCHITECTURE)
-   find_program(DPKG_CMD dpkg)
-   if(NOT DPKG_CMD)
-      find_program(RPM_CMD rpm)
-      if(NOT RPM_CMD)
-#         message(STATUS "Can not find any program to determine architecture, default to i386.")
-#         set(PACKAGE_ARCHITECTURE i386)
-        execute_process(COMMAND uname -m
-          OUTPUT_VARIABLE PACKAGE_ARCHITECTURE
-          OUTPUT_STRIP_TRAILING_WHITESPACE
+    find_program(DPKG_CMD dpkg)
+    if (DPKG_CMD)
+        execute_process(COMMAND
+            "${DPKG_CMD}" --print-architecture
+            OUTPUT_VARIABLE PACKAGE_ARCHITECTURE
+            OUTPUT_STRIP_TRAILING_WHITESPACE
         )
-      else(NOT RPM_CMD)
-        execute_process(COMMAND "${RPM_CMD}" --eval %_target_cpu
-          OUTPUT_VARIABLE PACKAGE_ARCHITECTURE
-          OUTPUT_STRIP_TRAILING_WHITESPACE 
-        )
-        set(RPM_CMD_FOUND TRUE)
-      endif(NOT RPM_CMD)
-   else(NOT DPKG_CMD)
-      execute_process(COMMAND "${DPKG_CMD}" --print-architecture
-        OUTPUT_VARIABLE PACKAGE_ARCHITECTURE
-        OUTPUT_STRIP_TRAILING_WHITESPACE
-      )
-      add_definitions(-D_FORTIFY_SOURCE=2) # for lintian DEB_BUILD_HARDENING_FORTIFY
-   endif(NOT DPKG_CMD)
-endif(NOT PACKAGE_ARCHITECTURE)
+    else()
+        find_program(RPM_CMD rpm)
+        if (RPM_CMD)
+            execute_process(COMMAND
+                "${RPM_CMD}" --eval %_target_cpu
+                OUTPUT_VARIABLE PACKAGE_ARCHITECTURE
+                OUTPUT_STRIP_TRAILING_WHITESPACE 
+            )
+            set(RPM_CMD_FOUND TRUE)
+        else()
+            execute_process(COMMAND
+                uname -m
+                OUTPUT_VARIABLE PACKAGE_ARCHITECTURE
+                OUTPUT_STRIP_TRAILING_WHITESPACE
+            )
+        endif()
+    endif()
+endif()
 message(STATUS "Architecture is ${PACKAGE_ARCHITECTURE}")
+
 if (NOT DPKG_CMD)
     unset(DPKG_CMD)
-endif (NOT DPKG_CMD)
+endif ()
 
 add_subdirectory(src)
 
 if(WIN32)
     set(INS_PREF ".")
-else(WIN32)
-  if (APPLE)
-    set(INS_PREF "nootka.app/Contents/Resources")
-  else(APPLE)
-    set(INS_PREF "share/nootka")
-  endif(APPLE)
-endif(WIN32)
-
+else()
+    if (APPLE)
+        set(INS_PREF "nootka.app/Contents/Resources")
+    else()
+        set(INS_PREF "share/nootka")
+    endif()
+endif()
 
 if(APPLE)
-  install(FILES "${CMAKE_SOURCE_DIR}/picts/nootka.icns" DESTINATION "${INS_PREF}") # icns for mac
-  install(FILES "${CMAKE_SOURCE_DIR}/picts/nootka-levels.icns" DESTINATION "${INS_PREF}")
-  install(FILES "${CMAKE_SOURCE_DIR}/picts/nootka-exam.icns" DESTINATION "${INS_PREF}")
-  install(FILES "${CMAKE_SOURCE_DIR}/packaging/mac/qt.conf" DESTINATION "${INS_PREF}")
-endif(APPLE)
-
+    install(FILES "${CMAKE_SOURCE_DIR}/picts/nootka.icns" DESTINATION "${INS_PREF}") # icns for mac
+    install(FILES "${CMAKE_SOURCE_DIR}/picts/nootka-levels.icns" DESTINATION "${INS_PREF}")
+    install(FILES "${CMAKE_SOURCE_DIR}/picts/nootka-exam.icns" DESTINATION "${INS_PREF}")
+    install(FILES "${CMAKE_SOURCE_DIR}/packaging/mac/qt.conf" DESTINATION "${INS_PREF}")
+endif()
 
 install(FILES changes DESTINATION "${INS_PREF}")
 file(GLOB ICONS_PNG "${CMAKE_CURRENT_SOURCE_DIR}/picts/*.png") #png-s for all
@@ -110,17 +108,17 @@ install(DIRECTORY fonts DESTINATION "${INS_PREF}")
 install(DIRECTORY "levels/" DESTINATION "${INS_PREF}/levels")
 
 if(APPLE OR WIN32)
-  if (APPLE)
-    install(FILES LICENSE DESTINATION "${INS_PREF}" RENAME gpl)
-  else() # specially encoded license file for Windows installer
-    install(FILES packaging/nsis/LICENSE-utf16le DESTINATION "${INS_PREF}" RENAME gpl)
-  endif()
-endif(APPLE OR WIN32)
+    if (APPLE)
+        install(FILES LICENSE DESTINATION "${INS_PREF}" RENAME gpl)
+    else() # specially encoded license file for Windows installer
+        install(FILES packaging/nsis/LICENSE-utf16le DESTINATION "${INS_PREF}" RENAME gpl)
+    endif()
+endif()
 
 if(APPLE)
-  file(GLOB MIME_TRANS "${CMAKE_CURRENT_SOURCE_DIR}/packaging/mac/*.lproj" )
-  install(DIRECTORY ${MIME_TRANS} DESTINATION ${INS_PREF})
-endif(APPLE)
+    file(GLOB MIME_TRANS "${CMAKE_CURRENT_SOURCE_DIR}/packaging/mac/*.lproj" )
+    install(DIRECTORY ${MIME_TRANS} DESTINATION ${INS_PREF})
+endif()
 
 
 file(GLOB snds "${CMAKE_CURRENT_SOURCE_DIR}/sounds/*.ogg")
@@ -160,42 +158,45 @@ if(UNIX AND NOT APPLE)
     install(FILES picts/hicolor/128x128/mimetypes/nootkalevel.png DESTINATION share/icons/hicolor/128x128/mimetypes/)
     install(FILES picts/nootka-level.png DESTINATION share/icons/hicolor/256x256/mimetypes/ RENAME nootkalevel.png)
     install(FILES picts/hicolor/512x512/mimetypes/nootkalevel.png DESTINATION share/icons/hicolor/512x512/mimetypes/)
-    install( CODE "
-      execute_process(COMMAND mkdir -p ${CMAKE_CURRENT_BINARY_DIR}/doc )
-      execute_process(COMMAND sh ${CMAKE_CURRENT_SOURCE_DIR}/packaging/make-chlog.sh ${Nootka_VERSION_FULL} ${CMAKE_CURRENT_BINARY_DIR}/doc/changelog ${CMAKE_CURRENT_SOURCE_DIR})
-  " )
-  if (DPKG_CMD) # Debian changelog
-    install(FILES "${CMAKE_CURRENT_BINARY_DIR}/doc/changelog.Debian.gz" DESTINATION share/doc/nootka)
-  endif (DPKG_CMD)
-  install(FILES packaging/debian/copyright DESTINATION share/doc/nootka)
-  install(FILES packaging/nootka.1.gz DESTINATION share/man/man1)
-endif(UNIX AND NOT APPLE)
+    install(CODE "
+        execute_process(COMMAND mkdir -p ${CMAKE_CURRENT_BINARY_DIR}/doc )
+        execute_process(COMMAND sh ${CMAKE_CURRENT_SOURCE_DIR}/packaging/make-chlog.sh ${Nootka_VERSION_FULL} ${CMAKE_CURRENT_BINARY_DIR}/doc/changelog ${CMAKE_CURRENT_SOURCE_DIR})
+    ")
+    if (DPKG_CMD) # Debian changelog
+        install(FILES "${CMAKE_CURRENT_BINARY_DIR}/doc/changelog.Debian.gz" DESTINATION share/doc/nootka)
+    endif ()
+    install(FILES packaging/debian/copyright DESTINATION share/doc/nootka)
+    install(FILES packaging/nootka.1.gz DESTINATION share/man/man1)
+endif()
 
 if(WIN32)
-  get_filename_component(MAKE_DIR "${CMAKE_RC_COMPILER}" DIRECTORY) # it works ether with make and ninja
-  install(FILES picts/nootka-exam.ico picts/nootka.ico picts/nootka-levels.ico picts/pack.ico picts/logo.bmp picts/logo-left.bmp DESTINATION "${INS_PREF}/picts") #ico
-  install(FILES packaging/nsis/nootka-utf16.nsi packaging/nsis/fileasoc.nsh ${CMAKE_BINARY_DIR}/nsis/NSIS.definitions.nsh DESTINATION "${INS_PREF}")
-  install(FILES packaging/nsis/qt.conf DESTINATION "${INS_PREF}")
-  if (COPY_GCC_LIBS)
-    install(FILES "${MAKE_DIR}/libgcc_s_dw2-1.dll" "${MAKE_DIR}/libstdc++-6.dll" "${MAKE_DIR}/libwinpthread-1.dll" DESTINATION "${INS_PREF}")
-  endif()
-endif(WIN32)
+    get_filename_component(MAKE_DIR "${CMAKE_RC_COMPILER}" DIRECTORY) # it works ether with make and ninja
+    install(FILES picts/nootka-exam.ico picts/nootka.ico picts/nootka-levels.ico picts/pack.ico picts/logo.bmp picts/logo-left.bmp DESTINATION "${INS_PREF}/picts") #ico
+    install(FILES packaging/nsis/nootka-utf16.nsi packaging/nsis/fileasoc.nsh ${CMAKE_BINARY_DIR}/nsis/NSIS.definitions.nsh DESTINATION "${INS_PREF}")
+    install(FILES packaging/nsis/qt.conf DESTINATION "${INS_PREF}")
+    if (COPY_GCC_LIBS)
+        install(FILES "${MAKE_DIR}/libgcc_s_dw2-1.dll" "${MAKE_DIR}/libstdc++-6.dll" "${MAKE_DIR}/libwinpthread-1.dll" DESTINATION "${INS_PREF}")
+    endif()
+endif()
 
 ###########################################################################
 # uninstall target
 ###########################################################################
-configure_file(
-     "${CMAKE_CURRENT_SOURCE_DIR}/cmake_uninstall.cmake.in"
-     "${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake"
-        IMMEDIATE @ONLY)
+if(NOT ANDROID)
+    configure_file(
+        "${CMAKE_CURRENT_SOURCE_DIR}/cmake_uninstall.cmake.in"
+        "${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake"
+        IMMEDIATE @ONLY
+    )
 
-  add_custom_target(uninstall
-   COMMAND ${CMAKE_COMMAND} -P ${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake
-)
+    add_custom_target(uninstall
+        COMMAND ${CMAKE_COMMAND} -P ${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake
+    )
+endif()
 
-add_subdirectory( lang )
+add_subdirectory(lang)
 
-add_subdirectory( packaging ) # deploy targets, cpack rules
+add_subdirectory(packaging) # deploy targets, cpack rules
 
 
 # Uncomment below lines if you want to build any testing executable

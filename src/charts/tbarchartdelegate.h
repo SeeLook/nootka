@@ -26,6 +26,8 @@ class TchartItem;
 class TgroupedQAunit;
 class TtipInfo;
 
+Q_MOC_INCLUDE("charts/tchartitem.h")
+
 /**
  * @todo write docs
  */
@@ -65,6 +67,11 @@ signals:
     void hoveredChanged();
     void groupNrChanged();
     void examChanged();
+
+protected:
+#if !defined(Q_OS_ANDROID)
+    virtual bool eventFilter(QObject *obj, QEvent *event) override;
+#endif
 
 private:
     TchartItem *m_chart = nullptr;

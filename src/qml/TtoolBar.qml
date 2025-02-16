@@ -15,6 +15,7 @@ ToolBar {
 
     height: settAct.height
     z: 6
+    padding: 0
 
     Row {
         spacing: toolBar.width / 200
@@ -73,7 +74,7 @@ ToolBar {
         property var pitchView
 
         target: SOUND
-        onInitialized: {
+        function onInitialized() : void {
             if (!pitchView) {
                 var c = Qt.createComponent("qrc:/PitchView.qml");
                 pitchView = c.createObject(toolBar);
@@ -91,7 +92,9 @@ ToolBar {
         anchors.right: parent.right
         height: toolBar.height
         onClicked: NOO.aboutAct.trigger()
-        onEntered: NOO.setStatusTip(NOO.TR("TaboutNootka", "About Nootka") + "...<br>" + NOO.TR("QShortcut", "Help") + ", " + NOO.TR("TaboutNootka", "Authors").toLowerCase() + ", " + NOO.TR("TaboutNootka", "License").toLowerCase(), Item.TopLeft)
+        onEntered: NOO.setStatusTip(NOO.TR("TaboutNootka", "About Nootka") + "...<br>" + NOO.TR("QShortcut", "Help")
+                                            + ", " + NOO.TR("TaboutNootka", "Authors").toLowerCase() + ", " + NOO.TR("TaboutNootka", "License").toLowerCase(),
+                                    Item.TopLeft)
         onExited: NOO.setStatusTip("", Item.TopLeft)
     }
 

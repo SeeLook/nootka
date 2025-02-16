@@ -43,7 +43,7 @@ Tmenu {
 
     Connections {
         target: score.notesMenuAct
-        onTriggered: {
+        function onTriggered() : void {
             notesLoader.active = true;
             notesLoader.item.open();
             close();
@@ -123,8 +123,8 @@ Tmenu {
 
     Connections {
         target: score.transposeAct
-        onTriggered: {
-            var tPop = transComp.createObject(nootkaWindow);
+        function onTriggered() : void {
+            let tPop = transComp.createObject(nootkaWindow);
             tPop.initKey = score.keySignature;
             close();
         }

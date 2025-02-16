@@ -175,7 +175,7 @@ void TnootkaCertificate::setParentHeight(qreal ph)
     }
 }
 
-void TnootkaCertificate::geometryChanged(const QRectF &newGeometry, const QRectF &oldGeometry)
+void TnootkaCertificate::geometryChange(const QRectF &newGeometry, const QRectF &oldGeometry)
 {
     Q_UNUSED(oldGeometry)
     if (newGeometry.width() > 0.0 && newGeometry.height() > 0.0 && m_cert) {

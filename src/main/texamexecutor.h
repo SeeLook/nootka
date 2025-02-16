@@ -26,6 +26,9 @@
 #include <QtGui/qcolor.h>
 #include <QtQuick/qquickitem.h>
 
+Q_MOC_INCLUDE("main/ttiphandler.h")
+Q_MOC_INCLUDE("taction.h")
+
 class TnoteStruct;
 class TexamMelody;
 class Tpenalty;

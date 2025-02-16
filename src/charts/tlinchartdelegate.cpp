@@ -45,19 +45,16 @@
 TlinChartDelegate::TlinChartDelegate(QQuickItem *parent)
     : QQuickPaintedItem(parent)
 {
-    //   setRenderTarget(QQuickPaintedItem::FramebufferObject);
     setAntialiasing(true);
     setAcceptHoverEvents(true);
 
     m_qInf = new TtipInfo();
 
-    connect(qApp, &QGuiApplication::paletteChanged, this, [=] {
-        update();
-    });
     connect(this, &QQuickItem::heightChanged, this, [=] {
         calcProgressRangeY();
         emit pointYChanged();
     });
+    qApp->installEventFilter(this);
 }
 
 TlinChartDelegate::~TlinChartDelegate()
@@ -367,14 +364,14 @@ void TlinChartDelegate::setProgressHoverred(bool ph)
 
 void TlinChartDelegate::hoverEnterEvent(QHoverEvent *e)
 {
-    if ((e->posF().y() > m_prevAverY && e->posF().y() < m_thisAverY) || (e->posF().y() < m_prevAverY && e->posF().y() > m_thisAverY))
+    if ((e->position().y() > m_prevAverY && e->position().y() < m_thisAverY) || (e->position().y() < m_prevAverY && e->position().y() > m_thisAverY))
         setProgressHoverred(true);
 }
 
 void TlinChartDelegate::hoverMoveEvent(QHoverEvent *e)
 {
     if (m_prevAverY) {
-        if ((e->posF().y() > m_prevAverY && e->posF().y() < m_thisAverY) || (e->posF().y() < m_prevAverY && e->posF().y() > m_thisAverY))
+        if ((e->position().y() > m_prevAverY && e->position().y() < m_thisAverY) || (e->position().y() < m_prevAverY && e->position().y() > m_thisAverY))
             setProgressHoverred(true);
         else
             setProgressHoverred(false);
@@ -397,4 +394,12 @@ void TlinChartDelegate::calcProgressRangeY()
         m_prevAverY = 0.0;
         m_thisAverY = 0.0;
     }
+}
+
+bool TlinChartDelegate::eventFilter(QObject *obj, QEvent *event)
+{
+    if (obj == qApp && event->type() == QEvent::ApplicationPaletteChange) {
+        update();
+    }
+    return QObject::eventFilter(obj, event);
 }

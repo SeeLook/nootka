@@ -21,6 +21,8 @@
 
 #include <QtQuick/qquickitem.h>
 
+Q_MOC_INCLUDE("dialogs/trtmselectoritem.h")
+
 class TrtmSelectorItem;
 class QSettings;
 

@@ -5,9 +5,13 @@
 import QtQuick 2.12
 import QtQuick.Controls 2.12
 
-
 Flickable {
-  clip: true
-  width: parent.width
-  ScrollBar.vertical: ScrollBar { active: false; visible: active }
+    clip: true
+    width: parent.width
+
+    ScrollBar.vertical: ScrollBar {
+        active: false
+        visible: active
+    }
+
 }

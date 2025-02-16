@@ -5,21 +5,27 @@
 import QtQuick 2.12
 import QtQuick.Controls 2.12
 
-
 TextField {
-  id: tf
+    id: tf
 
-  property alias bg: bg
+    property alias bg: bg
 
-  selectByMouse: true
-  selectedTextColor: activPal.highlightedText
-  selectionColor: activPal.highlight
-  placeholderTextColor: disdPal.text
-  color: enabled ? activPal.text : disdPal.text
+    selectByMouse: true
+    selectedTextColor: activPal.highlightedText
+    selectionColor: activPal.highlight
+    placeholderTextColor: disdPal.text
+    color: enabled ? activPal.text : disdPal.text
 
-  background: TipRect {
-    id: bg
-    border { width: tf.focus ? 1 : 0; color: activPal.highlight }
-    color: enabled ? activPal.base : Qt.darker(disdPal.window, 1.2)
-  }
+    background: TipRect {
+        id: bg
+
+        color: enabled ? activPal.base : Qt.darker(disdPal.window, 1.2)
+
+        border {
+            width: tf.focus ? 1 : 0
+            color: activPal.highlight
+        }
+
+    }
+
 }

@@ -1,0 +1,106 @@
+name: Deploying
+
+on:
+  push:
+    paths-ignore:
+    - '**.md'
+
+env:
+  # VERSION: "3.0.6"
+  QT_VERSION_LINUX: 6.8.2
+  # QT_VERSION_MACOS: 6.8.1
+  # QT_VERSION_WINDOWS: 6.8.1
+  EXECUTABLE: "nootka"
+  APPLICATION: "Nootka"
+  UNIXNAME: "nootka"
+  QML_DIR: "../src/qml"
+  PUBLISHER: "Seelook"
+  DESCRIPTION: "Application to learn how to play from sheet music"
+  QT_MODULES: qt5compat
+
+jobs:
+  build-linux-x86_64:
+    runs-on: ubuntu-22.04
+    name: '🐧 Linux (x86_64)'
+    steps:
+    - name: '🧰 Checkout'
+      uses: actions/checkout@v4
+      with:
+          fetch-depth: 0
+
+    - name: Set variables
+      run: |
+        VER=$(cat src/core/nootkaconfig.h | awk -F" " '{ print $3 }' | sed 's/\"//g')
+        echo "NOOTKA_VERSION=$VER" >> $GITHUB_ENV
+        CNT=$(git rev-list HEAD --count)
+        echo "NOOTKA_COM_CNT=$CNT" >> $GITHUB_ENV
+
+    - name: '⚙️ Install Qt'
+      uses: jurplel/install-qt-action@v4
+      with:
+        version: ${{env.QT_VERSION_LINUX}}
+        modules: ${{env.QT_MODULES}}
+        cache: true
+        install-deps: 'true'
+
+    - name: '⚙️ Install dependencies'
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y mesa-common-dev libsoundtouch-dev libfftw3-dev libasound2-dev libogg-dev libvorbis-dev libpulse-dev libjack-dev rsync git ninja-build
+        sudo apt-get install -y libgl1-mesa-dev libxkbcommon-x11-0 rpm libfuse2 fakeroot
+
+    - name: '⚙️ Install CMake'
+      uses: lukka/get-cmake@latest
+      with:
+        useLocalCache: true
+
+    - name: '🚧 Configure with CMake'
+      run: |
+        export QMAKE=/home/runner/work/${{env.EXECUTABLE}}/Qt/${{env.QT_VERSION_LINUX}}/gcc_64/bin/qmake
+        export PATH=/home/runner/work/${{env.EXECUTABLE}}/Qt/${{env.QT_VERSION_LINUX}}/gcc_64/libexec:$PATH
+        mkdir build
+        cd build
+        mkdir AppDir
+        cmake -G Ninja -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=AppDir/usr -DQT_QMAKE_EXECUTABLE=/home/runner/work/${{env.EXECUTABLE}}/Qt/${{env.QT_VERSION_LINUX}}/gcc_64/bin/qmake ../
+
+    - name: '🚧 Build application'
+      run: |
+        cd build
+        cmake --build . --config Release -j 16
+        ninja install
+
+    - name: '📦 Create AppImage'
+      run: |
+        cd "build"
+        wget https://github.com/dantti/linuxdeploy/releases/download/continuous/linuxdeploy-x86_64.AppImage
+        wget https://github.com/dantti/linuxdeploy-plugin-qt/releases/download/continuous/linuxdeploy-plugin-qt-x86_64.AppImage
+        chmod +x linuxdeploy-x86_64.AppImage
+        chmod +x linuxdeploy-plugin-qt-x86_64.AppImage
+
+        export QML_SOURCES_PATHS="${{env.QML_DIR}}"
+        export QMAKE=/home/runner/work/${{env.EXECUTABLE}}/Qt/${{env.QT_VERSION_LINUX}}/gcc_64/bin/qmake
+        export PATH=/home/runner/work/${{env.EXECUTABLE}}/Qt/${{env.QT_VERSION_LINUX}}/gcc_64/libexec:$PATH
+        export EXTRA_QT_MODULES=core5compat;
+
+        ./linuxdeploy-x86_64.AppImage --appdir AppDir -e AppDir/usr/bin/${{env.UNIXNAME}} -i ../picts/${{env.UNIXNAME}}.png -d ../mime/${{env.UNIXNAME}}.desktop --plugin qt --output appimage
+
+        rm linuxdeploy-x86_64.AppImage
+        rm linuxdeploy-plugin-qt-x86_64.AppImage
+
+        mv *.AppImage ../${{env.EXECUTABLE}}-${{ env.NOOTKA_VERSION }}-b${{ env.NOOTKA_COM_CNT }}-Linux-x86_64.AppImage
+
+    - name: '📤 Upload artifact: AppImage'
+      uses: actions/upload-artifact@v4
+      with:
+        name: ${{env.EXECUTABLE}}-${{ env.NOOTKA_VERSION }}-b${{ env.NOOTKA_COM_CNT }}-Linux-x86_64.AppImage
+        path: ${{env.EXECUTABLE}}-${{ env.NOOTKA_VERSION }}-b${{ env.NOOTKA_COM_CNT }}-Linux-x86_64.AppImage
+
+    - name: '📤 Upload AppImage to SF'
+      uses: burnett01/rsync-deployments@5.0
+      with:
+        switches: -avzr --delete
+        path: ${{env.EXECUTABLE}}-${{ env.NOOTKA_VERSION }}-b${{ env.NOOTKA_COM_CNT }}-Linux-x86_64.AppImage
+        remote_path: ${{ secrets.REMOTE_PATH }}
+        remote_host: ${{ secrets.SSH_HOST  }}
+        remote_user: ${{ secrets.SSH_USER }}
+        remote_key: ${{ secrets.SSH_PRIVATE_KEY }}

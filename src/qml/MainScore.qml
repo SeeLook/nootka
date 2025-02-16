@@ -2,11 +2,13 @@
  * Copyright (C) 2017-2021 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
-import Nootka 1.0
-import Nootka.Main 1.0
 import QtQuick 2.12
 import QtQuick.Controls 2.12
+
+import Nootka 1.0
+import Nootka.Main 1.0
 import Score 1.0
+import Nootka.Music
 import "score"
 
 Score {
@@ -132,7 +134,7 @@ Score {
         MouseArea {
             anchors.fill: parent
             //z: -1
-            onWheel: {
+            onWheel: wheel => {
                 if (wheel.modifiers & Qt.ControlModifier) {
                     if (wheel.angleDelta.y > 0)
                         zoom(true);
@@ -168,7 +170,7 @@ Score {
 
     Connections {
         target: SOUND
-        onInitialized: {
+        function onInitialized() : void {
             mainObj.scoreObject = scoreObj;
             singleNote = Qt.binding(function() {
                 return GLOB.singleNoteMode;
@@ -191,12 +193,12 @@ Score {
 
     Connections {
         target: GLOB
-        onClefTypeChanged: score.clef = GLOB.clefType
+        function onClefTypeChanged() : void { score.clef = GLOB.clefType }
     }
 
     Connections {
         target: GLOB.tuning
-        onScordatureChanged: updateScord()
+        function onScordatureChanged() : void { updateScord() }
     }
 
     // note highlight

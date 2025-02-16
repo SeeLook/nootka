@@ -77,3 +77,12 @@ Thumbs.db
 *local.properties
 *CMakeLists.txt.user
 *android.iml
+*qmlls.ini
+
+*clang-format
+*clangd
+# VS code
+.vscode*
+.cache*
+
+/build*/

@@ -107,13 +107,12 @@ TmainScoreObject::TmainScoreObject(QObject *parent)
     m_openXmlAct->createQmlShortcut(&actionsComp, "StandardKey.Open; enabled: !GLOB.singleNoteMode && !GLOB.isExam");
     m_saveXmlAct->createQmlShortcut(&actionsComp, "StandardKey.Save; enabled: !GLOB.singleNoteMode && !GLOB.isExam");
     m_zoomOutAct->createQmlShortcut(&actionsComp, "StandardKey.ZoomOut; enabled: !GLOB.singleNoteMode");
-    m_zoomInAct->createQmlShortcut(&actionsComp, "StandardKey.ZoomIn; enabled: !GLOB.singleNoteMode");
+    m_zoomInAct->createShortcutSequence(&actionsComp, "StandardKey.ZoomIn", "!GLOB.singleNoteMode");
     // HACK: Create m_playAct action shortcut only when enabled.
     m_randMelodyAct->createQmlShortcut(&actionsComp, "\"Ctrl+M\"; enabled: !GLOB.singleNoteMode && !GLOB.isExam");
     m_nextNoteAct->createQmlShortcut(&actionsComp, "StandardKey.MoveToNextChar");
     m_prevNoteAct->createQmlShortcut(&actionsComp, "StandardKey.MoveToPreviousChar");
 
-    connect(qApp, &QGuiApplication::paletteChanged, this, &TmainScoreObject::paletteSlot);
     connect(SOUND, &Tsound::playingChanged, this, [=] {
         m_playAct->setIconTag(SOUND->playing() ? QLatin1String("stopMelody") : QLatin1String("playMelody"));
         m_playAct->setText(SOUND->playing() ? qTR("QShortcut", "Stop") : qTR("TtoolBar", "Play"));
@@ -122,6 +121,7 @@ TmainScoreObject::TmainScoreObject(QObject *parent)
     isExamChangedSlot();
 
     connect(NOO, &TnootkaQML::wantOpenXml, this, &TmainScoreObject::openXmlFileSlot);
+    qApp->installEventFilter(this);
 }
 
 TmainScoreObject::~TmainScoreObject()
@@ -601,7 +601,8 @@ void TmainScoreObject::isExamChangedSlot()
             if (m_questionMark) {
                 m_questionMark->setParentItem(qvariant_cast<QQuickItem *>(qobject_cast<QQuickItem *>(m_scoreObj->parent())->property("bgRect")));
                 m_questionMark->setVisible(false);
-                paletteSlot();
+                if (m_questionMark)
+                    m_questionMark->setProperty("color", scoreBackgroundColor(GLOB->EquestionColor, 40));
             }
         }
         singleModeSlot();
@@ -655,12 +656,6 @@ void TmainScoreObject::singleModeSlot()
             }
         }
     }
-}
-
-void TmainScoreObject::paletteSlot()
-{
-    if (m_questionMark)
-        m_questionMark->setProperty("color", scoreBackgroundColor(GLOB->EquestionColor, 40));
 }
 
 void TmainScoreObject::applyCorrectSlot()
@@ -789,3 +784,14 @@ void TmainScoreObject::checkExtraStaves()
         }
     }
 }
+
+#if !defined(Q_OS_ANDROID)
+bool TmainScoreObject::eventFilter(QObject *obj, QEvent *event)
+{
+    if (obj == qApp && event->type() == QEvent::ApplicationPaletteChange) {
+        if (m_questionMark)
+            m_questionMark->setProperty("color", scoreBackgroundColor(GLOB->EquestionColor, 40));
+    }
+    return QObject::eventFilter(obj, event);
+}
+#endif

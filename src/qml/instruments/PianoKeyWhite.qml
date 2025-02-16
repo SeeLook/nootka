@@ -4,40 +4,50 @@
 
 import QtQuick 2.12
 
-
 Rectangle {
-  id: whiteKey
+    id: whiteKey
 
-  property int nr: -1
-  property Item black: null
+    property int nr: -1
+    property Item black: null
 
-  signal entered(var key)
-  signal clicked(var key)
+    signal entered(var key)
+    signal clicked(var key)
 
-  width: instrItem.keyWidth; height: instrItem.height;
-  radius: width / 5; color: "white"
-  border { width: Math.round(width / 16); color: "black" }
-
-  MouseArea {
-    id: ma
-    property point startPos: Qt.point(0, 0)
-    anchors.fill: parent
-    hoverEnabled: true
-    onEntered: whiteKey.entered(whiteKey)
-    onPressed: startPos = Qt.point(mouseX, mouseY)
-    onReleased: {
-      var dx = mouseX - startPos.x
-      var dy = mouseY - startPos.y
-      if (Math.sqrt(dx * dx + dy * dy) < width * 2)
-        whiteKey.clicked(whiteKey)
+    width: instrItem.keyWidth
+    height: instrItem.height
+    radius: width / 5
+    color: "white"
+    Component.onCompleted: {
+        if (index % 7 !== 0 && index % 7 !== 3) {
+            var bk = Qt.createComponent("qrc:/instruments/PianoKeyBlack.qml");
+            black = bk.createObject(whiteKey, {
+                "nr": index
+            });
+        }
     }
-    onExited: whiteKey.entered(null)
-  }
 
-  Component.onCompleted: {
-    if (index % 7 !== 0 && index % 7 !== 3) {
-      var bk = Qt.createComponent("qrc:/instruments/PianoKeyBlack.qml")
-      black = bk.createObject(whiteKey, { "nr": index })
+    border {
+        width: Math.round(width / 16)
+        color: "black"
     }
-  }
+
+    MouseArea {
+        id: ma
+
+        property point startPos: Qt.point(0, 0)
+
+        anchors.fill: parent
+        hoverEnabled: true
+        onEntered: whiteKey.entered(whiteKey)
+        onPressed: startPos = Qt.point(mouseX, mouseY)
+        onReleased: {
+            var dx = mouseX - startPos.x;
+            var dy = mouseY - startPos.y;
+            if (Math.sqrt(dx * dx + dy * dy) < width * 2)
+                whiteKey.clicked(whiteKey);
+
+        }
+        onExited: whiteKey.entered(null)
+    }
+
 }

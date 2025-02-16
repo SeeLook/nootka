@@ -12,6 +12,7 @@ ApplicationWindow {
     property bool topToBott: height > width
     property real shortEdge: Math.min(height, width * (GLOB.instrument.isSax ? 0.85 : 1))
     property alias mainMenu: mainMenu
+
     // private
     property var noteName: null
     property var examResults: null
@@ -74,12 +75,13 @@ ApplicationWindow {
     visible: true
     title: "Nootka"
     color: activPal.window
-    visibility: NOO.isAndroid() && GLOB.fullScreen() ? "FullScreen" : "AutomaticVisibility"
+    visibility: NOO.isAndroid() && GLOB.fullScreen() ? ApplicationWindow.FullScreen : ApplicationWindow.AutomaticVisibility
     width: GLOB.geometry.width
     height: GLOB.geometry.height
     x: GLOB.geometry.x
     y: GLOB.geometry.y
     header: mainMenu.toolBar
+
     Component.onCompleted: {
         NOO.mainScore = score;
         checkSingleMode();
@@ -95,7 +97,8 @@ ApplicationWindow {
             createStatus();
         }
     }
-    onClosing: {
+
+    onClosing: close => {
         if (NOO.isAndroid() && dialogLoader && dialogLoader.visible) {
             close.accepted = false;
             dialogLoader.close();
@@ -103,7 +106,6 @@ ApplicationWindow {
         if (executor) {
             if (!executor.closeNootka())
                 close.accepted = false;
-
         }
         if (close.accepted)
             GLOB.geometry = Qt.rect(x, y, width, height);
@@ -114,25 +116,23 @@ ApplicationWindow {
         id: activPal
 
         property color dimText: Qt.tint(activPal.base, NOO.alpha(activPal.text, 150))
-
         colorGroup: SystemPalette.Active
     }
 
     SystemPalette {
         id: disdPal
-
         colorGroup: SystemPalette.Disabled
     }
 
     Connections {
         target: NOO
-        onScoreActTriggered: mainMenu.open()
-        onMelodyActTriggered: mainMenu.melodyOpen()
-        onSettingsActTriggered: showDialog(Nootka.Settings)
-        onLevelActTriggered: showDialog(Nootka.LevelCreator)
-        onChartsActTriggered: showDialog(Nootka.Charts)
-        onExamActTriggered: showDialog(Nootka.ExamStart)
-        onAboutActTriggered: showDialog(Nootka.About)
+        function onScoreActTriggered() : void { mainMenu.open() }
+        function onMelodyActTriggered() : void { mainMenu.melodyOpen() }
+        function onSettingsActTriggered() : void { showDialog(Nootka.Settings) }
+        function onLevelActTriggered() : void { showDialog(Nootka.LevelCreator) }
+        function onChartsActTriggered() : void { showDialog(Nootka.Charts) }
+        function onExamActTriggered() : void { showDialog(Nootka.ExamStart) }
+        function onAboutActTriggered() : void { showDialog(Nootka.About) }
     }
 
     MainMenu {
@@ -157,45 +157,38 @@ ApplicationWindow {
             height: parent.height / (GLOB.singleNoteMode && topToBott ? 2 : 1)
             width: parent.width / (GLOB.singleNoteMode && !topToBott ? 2 : 1)
         }
-
     }
 
     Instrument {
         id: instrument
-
         score: score
     }
 
     Connections {
         target: GLOB
-        onSingleNoteModeChanged: checkSingleMode()
-        onIsExamChanged: {
+        function onSingleNoteModeChanged() : void { checkSingleMode() }
+        function onIsExamChanged() : void {
             if (GLOB.isExam) {
                 if (!executor)
                     executor = Qt.createComponent("qrc:/exam/ExamExecutor.qml").createObject();
-
                 if (!examResults)
                     examResults = Qt.createComponent("qrc:/exam/ExamResults.qml").createObject(nootkaWindow.contentItem);
-
             } else {
                 if (examResults)
                     examResults.destroy();
-
             }
         }
-        onWantOpenFile: {
+        function onWantOpenFile(fileName: string) : void {
             showDialog(Nootka.NoDialog);
             dialogLoader.openFile(fileName);
         }
-        onShowNotesDiffChanged: {
+        function onShowNotesDiffChanged() : void {
             if (GLOB.showNotesDiff) {
                 if (!notesBarItem)
                     notesBarItem = Qt.createComponent("qrc:/sound/NotesDiffBar.qml").createObject(nootkaWindow.contentItem);
-
             } else {
                 if (notesBarItem)
                     notesBarItem.destroy();
-
             }
         }
     }

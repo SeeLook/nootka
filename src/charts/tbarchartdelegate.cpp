@@ -38,12 +38,8 @@ QString trStyle(QColor c)
 TbarChartDelegate::TbarChartDelegate(QQuickItem *parent)
     : QQuickPaintedItem(parent)
 {
-    //   setRenderTarget(QQuickPaintedItem::FramebufferObject);
     setAntialiasing(true);
-
-    connect(qApp, &QGuiApplication::paletteChanged, this, [=] {
-        update();
-    });
+    qApp->installEventFilter(this);
 }
 
 TbarChartDelegate::~TbarChartDelegate()
@@ -148,7 +144,7 @@ QString TbarChartDelegate::xText() const
 
 void TbarChartDelegate::paint(QPainter *painter)
 {
-    painter->setRenderHints(QPainter::Antialiasing | QPainter::HighQualityAntialiasing);
+    painter->setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing);
 
     painter->setPen(Qt::NoPen);
 
@@ -175,4 +171,12 @@ void TbarChartDelegate::paint(QPainter *painter)
     grad.setColorAt(1.0, endColor);
     painter->setBrush(QBrush(grad));
     painter->drawRoundedRect(rect, width() / 8.0, width() / 8.0);
+}
+
+bool TbarChartDelegate::eventFilter(QObject *obj, QEvent *event)
+{
+    if (obj == qApp && event->type() == QEvent::ApplicationPaletteChange) {
+        update();
+    }
+    return QObject::eventFilter(obj, event);
 }

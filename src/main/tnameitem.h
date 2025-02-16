@@ -118,13 +118,11 @@ signals:
     void correctName();
     void correctionFinished();
 
-private:
-    void changeNameBgColor(const QColor &c)
-    {
-        m_bgColor = c;
-        m_bgColor.setAlpha(175);
-        emit bgColorChanged();
-    }
+protected:
+#if !defined(Q_OS_ANDROID)
+    virtual bool eventFilter(QObject *obj, QEvent *event) override;
+#endif
+    void changeNameBgColor(const QColor &c);
 
 private:
     Tnote m_note, m_okNote;

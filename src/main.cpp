@@ -16,17 +16,17 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
+#include "core/tglobals.h"
+#include "core/tinitcorelib.h"
+#include "core/tmtr.h"
+#include "core/tnootkaqml.h"
+#include "core/tpath.h"
 #include "dialogs/tdialogloaderobject.h"
 #include "help/tmainhelp.h"
 #include "main/tgotit.h"
 #include "main/tmainscoreobject.h"
 #include "main/tnameitem.h"
-#include <tglobals.h>
-#include <tinitcorelib.h>
-#include <tmtr.h>
-#include <tnootkaqml.h>
-#include <tpath.h>
-#include <tsound.h>
+#include "sound/tsound.h"
 
 #if defined(Q_OS_ANDROID)
 #include "mobile/tmobilemenu.h"
@@ -79,10 +79,6 @@ int main(int argc, char *argv[])
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 #endif
 
-    // It mutes QML warnings about connections syntax introduced in Qt 5.15
-    // TODO when Qt version requirements will rise to 5.15 or above, change syntax and remove that
-    QLoggingCategory::setFilterRules(QStringLiteral("qt.qml.connections=false"));
-
 #if defined(Q_OS_ANDROID)
     qputenv("QT_ANDROID_VOLUME_KEYS", "1"); // Handle volume keys by Qt, lock native Android behavior
 
@@ -96,7 +92,7 @@ int main(int argc, char *argv[])
         qDebug() << "==== NOOTKA LOG =======\n" << QDateTime::currentDateTime().toString();
     }
 #else
-    qputenv("QT_QUICK_CONTROLS_STYLE", ""); // reset style environment var - other styles can cause crashes
+    qputenv("QT_QUICK_CONTROLS_STYLE", "Basic"); // reset style environment var - other styles can cause crashes
 #endif
 
     QElapsedTimer startElapsed;

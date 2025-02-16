@@ -110,6 +110,9 @@ protected:
     void hoverEnterEvent(QHoverEvent *e) override;
     void hoverMoveEvent(QHoverEvent *e) override;
     void hoverLeaveEvent(QHoverEvent *) override;
+#if !defined(Q_OS_ANDROID)
+    virtual bool eventFilter(QObject *obj, QEvent *event) override;
+#endif
 
 private:
     TchartItem *m_chart = nullptr;

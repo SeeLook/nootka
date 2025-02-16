@@ -53,7 +53,7 @@ public:
     void update();
     void paint(QPainter *painter) override;
 
-    void geometryChanged(const QRectF &newGeometry, const QRectF &oldGeometry) override;
+    void geometryChange(const QRectF &newGeometry, const QRectF &oldGeometry) override;
 
     Q_INVOKABLE void save();
     Q_INVOKABLE void stopExam();

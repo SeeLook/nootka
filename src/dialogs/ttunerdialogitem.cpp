@@ -26,11 +26,6 @@
 #include <QtCore/qdebug.h>
 #include <QtCore/qtimer.h>
 
-#if defined(Q_OS_ANDROID)
-#include <QtAndroidExtras/qandroidfunctions.h>
-#include <QtAndroidExtras/qandroidjnienvironment.h>
-#endif
-
 TtunerDialogItem::TtunerDialogItem(QQuickItem *parent)
     : QQuickItem(parent)
 {
