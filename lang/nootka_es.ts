@@ -4556,7 +4556,7 @@ Pero mejor que sean cortas, por tanto dividirlas primero con un software externo
         <location filename="../src/libs/core/tinitcorelib.cpp" line="46"/>
         <source>translator</source>
         <comment>Do not translate this, just put in &apos;translator comment field&apos; your data: translator name, translator e-mail (optional) and translator site (optional)</comment>
-        <translation></translation>
+        <translation>translator</translation>
     </message>
 </context>
 <context>
