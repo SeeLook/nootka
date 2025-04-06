@@ -1817,7 +1817,7 @@ void TexamExecutor::startSniffing()
         m_soundTimer->stop();
 #if !defined(Q_OS_ANDROID)
     if (CURR_Q->answerAsSound() && !GLOB->audioParams->dumpPath.isEmpty()) {
-        QString dumpFileName = QString("Question-%1").arg(m_exam->count(), 3, 'i', 0, '0');
+        QString dumpFileName = QString("Question-%1").arg(static_cast<qreal>(m_exam->count()), 3, 'i', 0, '0');
         if (m_melody)
             dumpFileName += QString("-attempt%1").arg(CURR_Q->attemptsCount());
         SOUND->setDumpFileName(dumpFileName);

@@ -117,10 +117,10 @@ QString Texam::formatReactTime(quint16 timeX10, bool withUnit)
     }
     int dig2 = 0;
     if ((timeX10 % 36000) / 600) {
-        mm = QString("%1").arg((timeX10 % 36000) / 600, dig, 'i', 0, '0');
+        mm = QString("%1").arg(static_cast<qreal>((timeX10 % 36000) / 600), dig, 'i', 0, '0');
         dig2 = 2;
     }
-    ss = QString("%1").arg(((timeX10 % 36000) % 600) / 10, dig2, 'i', 0, '0');
+    ss = QString("%1").arg(static_cast<qreal>(((timeX10 % 36000) % 600) / 10), dig2, 'i', 0, '0');
     QString res;
     if (!hh.isEmpty())
         res = hh + QLatin1String(":");
