@@ -170,7 +170,7 @@ ApplicationWindow {
         function onIsExamChanged() : void {
             if (GLOB.isExam) {
                 if (!executor)
-                    executor = Qt.createComponent("qrc:/exam/ExamExecutor.qml").createObject();
+                    executor = Qt.createComponent("qrc:/exam/ExamExecutor.qml").createObject(nootkaWindow);
                 if (!examResults)
                     examResults = Qt.createComponent("qrc:/exam/ExamResults.qml").createObject(nootkaWindow.contentItem);
             } else {

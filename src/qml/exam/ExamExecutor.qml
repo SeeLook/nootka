@@ -7,6 +7,8 @@ import Nootka 1.0
 import Nootka.Exam 1.0
 import QtQuick 2.12
 
+pragma ComponentBehavior: Bound
+
 Texecutor {
     id: executor
 
@@ -89,7 +91,7 @@ Texecutor {
 
         function onWantConfirmTip(text: string, color: color, pos: point) : void {
             let s = Qt.createComponent("qrc:/exam/ExamTip.qml");
-            tipHandler.confirmTip = s.createObject(executor, {
+            tipHandler.confirmTip = s.createObject(nootkaWindow, {
                 text: text,
                 offX: pos.x,
                 offY: pos.y,
@@ -100,7 +102,7 @@ Texecutor {
 
         function onWantResultTip(text: string, color: color) : void {
             let r = Qt.createComponent("qrc:/exam/ResultTip.qml");
-            tipHandler.resultTip = r.createObject(executor.parent, {
+            tipHandler.resultTip = r.createObject(nootkaWindow, {
                 text: text,
                 color: color
             });
@@ -108,7 +110,7 @@ Texecutor {
 
         function onWantTryAgainTip() : void {
             let a = Qt.createComponent("qrc:/exam/ResultTip.qml");
-            tipHandler.tryAgainTip = a.createObject(executor.parent, {
+            tipHandler.tryAgainTip = a.createObject(nootkaWindow, {
                 text: qsTranslate("TtipHandler", "Try again!"),
                 color: GLOB.wrongColor,
                 targetY: Math.min(executor.width, executor.height) / 12
@@ -117,7 +119,7 @@ Texecutor {
 
         function onWantWhatNextTip(text: string, color: color, pos: point) : void {
             let s = Qt.createComponent("qrc:/exam/ExamTip.qml");
-            tipHandler.whatNextTip = s.createObject(executor, {
+            tipHandler.whatNextTip = s.createObject(nootkaWindow, {
                 text: text,
                 offX: pos.x,
                 offY: pos.y,
