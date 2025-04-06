@@ -569,7 +569,7 @@ void TpitchFinder::resetFinder()
 #if !defined(Q_OS_ANDROID)
 void TpitchFinder::createDumpFile()
 {
-    m_dumpFile = new QFile(m_dumpPath + QLatin1String("/") + QString("#%1-").arg(m_dumpSufixNr, 3, 'i', 0, '0') + m_dumpName + QLatin1String(".pcm"));
+    m_dumpFile = new QFile(m_dumpPath + QLatin1String("/") + QString("#%1-").arg(m_dumpSufixNr, 3, '0') + m_dumpName + QLatin1String(".pcm"));
     if (m_dumpFile->open(QFile::WriteOnly)) {
         qDebug() << "Dumping into" << m_dumpFile->fileName();
         m_dumpSufixNr++;

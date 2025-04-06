@@ -16,7 +16,7 @@ Item {
 
     width: txt.width
     height: txt.height
-    z: 501 // above status tip rectangle
+    z: 60000 // above status tip rectangle
     transformOrigin: Item.Top
     Component.onCompleted: {
         if (GLOB.useAnimations)
