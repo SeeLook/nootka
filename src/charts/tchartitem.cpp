@@ -291,12 +291,12 @@ QString TchartItem::timeFormated(qreal realTime) const
         hh = QString("%1").arg(t / 3600);
         dig = 2;
     }
-    int dig2 = 0;
+    // int dig2 = 0;
     if (m_chart->maxValue() > 59.0 && (t % 3600) / 60) {
-        mm = QString("%1").arg((t % 3600) / 60, dig, 'i', 0, '0');
-        dig2 = 2;
+        mm = QString("%1").arg(static_cast<qreal>((t % 3600) / 60), dig, 'i', 0, '0');
+        // dig2 = 2;
     }
-    ss = QString("%1").arg((t % 3600) % 60, m_chart->maxValue() > 59.0 && realTime > 9.0 ? 2 : 1, 'i', 0, '0');
+    ss = QString("%1").arg(static_cast<qreal>((t % 3600) % 60), m_chart->maxValue() > 59.0 && realTime > 9.0 ? 2 : 1, 'i', 0, '0');
     if (realTime - static_cast<qreal>(t))
         ms = QLatin1String(".") + QString("%1").arg((int)((realTime - static_cast<qreal>(t)) * 10.0));
     if (m_chart->maxValue() < 60.0)

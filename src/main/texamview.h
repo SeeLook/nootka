@@ -85,7 +85,10 @@ public:
     /** Returns time given in &milliseconds in format h:mm:ss */
     static QString formatedTotalTime(int t)
     {
-        return QString("%1:%2:%3").arg(t / 3600000).arg((t % 3600000) / 60000, 2, 'f', 0, '0').arg((t % 60000) / 1000, 2, 'f', 0, '0');
+        return QString("%1:%2:%3")
+            .arg(t / 3600000)
+            .arg(static_cast<qreal>((t % 3600000) / 60000), 2, 'f', 0, '0')
+            .arg(static_cast<qreal>((t % 60000) / 1000), 2, 'f', 0, '0');
     }
 
     void startExam(Texam *exam, int totalNr); /**< Initialization */
