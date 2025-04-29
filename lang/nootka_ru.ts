@@ -2664,7 +2664,7 @@ But better keep them short, so divide them first in some external software.</sou
     <message numerus="yes">
         <location filename="../src/charts/tmainchart.cpp" line="66"/>
         <source>%n attempt(s)</source>
-        <translation type="unfinished">
+        <translation>
             <numerusform>%n попытка</numerusform>
             <numerusform>%n попытки</numerusform>
             <numerusform>%n попыток</numerusform>

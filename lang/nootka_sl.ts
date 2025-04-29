@@ -415,7 +415,7 @@
     <message>
         <location filename="../src/charts/tcharttipitem.cpp" line="319"/>
         <source>time</source>
-        <translation></translation>
+        <translation>time</translation>
     </message>
 </context>
 <context>
