@@ -504,13 +504,13 @@
         <location filename="../src/qml/instruments/Bandoneon.qml" line="130"/>
         <source>Bellows is opening.</source>
         <comment>Check please what bandoneon/accordion bellows does in your language. It may be more sophisticated word than &apos;opening&apos;</comment>
-        <translation type="unfinished"></translation>
+        <translation>Беллоуз открывается.</translation>
     </message>
     <message>
         <location filename="../src/qml/instruments/Bandoneon.qml" line="153"/>
         <source>Bellows is closing.</source>
         <comment>Check please what bandoneon/accordion bellows does in your language. It may be more sophisticated word than &apos;closing&apos;</comment>
-        <translation type="unfinished"></translation>
+        <translation>Беллоуз закрывается.</translation>
     </message>
 </context>
 <context>
@@ -942,7 +942,7 @@
     <message>
         <location filename="../src/qml/gotit/ImportInfo.qml" line="58"/>
         <source>Before that, you can transform (split, transpose and etc.) score parts and also select which note of a chord will be imported.</source>
-        <translation type="unfinished"></translation>
+        <translation>Перед этим вы можете трансформировать (разделить, транспонировать и т. д.) части партитуры, а также выбрать, какая нота аккорда будет импортирована.</translation>
     </message>
     <message>
         <location filename="../src/qml/gotit/ImportInfo.qml" line="59"/>
@@ -1206,7 +1206,7 @@
     <message>
         <location filename="../src/qml/level/LevelPreview.qml" line="136"/>
         <source>Answers</source>
-        <translation type="unfinished"></translation>
+        <translation>Ответы</translation>
     </message>
 </context>
 <context>
@@ -1369,7 +1369,7 @@
     <message>
         <location filename="../src/qml/score/MelodyImport.qml" line="292"/>
         <source>arpeggiate chords and insert all notes</source>
-        <translation type="unfinished"></translation>
+        <translation>арпеджировать аккорды и вставлять все ноты</translation>
     </message>
     <message>
         <location filename="../src/qml/score/MelodyImport.qml" line="322"/>
@@ -1379,7 +1379,7 @@
     <message>
         <location filename="../src/qml/score/MelodyImport.qml" line="322"/>
         <source>Arpeggiate chord</source>
-        <translation type="unfinished"></translation>
+        <translation>Аккорды арпеджиаты</translation>
     </message>
     <message>
         <location filename="../src/qml/score/MelodyImport.qml" line="367"/>
@@ -1393,7 +1393,8 @@
         <location filename="../src/qml/level/MelodyListView.qml" line="30"/>
         <source>Add here melodies from Music XML files.
 But better keep them short, so divide them first in some external software.</source>
-        <translation type="unfinished"></translation>
+        <translation>Добавьте сюда мелодии из файлов Music XML.
+Но лучше, чтобы они были короткими, поэтому сначала разделите их в какой-нибудь внешней программе.</translation>
     </message>
 </context>
 <context>
@@ -1990,7 +1991,7 @@ But better keep them short, so divide them first in some external software.</sou
     <message>
         <location filename="../src/qml/shared/RhythmSelector.qml" line="88"/>
         <source>basic rhythms</source>
-        <translation type="unfinished"></translation>
+        <translation>основные ритмы</translation>
     </message>
     <message>
         <location filename="../src/qml/shared/RhythmSelector.qml" line="97"/>
@@ -2200,7 +2201,7 @@ But better keep them short, so divide them first in some external software.</sou
     <message>
         <location filename="../src/qml/score/ScoreToolbox.qml" line="37"/>
         <source>&lt;b&gt;double flat&lt;/b&gt; - lowers a note by two semitones (whole tone).&lt;br&gt;On the guitar it is two frets down.</source>
-        <translation type="unfinished">&lt;b&gt;дубль-бемоль&lt;/b&gt; - понижает ноту на два полутона (целый тон).&lt;br&gt;На гитаре это два лада вниз (ближе к головке грифа).</translation>
+        <translation>&lt;b&gt;double flat&lt;/b&gt; - понижает ноту на два полутона (целый тон).&lt;br&gt;На гитаре он находится на две лады ниже..</translation>
     </message>
     <message>
         <location filename="../src/qml/score/ScoreToolbox.qml" line="38"/>
@@ -2260,12 +2261,12 @@ But better keep them short, so divide them first in some external software.</sou
     <message>
         <location filename="../src/qml/gotit/SoundInfo.qml" line="63"/>
         <source>Be sure your system is able to record what are you playing.</source>
-        <translation type="unfinished"></translation>
+        <translation>Убедитесь, что ваша система способна записывать то, что вы играете.</translation>
     </message>
     <message>
         <location filename="../src/qml/gotit/SoundInfo.qml" line="64"/>
         <source>Adjust minimal note volume a little below of your input volume level.</source>
-        <translation type="unfinished"></translation>
+        <translation>Отрегулируйте минимальную громкость нот немного ниже уровня входной громкости.</translation>
     </message>
     <message>
         <location filename="../src/qml/gotit/SoundInfo.qml" line="85"/>
@@ -2280,7 +2281,7 @@ But better keep them short, so divide them first in some external software.</sou
     <message>
         <location filename="../src/qml/gotit/SoundInfo.qml" line="136"/>
         <source>Aim to play loud and clear and avoid dirty sounds specific to your instrument.</source>
-        <translation type="unfinished"></translation>
+        <translation>Старайтесь играть громко и чисто и избегайте грязных звуков, характерных для вашего инструмента.</translation>
     </message>
     <message>
         <location filename="../src/qml/gotit/SoundInfo.qml" line="137"/>
@@ -3032,7 +3033,7 @@ But better keep them short, so divide them first in some external software.</sou
     <message>
         <location filename="../src/qml/sound/TempoBar.qml" line="33"/>
         <source>beats per minute</source>
-        <translation type="unfinished"></translation>
+        <translation>ударов в минуту</translation>
     </message>
     <message>
         <location filename="../src/qml/sound/TempoBar.qml" line="34"/>
@@ -3047,7 +3048,7 @@ But better keep them short, so divide them first in some external software.</sou
     <message>
         <location filename="../src/qml/sound/TempoBar.qml" line="109"/>
         <source>Audible metronome</source>
-        <translation type="unfinished"></translation>
+        <translation>Звуковой метроном</translation>
     </message>
     <message>
         <location filename="../src/qml/sound/TempoBar.qml" line="109"/>
@@ -3679,7 +3680,7 @@ But better keep them short, so divide them first in some external software.</sou
     <message>
         <location filename="../src/main/texamview.cpp" line="268"/>
         <source>Answer time</source>
-        <translation type="unfinished"></translation>
+        <translation>Время ответа</translation>
     </message>
     <message>
         <location filename="../src/main/texamview.cpp" line="273"/>
@@ -3878,12 +3879,12 @@ But better keep them short, so divide them first in some external software.</sou
     <message>
         <location filename="../src/libs/core/music/tinstrument.cpp" line="31"/>
         <source>Bandoneon</source>
-        <translation type="unfinished"></translation>
+        <translation>Бандонеон</translation>
     </message>
     <message>
         <location filename="../src/libs/core/music/tinstrument.cpp" line="32"/>
         <source>Alt Saxophone</source>
-        <translation type="unfinished"></translation>
+        <translation>Альт-саксофон</translation>
     </message>
     <message>
         <location filename="../src/libs/core/music/tinstrument.cpp" line="32"/>
@@ -5915,7 +5916,7 @@ But better keep them short, so divide them first in some external software.</sou
     <message>
         <location filename="../src/qml/wizard/WizardBando.qml" line="17"/>
         <source>All notes on the upper staff with treble clef are played with right hand and the notes on the lower one with bass clef are played with the left hand.</source>
-        <translation type="unfinished"></translation>
+        <translation>Все ноты на верхнем грифе со скрипичным ключом играются правой рукой, а ноты на нижнем грифе с басовым ключом - левой.</translation>
     </message>
     <message>
         <location filename="../src/qml/wizard/WizardBando.qml" line="19"/>
@@ -6021,7 +6022,7 @@ But better keep them short, so divide them first in some external software.</sou
     <message>
         <location filename="../src/qml/wizard/WizardPiano.qml" line="21"/>
         <source>Although for exercise purposes and also due to Nootka is supporting only single voice, sometimes just one of the staves can be used as well.</source>
-        <translation type="unfinished"></translation>
+        <translation>Хотя для упражнений, а также из-за того, что Nootka поддерживает только один голос, иногда можно использовать и один из ставов.</translation>
     </message>
 </context>
 <context>
