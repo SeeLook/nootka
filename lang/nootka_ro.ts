@@ -1583,6 +1583,8 @@ But better keep them short, so divide them first in some external software.</sou
         <source>%n attempt(s)</source>
         <translation type="unfinished">
             <numerusform></numerusform>
+            <numerusform></numerusform>
+            <numerusform></numerusform>
         </translation>
     </message>
 </context>
@@ -1662,6 +1664,8 @@ But better keep them short, so divide them first in some external software.</sou
     <message numerus="yes">
         <source>Melody was played &lt;b&gt;%n&lt;/b&gt; times</source>
         <translation type="unfinished">
+            <numerusform></numerusform>
+            <numerusform></numerusform>
             <numerusform></numerusform>
         </translation>
     </message>
@@ -1821,6 +1825,8 @@ But better keep them short, so divide them first in some external software.</sou
         <source>%n attempt(s)</source>
         <comment>like: &apos;1 attempt&apos; or &apos;121 attempts&apos;</comment>
         <translation type="unfinished">
+            <numerusform></numerusform>
+            <numerusform></numerusform>
             <numerusform></numerusform>
         </translation>
     </message>
@@ -2846,6 +2852,8 @@ But better keep them short, so divide them first in some external software.</sou
         <source>The octave &lt;b&gt;%n&lt;/b&gt; in International Pitch Notation</source>
         <translation type="unfinished">
             <numerusform></numerusform>
+            <numerusform></numerusform>
+            <numerusform></numerusform>
         </translation>
     </message>
 </context>
@@ -3028,6 +3036,8 @@ But better keep them short, so divide them first in some external software.</sou
     <message numerus="yes">
         <source>semitone(s)</source>
         <translation type="unfinished">
+            <numerusform></numerusform>
+            <numerusform></numerusform>
             <numerusform></numerusform>
         </translation>
     </message>
