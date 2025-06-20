@@ -1995,7 +1995,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source> Briefly: Nootka give you a question and you give an answer...</source>
-        <translation> சுருக்கமாக: நூட்கா உங்களுக்கு ஒரு கேள்வியைக் கொடுங்கள், நீங்கள் ஒரு பதில் அளிக்கிறீர்கள் ...</translation>
+        <translation> சுருக்கமாக: நூட்கா உங்களுக்கு ஒரு கேள்வியைக் கொடுங்கள், நீங்கள் ஒரு பதில் அளிக்கிறீர்கள்...</translation>
     </message>
     <message>
         <source>Questions are marked with this color and &quot;?&quot; mark.</source>
@@ -2719,7 +2719,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>During exercising %1 the program will be your understanding and friendly teacher - it will show you corrected answers if you miss.</source>
-        <translation>%1 பயிற்சியின் போது நிரல் உங்கள் புரிதல் மற்றும் நட்பு ஆசிரியராக இருக்கும் - நீங்கள் தவறவிட்டால் சரி செய்யப்பட்ட பதில்களை இது காண்பிக்கும்.</translation>
+        <translation>%1 பயிற்சியின்போது நிரல் உங்கள் புரிதல் மற்றும் நட்பு ஆசிரியராக இருக்கும் - நீங்கள் தவறவிட்டால் சரி செய்யப்பட்ட பதில்களை இது காண்பிக்கும்.</translation>
     </message>
     <message>
         <source>During exams %1 Nootka will be your strict and &amp;quot;old school&amp;quot; master. Any mistake will be penalized with additional questions...&lt;br&gt;When you pass an exam you got a certificate!</source>
@@ -3230,7 +3230,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Use %1</source>
-        <translation>%1 ஐப் பயன்படுத்தவும்</translation>
+        <translation>%1 ஐப் பயன்படுத்து</translation>
     </message>
     <message>
         <source> Don&apos;t use accidentals!</source>
@@ -3238,7 +3238,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>on %1 string.</source>
-        <translation>%1 சரம்.</translation>
+        <translation>சரம் %1 மீது.</translation>
     </message>
     <message>
         <source>Play or sing</source>
