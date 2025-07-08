@@ -996,7 +996,7 @@
         <location filename="../src/qml/settings/InstrumentPage.qml" line="201"/>
         <location filename="../src/qml/settings/InstrumentPage.qml" line="202"/>
         <source>color of a pointer on an instrument</source>
-        <translation type="unfinished"></translation>
+        <translation>цвет указателя на приборе</translation>
     </message>
     <message>
         <location filename="../src/qml/settings/InstrumentPage.qml" line="210"/>
@@ -2972,7 +2972,7 @@ But better keep them short, so divide them first in some external software.</sou
     <message>
         <location filename="../src/libs/core/music/tclef.cpp" line="64"/>
         <source>Clef for bass guitar and double bass, also used for cello and trombone.</source>
-        <translation type="unfinished"></translation>
+        <translation>Клиф для бас-гитары и контрабаса, также используется для виолончели и тромбона.</translation>
     </message>
     <message>
         <location filename="../src/libs/core/music/tclef.cpp" line="75"/>
@@ -3939,7 +3939,7 @@ But better keep them short, so divide them first in some external software.</sou
         <location filename="../src/qml/level/Levels.qml" line="31"/>
         <source>cents</source>
         <comment>unit of measure used for musical intervals. This text always is used in context: &apos; ± [5, 10, 20, 30] cents &apos;</comment>
-        <translation type="unfinished">центы</translation>
+        <translation>центы</translation>
     </message>
     <message>
         <source>cents</source>
@@ -4976,7 +4976,7 @@ But better keep them short, so divide them first in some external software.</sou
         <location filename="../src/qml/shared/Transpose.qml" line="53"/>
         <source>by interval</source>
         <comment>like: Transpose by interval</comment>
-        <translation type="unfinished"></translation>
+        <translation>по интервалу</translation>
     </message>
     <message>
         <location filename="../src/qml/shared/Transpose.qml" line="103"/>
