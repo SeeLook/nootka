@@ -946,7 +946,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Scandinavian</source>
-        <translation>скандинавський</translation>
+        <translation>Скандинавський</translation>
     </message>
     <message>
         <source>German</source>
@@ -954,19 +954,19 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Italian</source>
-        <translation>італійська</translation>
+        <translation>Італійська</translation>
     </message>
     <message>
         <source>English</source>
-        <translation>англійська</translation>
+        <translation>Англійська</translation>
     </message>
     <message>
         <source>Dutch</source>
-        <translation>голландська</translation>
+        <translation>Голландська</translation>
     </message>
     <message>
         <source>Russian</source>
-        <translation>російська</translation>
+        <translation>Російська</translation>
     </message>
     <message>
         <source>letter names</source>
@@ -1387,7 +1387,7 @@ But better keep them short, so divide them first in some external software.</sou
     <name>SoundInfo</name>
     <message>
         <source>Nootka can hear You!</source>
-        <translation>Нутка вас чує!</translation>
+        <translation>Nootka чую тебе!</translation>
     </message>
     <message>
         <source>Be sure your system is able to record what are you playing.</source>
@@ -1403,7 +1403,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Nootka recognizes played sounds and theirs duration (rhythms). But to achieve accurate results it requires some preparations and a little patience. Here are some clues:</source>
-        <translation>Нутка розпізнає відтворені звуки та їх тривалість (ритми). Але для досягнення точних результатів потрібна певна підготовка і трохи терпіння. Ось кілька підказок:</translation>
+        <translation>Nootka розпізнає відтворені звуки та їх тривалість (ритми). Але для досягнення точних результатів потрібна певна підготовка і трохи терпіння. Ось кілька підказок:</translation>
     </message>
     <message>
         <source>Play a few sounds to figure out their maximal volume,&lt;br&gt;then set level knob about 10-20% below.</source>
@@ -1415,7 +1415,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>If you want Nootka to write your melody with rhythm then you have to play exactly in selected tempo - preferably with a metronome. But during practice, when you are playing melody given by the application, the tempo can be at will unless some level defines it.</source>
-        <translation>Якщо ви хочете, щоб Нутка написав вашу мелодію з ритмом, ви повинні грати точно в обраному темпі - бажано з метрономом. Але під час практики, коли ви граєте мелодію, надану програмою, темп може бути будь-яким, якщо його не визначає якийсь рівень.</translation>
+        <translation>Якщо ви хочете, щоб Nootka написав вашу мелодію з ритмом, ви повинні грати точно в обраному темпі - бажано з метрономом. Але під час практики, коли ви граєте мелодію, надану програмою, темп може бути будь-яким, якщо його не визначає якийсь рівень.</translation>
     </message>
 </context>
 <context>
@@ -1560,7 +1560,7 @@ But better keep them short, so divide them first in some external software.</sou
     <name>SupportPage</name>
     <message>
         <source>Donate Nootka campaign</source>
-        <translation>Кампанія Donate Нутка</translation>
+        <translation>Кампанія Donate Nootka</translation>
     </message>
     <message>
         <source>Through PayPal or a card</source>
@@ -1779,7 +1779,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Tuner</source>
-        <translation>тюнер</translation>
+        <translation>Тюнер</translation>
     </message>
 </context>
 <context>
@@ -1974,7 +1974,7 @@ But better keep them short, so divide them first in some external software.</sou
     <name>TexamHelp</name>
     <message>
         <source>When your exercising will go well Nootka will suggest you to start an exam.</source>
-        <translation>Коли ваші тренування підуть добре, Нутка запропонує вам почати іспит.</translation>
+        <translation>Коли ваші тренування підуть добре, Nootka запропонує вам почати іспит.</translation>
     </message>
     <message>
         <source>Exams can be saved to files and continued later. Moreover, exam files can be opened to analyze.</source>
@@ -1998,7 +1998,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source> Briefly: Nootka give you a question and you give an answer...</source>
-        <translation> Коротко: Нутка задає вам питання, а ви даєте відповідь ...</translation>
+        <translation> Коротко: Nootka дає вам запитання, а ви даєте відповідь...</translation>
     </message>
     <message>
         <source>Questions are marked with this color and &quot;?&quot; mark.</source>
@@ -2319,7 +2319,7 @@ But better keep them short, so divide them first in some external software.</sou
     <name>ThelpDialogBase</name>
     <message>
         <source>Nootka help</source>
-        <translation>Нутка допомога</translation>
+        <translation>Nootka допомога</translation>
     </message>
     <message>
         <source>Open online documentation</source>
@@ -2755,7 +2755,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Nootka will tell you about what you&apos;ve been thinking for so long... and about the progress you&apos;ve been making so far....&lt;br&gt;Press %1 button to see and to analyze the results of your exams, find your weak points, and improve.</source>
-        <translation>Нутка розповість вам про те, про що ви так довго думали... і про прогрес, якого ви досягли досі....&lt;br&gt;Натисніть кнопку %1, щоб переглянути та проаналізувати результати своїх іспитів, знайти свої слабкі місця та покращити.</translation>
+        <translation>Nootka розповість вам про те, про що ви так довго думали... і про прогрес, якого ви досягли досі....&lt;br&gt;Натисніть кнопку %1, щоб переглянути та проаналізувати результати своїх іспитів, знайти свої слабкі місця та покращити.</translation>
     </message>
     <message>
         <source>Have fun!</source>
@@ -2875,7 +2875,7 @@ But better keep them short, so divide them first in some external software.</sou
     <message>
         <source>&lt;h3&gt;Nootka Academy Of Music&lt;/h3&gt;</source>
         <comment>top-left corner</comment>
-        <translation>&lt;h3&gt;Академія музики Нутка&lt;/h3&gt;</translation>
+        <translation>&lt;h3&gt;Академія музики Nootka&lt;/h3&gt;</translation>
     </message>
     <message>
         <source>[DATE]&lt;br&gt;&lt;i&gt;date&lt;i&gt;</source>
@@ -2905,7 +2905,7 @@ But better keep them short, so divide them first in some external software.</sou
     <message>
         <source>&lt;small&gt;&lt;i&gt;examining board:&lt;/i&gt;&lt;br&gt;&lt;i&gt;president:&lt;/i&gt;&lt;b&gt; Nootka itself&lt;/b&gt;&lt;br&gt;&lt;b&gt;professor Processor&lt;/b&gt; &amp;amp;&lt;br&gt;&lt;b&gt;Mrs RAM&lt;/b&gt; his assistant&lt;br&gt;&lt;i&gt;secretary:&lt;/i&gt;&lt;b&gt; Mr Disk&lt;/b&gt;&lt;/small&gt;</source>
         <comment>Right aligned and centered</comment>
-        <translation>&lt;small&gt;&lt;i&gt;екзаменаційна комісія:&lt;/i&gt;&lt;br&gt;&lt;i&gt;президент:&lt;/i&gt;&lt;b&gt; сама Нутка&lt;/b&gt;&lt;br&gt;&lt;b&gt;професор Процесор&lt;/b&gt; &amp;amp;&lt;br&gt;&lt;b&gt;місіс RAM &lt;/b&gt; його помічник&lt;br&gt;&lt;i&gt;секретар:&lt;/i&gt;&lt;b&gt; пан Диск&lt;/b&gt;&lt;/small&gt;</translation>
+        <translation>&lt;small&gt;&lt;i&gt;екзаменаційна комісія:&lt;/i&gt;&lt;br&gt;&lt;i&gt;президент:&lt;/i&gt;&lt;b&gt; сама Nootka&lt;/b&gt;&lt;br&gt;&lt;b&gt;професор Процесор&lt;/b&gt; &amp;amp;&lt;br&gt;&lt;b&gt;місіс RAM &lt;/b&gt; його помічник&lt;br&gt;&lt;i&gt;секретар:&lt;/i&gt;&lt;b&gt; пан Диск&lt;/b&gt;&lt;/small&gt;</translation>
     </message>
     <message>
         <source>&lt;i&gt;stamp&lt;/i&gt;</source>
@@ -3420,7 +3420,7 @@ But better keep them short, so divide them first in some external software.</sou
     <message>
         <source>Correct</source>
         <comment>like a correct answer with mistake</comment>
-        <translation></translation>
+        <translation>Правильно</translation>
     </message>
     <message>
         <source>Try again</source>
@@ -3504,7 +3504,7 @@ But better keep them short, so divide them first in some external software.</sou
     <name>TupdateRulesWdg</name>
     <message>
         <source>check for Nootka updates</source>
-        <translation></translation>
+        <translation>check for Nootka updates</translation>
     </message>
     <message>
         <source>daily</source>
@@ -3695,7 +3695,7 @@ But better keep them short, so divide them first in some external software.</sou
     <message>
         <source>translator</source>
         <comment>Do not translate this, just put in &apos;translator comment field&apos; your data: translator name, translator e-mail (optional) and translator site (optional)</comment>
-        <translation>перекладач</translation>
+        <translation>Максим Горпиніч &quot;Це я переклав самостійно та перевірки зроблено та підтримую&quot;</translation>
     </message>
 </context>
 <context>
