@@ -134,6 +134,7 @@ endif()
 include_directories(core/music core/score)
 qt_add_qml_module(nootka
     URI "Nootka.Music"
+    VERSION 1.0
     SOURCES
         core/taction.cpp
         core/taction.h
