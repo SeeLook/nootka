@@ -22,7 +22,7 @@ TcommonInstrument::TcommonInstrument(QQuickItem *parent)
     : QQuickPaintedItem(parent)
 {
     setAcceptHoverEvents(true);
-    setRenderTarget(QQuickPaintedItem::FramebufferObject);
+    // setRenderTarget(QQuickPaintedItem::FramebufferObject);
     setAntialiasing(true);
     setAcceptedMouseButtons(Qt::LeftButton);
 

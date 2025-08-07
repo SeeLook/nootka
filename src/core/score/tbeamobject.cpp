@@ -58,7 +58,7 @@ TbeamObject::TbeamObject(TnotePair *sn, TmeasureObject *m)
     , m_measure(m)
 {
     setAcceptHoverEvents(true);
-    setRenderTarget(QQuickPaintedItem::FramebufferObject);
+    // setRenderTarget(QQuickPaintedItem::FramebufferObject);
     setAntialiasing(true);
     addNote(sn);
     setParent(m_measure->score());

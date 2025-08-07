@@ -32,7 +32,7 @@ TstaffLines::TstaffLines(QQuickItem *parent)
     : QQuickPaintedItem(parent)
 {
     setAcceptHoverEvents(true);
-    setRenderTarget(QQuickPaintedItem::FramebufferObject);
+    // setRenderTarget(QQuickPaintedItem::FramebufferObject);
     setAntialiasing(true);
     setHeight(9.0);
     qApp->installEventFilter(this);
