@@ -31,7 +31,7 @@ Rectangle {
     width: parent.width - NOO.factor()
     implicitHeight: NOO.factor() * 2.8
     anchors.horizontalCenter: parent ? parent.horizontalCenter : undefined
-    color: ma.containsPress ? activPal.highlight : (ma.containsMouse ? NOO.alpha(activPal.highlight, 50) : "transparent")
+    color: ma.containsPress ? activPal.highlight : (ma.containsMouse ? NOO.alpha(activPal.highlight, 150) : "transparent")
     enabled: !action || action.enabled
     scale: GLOB.useAnimations && ma.pressed ? 0.9 : 1
     onActionChanged: {
@@ -73,7 +73,7 @@ Rectangle {
 
         x: NOO.factor() * (action && (action.icon !== "" || action.checkable) ? 3.7 : 0.8)
         text: action ? action.text : ""
-        color: enabled ? activPal.text : disdPal.text
+        color: enabled ? (ma.containsMouse ? activPal.highlightedText : activPal.text) : disdPal.text
         width: parent.width - x - NOO.factor() - (shortText ? shortText.width : 0)
         height: parent.height
         verticalAlignment: Text.AlignVCenter
