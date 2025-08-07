@@ -97,6 +97,7 @@ GotIt {
         height: parent.height - NOO.factor() * 4
         x: parent.width * 0.41 + NOO.factor()
         y: NOO.factor()
+        color: activPal.alternateBase
 
         Column {
             anchors.horizontalCenter: parent.hozrizontalCenter
@@ -126,6 +127,8 @@ GotIt {
                 spacing: NOO.factor() / 2
 
                 delegate: Text {
+                    leftPadding: NOO.factor()
+                    rightPadding: NOO.factor()
                     width: parent.width - NOO.factor() / 2
                     text: index + 1 + ". " + modelData
                     color: activPal.text
@@ -541,6 +544,19 @@ GotIt {
                 duration: 1000
             }
 
+            NumberAnimation {
+                target: finger
+                property: "scale"
+                to: 1
+                duration: 1000
+            }
+
+        }
+
+        NumberAnimation {
+            target: finger
+            property: "opacity"
+            to: 0
         }
 
         ScriptAction {
