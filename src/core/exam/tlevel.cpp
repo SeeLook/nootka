@@ -854,7 +854,9 @@ bool Tlevel::adjustFretsToScale(char &loF, char &hiF)
  */
 bool Tlevel::useRhythms() const
 {
-    return canBeMelody() && ((meters && (dotsRhythms || basicRhythms)) || (isMelodySet() && melodySet.first().meter()->meter() != Tmeter::NoMeter));
+    return canBeMelody()
+        && ((meters && (dotsRhythms || basicRhythms))
+            || (isMelodySet() && !melodySet.isEmpty() && melodySet.first().meter() && melodySet.first().meter()->meter() != Tmeter::NoMeter));
 }
 
 int Tlevel::keysInRange() const
