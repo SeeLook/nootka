@@ -40,7 +40,7 @@ TstartExamItem {
 
     width: parent.width
     height: parent.height
-    onContinueExam: start(Texecutor.ContinueExam, examFile)
+    onContinueExam: examFile => { start(Texecutor.ContinueExam, examFile) }
     Component.onCompleted: {
         dialLoader.stdButtons = DialogButtonBox.NoButton;
         if (!NOO.isAndroid())

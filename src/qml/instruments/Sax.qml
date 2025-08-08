@@ -29,7 +29,7 @@ TsaxBg {
 
     width: Math.max(nootkaWindow.width * 0.15, nootkaWindow.height * 0.21)
     height: nootkaWindow.height
-    onWantNoteName: {
+    onWantNoteName: (name, origin) => {
         if (!extraName) {
             extraName = Qt.createComponent("qrc:/instruments/ExtraName.qml").createObject(instrItem, {
                 "y": instrItem.height * 0.22

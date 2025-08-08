@@ -37,7 +37,7 @@ TpianoBg {
             pianoZoom = Qt.createComponent("qrc:/instruments/InstrumentZoom.qml").createObject(instrItem);
 
     }
-    onWantNoteName: {
+    onWantNoteName: (name, origin) => {
         if (!extraName) {
             extraName = Qt.createComponent("qrc:/instruments/ExtraName.qml").createObject(instrItem);
             extraName.fSize = Qt.binding(function() {
