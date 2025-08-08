@@ -4,7 +4,7 @@
 
 import Nootka 1.0
 import Nootka.Charts 1.0
-import Qt5Compat.GraphicalEffects
+import QtQuick.Effects
 import QtQuick 2.12
 
 Item {
@@ -24,15 +24,14 @@ Item {
         hovered: barMA.containsMouse
     }
 
-    DropShadow {
+    MultiEffect {
         z: 5010
-        anchors.fill: barIt
-        horizontalOffset: barDel.width / 30
-        verticalOffset: horizontalOffset
-        radius: NOO.factor() * (barIt.hovered ? 2 : 1)
-        samples: 1 + radius * 2
-        color: activPal.shadow
         source: barIt
+        anchors.fill: barIt
+        shadowEnabled: true
+        shadowHorizontalOffset: barDel.width / 30
+        shadowVerticalOffset: barDel.width / 30
+        shadowColor: barIt.hovered ? activPal.highlight : activPal.shadow
         scale: barMA.containsMouse ? 1.1 : 1
 
         MouseArea {
@@ -40,15 +39,6 @@ Item {
 
             anchors.fill: parent
             hoverEnabled: true
-        }
-
-        Behavior on radius {
-            enabled: GLOB.useAnimations
-
-            NumberAnimation {
-                duration: 150
-            }
-
         }
 
         Behavior on scale {

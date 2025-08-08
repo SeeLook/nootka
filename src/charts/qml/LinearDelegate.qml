@@ -4,7 +4,7 @@
 
 import Nootka
 import Nootka.Charts
-import Qt5Compat.GraphicalEffects
+import QtQuick.Effects
 import QtQuick 2.12
 
 TlinChartDelegate {
@@ -155,15 +155,14 @@ TlinChartDelegate {
 
     }
 
-    DropShadow {
+    MultiEffect {
         z: 5010
         anchors.fill: nText
-        horizontalOffset: lineDel.width / 35
-        verticalOffset: horizontalOffset
-        radius: NOO.factor()
-        samples: 1 + radius * 2
-        color: activPal.shadow
         source: nText
+        shadowEnabled: true
+        shadowHorizontalOffset: lineDel.width / 35
+        shadowVerticalOffset: lineDel.width / 35
+        shadowColor: activPal.shadow
         scale: ma.containsMouse ? 1.4 : 1
 
         MouseArea {

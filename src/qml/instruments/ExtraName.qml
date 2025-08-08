@@ -3,20 +3,20 @@
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import Nootka 1.0
-import Qt5Compat.GraphicalEffects
+import QtQuick.Effects
 import QtQuick 2.12
 
-DropShadow {
+MultiEffect {
     property alias text: eText.text
     property alias fSize: eText.font.pixelSize
 
     z: 30
     width: eText.width
     height: eText.height
-    horizontalOffset: fSize / 25
-    verticalOffset: fSize / 25
-    color: activPal.shadow
-    radius: NOO.factor() / 3
+    shadowEnabled: true
+    shadowHorizontalOffset: fSize / 40
+    shadowVerticalOffset: fSize / 40
+    shadowColor: activPal.shadow
     source: eText
     visible: text !== ""
 

@@ -5,7 +5,7 @@
 import "../"
 import Nootka 1.0
 import Nootka.Main 1.0
-import Qt5Compat.GraphicalEffects
+import QtQuick.Effects
 import QtQuick 2.12
 import QtQuick.Controls 2.12
 
@@ -38,23 +38,22 @@ Popup {
         id: gotIt
     }
 
-    RectangularGlow {
+    MultiEffect {
         z: 10
         visible: showGotIt
         anchors.fill: bg
-        glowRadius: NOO.factor() / 2
-        color: activPal.text
-        cornerRadius: bg.radius + glowRadius
-        transformOrigin: Item.BottomRight
-        scale: GLOB.useAnimations && ma.pressed ? 0.95 : 1
+        source: bg
+        shadowEnabled: true
+        shadowHorizontalOffset: (width * shadowScale - width) / 4
+        shadowColor: activPal.text
+        shadowScale: 1.0 + NOO.factor() / height / 2.0
 
-        Behavior on scale {
-            enabled: GLOB.useAnimations
+        MouseArea {
+            id: ma
 
-            NumberAnimation {
-                duration: 150
-            }
-
+            anchors.fill: parent
+            hoverEnabled: !NOO.isAndroid()
+            onClicked: pop.clicked()
         }
 
     }
@@ -62,7 +61,7 @@ Popup {
     Rectangle {
         id: bg
 
-        visible: showGotIt
+        visible: false
         z: 10
         width: gotColl.width + 2 * radius + NOO.factor()
         height: gotColl.height + 1.5 * radius
@@ -72,14 +71,6 @@ Popup {
         color: ma.containsMouse ? activPal.highlight : Qt.tint(activPal.base, NOO.alpha(activPal.highlight, 150))
         transformOrigin: Item.BottomRight
         scale: GLOB.useAnimations && ma.pressed ? 0.95 : 1
-
-        MouseArea {
-            id: ma
-
-            anchors.fill: parent
-            hoverEnabled: !NOO.isAndroid()
-            onClicked: pop.clicked()
-        }
 
         Behavior on scale {
             enabled: GLOB.useAnimations

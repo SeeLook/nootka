@@ -4,7 +4,7 @@
 
 import Nootka 1.0
 import Nootka.Music
-import Qt5Compat.GraphicalEffects
+import QtQuick.Effects
 import QtQuick 2.12
 import QtQuick.Controls 2.12
 import "sound"
@@ -222,12 +222,12 @@ TmobileMenu {
                                     visible: false
                                 }
 
-                                Colorize {
-                                    anchors.fill: paneImg
-                                    source: paneImg
-                                    hue: 0
-                                    lightness: 0.5
-                                    saturation: 0
+                                MultiEffect {
+                                    source: pix
+                                    anchors.fill: pix
+                                    colorization: 1.0
+                                    colorizationColor: Qt.rgba(0, 0, 0, 0.5)
+                                    visible: !enabled
                                 }
 
                                 Text {

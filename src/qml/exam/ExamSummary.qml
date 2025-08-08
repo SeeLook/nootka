@@ -6,7 +6,7 @@ import "../"
 import "../level"
 import Nootka 1.0
 import Nootka.Exam 1.0
-import Qt5Compat.GraphicalEffects
+import QtQuick.Effects
 import QtQuick 2.12
 import QtQuick.Controls 2.12
 
@@ -118,14 +118,13 @@ TexamSummary {
                                     colors: [cn(GLOB.correctColor), cn(GLOB.notBadColor), cn(GLOB.wrongColor)]
                                 }
 
-                                DropShadow {
+                                MultiEffect {
                                     anchors.fill: answId
-                                    horizontalOffset: NOO.factor() / 2
-                                    verticalOffset: NOO.factor() / 2
-                                    radius: NOO.factor()
-                                    samples: 1 + radius * 2
-                                    color: activPal.shadow
                                     source: answId
+                                    shadowEnabled: true
+                                    shadowHorizontalOffset: NOO.factor() / 2
+                                    shadowVerticalOffset: NOO.factor() / 2
+                                    shadowColor: activPal.shadow
                                 }
 
                             }
@@ -188,14 +187,13 @@ TexamSummary {
                                     colors: [cn(GLOB.wrongColor)]
                                 }
 
-                                DropShadow {
+                                MultiEffect {
                                     anchors.fill: pie
-                                    horizontalOffset: NOO.factor() / 2
-                                    verticalOffset: NOO.factor() / 2
-                                    radius: NOO.factor()
-                                    samples: 1 + radius * 2
-                                    color: activPal.shadow
                                     source: pie
+                                    shadowEnabled: true
+                                    shadowHorizontalOffset: NOO.factor() / 2
+                                    shadowVerticalOffset: NOO.factor() / 2
+                                    shadowColor: activPal.shadow
                                 }
 
                             }

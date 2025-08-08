@@ -3,7 +3,7 @@
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import Nootka 1.0
-import Qt5Compat.GraphicalEffects
+import QtQuick.Effects
 import QtQuick 2.12
 
 TguitarBg {
@@ -28,7 +28,7 @@ TguitarBg {
             guitarZoom = Qt.createComponent("qrc:/instruments/InstrumentZoom.qml").createObject(instrItem);
 
     }
-    onWantNoteName: {
+    onWantNoteName: (name, origin) => {
         if (!extraName) {
             extraName = Qt.createComponent("qrc:/instruments/ExtraName.qml").createObject(instrItem);
             extraName.fSize = Qt.binding(function() {
@@ -104,16 +104,15 @@ TguitarBg {
         visible: false
     }
 
-    DropShadow {
-        id: fingerShadow
-
+    MultiEffect {
         z: 5
         anchors.fill: finger
-        horizontalOffset: finger.height / 6
-        verticalOffset: finger.height / 6
-        color: "black"
-        radius: NOO.factor() / 3
         source: finger
+        shadowEnabled: true
+        shadowHorizontalOffset: finger.height / 12
+        shadowVerticalOffset: finger.height / 12
+        shadowColor: "#333"
+        blurMax: 8
         visible: fingerPos.x > 0 && active
         scale: !pressed && active && fingerPos.x > 0 ? 1 : 0
 

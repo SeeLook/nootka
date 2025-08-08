@@ -2,7 +2,7 @@
 # CMakeList.txt src
 ########################################################################
 
-find_package(Qt6 REQUIRED COMPONENTS Widgets PrintSupport Qml QuickControls2 Core5Compat)
+find_package(Qt6 REQUIRED COMPONENTS Widgets PrintSupport Qml QuickControls2)
 if (ANDROID)
     find_package(Qt6 REQUIRED COMPONENTS Multimedia)
 endif()
@@ -189,7 +189,6 @@ target_link_libraries(nootka PUBLIC
     Qt6::Quick
     Qt6::QuickControls2
     Qt6::PrintSupport
-    Qt6::Core5Compat
 )
 
 if (ANDROID)

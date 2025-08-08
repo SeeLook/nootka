@@ -5,7 +5,7 @@
 import "../"
 import Nootka 1.0
 import Nootka.Exam 1.0
-import Qt5Compat.GraphicalEffects
+import QtQuick.Effects
 import QtQuick 2.12
 
 Item {
@@ -20,12 +20,11 @@ Item {
         live: false
     }
 
-    Colorize {
+    MultiEffect {
         anchors.fill: parent
         source: effectSource
-        hue: 0 // always black, palette no matters
-        saturation: 0
-        lightness: 0
+        colorization: 1.0
+        colorizationColor: Qt.rgba(0, 0, 0, 0.5)
     }
 
     FastBlur {

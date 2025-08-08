@@ -3,18 +3,20 @@
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import Nootka 1.0
-import Qt5Compat.GraphicalEffects
+import QtQuick.Effects
 import QtQuick 2.12
 
 Item {
+    id: tip
+
     property alias color: bg.color
     property alias radius: bg.radius
     property bool rised: true
-    property alias shadowRadius: shadow.radius
-    property alias shadowColor: shadow.color
+    property real shadowRadius: 8.0 // dummy
+    property alias shadowColor: shd.shadowColor
     property alias border: bg.border
-    property alias horizontalOffset: shadow.horizontalOffset
-    property alias verticalOffset: shadow.verticalOffset
+    property alias horizontalOffset: shd.shadowHorizontalOffset
+    property alias verticalOffset: shd.shadowVerticalOffset
 
     Rectangle {
         id: bg
@@ -26,16 +28,14 @@ Item {
         clip: true
     }
 
-    DropShadow {
-        id: shadow
-
-        anchors.fill: bg
-        horizontalOffset: rised ? NOO.factor() / 5 : 0
-        verticalOffset: rised ? NOO.factor() / 5 : 0
-        radius: 8
-        samples: 1 + radius * 2
-        color: activPal.shadow
+    MultiEffect {
+        id: shd
         source: bg
+        anchors.fill: bg
+        shadowEnabled: true
+        shadowColor: activPal.shadow
+        // blur: tip.shadowRadius / 64.0
+        shadowHorizontalOffset: rised ? NOO.factor() / 5 : 0
+        shadowVerticalOffset: rised ? NOO.factor() / 5 : 0
     }
-
 }

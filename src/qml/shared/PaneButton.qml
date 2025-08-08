@@ -3,7 +3,7 @@
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import Nootka 1.0
-import Qt5Compat.GraphicalEffects
+import QtQuick.Effects
 import QtQuick 2.12
 import QtQuick.Controls 2.12
 
@@ -44,12 +44,11 @@ AbstractButton {
                 visible: enabled
             }
 
-            Colorize {
+            MultiEffect {
                 source: pix
-                saturation: 0
-                hue: 0
-                lightness: 0
                 anchors.fill: pix
+                colorization: 1.0
+                colorizationColor: Qt.rgba(0, 0, 0, 0.5)
                 visible: !enabled
             }
 

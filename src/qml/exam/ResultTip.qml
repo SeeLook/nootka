@@ -3,7 +3,7 @@
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import Nootka 1.0
-import Qt5Compat.GraphicalEffects
+import QtQuick.Effects
 import QtQuick 2.12
 
 Item {
@@ -44,14 +44,13 @@ Item {
 
     }
 
-    DropShadow {
+    MultiEffect {
         anchors.fill: txt
-        horizontalOffset: txt.font.pixelSize / 12
-        verticalOffset: horizontalOffset
-        radius: shortEdge / 100
-        samples: radius * 2 + 1
-        color: activPal.shadow
         source: txt
+        shadowEnabled: true
+        shadowHorizontalOffset: txt.font.pixelSize / 12
+        shadowVerticalOffset: txt.font.pixelSize / 12
+        shadowColor: activPal.shadow
     }
 
     SequentialAnimation {
