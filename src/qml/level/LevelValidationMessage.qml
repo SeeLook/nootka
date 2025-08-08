@@ -56,6 +56,7 @@ TpopupDialog {
                 width: lv.width - NOO.factor() * 2
                 wrapMode: Text.WordWrap
                 text: modelData
+                color: activPal.text
                 font.pixelSize: NOO.factor()
             }
 
