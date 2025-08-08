@@ -16,7 +16,6 @@ env:
   QML_DIR: "../src/qml"
   PUBLISHER: "Seelook"
   DESCRIPTION: "Application to learn how to play from sheet music"
-  QT_MODULES: qt5compat
 
 jobs:
   build-linux-x86_64:
@@ -80,7 +79,6 @@ jobs:
         export QML_SOURCES_PATHS="${{env.QML_DIR}}"
         export QMAKE=/home/runner/work/${{env.EXECUTABLE}}/Qt/${{env.QT_VERSION_LINUX}}/gcc_64/bin/qmake
         export PATH=/home/runner/work/${{env.EXECUTABLE}}/Qt/${{env.QT_VERSION_LINUX}}/gcc_64/libexec:$PATH
-        export EXTRA_QT_MODULES=core5compat;
 
         ./linuxdeploy-x86_64.AppImage --appdir AppDir -e AppDir/usr/bin/${{env.UNIXNAME}} -i ../picts/${{env.UNIXNAME}}.png -d ../mime/${{env.UNIXNAME}}.desktop --plugin qt --output appimage
 
