@@ -24,7 +24,7 @@ ApplicationWindow {
     property var notesBarItem: null
 
     function createStatus() {
-        Qt.createComponent("qrc:/StatusTip.qml").createObject(NOO.isAndroid() ? nootkaWindow.contentItem : nootkaWindow.contentItem.parent);
+        Qt.createComponent("qrc:/StatusTip.qml").createObject(NOO.isAndroid() ? nootkaWindow.contentItem : nootkaWindow);
     }
 
     function checkSingleMode() {
