@@ -55,15 +55,15 @@ TexamSummary {
                         anchors.horizontalCenter: parent.horizontalCenter
                         text: student
                         textFormat: Text.StyledText
+                        color: activPal.text
                     }
 
                     Item {
                         width: NOO.factor()
                         height: NOO.factor()
                     }
-                    // answers/mistakes numbers
 
-                    Tile {
+                    Tile { // answers/mistakes numbers
                         width: parent.width
 
                         Grid {
@@ -81,6 +81,7 @@ TexamSummary {
                                     horizontalAlignment: Text.AlignHCenter
                                     text: resultHeader
                                     textFormat: Text.StyledText
+                                    color: activPal.text
                                     font.pixelSize: NOO.factor() * 1.3
                                 }
 
@@ -100,9 +101,9 @@ TexamSummary {
 
                                     }
 
-                                }
+                                } // Grid
 
-                            }
+                            } // Column
 
                             Item {
                                 width: NOO.factor() * (NOO.isAndroid() ? 15 : 20)
@@ -116,15 +117,17 @@ TexamSummary {
                                     height: width
                                     values: answersModel
                                     colors: [cn(GLOB.correctColor), cn(GLOB.notBadColor), cn(GLOB.wrongColor)]
+                                    visible: false
                                 }
 
                                 MultiEffect {
                                     anchors.fill: answId
                                     source: answId
                                     shadowEnabled: true
-                                    shadowHorizontalOffset: NOO.factor() / 2
-                                    shadowVerticalOffset: NOO.factor() / 2
+                                    shadowHorizontalOffset: NOO.factor() / 3
+                                    shadowVerticalOffset: NOO.factor() / 3
                                     shadowColor: activPal.shadow
+                                    shadowScale: (width + NOO.factor() / 2) / width
                                 }
 
                             }
@@ -132,9 +135,8 @@ TexamSummary {
                         }
 
                     }
-                    // results
 
-                    Tile {
+                    Tile { // results
                         width: parent.width
                         visible: resultsModel.length
 
@@ -185,15 +187,17 @@ TexamSummary {
                                     height: width
                                     values: summDialog.kindOfMistakes
                                     colors: [cn(GLOB.wrongColor)]
+                                    visible: false
                                 }
 
                                 MultiEffect {
                                     anchors.fill: pie
                                     source: pie
                                     shadowEnabled: true
-                                    shadowHorizontalOffset: NOO.factor() / 2
-                                    shadowVerticalOffset: NOO.factor() / 2
+                                    shadowHorizontalOffset: NOO.factor() / 3
+                                    shadowVerticalOffset: NOO.factor() / 3
                                     shadowColor: activPal.shadow
+                                    shadowScale: (width + NOO.factor() / 2) / width
                                 }
 
                             }
@@ -222,6 +226,7 @@ TexamSummary {
                                 horizontalAlignment: Text.AlignHCenter
                                 text: qsTranslate("TexamSummary", "times:")
                                 font.pixelSize: NOO.factor() * 1.1
+                                color: activPal.text
                             }
 
                             Grid {
