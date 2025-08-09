@@ -5,6 +5,7 @@
         <file>changes</file>
         <file>gpl</file>
 
+        <file>picts/flags/br.png</file>
         <file>picts/flags/cs.png</file>
         <file>picts/flags/de.png</file>
         <file>picts/flags/default.png</file>
@@ -14,8 +15,10 @@
         <file>picts/flags/hu.png</file>
         <file>picts/flags/it.png</file>
         <file>picts/flags/pl.png</file>
+        <file>picts/flags/pt.png</file>
         <file>picts/flags/ru.png</file>
         <file>picts/flags/sl.png</file>
+        <file>picts/flags/ta.png</file>
         <file>picts/flags/uk.png</file>
 
         <file>picts/pane/about.png</file>
