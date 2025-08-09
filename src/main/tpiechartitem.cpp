@@ -36,9 +36,9 @@ void TpieChartItem::paint(QPainter *painter)
         return;
 
     int lastPie = 1440; // 1440 = 90 deg * 16 (see drawPie doc if doubts)
-    qreal r = painter->viewport().height() * 0.4;
+    qreal r = height() * 0.4;
     auto f = painter->font();
-    f.setPointSize(painter->viewport().height() / 18);
+    f.setPointSize(height() / 18);
     f.setBold(true);
     painter->setFont(f);
     painter->setBrush(m_colors.isEmpty() ? Qt::red : QColor(m_colors.first()));
@@ -49,13 +49,13 @@ void TpieChartItem::paint(QPainter *painter)
         if (k) {
             painter->setPen(Qt::NoPen);
             int pieSpan = qRound((static_cast<qreal>(k) / m_sum) * 5760.0);
-            painter->drawPie(painter->viewport(), lastPie, pieSpan);
+            painter->drawPie(QRect(0, 0, width(), height()), lastPie, pieSpan);
             if (pieSpan > 159) { // span width at least 10 deg
                 auto nr = QString::number(k);
                 QSizeF tOff(fm.tightBoundingRect(nr).size());
                 qreal angle = qDegreesToRadians(360.0 - static_cast<double>(lastPie + pieSpan / 2) / 16.0);
-                qreal xText = r * qCos(angle) + painter->viewport().width() / 2.0;
-                qreal yText = r * qSin(angle) + painter->viewport().height() / 2.0;
+                qreal xText = r * qCos(angle) + width() / 2.0;
+                qreal yText = r * qSin(angle) + height() / 2.0;
                 painter->setPen(Qt::white);
                 painter->drawText(qRound(xText - tOff.width() / 2.0), qRound(yText + tOff.height() / 2.0), nr);
             }
