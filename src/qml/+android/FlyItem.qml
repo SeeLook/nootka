@@ -20,6 +20,7 @@ AbstractButton {
     scale: canShow && (showFlys || shaked) ? 0.99 : 0.01
     width: NOO.fingerPixels() * 1.5 + (txt.visible ? txt.width : 0)
     height: NOO.fingerPixels() * 1.5
+
     onClicked: {
         taction.trigger();
         shakeTimer.stop();
@@ -28,8 +29,8 @@ AbstractButton {
 
     Connections {
         target: taction
-        onShakeButton: {
-            shaked = true;
+        function onShakeButton() {
+            flyItem.shaked = true;
             shakeTimer.start();
         }
     }

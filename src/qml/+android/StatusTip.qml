@@ -21,7 +21,7 @@ TipRect {
 
     Connections {
         target: NOO
-        onStatusTip: {
+        function onStatusTip() {
             text.textFormat = richText ? Text.RichText : Text.AutoText;
             text.text = statusText;
             statusTip.tipPos = tipPos;

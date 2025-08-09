@@ -105,7 +105,7 @@ TmobileMenu {
 
     Connections {
         target: tempoAct
-        onTriggered: {
+        function onTriggered() {
             if (!tempoMenu)
                 tempoMenu = Qt.createComponent("qrc:/sound/TempoMenu.qml").createObject(nootkaWindow.contentItem);
 
@@ -437,8 +437,12 @@ TmobileMenu {
 
     Connections {
         target: SOUND
-        onVolumeKeyPressed: nootkaWindow.showDialog(Nootka.Tuner)
-        onListeningChanged: pitchDot.scale = 1
+        function onVolumeKeyPressed() {
+            nootkaWindow.showDialog(Nootka.Tuner);
+        }
+        function onListeningChanged() {
+            pitchDot.scale = 1;
+        }
     }
 
     FlyItem {

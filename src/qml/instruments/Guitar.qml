@@ -139,7 +139,7 @@ TguitarBg {
         width: parent.width
         height: parent.height
         onPressed: startPos = Qt.point(mouseX, mouseY)
-        onReleased: {
+        onReleased: mouse => {
             var dx = mouseX - startPos.x;
             var dy = mouseY - startPos.y;
             if (Math.sqrt(dx * dx + dy * dy) < fretWidth / 2)
