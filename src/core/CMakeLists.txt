@@ -39,7 +39,6 @@ if (NOT ZLIB_LIBRARY OR NOT ZLIB_INCLUDE_DIR)
 endif()
 
 if(ANDROID)
-    qt_add_resources(NOOTKA_SRC android.qrc)
     target_compile_definitions(nootka PUBLIC
         -DUSE_FILE32API  # for minizip, to link against zlib properly
     )

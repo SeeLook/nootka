@@ -1,6 +1,6 @@
 <RCC>
     <qresource prefix="/">
-        <file>fonts/nootka.ttf</file>
+        <file>fonts/nootka.otf</file>
         <file>fonts/Scorek.otf</file>
         <file>changes</file>
         <file>gpl</file>

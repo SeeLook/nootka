@@ -100,6 +100,7 @@ if(ANDROID)
         mobile/tmobilemenu.cpp
     )
     qt_add_resources(NOOTKA_SRC nootka-android.qrc)
+    qt_add_resources(NOOTKA_SRC core/android-picts.qrc)
 else()
     list(APPEND NOOTKA_SRC
             charts/tgroupedqaunit.cpp
