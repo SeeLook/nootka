@@ -19,9 +19,8 @@
 #ifndef TMEASURE_H
 #define TMEASURE_H
 
+#include "tchunk.h"
 #include "tmeter.h"
-
-class Tchunk;
 
 /**
  * A musical measure
