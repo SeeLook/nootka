@@ -11,6 +11,8 @@ cat <<EOF
 <dict>
         <key>CFBundleDevelopmentRegion</key>
         <string>English</string>
+        <key>NSMicrophoneUsageDescription</key>
+        <string>Nootka listens through the microphone to recognise the notes you play or sing.</string>
         <key>CFBundleDocumentTypes</key>
         <array>
                 <dict>

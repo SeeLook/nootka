@@ -28,7 +28,9 @@ if(APPLE OR WIN32)
       set(QT_TRANSLATIONS_DIR "${QT_BINARY_DIR}/../translations")
     endif()
   else (WIN32)
-    set(QT_TRANSLATIONS_DIR "${QT_BINARY_DIR}/../../translations")
+    if(NOT DEFINED QT_TRANSLATIONS_DIR)
+      set(QT_TRANSLATIONS_DIR "${QT_BINARY_DIR}/../../translations")
+    endif()
   endif (WIN32)
   list(APPEND QM_FILES
     "${QT_TRANSLATIONS_DIR}/qtbase_cs.qm"
